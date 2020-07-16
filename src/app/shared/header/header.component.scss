@@ -1,0 +1,51 @@
+@import "../../../assets/sass/variables";
+
+.header {
+    width: 100%;
+    min-height: 70px;
+    text-align: center;
+    background-color: #353d9f;
+}
+
+.navbar {
+    padding-top: 0;
+    padding-bottom: 0;
+}
+
+.navbar-collapse {
+    padding-top: 0;
+    padding-bottom: 0;
+}
+
+.navbar-nav .nav-item{
+    height: 70px;
+    padding-left: 25px;
+    padding-right: 25px;
+}
+
+.navbar-nav .nav-item:first-child{
+    padding-left: 75px;
+}
+
+// .navbar-nav .nav-link .profile{
+//     font-size: $font-size-xs !important;
+//     font-weight: $font-weight-lighter !important;
+//     font-family: $font-family-light;
+// }
+
+.navbar-nav .nav-link{
+    font-size: $font-size-sm;
+    color: $white;
+    line-height: 50px;
+}
+
+.nav-item > a:hover {
+    color: $az-blue-primary;
+}
+
+.navbar-nav .active > .nav-link{
+    color: #f2994a;
+    border-bottom: 3px solid transparent;
+    border-bottom-color: #f2994a;
+    border-radius: 3px;
+}

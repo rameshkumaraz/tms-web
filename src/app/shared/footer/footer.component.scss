@@ -1,0 +1,11 @@
+@import "../../../assets/sass/variables";
+
+.footer {
+    width: 100%;
+    height: 50px;
+    min-height: 50px;
+    overflow-x: hidden;
+    // color: $body-color;
+    font-size: $font-size-sm !important;
+    text-align: center;
+}

@@ -1,0 +1,58 @@
+@import "../../../assets/sass/variables";
+
+.page-header {
+  min-height: 50px;
+  padding-top: 20px;
+  padding-bottom: 20px;
+  line-height: 50px;
+  margin: 0px;
+}
+
+.page-header .title {
+  font-size: $font-size-lg;
+  font-weight: $font-weight-normal;
+  font-family: $font-family-light;
+  padding: 0px;
+}
+
+.page-header .title img {
+    vertical-align: text-top !important;
+  }
+
+.page-header .tools {
+    padding: 0px;
+}
+
+.button {
+  background-color: #353d9f;
+  color: $white;
+  height: 35px;
+  border-radius: 6px;
+  font-size: $font-size-xsm;
+  border: 0px;
+  padding-left: 15px;
+  padding-right: 15px;
+  line-height: 32px;
+  font-weight: $font-weight-lighter;
+}
+
+.button-light {
+    background-color: $body-color;
+    color: #353d9f;
+    height: 35px;
+    border-radius: 6px;
+    font-size: $font-size-xsm;
+    padding-left: 15px;
+    padding-right: 15px;
+    border-width: 1px;
+    border-color: #353d9f;
+    line-height: 32px;
+    font-weight: $font-weight-lighter;
+  }
+
+.header-icon {
+  color: #353d9f !important;
+  font-size: $font-size-md;
+  font-weight: $font-weight-lighter;
+  font-family: $font-family-light;
+}
