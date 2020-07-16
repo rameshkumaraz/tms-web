@@ -1,0 +1,51 @@
+/* You can add global styles to this file, and also import other style files */
+/* You can add global styles to this file, and also import other style files */
+@import "assets/sass/variables";
+@import '~bootstrap/scss/bootstrap';
+
+body{
+  color: $az-font-color;
+}
+
+.main {
+  height: auto;
+  background-color: #f2f2f2;
+  position: relative;
+  margin: 0px;
+  overflow: hidden;
+  border-bottom: 1px solid $body-border-color;
+  border-top: 1px solid $body-border-color;
+}
+
+.main .container-fluid{
+  padding-right: 20px;
+  padding-left: 20px;
+  min-height: 664px;
+  background-color: $body-color;
+}
+
+.page-title{
+  font-size: $font-size-lg;
+  font-family: $font-family-medium;
+}
+
+.page-sub-title{
+  font-size: $font-size-md;
+  font-family: $font-family-medium;
+}
+
+button {
+  font-family: $font-family-base !important;  
+}
+
+.fa {
+  vertical-align: middle;
+  color: $gray-light;
+}
+
+.fa.md-16 { font-size: 16px; }
+.fa.md-18 { font-size: 18px; }
+.fa.md-24 { font-size: 24px; }
+.fa.md-30 { font-size: 30px; }
+.fa.md-36 { font-size: 36px; }
+.fa.md-48 { font-size: 48px; }

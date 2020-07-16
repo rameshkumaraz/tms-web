@@ -1,0 +1,66 @@
+$white:    #fff !default;
+$black:    #000 !default;
+$blue: #007bff;
+$indigo: #6610f2;
+$purple: #6f42c1;
+$pink: #e83e8c;
+$red: #dc3545;
+$orange: #fd7e14;
+$yellow: #ffc107;
+$green: #28a745;
+$teal: #20c997;
+$cyan: #17a2b8;
+$primary: #283597;
+$secondary: #78c90e;
+$success: #28a745;
+$info: #17a2b8;
+$warning: #ffc107;
+$danger: #dc3545;
+$light: #f8f9fa;
+
+$gray-base:              #000 !default;
+$gray-darker:            lighten($gray-base, 13.5%) !default; // #222
+$gray-dark:              lighten($gray-base, 20%) !default;   // #333
+$gray:                   lighten($gray-base, 33.5%) !default; // #555
+$gray-medium:            lighten($gray-base, 46.7%) !default; // #777
+$gray-light:             lighten($gray-base, 75%) !default; // #777
+$gray-lighter:           lighten($gray-base, 93.5%) !default; // #eee
+
+$body-bg:               #fff !default;
+$text-color:            $gray-dark !default;
+
+$az-blue-primary: #1653da;
+$az-blue-secondary: $blue;
+$az-font-color: $text-color;
+$body-color: #fbfbfb;
+$body-border-color: #e6e8f1;
+$footer-font-color: #7a8191;
+$input-border-color: #e0e7ff;
+
+$font-size-base:              1rem !default; // Assumes the browser default, typically `16px`
+$font-size-lg:                $font-size-base * 1.25 !default;
+$font-size-md:                $font-size-base * 1 !default;
+$font-size-sm:                $font-size-base * .875 !default;
+$font-size-xs:                $font-size-base * .75 !default;
+$font-size-xsm:                $font-size-base * .60 !default;
+
+$font-weight-lighter:         lighter !default;
+$font-weight-light:           300 !default;
+$font-weight-normal:          400 !default;
+$font-weight-bold:            700 !default;
+$font-weight-bolder:          bolder !default;
+
+$font-weight-base:            $font-weight-normal !default;
+$line-height-base:            1.5 !default;
+
+$h1-font-size:                $font-size-base * 2.5 !default;
+$h2-font-size:                $font-size-base * 2 !default;
+$h3-font-size:                $font-size-base * 1.75 !default;
+$h4-font-size:                $font-size-base * 1.5 !default;
+$h5-font-size:                $font-size-base * 1.25 !default;
+$h6-font-size:                $font-size-base !default;
+
+$font-family-base: 'Roboto-Regular';
+$font-family-light: 'Roboto-Light';
+$font-family-medium: 'Roboto-Medium';
+$font-family-awesome: 'FontAwesome';
