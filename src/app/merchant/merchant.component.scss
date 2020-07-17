@@ -1,0 +1,153 @@
+@import "../../assets/sass/variables";
+
+.page-header {
+  min-height: 50px;
+  padding-top: 20px;
+  padding-bottom: 20px;
+  line-height: 50px;
+  margin: 0px;
+  letter-spacing: 2px;
+}
+
+.page-header .title {
+  font-size: $font-size-lg;
+  font-weight: $font-weight-normal;
+  font-family: $font-family-light;
+  padding: 0px;
+}
+
+.page-header .count {
+    font-size: $font-size-md;
+    font-weight: $font-weight-normal;
+    font-family: $font-family-light;
+    padding: 0px;
+  }
+
+.page-header .title img {
+  vertical-align: text-top !important;
+}
+
+.page-header .tools {
+  padding: 0px;
+}
+
+.button {
+  background-color: #353d9f;
+  color: $white;
+  height: 35px;
+  border-radius: 6px;
+  font-size: $font-size-xsm;
+  border: 0px;
+  padding-left: 15px;
+  padding-right: 15px;
+  line-height: 32px;
+  font-weight: $font-weight-lighter;
+}
+
+.button-light {
+  background-color: $body-color;
+  color: #353d9f;
+  height: 35px;
+  border-radius: 6px;
+  font-size: $font-size-xsm;
+  padding-left: 15px;
+  padding-right: 15px;
+  border-width: 1px;
+  border-color: #353d9f;
+  line-height: 32px;
+  font-weight: $font-weight-lighter;
+}
+
+.header-icon {
+  color: #353d9f !important;
+  font-size: $font-size-md;
+  font-weight: $font-weight-lighter;
+  font-family: $font-family-light;
+}
+
+.table {
+  border-collapse: separate;
+  border-spacing: 0px;
+}
+
+.table thead {
+  color: #353d9f;
+  font-size: $font-size-xs;
+  font-family: $font-family-light;
+  padding-top: 0;
+  min-height: 30px;
+  line-height: 30px;
+  background-color: #ebebeb;
+  border: none;
+}
+
+.table thead th {
+  border-bottom: none;
+}
+
+.table thead th:first-child {
+  border-left: 1px solid #dee2e6;
+}
+
+.table thead th:last-child {
+  border-right: 1px solid #dee2e6;
+}
+
+.table td {
+  font-size: $font-size-xs;
+  color: $gray;
+  background-color: $white;
+  font-family: $font-family-light;
+  // border: 1px solid $az-font-color;
+}
+
+.table tr td:first-child {
+  border-left: 1px solid #dee2e6;
+}
+
+.table tr td:last-child {
+  border-right: 1px solid #dee2e6;
+}
+
+.table tbody tr {
+  border: 1px solid $gray;
+  box-shadow: 2px 2px 3px $gray-lighter;
+  -webkit-box-shadow: 2px 2px 3px $gray-lighter;
+  -moz-box-shadow: 2px 2px 3px $gray-lighter;
+}
+
+.merchantName {
+  font-family: $font-family-light;
+  font-size: $font-size-xs;
+  font-weight: $font-weight-bold;
+}
+
+.address {
+  text-overflow: ellipsis;
+  max-width: 120px;
+}
+
+select {
+  height: 30px;
+  font-family: $font-family-light;
+  font-size: $font-size-xs;
+  color: $gray-medium;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-color: #353d9f;
+  border-radius: 3px;
+}
+
+// /deep/ .page-item.active .page-link{
+//     background-color: $az-blue-primary !important;
+//     color: $white !important;
+// }
+
+// /deep/ .page-link{
+//     color: $az-blue-primary !important;
+//     font-size: $font-size-sm;
+// }
+
+// /deep/ .page-item a:focus{
+//     outline:none;
+// }

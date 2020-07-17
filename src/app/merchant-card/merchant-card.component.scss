@@ -1,0 +1,87 @@
+@import "../../assets/sass/variables";
+
+.card-body {
+  padding: 10px;
+}
+
+.merchant-grid {
+  padding-left: 1rem !important;
+  padding-bottom: 1rem !important;
+  padding-right: 0 !important;
+}
+
+.merchant-grid:last-child {
+  padding-right: 1rem !important;
+}
+
+.merchant-grid:nth-child(4n) {
+  padding-right: 1rem !important;
+}
+
+.merchant-grid .merchant-card {
+  min-height: 250px;
+  box-shadow: 2px 2px 5px $gray-lighter;
+  -webkit-box-shadow: 2px 2px 5px $gray-lighter;
+  -moz-box-shadow: 2px 2px 5px $gray-lighter;
+}
+
+.merchant-grid .merchant-card-body {
+  padding: 15px;
+  border-bottom-width: 1px;
+  border-bottom-color: $gray-lighter;
+}
+
+.merchant-card-body .header {
+  min-height: 20px;
+  line-height: 20px;
+  padding: 0px 0px 10px 0px;
+  letter-spacing: 1px;
+}
+
+.merchant-card-body .header .txt-left{
+font-family: $font-family-medium;
+  font-size: $font-size-sm;
+  font-weight: $font-weight-bold;
+  color: #353d9f;
+}
+
+.merchant-card-body .header .txt-right{
+    font-family: $font-family-medium;
+    font-size: $font-size-xs;
+    font-weight: $font-weight-lighter;
+}
+
+.badge {
+    border-radius: 1rem;;
+    font-family: $font-family-medium;
+    font-size: $font-size-xs;
+    font-weight: $font-weight-light;
+    background-color: $body-color;
+    padding: 5px;
+    color: #353d9f;
+}
+
+.merchant-card-body .pin {
+    border: 1px;
+    background-color: $body-color;
+    border-radius: 5px;
+    padding: 15px;
+    font-family: $font-family-light;
+    font-size: $font-size-xs;
+    font-weight: $font-weight-lighter;
+    letter-spacing: 1px;
+  } 
+
+  .merchant-card-body .text-display {
+    border: 1px;
+    border-radius: 5px;
+    padding: 0px 25px;
+    font-family: $font-family-light;
+    font-size: $font-size-xs;
+    font-weight: $font-weight-lighter;
+    min-height: 50px;
+  } 
+
+  .text-label {
+      padding-bottom: 10px;
+  }

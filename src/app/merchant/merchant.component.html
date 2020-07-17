@@ -1,5 +1,72 @@
 <div class="main">
-    <div class="container-fluid">
-        <app-page-header [headerText]="pageHeader"></app-page-header>
+  <div class="container-fluid">
+    <div class="row page-header">
+      <div class="col-sm-3 title"><img src="../../../assets/images/merchant.svg" />
+        <span class="pl-2">{{ pageHeader }}</span>
+        <span class="count pl-2">({{ merchants.length }})</span></div>
+      <div class="col-sm-9 tools text-right">
+        <button class="button">
+          <fa-icon [icon]='faPlus' size="lg"></fa-icon><span class="pl-2">Add
+            New Merchant</span>
+        </button>
+        <span class="pl-3"><button class="button-light"><img src="../../../assets/images/import.svg" /><span
+              class="pl-2">Import</span></button></span>
+        <span class="pl-3"><button class="button-light"><img src="../../../assets/images/export.svg" /><span
+              class="pl-2">Export</span></button></span>
+        <span class="pl-3 header-icon"><a (click)="changeView()">
+            <fa-icon [icon]='faTh'></fa-icon>
+          </a></span>
+        <span class="pl-3 header-icon"><a (click)="changeView()">
+            <fa-icon [icon]='faBars'></fa-icon>
+          </a></span>
+      </div>
     </div>
+    <div class="pt-2" *ngIf="mode == 1">
+      <app-merchant-card [(merchants)]="merchants"></app-merchant-card>
+    </div>
+    <div class="pt-2" *ngIf="mode == 2">
+
+      <table class="table table-striped">
+        <thead>
+          <tr>
+            <th scope="col">Name</th>
+            <th scope="col">Access PIN</th>
+            <th scope="col">Login PIN</th>
+            <th scope="col">Primary IP</th>
+            <th scope="col">Primary Port</th>
+            <th scope="col">Secondary IP</th>
+            <th scope="col">Secondary Port</th>
+            <th scope="col">Address</th>
+            <th scope="col">Configured Date</th>
+            <th scope="col">Action</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let merchant of merchants | slice: (page-1) * pageSize : (page-1) * pageSize + pageSize">
+            <td><span class="merchantName">{{ merchant.name }}</span></td>
+            <td>{{ merchant.accessPin }}<span class="pl-2"><a (click)="onToggleAeccessIcon(merchant.id)"><fa-icon [icon]='faEye'></fa-icon></a></span></td>
+            <td>{{ merchant.loginPin }}<span class="pl-2"><a (click)="onToggleAeccessIcon(merchant.id)"><fa-icon [icon]='faEye'></fa-icon></a></span></td>
+            <td>{{ merchant.primaryIp }}</td>
+            <td>{{ merchant.primaryPort }}</td>
+            <td>{{ merchant.secondaryIp }}</td>
+            <td>{{ merchant.secondaryPort }}</td>
+            <td><span class="address">{{ merchant.address }}</span></td>
+            <td>{{ merchant.createdDate }}</td>
+            <td></td>
+          </tr>
+        </tbody>
+      </table>
+
+      <div class="d-flex justify-content-between px-2">
+        <ngb-pagination [collectionSize]="merchants.length" [(page)]="page" [pageSize]="pageSize">
+        </ngb-pagination>
+
+        <select [(ngModel)]="pageSize">
+          <option [ngValue]="5">5 items per page</option>
+          <option [ngValue]="10">10 items per page</option>
+          <option [ngValue]="25">25 items per page</option>
+        </select>
+      </div>
+    </div>
+  </div>
 </div>

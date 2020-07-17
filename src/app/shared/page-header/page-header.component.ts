@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { faPlus, faBars, faTh} from '@fortawesome/free-solid-svg-icons';
 
 @Component({
@@ -18,5 +18,4 @@ export class PageHeaderComponent implements OnInit {
 
   ngOnInit(): void {
   }
-
 }

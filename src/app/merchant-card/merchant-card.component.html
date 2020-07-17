@@ -1,1 +1,60 @@
-<p>merchant-card works!</p>
+<div class="row">
+  <div class="col-sm-3 merchant-grid" *ngFor="let merchant of merchants">
+    <div class="card merchant-card">
+        <div class="card-body merchant-card-body">
+          <div class="header d-flex">
+              <div class="txt-left">
+                    {{merchant.name}}
+              </div>
+              <div class="ml-auto txt-right">
+                <span class="badge">{{merchant.terminals.length}}</span>  
+                <span class="pl-2"><fa-icon [icon]='faEllipsisH'></fa-icon></span>
+              </div>
+          </div>
+          <div class="pin">
+              <div class="row label">
+                <div class="col-6">Access PIN</div>  
+                <div class="col-6">Login PIN</div>
+              </div>
+              <div class="row">
+                <div class="col-6">
+                    {{aIcon == faEye ? merchant.accessPin : "****"}}
+                    
+                    <span class="pl-2"><a (click)="onToggleAeccessIcon(merchant.id)"><fa-icon [icon]='aIcon'></fa-icon></a></span>
+                </div>  
+                <div class="col-6">
+                    {{merchant.loginPin}}
+                    <span class="pl-2"><a (click)="onToggleLoginIcon(merchant.id)"><fa-icon [icon]='lIcon'></fa-icon></a></span>
+                </div>
+              </div>
+            </div>
+        </div>
+        <hr class="my-1">
+        <div class="card-body merchant-card-body">
+            <div class="row text-display">
+                <div class="col-2 align-self-center"><img src="../../../assets/images/ip.svg" /></div>
+                <div class="col-10">
+                        <div class="row text-label">
+                          <div class="col-6">Primary IP</div>  
+                          <div class="col-6">Primary Port</div>
+                        </div>
+                        <div class="row">
+                          <div class="col-6">{{merchant.primaryIp}}</div>  
+                          <div class="col-6">{{merchant.primaryPort}}</div>
+                        </div>
+                </div>
+            </div>
+          </div> 
+          <hr class="my-1">
+          <div class="card-body merchant-card-body">
+            <div class="text-display">
+                <div class="row text-label">
+                  <div class="col-6">Address</div>  
+                </div>
+                <div class="row">
+                  <div class="col-12">{{merchant.address}}</div>  
+                </div>
+              </div>
+          </div> 
+  </div>
+</div>
