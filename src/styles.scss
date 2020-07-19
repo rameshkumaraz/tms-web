@@ -5,11 +5,11 @@
 
 body{
   color: $az-font-color;
+  background-color: $form-color;
 }
 
 .main {
   height: auto;
-  background-color: #f2f2f2;
   position: relative;
   margin: 0px;
   overflow: hidden;
@@ -18,10 +18,25 @@ body{
 }
 
 .main .container-fluid{
-  padding-right: 20px;
-  padding-left: 20px;
   min-height: 664px;
+  max-width: 98%;
   background-color: $body-color;
+}
+
+.page-header {
+  min-height: 50px;
+  padding-top: 20px;
+  padding-bottom: 20px;
+  line-height: 50px;
+  margin: 0px;
+  letter-spacing: 2px;
+}
+
+.page-header .title {
+  font-size: $font-size-lg;
+  font-weight: $font-weight-normal;
+  font-family: $font-family-light;
+  padding: 0px;
 }
 
 .page-title{

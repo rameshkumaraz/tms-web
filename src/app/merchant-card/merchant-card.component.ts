@@ -1,6 +1,7 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { Merchant } from '../model/merchant';
 import { faEllipsisH, faEye, faEyeSlash } from '@fortawesome/free-solid-svg-icons';
+import { MerchantView } from '../model/view/merchantView';
 
 @Component({
   selector: 'app-merchant-card',
@@ -9,16 +10,11 @@ import { faEllipsisH, faEye, faEyeSlash } from '@fortawesome/free-solid-svg-icon
 })
 export class MerchantCardComponent implements OnInit {
 
-  @Input() merchants: Array<Merchant>;
+  @Input() merchants: Array<MerchantView>;
 
   faEllipsisH = faEllipsisH;
   faEye = faEye;
   faEyeSlash = faEyeSlash;
-
-  aIcon = faEyeSlash;
-  lIcon = faEyeSlash;
-
-  selectedMerchant: Merchant;
 
   constructor() { }
 
@@ -26,12 +22,26 @@ export class MerchantCardComponent implements OnInit {
   }
 
   onToggleAeccessIcon(id: number){
-    // this.selectedMerchant = this.merchants.filter(x => x.id === id);
-    this.aIcon = this.aIcon === faEyeSlash ? faEye : faEyeSlash;
+
+    for (let merchantView of this.merchants){
+        if (merchantView.merchant.id === id){
+          merchantView.aPinStatus = merchantView.aPinStatus === true ? false : true;
+        }
+    }
+
+    for (let merchantView of this.merchants){
+      if (merchantView.merchant.id === id){
+        console.log(merchantView);
+      }
+    }
   }
 
   onToggleLoginIcon(id: number){
-    this.lIcon = this.lIcon === faEyeSlash ? faEye : faEyeSlash;
+    for (let merchantView of this.merchants){
+      if (merchantView.merchant.id === id){
+        merchantView.lPinStatus = merchantView.lPinStatus === true ? false : true;
+      }
+    }
   }
 
 }

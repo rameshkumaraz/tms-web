@@ -29,6 +29,9 @@
   padding: 15px;
   border-bottom-width: 1px;
   border-bottom-color: $gray-lighter;
+  font-family: $font-family-light;
+    font-size: $font-size-xs;
+    font-weight: $font-weight-lighter;
 }
 
 .merchant-card-body .header {
@@ -40,7 +43,7 @@
 
 .merchant-card-body .header .txt-left{
 font-family: $font-family-medium;
-  font-size: $font-size-sm;
+  font-size: $font-size-md;
   font-weight: $font-weight-bold;
   color: #353d9f;
 }
@@ -61,27 +64,19 @@ font-family: $font-family-medium;
     color: #353d9f;
 }
 
-.merchant-card-body .pin {
-    border: 1px;
+.merchant-card-body .pin-block {
     background-color: $body-color;
     border-radius: 5px;
     padding: 15px;
-    font-family: $font-family-light;
-    font-size: $font-size-xs;
-    font-weight: $font-weight-lighter;
-    letter-spacing: 1px;
   } 
 
-  .merchant-card-body .text-display {
+  .pin{
+      letter-spacing: 3px;
+  }
+
+  .merchant-card-body .misc-block {
     border: 1px;
     border-radius: 5px;
     padding: 0px 25px;
-    font-family: $font-family-light;
-    font-size: $font-size-xs;
-    font-weight: $font-weight-lighter;
     min-height: 50px;
   } 
-
-  .text-label {
-      padding-bottom: 10px;
-  }

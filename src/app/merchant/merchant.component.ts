@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { faPlus, faBars, faTh, faEye, faEyeSlash} from '@fortawesome/free-solid-svg-icons';
 import { MerchantService } from './merchant.service';
 import { Merchant } from '../model/merchant';
+import { MerchantView } from '../model/view/merchantView';
 
 @Component({
   selector: 'app-merchant',
@@ -22,13 +23,23 @@ export class MerchantComponent implements OnInit {
 
   mode = 1;
 
-  merchants: Array<Merchant>;
+  merchants: Array<MerchantView>;
+
+  merchantView: MerchantView;
 
   constructor(private merchantService: MerchantService) { }
 
   ngOnInit(): void {
     this.pageHeader = 'Merchant';
-    this.merchants = this.merchantService.getMerchants();
+    this.merchants = new Array<MerchantView>();
+    for (let merchant of this.merchantService.getMerchants()) {
+      this.merchantView = new MerchantView();
+      this.merchantView.aPinStatus = false;
+      this.merchantView.lPinStatus = false;
+      this.merchantView.merchant = merchant;
+      this.merchants.push(this.merchantView);
+    }
+    // this.merchants = this.merchantService.getMerchants();
   }
 
   changeView(){

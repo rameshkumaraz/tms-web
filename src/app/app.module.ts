@@ -1,4 +1,4 @@
-import { BrowserModule } from '@angular/platform-browser';
+import { BrowserModule} from '@angular/platform-browser';
 import { FormsModule } from '@angular/forms';
 import { NgModule } from '@angular/core';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
@@ -12,6 +12,9 @@ import { MerchantComponent } from './merchant/merchant.component';
 import { PageHeaderComponent } from './shared/page-header/page-header.component';
 import { BankComponent } from './bank/bank.component';
 import { MerchantCardComponent } from './merchant-card/merchant-card.component';
+import { ImportComponent } from './import/import.component';
+import { ExportComponent } from './export/export.component';
+import { FileDndComponent } from './shared/file-dnd/file-dnd.component';
 
 @NgModule({
   declarations: [
@@ -21,7 +24,10 @@ import { MerchantCardComponent } from './merchant-card/merchant-card.component';
     MerchantComponent,
     PageHeaderComponent,
     BankComponent,
-    MerchantCardComponent
+    MerchantCardComponent,
+    ImportComponent,
+    ExportComponent,
+    FileDndComponent
   ],
   imports: [
     BrowserModule,

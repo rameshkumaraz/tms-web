@@ -1,0 +1,460 @@
+{
+    "merchants":[
+        {
+            "id": 1,
+            "name": "AR Mart",
+            "accessPin": "236061",
+            "loginPin": "236061",
+            "primaryIp": "199.85.67.13",
+            "primaryPort": "8080",
+            "secondaryIp": "85.93.212.236",
+            "secondaryPort": "8080",
+            "address": "4517 Washington Ave.",
+            "createdBy": "System",
+            "createdDate": "2020-07-17T20:36:56.782Z",
+            "modifiedBy": "User",
+            "modifiedDate": "2020-07-17T20:36:56.782Z",
+            "version": 1,
+            "terminals":[
+                {
+                    "id": 1,
+                    "terminalId": "0367871221"
+                },
+                {
+                    "id": 2,
+                    "terminalId": "2730175548"
+                },
+                {
+                    "id": 3,
+                    "terminalId": "5351022502"
+                },
+                {
+                    "id": 4,
+                    "terminalId": "6842018413"
+                },
+                {
+                    "id": 5,
+                    "terminalId": "7111924081"
+                }
+            ]
+        },
+        {
+            "id": 2,
+            "name": "SV Sales",
+            "accessPin": "487441",
+            "loginPin": "651535",
+            "primaryIp": "213.217.71.130",
+            "primaryPort": "8080",
+            "secondaryIp": "106.28.168.49",
+            "secondaryPort": "8080",
+            "address": "4140 Parker Rd. Allentown",
+            "createdBy": "System",
+            "createdDate": "2020-07-17T20:36:56.782Z",
+            "modifiedBy": "User",
+            "modifiedDate": "2020-07-17T20:36:56.782Z",
+            "version": 1,
+            "terminals":[
+                {
+                    "id": 1,
+                    "terminalId": "0367871221"
+                },
+                {
+                    "id": 2,
+                    "terminalId": "2730175548"
+                },
+                {
+                    "id": 3,
+                    "terminalId": "5351022502"
+                },
+                {
+                    "id": 4,
+                    "terminalId": "6842018413"
+                },
+                {
+                    "id": 5,
+                    "terminalId": "7111924081"
+                }
+            ]
+        },
+        {
+            "id": 3,
+            "name": "Best Autoparts",
+            "accessPin": "236061",
+            "loginPin": "236061",
+            "primaryIp": "199.85.67.13",
+            "primaryPort": "8080",
+            "secondaryIp": "85.93.212.236",
+            "secondaryPort": "8080",
+            "address": "4517 Washington Ave.",
+            "createdBy": "System",
+            "createdDate": "2020-07-17T20:36:56.782Z",
+            "modifiedBy": "User",
+            "modifiedDate": "2020-07-17T20:36:56.782Z",
+            "version": 1,
+            "terminals":[
+                {
+                    "id": 1,
+                    "terminalId": "0367871221"
+                },
+                {
+                    "id": 2,
+                    "terminalId": "2730175548"
+                },
+                {
+                    "id": 3,
+                    "terminalId": "5351022502"
+                },
+                {
+                    "id": 4,
+                    "terminalId": "6842018413"
+                },
+                {
+                    "id": 5,
+                    "terminalId": "7111924081"
+                }
+            ]
+        },
+        {
+            "id": 4,
+            "name": "Jenny Wilson",
+            "accessPin": "487441",
+            "loginPin": "651535",
+            "primaryIp": "213.217.71.130",
+            "primaryPort": "8080",
+            "secondaryIp": "106.28.168.49",
+            "secondaryPort": "8080",
+            "address": "4140 Parker Rd. Allentown",
+            "createdBy": "System",
+            "createdDate": "2020-07-17T20:36:56.782Z",
+            "modifiedBy": "User",
+            "modifiedDate": "2020-07-17T20:36:56.782Z",
+            "version": 1,
+            "terminals":[
+                {
+                    "id": 1,
+                    "terminalId": "0367871221"
+                },
+                {
+                    "id": 2,
+                    "terminalId": "2730175548"
+                },
+                {
+                    "id": 3,
+                    "terminalId": "5351022502"
+                },
+                {
+                    "id": 4,
+                    "terminalId": "6842018413"
+                },
+                {
+                    "id": 5,
+                    "terminalId": "7111924081"
+                }
+            ]
+        },
+        {
+            "id": 5,
+            "name": "MVM Vegetables",
+            "accessPin": "236061",
+            "loginPin": "236061",
+            "primaryIp": "199.85.67.13",
+            "primaryPort": "8080",
+            "secondaryIp": "85.93.212.236",
+            "secondaryPort": "8080",
+            "address": "4517 Washington Ave.",
+            "createdBy": "System",
+            "createdDate": "2020-07-17T20:36:56.782Z",
+            "modifiedBy": "User",
+            "modifiedDate": "2020-07-17T20:36:56.782Z",
+            "version": 1,
+            "terminals":[
+                {
+                    "id": 1,
+                    "terminalId": "0367871221"
+                },
+                {
+                    "id": 2,
+                    "terminalId": "2730175548"
+                },
+                {
+                    "id": 3,
+                    "terminalId": "5351022502"
+                },
+                {
+                    "id": 4,
+                    "terminalId": "6842018413"
+                },
+                {
+                    "id": 5,
+                    "terminalId": "7111924081"
+                }
+            ]
+        },
+        {
+            "id": 6,
+            "name": "Orion Trient",
+            "accessPin": "487441",
+            "loginPin": "651535",
+            "primaryIp": "213.217.71.130",
+            "primaryPort": "8080",
+            "secondaryIp": "106.28.168.49",
+            "secondaryPort": "8080",
+            "address": "4140 Parker Rd. Allentown",
+            "createdBy": "System",
+            "createdDate": "2020-07-17T20:36:56.782Z",
+            "modifiedBy": "User",
+            "modifiedDate": "2020-07-17T20:36:56.782Z",
+            "version": 1,
+            "terminals":[
+                {
+                    "id": 1,
+                    "terminalId": "0367871221"
+                },
+                {
+                    "id": 2,
+                    "terminalId": "2730175548"
+                },
+                {
+                    "id": 3,
+                    "terminalId": "5351022502"
+                },
+                {
+                    "id": 4,
+                    "terminalId": "6842018413"
+                },
+                {
+                    "id": 5,
+                    "terminalId": "7111924081"
+                }
+            ]
+        },
+        {
+            "id": 7,
+            "name": "Bell Pepers",
+            "accessPin": "236061",
+            "loginPin": "236061",
+            "primaryIp": "199.85.67.13",
+            "primaryPort": "8080",
+            "secondaryIp": "85.93.212.236",
+            "secondaryPort": "8080",
+            "address": "4517 Washington Ave.",
+            "createdBy": "System",
+            "createdDate": "2020-07-17T20:36:56.782Z",
+            "modifiedBy": "User",
+            "modifiedDate": "2020-07-17T20:36:56.782Z",
+            "version": 1,
+            "terminals":[
+                {
+                    "id": 1,
+                    "terminalId": "0367871221"
+                },
+                {
+                    "id": 2,
+                    "terminalId": "2730175548"
+                },
+                {
+                    "id": 3,
+                    "terminalId": "5351022502"
+                },
+                {
+                    "id": 4,
+                    "terminalId": "6842018413"
+                },
+                {
+                    "id": 5,
+                    "terminalId": "7111924081"
+                }
+            ]
+        },
+        {
+            "id": 8,
+            "name": "Sales Fox",
+            "accessPin": "487441",
+            "loginPin": "651535",
+            "primaryIp": "213.217.71.130",
+            "primaryPort": "8080",
+            "secondaryIp": "106.28.168.49",
+            "secondaryPort": "8080",
+            "address": "4140 Parker Rd. Allentown",
+            "createdBy": "System",
+            "createdDate": "2020-07-17T20:36:56.782Z",
+            "modifiedBy": "User",
+            "modifiedDate": "2020-07-17T20:36:56.782Z",
+            "version": 1,
+            "terminals":[
+                {
+                    "id": 1,
+                    "terminalId": "0367871221"
+                },
+                {
+                    "id": 2,
+                    "terminalId": "2730175548"
+                },
+                {
+                    "id": 3,
+                    "terminalId": "5351022502"
+                },
+                {
+                    "id": 4,
+                    "terminalId": "6842018413"
+                },
+                {
+                    "id": 5,
+                    "terminalId": "7111924081"
+                }
+            ]
+        },
+        {
+            "id": 9,
+            "name": "Murphy Fans",
+            "accessPin": "236061",
+            "loginPin": "236061",
+            "primaryIp": "199.85.67.13",
+            "primaryPort": "8080",
+            "secondaryIp": "85.93.212.236",
+            "secondaryPort": "8080",
+            "address": "4517 Washington Ave.",
+            "createdBy": "System",
+            "createdDate": "2020-07-17T20:36:56.782Z",
+            "modifiedBy": "User",
+            "modifiedDate": "2020-07-17T20:36:56.782Z",
+            "version": 1,
+            "terminals":[
+                {
+                    "id": 1,
+                    "terminalId": "0367871221"
+                },
+                {
+                    "id": 2,
+                    "terminalId": "2730175548"
+                },
+                {
+                    "id": 3,
+                    "terminalId": "5351022502"
+                },
+                {
+                    "id": 4,
+                    "terminalId": "6842018413"
+                },
+                {
+                    "id": 5,
+                    "terminalId": "7111924081"
+                }
+            ]
+        },
+        {
+            "id": 10,
+            "name": "Kristin Watson",
+            "accessPin": "487441",
+            "loginPin": "651535",
+            "primaryIp": "213.217.71.130",
+            "primaryPort": "8080",
+            "secondaryIp": "106.28.168.49",
+            "secondaryPort": "8080",
+            "address": "4140 Parker Rd. Allentown",
+            "createdBy": "System",
+            "createdDate": "2020-07-17T20:36:56.782Z",
+            "modifiedBy": "User",
+            "modifiedDate": "2020-07-17T20:36:56.782Z",
+            "version": 1,
+            "terminals":[
+                {
+                    "id": 1,
+                    "terminalId": "0367871221"
+                },
+                {
+                    "id": 2,
+                    "terminalId": "2730175548"
+                },
+                {
+                    "id": 3,
+                    "terminalId": "5351022502"
+                },
+                {
+                    "id": 4,
+                    "terminalId": "6842018413"
+                },
+                {
+                    "id": 5,
+                    "terminalId": "7111924081"
+                }
+            ]
+        },
+        {
+            "id": 11,
+            "name": "Darrell Steward",
+            "accessPin": "236061",
+            "loginPin": "236061",
+            "primaryIp": "199.85.67.13",
+            "primaryPort": "8080",
+            "secondaryIp": "85.93.212.236",
+            "secondaryPort": "8080",
+            "address": "4517 Washington Ave.",
+            "createdBy": "System",
+            "createdDate": "2020-07-17T20:36:56.782Z",
+            "modifiedBy": "User",
+            "modifiedDate": "2020-07-17T20:36:56.782Z",
+            "version": 1,
+            "terminals":[
+                {
+                    "id": 1,
+                    "terminalId": "0367871221"
+                },
+                {
+                    "id": 2,
+                    "terminalId": "2730175548"
+                },
+                {
+                    "id": 3,
+                    "terminalId": "5351022502"
+                },
+                {
+                    "id": 4,
+                    "terminalId": "6842018413"
+                },
+                {
+                    "id": 5,
+                    "terminalId": "7111924081"
+                }
+            ]
+        },
+        {
+            "id": 12,
+            "name": "Jacob Jones",
+            "accessPin": "487441",
+            "loginPin": "651535",
+            "primaryIp": "213.217.71.130",
+            "primaryPort": "8080",
+            "secondaryIp": "106.28.168.49",
+            "secondaryPort": "8080",
+            "address": "4140 Parker Rd. Allentown",
+            "createdBy": "System",
+            "createdDate": "2020-07-17T20:36:56.782Z",
+            "modifiedBy": "User",
+            "modifiedDate": "2020-07-17T20:36:56.782Z",
+            "version": 1,
+            "terminals":[
+                {
+                    "id": 1,
+                    "terminalId": "0367871221"
+                },
+                {
+                    "id": 2,
+                    "terminalId": "2730175548"
+                },
+                {
+                    "id": 3,
+                    "terminalId": "5351022502"
+                },
+                {
+                    "id": 4,
+                    "terminalId": "6842018413"
+                },
+                {
+                    "id": 5,
+                    "terminalId": "7111924081"
+                }
+            ]
+        }
+    ]
+}
