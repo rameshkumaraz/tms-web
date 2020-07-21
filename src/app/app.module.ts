@@ -1,11 +1,15 @@
 import { BrowserModule} from '@angular/platform-browser';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NgModule } from '@angular/core';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { NgxSpinnerModule } from 'ngx-spinner';
+import { ToastrModule } from 'ngx-toastr';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
+import {AuthGuard} from './utils/guards';
 import { HeaderComponent } from './shared/header/header.component';
 import { FooterComponent } from './shared/footer/footer.component';
 import { MerchantComponent } from './merchant/merchant.component';
@@ -15,6 +19,10 @@ import { MerchantCardComponent } from './merchant-card/merchant-card.component';
 import { ImportComponent } from './import/import.component';
 import { ExportComponent } from './export/export.component';
 import { FileDndComponent } from './shared/file-dnd/file-dnd.component';
+import { LoginComponent } from './login/login.component';
+import { LoginFormComponent } from './login-form/login-form.component';
+
+import { AppMockDataService } from './utils/services/app-mock-data.service';
 
 @NgModule({
   declarations: [
@@ -27,16 +35,25 @@ import { FileDndComponent } from './shared/file-dnd/file-dnd.component';
     MerchantCardComponent,
     ImportComponent,
     ExportComponent,
-    FileDndComponent
+    FileDndComponent,
+    LoginComponent,
+    LoginFormComponent
   ],
   imports: [
-    BrowserModule,
     AppRoutingModule,
+    BrowserModule,
+    BrowserAnimationsModule,
     FontAwesomeModule,
     FormsModule,
-    NgbModule
+    NgbModule,
+    NgxSpinnerModule,
+    ReactiveFormsModule,
+    ToastrModule.forRoot()
   ],
-  providers: [],
+  providers: [
+    AuthGuard,
+    AppMockDataService
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

@@ -1,0 +1,23 @@
+
+<svg width="114px" height="61px" viewBox="0 0 114 61" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <defs>
+        <linearGradient x1="50%" y1="45.7086903%" x2="43.1656948%" y2="91.3975206%" id="linearGradient-1">
+            <stop stop-color="#5995D7" offset="0%"></stop>
+            <stop stop-color="#205C9F" offset="100%"></stop>
+        </linearGradient>
+    </defs>
+    <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="Login-page" transform="translate(-1111.000000, -122.000000)">
+            <g id="Group-3" transform="translate(1111.000000, 122.000000)">
+                <text id="ACCEZZ-MINDS" font-family="Futura-Bold, Futura" font-size="14" font-weight="bold" fill="#0E3E75">
+                    <tspan x="0" y="60">ACCEZZ MINDS</tspan>
+                </text>
+                <g id="Group-2" transform="translate(57.000000, 0.000000)" fill="#0D3E75">
+                    <polygon id="Path-2" points="0.561030719 12.2194412 14.4372319 43.3858139 22.6461564 43.3858139 3.32899791 0.0610267891"></polygon>
+                    <polygon id="Path-2" points="10 12.1584144 23.8762012 43.3247871 32.0851256 43.3247871 12.7679672 -1.0658141e-14"></polygon>
+                </g>
+                <polygon id="Path-3" fill="url(#linearGradient-1)" points="50.870244 -1.77635684e-14 70.1400798 42.9634154 61.8028423 42.9634154 50.7923963 17.4337169 42.2670436 35.4574076 57.1901449 35.4574076 60.2180246 42.7218952 31 42.337492"></polygon>
+            </g>
+        </g>
+    </g>
+</svg>

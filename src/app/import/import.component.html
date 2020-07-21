@@ -1,8 +1,9 @@
 <div class="main">
-<div class="container-fluid">
-  <div class="row page-header">
-    <span class="title pl-2">{{ pageHeader }}</span>
+  <div class="container-fluid">
+    <div class="row page-header">
+      <span class="title pl-2">{{ pageHeader }}</span>
+    </div>
+    <p class="info">You can import a previously configured JSON file using AzPay Configurator</p>
+    <app-file-dnd [multiple]="false"></app-file-dnd>
   </div>
-  <app-file-dnd [multiple]="false"></app-file-dnd>
-</div>
 </div>

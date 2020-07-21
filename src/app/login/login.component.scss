@@ -1,0 +1,41 @@
+@import "../../assets/sass/variables";
+
+.login {
+  background-color: $form-color;
+  padding: 125px;
+  margin: 0px;
+}
+
+.login .login-container {
+  width: 100%;
+  height: 550px;
+  //background-size: cover;
+  border: 1px solid $body-border-color;
+  box-shadow: $body-color;
+  border-radius: 10px;
+  background-color: $body-color;
+  overflow: hidden;
+  margin-right: auto;
+  margin-left: auto;
+}
+
+.login .logo {
+  width: 80%;
+  height: 80%;
+}
+
+.login .bg-img {
+  height: 550px;
+  width: 800px;
+}
+
+.poweredby {
+  height: 100px;
+  background-color: $body-color;
+  font-size: $font-size-xsm;
+}
+
+.poweredby img {
+  width: 70px;
+  height: 50px;
+}

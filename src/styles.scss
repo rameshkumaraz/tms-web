@@ -35,7 +35,7 @@ body{
 .page-header .title {
   font-size: $font-size-lg;
   font-weight: $font-weight-normal;
-  font-family: $font-family-light;
+  font-family: $font-family-medium;
   padding: 0px;
 }
 
@@ -64,3 +64,73 @@ button {
 .fa.md-30 { font-size: 30px; }
 .fa.md-36 { font-size: 36px; }
 .fa.md-48 { font-size: 48px; }
+
+
+.progress{
+  min-width: 250px !important;
+  max-height: 0.30rem !important;
+  font-size: 0.25rem !important;
+}
+
+.button {
+  background-color: $header-color;
+  color: $white;
+  height: 35px;
+  border-radius: 6px;
+  font-size: $font-size-xsm;
+  border: 0px;
+  padding-left: 15px;
+  padding-right: 15px;
+  line-height: 32px;
+  font-weight: $font-weight-lighter;
+}
+
+.button-cancel {
+  background-color: $body-color;
+  color: $header-color;
+  height: 35px;
+  border-radius: 6px;
+  font-size: $font-size-xsm;
+  padding-left: 15px;
+  padding-right: 15px;
+  border-width: 1px;
+  border-color: $header-color;
+  line-height: 32px;
+  font-weight: $font-weight-lighter;
+}
+
+.dropdown-menu {
+  box-shadow: 2px 2px 3px $gray-light;
+  -webkit-box-shadow: 2px 2px 3px $gray-light;
+  -moz-box-shadow: 2px 2px 3px $gray-light;
+}
+
+.dropdown-menu .dropdown-item {
+  font-size: $font-size-xs !important;
+  font-family: $font-family-light;
+  color: $header-color;
+}
+
+.dropdown-menu .dropdown-item i{
+  color: $gray-light;
+}
+
+.modal.show .modal-dialog {
+  top: 50px !important;
+}
+
+.apperr {
+  color: #CF0101;
+  padding: 0;
+  margin-bottom: 0px;
+  font-family: $font-family-medium !important;
+}
+
+.form-control {
+  background-color: $form-color;
+  border: solid 1px $input-border-color;
+  color: $az-font-color;
+  font-size: $font-size-sm;
+  font-weight: $font-weight-normal;
+  font-family: $font-family-medium;
+}

@@ -43,6 +43,7 @@ export class FileDndComponent implements OnInit {
     this.files.splice(index, 1);
     if (this.files.length === 0) {
       this.showFileOption = true;
+      this.multiple = false;
     }
   }
 
@@ -52,10 +53,12 @@ export class FileDndComponent implements OnInit {
    */
   prepareFilesList(files: Array<any>) {
     for (const item of files) {
-      console.log(item);
       // Check for file duplication
       if (this.files.filter(f => f.name === item.name).length === 0) {
+        item.progress = 0;
+        item.progressType = 'info';
         this.files.push(item);
+        this.uploadFilesSimulator(item);
       }
     }
 
@@ -65,6 +68,22 @@ export class FileDndComponent implements OnInit {
     } else {
       this.showFileOption = this.multiple ? true : false;
     }
+  }
+
+  /**
+   * Simulate the upload process
+   */
+  uploadFilesSimulator(file) {
+    setTimeout(() => {
+        const progressInterval = setInterval(() => {
+          if (file.progress === 100) {
+            clearInterval(progressInterval);
+            file.progressType = 'success';
+          } else {
+            file.progress += 5;
+          }
+        }, 200);
+    }, 500);
   }
 
   /**

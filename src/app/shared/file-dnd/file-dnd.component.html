@@ -1,50 +1,50 @@
 <div class="dropzone" appDnd (fileDropped)="onFileDropped($event)">
   <div *ngIf="showFileOption" class="container">
     <div class="input-container">
-    <input type="file" multiple #fileDropRef id="fileDropRef" (change)="fileBrowseHandler($event.target.files)" />
-  </div>
+      <input type="file" multiple #fileDropRef id="fileDropRef" accept="application/JSON" (change)="fileBrowseHandler($event.target.files)" />
+    </div>
     <div class="info">
       <img src="../../../assets/images/upload.svg"><br>
       <label for="fileDropRef">Drag and drop files here,<br>
         or click here to <b>browse</b> files.</label>
-    </div>  
-  </div>
-  <!-- <div *ngIf="!multiple && files.length === 0" class="container mt-4">
-    <div *ngIf="multiple" class="container">
-      <div class="input-container">
-      <input type="file" #fileDropRef id="fileDropRef" (change)="fileBrowseHandler($event.target.files)" />
     </div>
-      <div class="info">
-        <img src="../../../assets/images/upload.svg"><br>
-        <label for="fileDropRef">Drag and drop files here,<br>
-          or click here to <b>browse</b> files.</label>
-      </div>  
-  </div> -->
+  </div>
   <div *ngIf="!showFileOption" class="container">
     <div class="file" *ngFor="let file of files; let i = index">
-        <div class="info-inline d-flex">
-          <img src="../../../assets/images/document_text.svg">
-          <span class="name pl-3">{{ file?.name }}</span>  
-          <div class="ml-auto">
-          <span class="name pl-3">
+      <div class="info-inline">
+        <div class="d-flex p-2">
+        <img src="../../../assets/images/document.svg">
+        <span class="name pl-3">{{ file?.name }}
+          <br>
+          <ngb-progressbar [type]="file?.progressType" [value]="file?.progress"></ngb-progressbar>
+        </span>
+        <div class="pl-2"><span class="name">{{ file?.progress }}%</span></div>
+        <div class="ml-auto">
+          <span class="name pl-2">
             {{ formatBytes(file?.size, 0) }}
           </span>
-          <span class="delete"><a (click)="deleteFile(i)"><img src="../../../assets/images/close_circle.svg"></a></span>
-        </div></div>
+          <span class="delete"><a (click)="deleteFile(i)"><img src="../../../assets/images/delete_icon.svg"></a></span>
+        </div>
       </div>
+      </div>
+    </div>
   </div>
 </div>
 <div *ngIf="multiple" class="files-list">
   <div class="single-file" *ngFor="let file of files; let i = index">
     <div class="info d-flex">
-      <img src="../../../assets/images/document_text.svg">
-      <span class="name pl-3">{{ file?.name }}</span>  
-      <div class="ml-auto">
-      <span class="name pr-3">
-        {{ formatBytes(file?.size, 0) }}
+      <img src="../../../assets/images/document.svg">
+      <span class="name pl-3">
+        {{ file?.name }}<br>
+        <ngb-progressbar [type]="file?.progressType" [value]="file?.progress"></ngb-progressbar>
       </span>
-      <span class="delete"><a (click)="deleteFile(i)"><img src="../../../assets/images/close_circle.svg"></a></span>
-    </div>
+      <div class="pl-2"><span class="name">{{ file?.progress }}%</span></div>
+      <div class="ml-auto">
+        <span class="name pr-2">
+          {{ formatBytes(file?.size, 0) }}
+        </span>
+        <span class="delete"><a (click)="deleteFile(i)"><img src="../../../assets/images/delete_icon.svg"></a></span>
+      </div>
     </div>
   </div>
 </div>

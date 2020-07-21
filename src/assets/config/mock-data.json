@@ -1,4 +1,24 @@
 {
+    "users": [
+        {
+            "id": 1,    
+            "name": "admin1",
+            "email": "admin1@az.com",
+            "password": "admin1pass"
+        },
+        {
+            "id": 2,    
+            "name": "admin1",
+            "email": "admin2@az.com",
+            "password": "admin2pass"
+        },
+        {
+            "id": 3,    
+            "name": "admin1",
+            "email": "admin3@az.com",
+            "password": "admin3pass"
+        }
+    ],
     "merchants":[
         {
             "id": 1,
@@ -455,6 +475,53 @@
                     "terminalId": "7111924081"
                 }
             ]
+        }
+    ],
+    "configs":[
+        {
+            "id": 1,
+            "fileName": "Jacob Jones",
+            "user": 1,
+            "createdBy": "System",
+            "createdDate": "2020-07-17T20:36:56.782Z",
+            "modifiedBy": "User",
+            "modifiedDate": "2020-07-17T20:36:56.782Z"
+        },
+        {
+            "id": 2,
+            "fileName": "Jacob Jones",
+            "user": 1,
+            "createdBy": "System",
+            "createdDate": "2020-07-17T20:36:56.782Z",
+            "modifiedBy": "User",
+            "modifiedDate": "2020-07-17T20:36:56.782Z"
+        },
+        {
+            "id": 3,
+            "fileName": "Jacob Jones",
+            "user": 1,
+            "createdBy": "System",
+            "createdDate": "2020-07-17T20:36:56.782Z",
+            "modifiedBy": "User",
+            "modifiedDate": "2020-07-17T20:36:56.782Z"
+        },
+        {
+            "id": 4,
+            "fileName": "Jacob Jones",
+            "user": 1,
+            "createdBy": "System",
+            "createdDate": "2020-07-17T20:36:56.782Z",
+            "modifiedBy": "User",
+            "modifiedDate": "2020-07-17T20:36:56.782Z"
+        },
+        {
+            "id": 5,
+            "fileName": "Jacob Jones",
+            "user": 1,
+            "createdBy": "System",
+            "createdDate": "2020-07-17T20:36:56.782Z",
+            "modifiedBy": "User",
+            "modifiedDate": "2020-07-17T20:36:56.782Z"
         }
     ]
 }

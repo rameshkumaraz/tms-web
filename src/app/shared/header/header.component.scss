@@ -49,3 +49,52 @@
     border-bottom-color: #f2994a;
     border-radius: 3px;
 }
+
+.profile {
+    font-size: $font-size-xs !important;
+    font-weight: $font-weight-lighter !important;
+    font-family: $font-family-light;
+    color: $white;
+}
+
+.header-button {
+    padding-left: 10px !important;
+    padding-right: 10px !important;
+    a:hover {
+        color: $white;
+    }
+}
+
+.header-button .show {
+    font-size: $font-size-sm;
+    color: $white;
+    border: 1px solid $white;
+    border-radius: 10px;
+    height: 25px;
+    min-width: 75px;
+    font-size: $font-size-xs !important;
+    font-weight: $font-weight-lighter !important;
+    font-family: $font-family-light;
+    line-height: 5px;
+    margin-top: 22px;
+}
+
+.modal-info {
+    width: 500px;
+    padding: 0.5rem;
+    position: relative;
+    margin-left: auto;
+    margin-right: auto;
+    font-family: $font-family-light;
+    font-size: $font-size-xs;
+    font-weight: $font-weight-lighter;
+  }
+
+.modal-button {
+    min-width: 100px;
+}
+
+.navbar-nav .dropdown-menu{
+    top: 50px;
+    right: 50px;
+}
