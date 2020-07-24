@@ -1,11 +1,11 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { faTimes } from '@fortawesome/free-solid-svg-icons';
 import { AuthenticationService } from '../utils/services/authentication.service';
-import { ApiResponse } from '../shared/model/api.response';
 import { Router } from '@angular/router';
 import { first } from 'rxjs/operators';
 import { NgxSpinnerService } from 'ngx-spinner';
+import { LoginNotificationService } from '../shared/service/login-notification.service';
 
 @Component({
   selector: 'app-login-form',
@@ -17,6 +17,8 @@ export class LoginFormComponent implements OnInit {
   @Input() showHeader: boolean;
   @Input() isPopup: boolean;
 
+  @Output() modelClosed = new EventEmitter();
+
   faTimes = faTimes;
 
   loginForm: FormGroup;
@@ -26,6 +28,7 @@ export class LoginFormComponent implements OnInit {
 
   constructor(private formBuilder: FormBuilder,
     private authenticationService: AuthenticationService,
+    private loginNotifyService: LoginNotificationService,
     private router: Router,
     private spinner: NgxSpinnerService) { }
 
@@ -57,8 +60,8 @@ export class LoginFormComponent implements OnInit {
       .pipe(first())
       .subscribe(
         resp => {
-          console.log('Response', resp);
-          if(!resp.ok) {
+          // console.log('Response', resp);
+          if (!resp.ok) {
             this.spinner.hide();
             this.isFailed = true;
             this.errMsg = resp.body;
@@ -67,7 +70,8 @@ export class LoginFormComponent implements OnInit {
           sessionStorage.setItem('currentUser', JSON.stringify(resp.body));
           this.spinner.hide();
           if (!this.isPopup) {
-            this.router.navigate(['/merchant']);
+            this.loginNotifyService.notifiy(resp.body);
+            this.close();
           } else {
             this.errMsg = '';
             return;
@@ -78,5 +82,10 @@ export class LoginFormComponent implements OnInit {
           this.isFailed = true;
           this.spinner.hide();
         });
+  }
+
+  close() {
+    // /console.log('close invoked');
+    this.modelClosed.emit(true);
   }
 }

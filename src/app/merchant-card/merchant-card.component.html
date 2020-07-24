@@ -1,13 +1,13 @@
 <div class="row">
-  <div class="col-sm-3 merchant-grid" *ngFor="let merchantView of merchants">
+  <div class="col-sm-3 merchant-grid" *ngFor="let merchant of merchants">
     <div class="card merchant-card">
         <div class="card-body merchant-card-body">
           <div class="header d-flex">
               <div class="txt-left">
-                    {{merchantView.merchant.name}}
+                    {{merchant.name}}
               </div>
               <div class="ml-auto txt-right">
-                <span class="badge">{{merchantView.merchant.terminals.length}}</span>  
+                <span class="badge">{{merchant.terminals.length}}</span>  
                 <span class="pl-2"><fa-icon [icon]='faEllipsisH'></fa-icon></span>
               </div>
           </div>
@@ -18,13 +18,15 @@
               </div>
               <div class="row pin">
                 <div class="col-6">
-                    {{merchantView.merchant.aPinStatus ? merchantView.merchant.accessPin : "****"}}
-                    <span *ngIf="merchantView.merchant.aPinStatus" class="pl-1"><a (click)="onToggleAeccessIcon(merchantView.merchant.id)"><fa-icon [icon]='faEye'></fa-icon></a></span>
-                    <span *ngIf="!merchantView.merchant.aPinStatus" class="pl-1"><a (click)="onToggleAeccessIcon(merchantView.merchant.id)"><fa-icon [icon]='faEyeSlash'></fa-icon></a></span>
+                    {{merchant.viewApin ? merchant.accessPin : "****"}}
+                    <span *ngIf="merchant.viewApin" class="pl-1"><a (click)="onToggleAeccessIcon(merchant.id)"><fa-icon [icon]='faEye'></fa-icon></a></span>
+                    <span *ngIf="!merchant.viewApin" class="pl-1"><a (click)="onToggleAeccessIcon(merchant.id)"><fa-icon [icon]='faEyeSlash'></fa-icon></a></span>
                 </div>  
                 <div class="col-6">
-                    {{merchantView.merchant.lPinStatus ? merchantView.merchant.loginPin : "****"}}
-                    <span class="pl-1"><a (click)="onToggleLoginIcon(merchantView.merchant.id)"><fa-icon [icon]='faEyeSlash'></fa-icon></a></span>
+                    {{merchant.viewLpin ? merchant.loginPin : "****"}}
+                    <!-- <span class="pl-1"><a (click)="onToggleLoginIcon(merchant.id)"><fa-icon [icon]='faEyeSlash'></fa-icon></a></span> -->
+                    <span *ngIf="merchant.viewLpin" class="pl-1"><a (click)="onToggleLoginIcon(merchant.id)"><fa-icon [icon]='faEye'></fa-icon></a></span>
+                    <span *ngIf="!merchant.viewLpin" class="pl-1"><a (click)="onToggleLoginIcon(merchant.id)"><fa-icon [icon]='faEyeSlash'></fa-icon></a></span>
                 </div>
               </div>
             </div>
@@ -39,8 +41,8 @@
                           <div class="col-6">Primary Port</div>
                         </div>
                         <div class="row">
-                          <div class="col-6">{{merchantView.merchant.primaryIp}}</div>  
-                          <div class="col-6">{{merchantView.merchant.primaryPort}}</div>
+                          <div class="col-6">{{merchant.primaryIp}}</div>  
+                          <div class="col-6">{{merchant.primaryPort}}</div>
                         </div>
                 </div>
             </div>
@@ -52,7 +54,7 @@
                   <div class="col-6">Address</div>  
                 </div>
                 <div class="row">
-                  <div class="col-12">{{merchantView.merchant.address}}</div>  
+                  <div class="col-12">{{merchant.address}}</div>  
                 </div>
               </div>
           </div> 

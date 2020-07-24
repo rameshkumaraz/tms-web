@@ -1,11 +1,14 @@
 /* You can add global styles to this file, and also import other style files */
-/* You can add global styles to this file, and also import other style files */
 @import "assets/sass/variables";
 @import '~bootstrap/scss/bootstrap';
+@import '../node_modules/angular-archwizard/archwizard.scss';
+@import "assets/sass/lato-font.scss";
 
-body{
+
+body {
   color: $az-font-color;
   background-color: $form-color;
+  // font-family: $font-family-lato;
 }
 
 .main {
@@ -17,7 +20,7 @@ body{
   border-top: 1px solid $body-border-color;
 }
 
-.main .container-fluid{
+.main .container-fluid {
   min-height: 664px;
   max-width: 98%;
   background-color: $body-color;
@@ -39,18 +42,18 @@ body{
   padding: 0px;
 }
 
-.page-title{
+.page-title {
   font-size: $font-size-lg;
   font-family: $font-family-medium;
 }
 
-.page-sub-title{
+.page-sub-title {
   font-size: $font-size-md;
   font-family: $font-family-medium;
 }
 
 button {
-  font-family: $font-family-base !important;  
+  font-family: $font-family-base !important;
 }
 
 .fa {
@@ -58,15 +61,7 @@ button {
   color: $gray-light;
 }
 
-.fa.md-16 { font-size: 16px; }
-.fa.md-18 { font-size: 18px; }
-.fa.md-24 { font-size: 24px; }
-.fa.md-30 { font-size: 30px; }
-.fa.md-36 { font-size: 36px; }
-.fa.md-48 { font-size: 48px; }
-
-
-.progress{
+.progress {
   min-width: 250px !important;
   max-height: 0.30rem !important;
   font-size: 0.25rem !important;
@@ -77,7 +72,7 @@ button {
   color: $white;
   height: 35px;
   border-radius: 6px;
-  font-size: $font-size-xsm;
+  font-size: $font-size-xs;
   border: 0px;
   padding-left: 15px;
   padding-right: 15px;
@@ -111,8 +106,17 @@ button {
   color: $header-color;
 }
 
-.dropdown-menu .dropdown-item i{
+.dropdown-menu .dropdown-item i {
   color: $gray-light;
+}
+
+.dropdown-toggle::after {
+  margin-left: 0.5em;
+  vertical-align: 0.1em;
+  border-top: 0.4em solid;
+  border-right: 0.4em solid transparent;
+  border-bottom: 0;
+  border-left: 0.4em solid transparent;
 }
 
 .modal.show .modal-dialog {

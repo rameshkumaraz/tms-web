@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import { faUser } from '@fortawesome/free-solid-svg-icons';
+import { faUser, faSignInAlt, faSignOutAlt } from '@fortawesome/free-solid-svg-icons';
 import { NgbModalConfig, NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { Router } from '@angular/router';
 import { User } from 'src/app/model/user';
 import { AuthenticationService } from 'src/app/utils/services';
-import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-header',
@@ -15,6 +15,8 @@ export class HeaderComponent implements OnInit {
   profile: User;
 
   faUser = faUser;
+  faSignIn = faSignInAlt;
+  faSignOut = faSignOutAlt;
 
   constructor(config: NgbModalConfig, private modalService: NgbModal,
     private authenticationService: AuthenticationService,
@@ -26,19 +28,19 @@ export class HeaderComponent implements OnInit {
 
   ngOnInit(): void {
     this.profile = JSON.parse(sessionStorage.getItem('currentUser'));
-    console.log(this.profile);
+    // console.log(this.profile);
   }
 
-  open(content) {
+  openModal(content) {
     this.modalService.open(content, { size: 'md' });
   }
 
-  openLogin(content) {
+  openLoginModal(content) {
     this.modalService.open(content, { size: 'sm' });
   }
 
-  close() {
-    console.log('close');
+  closeModal(content, type) {
+    console.log('closeModel invoked', content);
     this.modalService.dismissAll();
   }
 

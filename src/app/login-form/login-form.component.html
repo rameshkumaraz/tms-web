@@ -2,7 +2,7 @@
   <div class="form-header d-flex" *ngIf="showHeader">
     Admin Login
     <span class="ml-auto">
-      <fa-icon [icon]='faTimes'></fa-icon>
+      <a (click)="close()"><fa-icon [icon]='faTimes'></fa-icon></a>
     </span>
   </div>
   <div class="p-1"><label class="apperr" *ngIf="isFailed">{{errMsg}}</label></div>

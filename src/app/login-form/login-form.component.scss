@@ -18,21 +18,20 @@
 .form-container label {
   font-size: $font-size-xs;
   font-weight: $font-weight-lighter;
-  font-family: $font-family-light;
+  font-family: $font-family-base;
 }
 
 .form-container .bottom-label {
-  font-size: $font-size-xsm;
+  font-size: $font-size-xs;
   font-weight: $font-weight-lighter;
-  font-family: $font-family-light;
+  font-family: $font-family-base;
   line-height: 25px;
 }
 
 .form-container a {
-  font-size: $font-size-xs;
-  font-weight: $font-weight-lighter;
-  font-family: $font-family-light;
-  color: $header-color;
+  font-size: $font-size-xs !important;
+  font-family: $font-family-bold !important;
+  color: $header-color !important;
 
 }
 
@@ -53,4 +52,4 @@
 
 .form-control:focus {
     box-shadow: inset 0 -1px 0 $gray-lighter;
-  }
+}

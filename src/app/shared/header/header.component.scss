@@ -35,6 +35,7 @@
 
 .navbar-nav .nav-link{
     font-size: $font-size-sm;
+    font-family: $font-family-bold;
     color: $white;
     line-height: 50px;
 }
@@ -53,8 +54,13 @@
 .profile {
     font-size: $font-size-xs !important;
     font-weight: $font-weight-lighter !important;
-    font-family: $font-family-light;
+    font-family: $font-family-light !important;
     color: $white;
+    vertical-align: bottom;
+}
+
+.user-name {
+    line-height: 16px;
 }
 
 .header-button {
@@ -63,20 +69,36 @@
     a:hover {
         color: $white;
     }
+    
 }
 
 .header-button .show {
     font-size: $font-size-sm;
     color: $white;
-    border: 1px solid $white;
-    border-radius: 10px;
-    height: 25px;
-    min-width: 75px;
+    //border: 1px solid $white;
+    border-radius: 3px;
+    height: 30px;
+    min-width: 100px;
+    font-size: $font-size-xs !important;
+    font-weight: $font-weight-lighter !important;
+    font-family: $font-family-base;
+    line-height: 5px;
+    margin-top: 20px;
+    background-color: #18A0FB;
+}
+
+.header-button .showprofile {
+    font-size: $font-size-sm;
+    color: $white;
+    //border: 1px solid $white;
+    border-radius: 3px;
+    height: 30px;
+    min-width: 100px;
     font-size: $font-size-xs !important;
     font-weight: $font-weight-lighter !important;
     font-family: $font-family-light;
     line-height: 5px;
-    margin-top: 22px;
+    background-color: #18A0FB;
 }
 
 .modal-info {
@@ -98,3 +120,11 @@
     top: 50px;
     right: 50px;
 }
+
+
+
+.fa-user{
+    color: transparent;
+    -webkit-text-stroke-width: 2px;
+    -webkit-text-stroke-color: #fff;
+  }

@@ -1,0 +1,39 @@
+<div class="main">
+  <div class="container-fluid">
+    <div class="row page-header">
+      <div class="col-sm-3 title"><img src="../../../assets/images/merchant.svg" />
+        <span class="pl-2">{{ pageHeader }}</span></div>
+    </div>
+    <div class="row">
+      <div class="col tools text-right">
+        <aw-wizard [navBarLayout]="'large-filled-symbols'" class="custom-global-scss">
+          <aw-wizard-step stepTitle="Basic Information" [navigationSymbol]="{ symbol: '1' }">
+            <ng-template awWizardStepSymbol let-wizardStep="wizardStep">
+              <span *ngIf="!wizardStep.completed">1</span>
+              <span *ngIf="wizardStep.completed"><fa-icon [icon]='faCheck' size="sm"></fa-icon></span>
+            </ng-template>
+            <div>
+              Basic Information
+            </div>
+            <div>
+              <button type="button" awNextStep>Next Step</button>
+              <button type="button" [awGoToStep]="{stepIndex: 2}">Go directly to third Step</button>
+            </div>  
+          </aw-wizard-step>
+          <aw-wizard-step stepTitle="Terminal" [navigationSymbol]="{ symbol: '2' }">
+            <div>
+              Terminal
+            </div>
+            <div>
+              <button type="button" awNextStep>Next Step</button>
+              <button type="button">Save</button>
+            </div>
+          </aw-wizard-step>
+        </aw-wizard>
+      </div>
+    </div>
+    <div>
+
+    </div>
+  </div>
+</div>

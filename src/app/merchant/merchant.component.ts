@@ -1,7 +1,11 @@
 import { Component, OnInit } from '@angular/core';
-import { faPlus, faBars, faTh, faEye, faEyeSlash} from '@fortawesome/free-solid-svg-icons';
+import { faPlus, faBars, faTh, faEye, faEyeSlash } from '@fortawesome/free-solid-svg-icons';
 import { MerchantService } from './merchant.service';
-import { MerchantView } from '../model/view/merchantView';
+import { User } from '../model/user';
+import { NgxSpinnerService } from 'ngx-spinner';
+import { first } from 'rxjs/operators';
+import { LoginNotificationService } from '../shared/service/login-notification.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-merchant',
@@ -22,35 +26,72 @@ export class MerchantComponent implements OnInit {
 
   mode = 1;
 
-  merchants: Array<MerchantView>;
+  user: User;
 
-  merchantView: MerchantView;
+  merchants: Array<any>;
+  merchantCount = 0;
 
-  constructor(private merchantService: MerchantService) { }
+  constructor(private merchantService: MerchantService,
+    private loginNotifyService: LoginNotificationService,
+    private spinner: NgxSpinnerService,
+    private router: Router) { }
 
   ngOnInit(): void {
+    this.user = JSON.parse(sessionStorage.getItem('currentUser'));
     this.pageHeader = 'Merchant';
-    this.merchants = new Array<MerchantView>();
-    for (const merchant of this.merchantService.getMerchants()) {
-      this.merchantView = new MerchantView();
-      this.merchantView.aPinStatus = false;
-      this.merchantView.lPinStatus = false;
-      this.merchantView.merchant = merchant;
-      this.merchants.push(this.merchantView);
-    }
-    // this.merchants = this.merchantService.getMerchants();
+    this.onLoad();
+    this.loginNotifyService.events$.pipe(first())
+    .subscribe(
+      resp => {
+        this.user = resp;
+        this.onLoad();
+      });
   }
 
-  changeView(){
+  onLoad() {
+    if (!this.user) {
+      return;
+    }
+    console.log('User details', this.user);
+    this.spinner.show();
+    this.merchantService.getMerchants(this.user.id)
+      .pipe(first())
+      .subscribe(
+        resp => {
+          console.log('Merchant Response', resp);
+          this.merchants = resp.body;
+          for (const merchant of this.merchants) {
+            merchant.viewApin = false;
+            merchant.viewLpin = false;
+          }
+          this.merchantCount = this.merchants.length;
+          this.spinner.hide();
+        },
+        error => {
+        });
+  }
+
+  changeView() {
     this.mode = this.mode === 1 ? 2 : 1;
   }
 
-  onToggleAeccessIcon(id: number){
-    // this.selectedMerchant = this.merchants.filter(x => x.id === id);
-    //this.aIcon = this.aIcon === faEyeSlash ? faEye : faEyeSlash;
+  editMerchant(){
+    this.router.navigate(['/merchantForm']);
   }
 
-  onToggleLoginIcon(id: number){
-    //this.lIcon = this.lIcon === faEyeSlash ? faEye : faEyeSlash;
+  onToggleAeccessIcon(id: number) {
+    for (const merchant of this.merchants){
+      if (merchant.id === id){
+        merchant.viewApin = merchant.viewApin === true ? false : true;
+      }
+  }
+  }
+
+  onToggleLoginIcon(id: number) {
+    for (const merchant of this.merchants){
+      if (merchant.id === id){
+        merchant.viewLpin = merchant.viewLpin === true ? false : true;
+      }
+    }
   }
 }

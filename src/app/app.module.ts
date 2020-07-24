@@ -6,6 +6,7 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NgxSpinnerModule } from 'ngx-spinner';
 import { ToastrModule } from 'ngx-toastr';
+import { ArchwizardModule } from 'angular-archwizard';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -23,6 +24,8 @@ import { LoginComponent } from './login/login.component';
 import { LoginFormComponent } from './login-form/login-form.component';
 
 import { AppMockDataService } from './utils/services/app-mock-data.service';
+import { MerchantFormComponent } from './merchant-form/merchant-form.component';
+import { BankFormComponent } from './bank-form/bank-form.component';
 
 @NgModule({
   declarations: [
@@ -37,10 +40,13 @@ import { AppMockDataService } from './utils/services/app-mock-data.service';
     ExportComponent,
     FileDndComponent,
     LoginComponent,
-    LoginFormComponent
+    LoginFormComponent,
+    MerchantFormComponent,
+    BankFormComponent
   ],
   imports: [
     AppRoutingModule,
+    ArchwizardModule,
     BrowserModule,
     BrowserAnimationsModule,
     FontAwesomeModule,
