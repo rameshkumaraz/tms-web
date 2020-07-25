@@ -56,6 +56,9 @@ aw-wizard.custom-global-scss {
 
   aw-wizard-navigation-bar.horizontal.large-filled-symbols ul.steps-indicator {
     padding: 50px 0 10px 0 !important;
+    background-color: $white;
+    border-radius: 5px;
+    border: 1px solid $body-border-color;
   }
 
   aw-wizard-navigation-bar.horizontal.large-filled-symbols ul.steps-indicator li .step-indicator {
@@ -105,3 +108,80 @@ aw-wizard.custom-global-scss {
     }
   }
 }
+
+.form-container {
+    padding-left: 100px;
+    padding-right: 100px;
+    padding-top:20px;
+    text-align: left;
+    border: 1 solid $body-color !important;
+  }
+  
+  .form-header {
+    min-height: 50px;
+    line-height: 50px;
+    margin: 0px;
+    letter-spacing: 2px;
+    padding: 0px;
+    font-size: $font-size-lg;
+    font-weight: $font-weight-normal;
+    font-family: $font-family-medium;
+  }
+  
+  .form-container label {
+    font-size: $font-size-xs;
+    font-weight: $font-weight-lighter;
+    font-family: $font-family-base;
+  }
+  
+  .form-container .bottom-label {
+    font-size: $font-size-xs;
+    font-weight: $font-weight-lighter;
+    font-family: $font-family-base;
+    line-height: 25px;
+  }
+  
+  .form-container a {
+    font-size: $font-size-xs !important;
+    font-family: $font-family-bold !important;
+    color: $header-color !important;
+  
+  }
+  
+  .form-container a:hover {
+    color: $header-color;
+    cursor: pointer;
+  }
+  
+  .form-button {
+    height: 35px;
+    width: 125px;
+    background-color: $header-color;
+    font-size: $font-size-sm;
+    font-weight: $font-weight-lighter;
+    font-family: $font-family-light;
+    box-shadow: lightness($color: #000000);
+  }
+
+  .form-cancel {
+    height: 35px;
+    width: 125px;
+    background-color: $form-color;
+    font-size: $font-size-sm;
+    font-weight: $font-weight-lighter;
+    font-family: $font-family-light;
+    box-shadow: lightness($color: #000000);
+    border-color: $header-color;
+    color: $gray-medium;
+  }
+
+  .button-block {
+    padding-left: 100px;
+    padding-right: 100px;
+    padding-top:30px;
+    text-align: left;
+  }
+  
+  .form-control:focus {
+      box-shadow: inset 0 -1px 0 $gray-lighter;
+  }

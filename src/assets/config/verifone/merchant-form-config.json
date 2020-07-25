@@ -1,0 +1,52 @@
+{
+  "x990": {
+    "merchant": {
+      "fields": {
+        "rows": [{
+            "cols": [{
+                "name": "merchant_name",
+                "label": "Merchant Name",
+                "desc": "description about this field, should be displayed on popup on clicking info icon",
+                "type": "text",
+                "val": "",
+                "min": 10,
+                "max": 50,
+                "mandatory": true,
+                "validation": "String",
+                "editable": true
+              }
+            ]
+          },
+          {
+            "cols": [{
+                "name": "access_pin",
+                "label": "Access PIN",
+                "desc": "description about this field, should be displayed on popup on clicking info icon",
+                "type": "text",
+                "val": "",
+                "min": 15,
+                "max": 15,
+                "mandatory": true,
+                "validation": "String",
+                "editable": true
+              },
+              {
+                "name": "login_pin",
+                "label": "Login PIN",
+                "desc": "description about this field, should be displayed on popup on clicking info icon",
+                "type": "text",
+                "val": "",
+                "min": 15,
+                "max": 15,
+                "mandatory": true,
+                "validation": "String",
+                "editable": true
+              }
+            ]
+          }
+
+        ]
+      }
+    }
+  }
+}

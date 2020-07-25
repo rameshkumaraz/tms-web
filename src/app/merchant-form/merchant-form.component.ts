@@ -1,5 +1,7 @@
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { faCheck } from '@fortawesome/free-solid-svg-icons';
+import mockData from '../../assets/config/verifone/merchant-form-config.json';
+import { FormBuilder, FormGroup, FormControl } from '@angular/forms';
 
 @Component({
   selector: 'app-merchant-form',
@@ -13,9 +15,25 @@ export class MerchantFormComponent implements OnInit {
 
   pageHeader = 'New Merchant';
 
-  constructor() { }
+  formTemplate: any;
+
+  merchantForm: FormGroup;
+  submitted = false;
+  isFailed = false;
+  errMsg: string;
+
+  constructor(private formBuilder: FormBuilder) { }
 
   ngOnInit(): void {
+    this.formTemplate = mockData.x990;
+    const group = {};
+    this.formTemplate.merchant.fields.rows.forEach( row => {
+        row.cols.forEach( control => {
+          console.log('Field name', control.name);
+          group[control.name] = new FormControl('');
+        });
+      });
+    this.merchantForm = new FormGroup(group);
   }
 
 }
