@@ -1,7 +1,11 @@
 @import "../../assets/sass/variables";
 
 .form-container {
-  padding: 10px 20px;
+  padding: 10px 20px !important;
+  width: 100% !important;
+  border: 0px !important;
+  margin-top: 0px !important;
+  margin-bottom: 0px !important;
 }
 
 .form-header {

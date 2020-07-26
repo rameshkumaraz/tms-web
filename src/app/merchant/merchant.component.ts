@@ -52,7 +52,6 @@ export class MerchantComponent implements OnInit {
     if (!this.user) {
       return;
     }
-    console.log('User details', this.user);
     this.spinner.show();
     this.merchantService.getMerchants(this.user.id)
       .pipe(first())

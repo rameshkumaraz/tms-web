@@ -52,12 +52,13 @@
 .table {
   border-collapse: separate;
   border-spacing: 0px;
+  width: 100% !important;
 }
 
 .table thead {
   color: $header-color;
   font-size: $font-size-xs;
-  font-family: $font-family-light;
+  font-family: $font-family-bold;
   padding-top: 0;
   min-height: 30px;
   line-height: 30px;
@@ -133,17 +134,3 @@ select {
   font-family: $font-family-bold;
   color: $header-color;
 }
-
-// /deep/ .page-item.active .page-link{
-//     background-color: $az-blue-primary !important;
-//     color: $white !important;
-// }
-
-// /deep/ .page-link{
-//     color: $az-blue-primary !important;
-//     font-size: $font-size-sm;
-// }
-
-// /deep/ .page-item a:focus{
-//     outline:none;
-// }

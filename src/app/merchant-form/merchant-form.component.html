@@ -14,36 +14,120 @@
                 <fa-icon [icon]='faCheck' size="sm"></fa-icon>
               </span>
             </ng-template>
-            <div class="form-container">
+            <div class="form-container pt-4">
               <div class="p-1"><label class="apperr" *ngIf="isFailed">{{errMsg}}</label></div>
               <form [formGroup]="merchantForm">
                 <div *ngFor="let row of formTemplate.merchant.fields.rows">
                   <div class="row pb-4">
-                    <div [ngClass]="{'col-sm-12': row.cols.length === 1, 'col-sm-6': row.cols.length === 2}" [ngSwitch]="control.type" *ngFor="let control of row.cols">
-                      <!-- <div [ngClass]="{'col-sm-12': row.cols.length === 1, 'col-sm-6': row.cols.length === 2}" [ngSwitch]="control.type"> -->
-                        <label>{{control.label}}</label>
-                        <div *ngSwitchCase="'text'">
-                          <input type="text" class="form-control" formControlName="{{control.name}}" style="width: 50%"/>
-                        </div>
-                      <!-- </div> -->
+                    <div [ngClass]="{'col-sm-12': row.cols.length === 1, 'col-sm-6': row.cols.length === 2}"
+                      [ngSwitch]="control.type" *ngFor="let control of row.cols">
+                      <label>{{control.label}}</label>
+                      <div *ngSwitchCase="'text'">
+                        <input type="text" class="form-control" formControlName="{{control.name}}"
+                          [ngStyle]="{'width': control.width}" />
+                      </div>
+                      <div *ngSwitchCase="'textarea'">
+                        <textarea class="form-control" rows="{{control.rows}}" cols="{{control.cols}}"
+                          formControlName="{{control.name}}" [ngStyle]="{'width': control.width}"> </textarea>
+                      </div>
+                      <div *ngSwitchCase="'email'">
+                        <input type="email" class="form-control" formControlName="{{control.name}}"
+                          [ngStyle]="{'width': control.width}" />
+                      </div>
                     </div>
                   </div>
                 </div>
               </form>
-            </div>
-            <div class="button-block">
-              <button type="button" class="btn btn-primary form-cancel" [awGoToStep]="{stepIndex: 2}">Cancel</button>
-              <span class="pl-3"><button type="button" class="btn btn-primary form-button" awNextStep>Next Step</button>
-              </span>
+              <div class="button-block">
+                <span class="pr-3"><button type="button" class="btn btn-primary form-cancel"
+                    [awGoToStep]="{stepIndex: 2}">Cancel</button>
+                </span>
+                <button type="button" class="btn btn-primary form-button" awNextStep>Next Step</button>
+              </div>
             </div>
           </aw-wizard-step>
           <aw-wizard-step stepTitle="Terminal" [navigationSymbol]="{ symbol: '2' }">
-            <div>
-              Terminal
-            </div>
-            <div>
-              <button type="button" awNextStep>Next Step</button>
-              <button type="button">Save</button>
+            <div class="form-container terminal pt-4">
+              <div class="p-1"><label class="apperr" *ngIf="isFailed">{{errMsg}}</label></div>
+
+              <div class="row pb-4">
+                <div class="col-sm-3">
+                  <form [formGroup]="terminalForm" class="terminal-form">
+                    <div *ngFor="let row of formTemplate.terminal.fields.rows">
+                      <div class="row pb-4">
+                        <div [ngClass]="{'col-sm-12': row.cols.length === 1, 'col-sm-6': row.cols.length === 2}"
+                          [ngSwitch]="control.type" *ngFor="let control of row.cols">
+                          <label>{{control.label}}</label>
+                          <div *ngSwitchCase="'text'">
+                            <input type="text" class="form-control" formControlName="{{control.name}}"
+                              [ngStyle]="{'width': control.width}" />
+                          </div>
+                          <div *ngSwitchCase="'textarea'">
+                            <textarea class="form-control" rows="{{control.rows}}" cols="{{control.cols}}"
+                              formControlName="{{control.name}}" [ngStyle]="{'width': control.width}"> </textarea>
+                          </div>
+                          <div *ngSwitchCase="'email'">
+                            <input type="email" class="form-control" formControlName="{{control.name}}"
+                              [ngStyle]="{'width': control.width}" />
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="pt-2 text-right">
+                      <button type="reset" class="btn btn-primary terminal-button">Reset</button>
+                      <span class="pl-2"><button type="button" class="btn btn-primary terminal-button" (click)="addTerminal()">Add</button></span>
+                    </div>
+                  </form>
+                </div>
+                <div class="col-sm-9">
+                  <table class="table table-striped">
+                    <thead>
+                      <tr>
+                        <th scope="col">Terminal Id</th>
+                        <th scope="col">Terminal IP</th>
+                        <th scope="col">Location</th>
+                        <th scope="col">Action</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr *ngIf="terminals.length == 0"><td colspan="4">No terminal details added yet.</td></tr>
+                      <tr *ngFor="let terminal of terminals | slice: (page-1) * pageSize : (page-1) * pageSize + pageSize">
+                        <td><span class="terminalid">{{ terminal.terminal_id }}</span></td>
+                        <td>{{ terminal.terminal_ip }}</td>
+                        <td>{{ terminal.location }}</td>
+                        <td><a (click)="editTerminal(terminal.terminal_id)">
+                            <fa-icon [icon]='faEdit'></fa-icon>
+                          </a>
+                          <span class="pl-3"><a (click)="deleteTerminal(terminal.terminal_id)">
+                              <fa-icon [icon]='faArchive'></fa-icon>
+                            </a></span>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+
+                  <div class="d-flex px-2" *ngIf="terminals.length > pageSize">
+                    <div class="justify-content-between pagination">
+                      <ngb-pagination [collectionSize]="terminals.length" [(page)]="page" [pageSize]="pageSize">
+                      </ngb-pagination>
+
+                      <!-- <select [(ngModel)]="pageSize">
+                        <option [ngValue]="5">5 items per page</option>
+                        <option [ngValue]="10">10 items per page</option>
+                        <option [ngValue]="25">25 items per page</option>
+                      </select> -->
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="button-block">
+                <span class="pr-3"><button type="button" class="btn btn-primary form-cancel"
+                  (click)="cancel()">Cancel</button></span>
+                <button type="button" class="btn btn-primary form-button" awPreviousStep>Previous</button>
+                <span class="pl-2"><button type="submit" class="btn btn-primary form-button"
+                    (click)="addTerminal()">Save</button></span>
+              </div>
             </div>
           </aw-wizard-step>
         </aw-wizard>

@@ -4,6 +4,8 @@ import { NgbModalConfig, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { Router } from '@angular/router';
 import { User } from 'src/app/model/user';
 import { AuthenticationService } from 'src/app/utils/services';
+import { LoginNotificationService } from '../service/login-notification.service';
+import { first } from 'rxjs/operators';
 
 @Component({
   selector: 'app-header',
@@ -20,6 +22,7 @@ export class HeaderComponent implements OnInit {
 
   constructor(config: NgbModalConfig, private modalService: NgbModal,
     private authenticationService: AuthenticationService,
+    private loginNotifyService: LoginNotificationService,
     private router: Router) {
     // customize default values of modals used by this component tree
     config.backdrop = 'static';
@@ -29,6 +32,11 @@ export class HeaderComponent implements OnInit {
   ngOnInit(): void {
     this.profile = JSON.parse(sessionStorage.getItem('currentUser'));
     // console.log(this.profile);
+    this.loginNotifyService.events$.pipe(first())
+    .subscribe(
+      resp => {
+        this.profile = resp;
+      });
   }
 
   openModal(content) {

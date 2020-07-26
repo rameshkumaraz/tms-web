@@ -73,5 +73,5 @@
   </div>
 </ng-template>
 <ng-template #logincontent let-c="close" let-d="dismiss">
-  <app-login-form [showHeader]="true" (modelClosed)='closeModal($event, "login")'></app-login-form>
+  <app-login-form [showHeader]="true" [isPopup]="true" (modelClosed)='closeModal($event, "login")'></app-login-form>
 </ng-template>

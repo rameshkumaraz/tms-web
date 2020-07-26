@@ -69,11 +69,13 @@ export class LoginFormComponent implements OnInit {
           }
           sessionStorage.setItem('currentUser', JSON.stringify(resp.body));
           this.spinner.hide();
+
           if (!this.isPopup) {
+            this.router.navigate(['/merchant']);
+          } else {
+            console.log('Popup');
             this.loginNotifyService.notifiy(resp.body);
             this.close();
-          } else {
-            this.errMsg = '';
             return;
           }
 
