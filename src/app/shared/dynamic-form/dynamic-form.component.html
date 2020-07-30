@@ -1,0 +1,41 @@
+<div class="form-container">
+  <div class="form-header d-flex" *ngIf="formTitle">
+    {{formTitle}}
+    <span class="ml-auto">
+      <a (click)="close()">
+        <fa-icon [icon]='faTimes'></fa-icon>
+      </a>
+    </span>
+  </div>
+  <div class="p-1"><label class="apperr" *ngIf="isFailed">{{errMsg}}</label></div>
+
+  <form [formGroup]="formGroup" class="terminal-form">
+    <div *ngFor="let row of formConfig.fields.rows">
+      <div class="row pb-4">
+        <div [ngClass]="{'col-sm-12': row.cols.length === 1, 'col-sm-6': row.cols.length === 2}"
+          [ngSwitch]="control.type" *ngFor="let control of row.cols">
+          <label>{{control.label}}</label>
+          <div *ngSwitchCase="'text'">
+            <input type="text" class="form-control" formControlName="{{control.name}}"
+              [ngStyle]="{'width': control.width}" />
+          </div>
+          <div *ngSwitchCase="'textarea'">
+            <textarea class="form-control" rows="{{control.rows}}" cols="{{control.cols}}"
+              formControlName="{{control.name}}" [ngStyle]="{'width': control.width}"> </textarea>
+          </div>
+          <div *ngSwitchCase="'email'">
+            <input type="email" class="form-control" formControlName="{{control.name}}"
+              [ngStyle]="{'width': control.width}" />
+          </div>
+        </div>
+      </div>
+    </div>
+  </form>
+
+  <div class="button-block">
+    <!-- <span class="pr-3"><button type="button" class="btn btn-primary form-cancel"
+        (click)="cancel()">Cancel</button></span> -->
+    <span class="pl-2"><button type="button" class="btn btn-primary modal-button" (click)="save()">Save</button></span>
+    <span class="pl-2" *ngIf="addMore"><button type="button" class="btn btn-primary modal-button" (click)="saveMore()">Add More</button></span>
+  </div>
+</div>

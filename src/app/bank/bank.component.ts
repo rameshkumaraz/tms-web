@@ -9,6 +9,8 @@ export class BankComponent implements OnInit {
 
   private pageHeader: string;
 
+  bank: any;
+
   constructor() { }
 
   ngOnInit(): void {

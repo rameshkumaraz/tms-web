@@ -26,6 +26,7 @@ import { LoginFormComponent } from './login-form/login-form.component';
 import { AppMockDataService } from './utils/services/app-mock-data.service';
 import { MerchantFormComponent } from './merchant-form/merchant-form.component';
 import { BankFormComponent } from './bank-form/bank-form.component';
+import { DynamicFormComponent } from './shared/dynamic-form/dynamic-form.component';
 
 @NgModule({
   declarations: [
@@ -42,7 +43,8 @@ import { BankFormComponent } from './bank-form/bank-form.component';
     LoginComponent,
     LoginFormComponent,
     MerchantFormComponent,
-    BankFormComponent
+    BankFormComponent,
+    DynamicFormComponent
   ],
   imports: [
     AppRoutingModule,

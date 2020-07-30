@@ -1,7 +1,7 @@
 <div class="dropzone" appDnd (fileDropped)="onFileDropped($event)">
   <div *ngIf="showFileOption" class="container">
     <div class="input-container">
-      <input type="file" multiple #fileDropRef id="fileDropRef" accept="application/JSON" (change)="fileBrowseHandler($event.target.files)" />
+      <input type="file" #fileDropRef id="fileDropRef" accept="application/JSON" (change)="fileBrowseHandler($event.target)" />
     </div>
     <div class="info">
       <img src="../../../assets/images/upload.svg"><br>

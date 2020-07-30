@@ -8,7 +8,7 @@ import { faTrash } from '@fortawesome/free-solid-svg-icons';
 })
 export class FileDndComponent implements OnInit {
 
-  @Input() multiple: boolean;
+  multiple: boolean;
 
   faTrash = faTrash;
 
@@ -31,8 +31,13 @@ export class FileDndComponent implements OnInit {
   /**
    * handle file from browsing
    */
-  fileBrowseHandler(files) {
-    this.prepareFilesList(files);
+  fileBrowseHandler(target) {
+    // console.log(target);
+    // console.log(target.multiple);
+    if (target.multiple){
+      this.multiple = true;
+    }
+    this.prepareFilesList(target.files);
   }
 
   /**

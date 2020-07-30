@@ -39,19 +39,18 @@
                 </div>
               </form>
               <div class="button-block">
-                <span class="pr-3"><button type="button" class="btn btn-primary form-cancel"
-                    [awGoToStep]="{stepIndex: 2}">Cancel</button>
+                <span class="pr-3"><button type="button" class="btn btn-primary form-button-cancel"
+                    (click)="cancel()">Cancel</button>
                 </span>
-                <button type="button" class="btn btn-primary form-button" awNextStep>Next Step</button>
+                <button type="button" class="btn btn-primary form-button-action" awNextStep>Next Step</button>
               </div>
             </div>
           </aw-wizard-step>
           <aw-wizard-step stepTitle="Terminal" [navigationSymbol]="{ symbol: '2' }">
-            <div class="form-container terminal pt-4">
+            <div class="form-container pt-4">
               <div class="p-1"><label class="apperr" *ngIf="isFailed">{{errMsg}}</label></div>
-
               <div class="row pb-4">
-                <div class="col-sm-3">
+                <!-- <div class="col-sm-4">
                   <form [formGroup]="terminalForm" class="terminal-form">
                     <div *ngFor="let row of formTemplate.terminal.fields.rows">
                       <div class="row pb-4">
@@ -73,34 +72,48 @@
                         </div>
                       </div>
                     </div>
-                    <div class="pt-2 text-right">
-                      <button type="reset" class="btn btn-primary terminal-button">Reset</button>
-                      <span class="pl-2"><button type="button" class="btn btn-primary terminal-button" (click)="addTerminal()">Add</button></span>
+                    <div class="text-right">
+                      <div style="display: inline;">
+                        <a class="terminal-button" (click)="resetTerminal()">
+                          <fa-icon [icon]='faUndo'></fa-icon><span class="pl-2">Reset</span>
+                        </a>
+                      </div>
+                      <div class="pl-2" style="display: inline;">
+                        <a class="terminal-button" (click)="addTerminal()">
+                          <fa-icon [icon]='faPlus'></fa-icon><span class="pl-2">Add</span>
+                        </a>
+                      </div>
                     </div>
                   </form>
-                </div>
-                <div class="col-sm-9">
+                </div> -->
+                <div class="col-sm-12">
                   <table class="table table-striped">
-                    <thead>
+                    <thead width="75%">
                       <tr>
                         <th scope="col">Terminal Id</th>
-                        <th scope="col">Terminal IP</th>
-                        <th scope="col">Location</th>
+                        <!-- <th scope="col">Terminal IP</th>
+                        <th scope="col">Location</th> -->
                         <th scope="col">Action</th>
                       </tr>
                     </thead>
                     <tbody>
-                      <tr *ngIf="terminals.length == 0"><td colspan="4">No terminal details added yet.</td></tr>
-                      <tr *ngFor="let terminal of terminals | slice: (page-1) * pageSize : (page-1) * pageSize + pageSize">
+                      <tr *ngIf="terminals.length == 0">
+                        <td colspan="4"><a (click)="openModal(terminalform)">Add New Terminal</a></td>
+                      </tr>
+                      <tr
+                        *ngFor="let terminal of terminals | slice: (page-1) * pageSize : (page-1) * pageSize + pageSize">
                         <td><span class="terminalid">{{ terminal.terminal_id }}</span></td>
-                        <td>{{ terminal.terminal_ip }}</td>
-                        <td>{{ terminal.location }}</td>
-                        <td><a (click)="editTerminal(terminal.terminal_id)">
+                        <!-- <td>{{ terminal.terminal_ip }}</td>
+                        <td>{{ terminal.location }}</td> -->
+                        <td>
+                          <!-- <a (click)="editTerminal(terminal.terminal_id)">
                             <fa-icon [icon]='faEdit'></fa-icon>
                           </a>
-                          <span class="pl-3"><a (click)="deleteTerminal(terminal.terminal_id)">
-                              <fa-icon [icon]='faArchive'></fa-icon>
-                            </a></span>
+                          <span class="pl-3"> -->
+                          <a (click)="deleteTerminal(terminal.terminal_id)">
+                            <fa-icon [icon]='faArchive'></fa-icon>
+                          </a>
+                          <!-- </span> -->
                         </td>
                       </tr>
                     </tbody>
@@ -111,22 +124,33 @@
                       <ngb-pagination [collectionSize]="terminals.length" [(page)]="page" [pageSize]="pageSize">
                       </ngb-pagination>
 
-                      <!-- <select [(ngModel)]="pageSize">
+                      <select [(ngModel)]="pageSize">
                         <option [ngValue]="5">5 items per page</option>
                         <option [ngValue]="10">10 items per page</option>
                         <option [ngValue]="25">25 items per page</option>
-                      </select> -->
+                      </select>
                     </div>
                   </div>
                 </div>
               </div>
 
               <div class="button-block">
-                <span class="pr-3"><button type="button" class="btn btn-primary form-cancel"
-                  (click)="cancel()">Cancel</button></span>
-                <button type="button" class="btn btn-primary form-button" awPreviousStep>Previous</button>
-                <span class="pl-2"><button type="submit" class="btn btn-primary form-button"
-                    (click)="addTerminal()">Save</button></span>
+                <span class="pr-3"><button type="button" class="btn btn-primary form-button-cancel"
+                    (click)="cancel()">Cancel</button></span>
+                <button type="button" class="btn btn-primary form-button-action" awPreviousStep>Previous</button>
+                <span class="pl-2"><button type="submit" class="btn btn-primary form-button-action"
+                    awNextStep>Next</button></span>
+              </div>
+            </div>
+          </aw-wizard-step>
+          <aw-wizard-step stepTitle="Bank Data" [navigationSymbol]="{ symbol: '3' }">
+            <div class="form-container pt-4">
+              <div class="button-block">
+                <span class="pr-3"><button type="button" class="btn btn-primary form-button-cancel"
+                    (click)="cancel()">Cancel</button></span>
+                <button type="button" class="btn btn-primary form-button-action" awPreviousStep>Previous</button>
+                <span class="pl-2"><button type="submit" class="btn btn-primary form-button-action"
+                    (click)="saveMerchant()">Save</button></span>
               </div>
             </div>
           </aw-wizard-step>
@@ -134,7 +158,9 @@
       </div>
     </div>
     <div>
-
     </div>
   </div>
 </div>
+<ng-template #terminalform let-c="close" let-d="dismiss">
+  <app-dynamic-form [formTitle]="terminalFormTitle" [formConfig]="terminalFormConfig" [addMore]="true" (modelClosed)='closeModal($event)'></app-dynamic-form>
+</ng-template>

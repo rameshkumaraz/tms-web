@@ -12,7 +12,7 @@
           <a class="nav-link" routerLink="/merchant">Merchant <span class="sr-only">(current)</span></a>
         </li>
         <li class="nav-item" routerLinkActive="active">
-          <a class="nav-link" routerLink="/bank">Bank</a>
+          <a class="nav-link" routerLink="/bank">Bank Data</a>
         </li>
         <!-- <li class="nav-item" routerLinkActive="active">
           <a class="nav-link" routerLink="/import">Import</a>
@@ -60,7 +60,7 @@
   </div>
   <div class="modal-body">
     <p class="modal-info">You can import a previously configured JSON file using AzPay Configurator</p>
-    <app-file-dnd [multiple]="false"></app-file-dnd>
+    <app-file-dnd></app-file-dnd>
   </div>
   <div class="modal-footer mt-4">
       <button class="button modal-button">
