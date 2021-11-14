@@ -3,38 +3,47 @@ import { Observable, of } from 'rxjs';
 import { ApiResponse } from '../shared/model/api.response';
 import { AppMockDataService } from '../utils/services/app-mock-data.service';
 import { ResponseHandlerService } from '../shared/service/response-handler.service';
+import { HttpClient } from '@angular/common/http';
 
 @Injectable({
   providedIn: 'root'
 })
 export class LoginService {
 
-  constructor( private mockDataService: AppMockDataService, private responseHandler: ResponseHandlerService ) { }
+  constructor( private http: HttpClient, 
+    private mockDataService: AppMockDataService, 
+    private responseHandler: ResponseHandlerService ) { }
 
-  // postLogin(bodyJSON): Observable<ApiResponse> {
+  postLogin(bodyJSON): Observable<ApiResponse> {
 
-  //   for ( const user of this.mockDataService.getUsers()){
-  //       if (bodyJSON.email === user.email && bodyJSON.password === user.password){
-  //         return of(this.responseHandler.handleResponse(user));
-  //       }
-  //   }
+    console.log(bodyJSON);
 
-  //   return of(this.responseHandler.handleErrorMessage('Invalid email / password', 401));
+    this.http.post<any>('http://localhost:3000/auth/login', bodyJSON).subscribe(data => {
+      return of(this.responseHandler.handleResponse(data));
+    })
 
-  //   // const apiUrl = AppSettings.API_CONTEXT + AppSettings.ENDPOINTS.authentication.login;
+    // for ( const user of this.mockDataService.getUsers()){
+    //     if (bodyJSON.email === user.email && bodyJSON.password === user.password){
+    //       return of(this.responseHandler.handleResponse(user));
+    //     }
+    // }
 
-  //   // return this.http.post(apiUrl, bodyJSON, { observe: 'response' }).pipe(map((resp) => {
+    return of(this.responseHandler.handleErrorMessage('Invalid email / password', 401));
 
-  //   //   let currentUser = {
-  //   //     profile: resp.body,
-  //   //     token: resp.headers.get('authorization')
-  //   //   }
-  //   //   sessionStorage.setItem('currentUser', JSON.stringify(currentUser));
+    // const apiUrl = AppSettings.API_CONTEXT + AppSettings.ENDPOINTS.authentication.login;
 
-  //   //   return this.responseHandler.handleResponse(resp);
-  //   // })).pipe(catchError((error, caught) => {
-  //   //   return of(this.responseHandler.handleErrorResponse(error));
-  //   // }) as any);
-  //   return null;
-  // }
+    // return this.http.post(apiUrl, bodyJSON, { observe: 'response' }).pipe(map((resp) => {
+
+    //   let currentUser = {
+    //     profile: resp.body,
+    //     token: resp.headers.get('authorization')
+    //   }
+    //   sessionStorage.setItem('currentUser', JSON.stringify(currentUser));
+
+    //   return this.responseHandler.handleResponse(resp);
+    // })).pipe(catchError((error, caught) => {
+    //   return of(this.responseHandler.handleErrorResponse(error));
+    // }) as any);
+    return null;
+  }
 }

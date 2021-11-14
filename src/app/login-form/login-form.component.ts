@@ -6,6 +6,8 @@ import { Router } from '@angular/router';
 import { first } from 'rxjs/operators';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { LoginNotificationService } from '../shared/service/login-notification.service';
+import { ApiResponse } from '../shared/model/api.response';
+import { HttpStatusCode } from '@angular/common/http';
 
 @Component({
   selector: 'app-login-form',
@@ -34,7 +36,7 @@ export class LoginFormComponent implements OnInit {
 
   ngOnInit() {
     this.loginForm = this.formBuilder.group({
-      email: ['', [Validators.required, Validators.email]],
+      username: ['', [Validators.required, Validators.email]],
       password: ['', [Validators.required, Validators.minLength(8)]]
     });
   }
@@ -59,28 +61,30 @@ export class LoginFormComponent implements OnInit {
     this.authenticationService.login(bodyJSON)
       .pipe(first())
       .subscribe(
-        resp => {
-          // console.log('Response', resp);
-          if (!resp.ok) {
+        (resp : ApiResponse) => {
+          console.log('Response', resp);
+          if (resp.code == HttpStatusCode.Unauthorized) {
             this.spinner.hide();
             this.isFailed = true;
-            this.errMsg = resp.body;
+            this.errMsg = resp.message;
             return;
           }
-          sessionStorage.setItem('currentUser', JSON.stringify(resp.body));
+          sessionStorage.setItem('access_token', resp.message.access_token);
+          sessionStorage.setItem('user_profile', resp.message.user_profile);
           this.spinner.hide();
 
           if (!this.isPopup) {
             this.router.navigate(['/merchant']);
           } else {
             console.log('Popup');
-            this.loginNotifyService.notifiy(resp.body);
+            this.loginNotifyService.notifiy(resp.message);
             this.close();
             return;
           }
 
         },
         error => {
+          console.log('Login error', error);
           this.isFailed = true;
           this.spinner.hide();
         });

@@ -7,6 +7,8 @@ import { AppMockDataService } from '../services/app-mock-data.service';
 import { AppSettings } from '../../app.config';
 import { environment } from '../../../environments/environment';
 import { User } from 'src/app/model/user';
+import { ResponseHandlerService } from '../../shared/service/response-handler.service';
+import { ApiResponse } from 'src/app/shared/model/api.response';
 
 @Injectable({ providedIn: 'root' })
 export class AuthenticationService {
@@ -18,7 +20,9 @@ export class AuthenticationService {
     //     this.currentUser = this.currentUserSubject.asObservable();
     // }
 
-    constructor(private mockDataService: AppMockDataService) {
+    constructor(private http: HttpClient,
+        private mockDataService: AppMockDataService,
+        private responseHandler: ResponseHandlerService) {
         this.currentUserSubject = new BehaviorSubject<User>(JSON.parse(localStorage.getItem('currentUser')));
         this.currentUser = this.currentUserSubject.asObservable();
     }
@@ -30,6 +34,8 @@ export class AuthenticationService {
     login(bodyJSON) {
         const apiUrl = AppSettings.API_CONTEXT + AppSettings.ENDPOINTS.login;
 
+        console.log('API URL:', apiUrl);
+
         if (environment.mockResponse) {
             let user;
             this.mockDataService.getUsers().forEach(mockUser => {
@@ -40,15 +46,23 @@ export class AuthenticationService {
                 }
             });
             if (!user){
-                return of(new HttpResponse({ status: 401, body: 'Invalid email / password' })).pipe(
-                    delay(environment.mockResponseDelay || 100));
+                // return of(new HttpResponse({ status: 401, body: 'Invalid email / password' })).pipe(
+                //     delay(environment.mockResponseDelay || 100));
+                return of(this.responseHandler.handleResponse({ status: 401, body: 'Invalid email / password' })).pipe(
+                    delay(environment.mockResponseDelay || 100));    
             }
-            return of(new HttpResponse({ status: 200, body: user})).pipe(
-                delay(environment.mockResponseDelay || 100));
+            // return of(new HttpResponse({ status: 200, body: user})).pipe(
+            //     delay(environment.mockResponseDelay || 100));
+            return of(this.responseHandler.handleResponse({ status: 200, body: user})).pipe(
+                    delay(environment.mockResponseDelay || 100));
         }
         else {
-            // return this.http.post(apiUrl, bodyJSON, { observe: 'response' });
-            return of(new HttpResponse({ status: 500, body: 'Yet to be implemented' })).pipe(delay(environment.mockResponseDelay || 100));
+            console.log('Login body: ', bodyJSON);
+            // return this.http.post(apiUrl, bodyJSON).subscribe(data => {
+            //     return of(this.responseHandler.handleResponse(data));
+            // })
+            // return of(new HttpResponse({ status: 500, body: 'Yet to be implemented' })).pipe(delay(environment.mockResponseDelay || 100));
+            return this.http.post(apiUrl, bodyJSON);
         }
     }
 

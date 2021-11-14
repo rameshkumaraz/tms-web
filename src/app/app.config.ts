@@ -1,8 +1,8 @@
 export class AppSettings {
-    public static API_CONTEXT = 'http://41.190.142.252:8092/';
+    public static API_CONTEXT = 'http://localhost:3000/';
 
     public static ENDPOINTS = {
-        'login': '',
+        'login': 'auth/login',
         'projects': {
             'recentProjects': '',
             'allProjects': '',

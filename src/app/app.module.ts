@@ -27,6 +27,7 @@ import { AppMockDataService } from './utils/services/app-mock-data.service';
 import { MerchantFormComponent } from './merchant-form/merchant-form.component';
 import { BankFormComponent } from './bank-form/bank-form.component';
 import { DynamicFormComponent } from './shared/dynamic-form/dynamic-form.component';
+import { HttpClientModule } from '@angular/common/http';
 
 @NgModule({
   declarations: [
@@ -53,6 +54,7 @@ import { DynamicFormComponent } from './shared/dynamic-form/dynamic-form.compone
     BrowserAnimationsModule,
     FontAwesomeModule,
     FormsModule,
+    HttpClientModule,
     NgbModule,
     NgxSpinnerModule,
     ReactiveFormsModule,
