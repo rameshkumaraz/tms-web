@@ -11,6 +11,7 @@ export class AppComponent {
 
   showHeader = false;
   showFooter = false;
+  showSidebar = false;
 
   constructor(public router: Router) {
     router.events.subscribe((res: any) => {
@@ -19,12 +20,14 @@ export class AppComponent {
         router.url.indexOf('/login') === 0 ||
         router.url === '/reset-password' ||
         router.url === '/forgotPass' ||
-        router.url === '/l3config'
+        router.url === '/error'
       ) {
         this.showHeader = false;
         this.showFooter = false;
+        this.showSidebar = false;
       } else {
         this.showHeader = true;
+        this.showFooter = true;
         this.showFooter = true;
       }
     });

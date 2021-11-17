@@ -13,8 +13,9 @@ export class ResponseHandlerService {
   constructor() { }
 
   handleResponse(response: any) {
+    console.log(response);
     this.apiResponse = new ApiResponse();
-    this.apiResponse.message = response;
+    this.apiResponse.message = response.body;
     this.apiResponse.status = 'Success';
     this.apiResponse.code = 200;
     return this.apiResponse;
@@ -23,19 +24,18 @@ export class ResponseHandlerService {
   handleErrorResponse(error: HttpErrorResponse) {
     this.apiResponse = new ApiResponse();
     this.apiResponse.status = 'Error';
-    // if(error.error.code)
-    //     apiResponse.code = error.error.code;
-    // else 
-    //     apiResponse.code = 500;
-
-    // if(error.error.status === 401){
-    //     apiResponse.message = "Invalid User name/Password.";
-    // } else {
-    //     if(error.error.message)
-    //         apiResponse.message = error.error.message;
-    //     else 
-    //         apiResponse.message = 'Unable to process you request, please contact administrator.';
-    // }
+    if(error instanceof HttpErrorResponse) {
+      this.apiResponse.code = error.status;
+      if(this.apiResponse.code === 401 )
+        this.apiResponse.message = "Invalid User name/Password.";
+      else {
+        this.apiResponse.message = error.message;
+      }  
+    } else {
+      console.log("AppHttpInterceptor - ", error);
+      this.apiResponse.code = 500;
+      this.apiResponse.message = 'Unable to process your request, please contact administrator.';
+    }
     return this.apiResponse;
   }
 

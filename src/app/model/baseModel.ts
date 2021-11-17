@@ -5,4 +5,5 @@ export class BaseModel {
     modifiedBy: string;
     modifiedDate: string;
     version: number;
+    status: boolean;
 }

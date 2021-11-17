@@ -1,0 +1,67 @@
+<div class="main">
+    <div class="container-fluid">
+      <div class="row page-header">
+        <div class="col-sm-3 title"><img src="../../../assets/images/merchant.svg" />
+          <span class="pl-2">{{ pageHeader }}</span>
+          <span class="count pl-2">({{ locationCount }})</span></div>
+        <div class="col-sm-9 tools text-right">
+          <button class="button" (click)="editDevice()">
+            <fa-icon [icon]='faPlus' size="lg"></fa-icon><span class="pl-2">Add
+              New Device</span>
+          </button>
+          <span class="pl-3 header-icon"><a (click)="changeView()">
+              <fa-icon [icon]='faTh'></fa-icon>
+            </a></span>
+          <span class="pl-3 header-icon"><a (click)="changeView()">
+              <fa-icon [icon]='faBars'></fa-icon>
+            </a></span>
+        </div>
+      </div>
+      <div *ngIf="locationCount === 0" class="info">
+          No devices are created yet.
+          <ul>
+            <li>New device can be created by using <span class="info-highlight">Add New Device</span> option.</li>
+          </ul>
+      </div>
+      <!-- <div class="pt-2" *ngIf="mode == 1">
+        <app-merchant-card [(merchants)]="merchants"></app-merchant-card>
+      </div>
+      <div class="pt-2" *ngIf="mode == 2">
+  
+        <table class="table table-striped">
+          <thead>
+            <tr>
+              <th scope="col">Name</th>
+              <th scope="col">Access PIN</th>
+              <th scope="col">Login PIN</th>
+              <th scope="col">Primary IP</th>
+              <th scope="col">Primary Port</th>
+              <th scope="col">Secondary IP</th>
+              <th scope="col">Secondary Port</th>
+              <th scope="col">Address</th>
+              <th scope="col">Configured Date</th>
+              <th scope="col">Action</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let location of locations | slice: (page-1) * pageSize : (page-1) * pageSize + pageSize">
+              <td><span class="merchantName">{{ location.name }}</span></td>
+              <td></td>
+            </tr>
+          </tbody>
+        </table>
+  
+        <div class="d-flex justify-content-between px-2">
+          <ngb-pagination [collectionSize]="locations.length" [(page)]="page" [pageSize]="pageSize">
+          </ngb-pagination>
+  
+          <select [(ngModel)]="pageSize">
+            <option [ngValue]="5">5 items per page</option>
+            <option [ngValue]="10">10 items per page</option>
+            <option [ngValue]="25">25 items per page</option>
+          </select>
+        </div>
+      </div>-->
+    </div>
+  </div>
+  

@@ -58,36 +58,37 @@ export class LoginFormComponent implements OnInit {
 
     const bodyJSON = this.loginForm.value;
     this.spinner.show();
-    this.authenticationService.login(bodyJSON)
-      .pipe(first())
-      .subscribe(
-        (resp : ApiResponse) => {
-          console.log('Response', resp);
-          if (resp.code == HttpStatusCode.Unauthorized) {
-            this.spinner.hide();
-            this.isFailed = true;
-            this.errMsg = resp.message;
-            return;
-          }
-          sessionStorage.setItem('access_token', resp.message.access_token);
-          sessionStorage.setItem('user_profile', resp.message.user_profile);
-          this.spinner.hide();
+    this.authenticationService.login(bodyJSON).subscribe((resp: ApiResponse) => {
+      console.log(resp);
+      sessionStorage.setItem('access_token', resp.message.access_token);
+      sessionStorage.setItem('user_profile', resp.message.user_profile);
+      this.authenticationService.loadUserProfile();
+      this.spinner.hide();
+      if (!this.isPopup) {
 
-          if (!this.isPopup) {
-            this.router.navigate(['/merchant']);
-          } else {
-            console.log('Popup');
-            this.loginNotifyService.notifiy(resp.message);
-            this.close();
-            return;
-          }
-
-        },
-        error => {
-          console.log('Login error', error);
-          this.isFailed = true;
-          this.spinner.hide();
-        });
+        let profile = JSON.parse(resp.message.user_profile);
+        console.log('roleId....',profile.roleId);
+        if(profile.roleId === 1)
+          this.router.navigate(['/dashboard']);
+        else
+          this.router.navigate(['/mdashboard']);
+      } else {
+        console.log('Popup');
+        this.loginNotifyService.notifiy(resp.message);
+        this.close();
+        return;
+      }
+    },
+      err => {
+        console.log('Login error', err);
+        if (err.code === 401) {
+          this.authenticationService.logout();
+          // location.reload();
+        }
+        this.errMsg = err.message;
+        this.isFailed = true;
+        this.spinner.hide();
+      });
   }
 
   close() {

@@ -7,45 +7,52 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NgxSpinnerModule } from 'ngx-spinner';
 import { ToastrModule } from 'ngx-toastr';
 import { ArchwizardModule } from 'angular-archwizard';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import {AuthGuard} from './utils/guards';
 import { HeaderComponent } from './shared/header/header.component';
 import { FooterComponent } from './shared/footer/footer.component';
+import { DashboardComponent } from './dashboard/dashboard.component';
 import { MerchantComponent } from './merchant/merchant.component';
 import { PageHeaderComponent } from './shared/page-header/page-header.component';
-import { BankComponent } from './bank/bank.component';
 import { MerchantCardComponent } from './merchant-card/merchant-card.component';
-import { ImportComponent } from './import/import.component';
-import { ExportComponent } from './export/export.component';
 import { FileDndComponent } from './shared/file-dnd/file-dnd.component';
 import { LoginComponent } from './login/login.component';
 import { LoginFormComponent } from './login-form/login-form.component';
 
 import { AppMockDataService } from './utils/services/app-mock-data.service';
 import { MerchantFormComponent } from './merchant-form/merchant-form.component';
-import { BankFormComponent } from './bank-form/bank-form.component';
 import { DynamicFormComponent } from './shared/dynamic-form/dynamic-form.component';
-import { HttpClientModule } from '@angular/common/http';
+import { AppHttpInterceptor } from './utils/helpers/app-http.interceptor';
+import { LocationComponent } from './location/location.component';
+import { DeviceComponent } from './device/device.component';
+import { ApplicationComponent } from './application/application.component';
+import { DownloadComponent } from './download/download.component';
+import { MerchantDashboardComponent } from './merchant-dashboard/merchant-dashboard.component';
+import { ErrorComponent } from './shared/error/error.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     HeaderComponent,
     FooterComponent,
+    DashboardComponent,
     MerchantComponent,
     PageHeaderComponent,
-    BankComponent,
     MerchantCardComponent,
-    ImportComponent,
-    ExportComponent,
     FileDndComponent,
     LoginComponent,
     LoginFormComponent,
+    LocationComponent,
+    DeviceComponent,
+    ApplicationComponent,
+    DownloadComponent,
     MerchantFormComponent,
-    BankFormComponent,
-    DynamicFormComponent
+    DynamicFormComponent,
+    MerchantDashboardComponent,
+    ErrorComponent
   ],
   imports: [
     AppRoutingModule,
@@ -62,7 +69,12 @@ import { HttpClientModule } from '@angular/common/http';
   ],
   providers: [
     AuthGuard,
-    AppMockDataService
+    AppMockDataService,
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: AppHttpInterceptor,
+      multi: true
+    }
   ],
   bootstrap: [AppComponent]
 })

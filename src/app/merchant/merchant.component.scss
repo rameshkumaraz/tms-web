@@ -122,15 +122,3 @@ select {
   border-color: $header-color;
   border-radius: 3px;
 }
-
-.info{
-  font-family: $font-family-light;
-  font-size: $font-size-sm;
-  font-weight: $font-weight-lighter;
-}
-
-.info-highlight{
-  font-size: $font-size-sm;
-  font-family: $font-family-bold;
-  color: $header-color;
-}

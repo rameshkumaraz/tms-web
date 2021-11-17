@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { faUser, faSignInAlt, faSignOutAlt } from '@fortawesome/free-solid-svg-icons';
 import { NgbModalConfig, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { Router } from '@angular/router';
@@ -13,6 +13,8 @@ import { first } from 'rxjs/operators';
   styleUrls: ['./header.component.scss']
 })
 export class HeaderComponent implements OnInit {
+
+  @Input() opened: string;
 
   profile: User;
 
@@ -30,7 +32,7 @@ export class HeaderComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.profile = JSON.parse(sessionStorage.getItem('currentUser'));
+    this.profile = JSON.parse(sessionStorage.getItem('user_profile'));
     // console.log(this.profile);
     this.loginNotifyService.events$.pipe(first())
     .subscribe(

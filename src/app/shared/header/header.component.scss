@@ -18,15 +18,16 @@
 }
 
 .navbar-nav .nav-item{
-    height: 70px;
-    padding-left: 25px;
-    padding-right: 25px;
+    height: 75px;
+    padding-left: 5px;
+    padding-right: 5px;
 }
 
 .navbar-nav .nav-item:first-child{
-    padding-left: 75px;
+    padding-left: 50px;
 }
 
+//----
 // .navbar-nav .nav-link .profile{
 //     font-size: $font-size-xs !important;
 //     font-weight: $font-weight-lighter !important;
@@ -37,7 +38,7 @@
     font-size: $font-size-sm;
     font-family: $font-family-bold;
     color: $white;
-    line-height: 50px;
+    // line-height: 50px;
 }
 
 .nav-item > a:hover {
@@ -46,9 +47,31 @@
 
 .navbar-nav .active > .nav-link{
     color: #f2994a;
-    border-bottom: 3px solid transparent;
-    border-bottom-color: #f2994a;
-    border-radius: 3px;
+    // border-bottom: 3px solid transparent;
+    // border-bottom-color: #f2994a;
+    // border-radius: 3px;
+}
+
+.nav-mi {
+    line-height: 90px !important;
+}
+
+.nav-sm {
+    left: 50px !important;
+    top: 70px !important;
+    padding: 0px !important;
+}
+
+.nav-smi {
+    line-height: 25px !important;
+    padding: 0.25rem 0.75rem !important;
+    font-size: $font-size-xs !important;
+    font-family: $font-family-bold !important;
+}
+
+.nav-sm > a:hover {
+    color: $white;
+    background-color: $header-color;
 }
 
 .profile {
@@ -57,6 +80,7 @@
     font-family: $font-family-light !important;
     color: $white;
     vertical-align: bottom;
+    line-height: 60px !important;
 }
 
 .user-name {
