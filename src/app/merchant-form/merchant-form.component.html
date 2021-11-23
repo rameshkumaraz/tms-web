@@ -6,8 +6,187 @@
     </div>
     <div class="row">
       <div class="col tools text-right">
-        <aw-wizard [navBarLayout]="'large-filled-symbols'" class="custom-global-scss">
-          <aw-wizard-step stepTitle="Basic Information" [navigationSymbol]="{ symbol: '1' }">
+        <div class="form-container pt-4">
+          <div class="p-1"><label class="apperr" *ngIf="isFailed">{{errMsg}}</label></div>
+          <form [formGroup]="merchantForm">
+            <div class="modal-body">
+              <div formGroupName="merchant">
+                <h6 style="color: #353d9f !important;">Merchant Information</h6>
+                <div class="form-row">
+                  <div class="form-group col-sm-6 required">
+                    <label for="name" class="asterisk-if-mandatory">Name</label>
+                    <input required formControlName="name" id="name" type="text" class="form-control"
+                      autocomplete="off" [ngClass]="{ 'is-invalid': formSubmitted && mf.name.errors }">
+                    <div *ngIf="formSubmitted && mf.name.errors" class="invalid-feedback">
+                      <div *ngIf="mf.name.errors.required">Name is required</div>
+                      <div *ngIf="mf.name.errors?.minlength">Name must be at least 5 characters long.</div>
+                    </div>
+                  </div>
+                </div>
+                <div class="form-row">
+                  <div class="form-group col-sm-12 required">
+                    <label for="address1" class="asterisk-if-mandatory">Address 1</label>
+                    <input required formControlName="address1" id="address1" type="text" class="form-control"
+                      autocomplete="off" [ngClass]="{ 'is-invalid': formSubmitted && mf.address1.errors }">
+                    <div *ngIf="formSubmitted && mf.address1.errors" class="invalid-feedback">
+                      <div *ngIf="mf.address1.errors.required">Address1 is required</div>
+                      <div *ngIf="mf.address1.errors.minlength">Address1 must be at least 5 characters long.</div>
+                    </div>
+                  </div>
+                </div>
+                <div class="form-row">
+                  <div class="form-group col-sm-12">
+                    <label for="address2">Address 2</label>
+                    <input formControlName="address2" id="address2" type="text" class="form-control"
+                      autocomplete="off" [ngClass]="{ 'is-invalid': formSubmitted && mf.address2.errors }">
+                    <div *ngIf="formSubmitted && mf.address2.errors" class="invalid-feedback">
+                      <div *ngIf="mf.address2.errors.minlength">Address2 must be at least 5 characters long.</div>
+                    </div>
+                  </div>
+                </div>
+                <div class="form-row">
+                  <div class="form-group col-sm-6 required">
+                    <label for="city" class="asterisk-if-mandatory">City</label>
+                    <input required formControlName="city" id="city" type="text" class="form-control"
+                      autocomplete="off" [ngClass]="{ 'is-invalid': formSubmitted && mf.city.errors }">
+                    <div *ngIf="formSubmitted && mf.city.errors" class="invalid-feedback">
+                      <div *ngIf="mf.city.errors.required">City is required</div>
+                      <div *ngIf="mf.city.errors.minLength">City must be at least 3 characters long.</div>
+                    </div>
+                  </div>
+                  <div class="form-group col-sm-4 required">
+                    <label for="state" class="asterisk-if-mandatory">Stage</label>
+                    <input required formControlName="state" id="state" type="text" class="form-control"
+                      autocomplete="off" [ngClass]="{ 'is-invalid': formSubmitted && mf.state.errors }">
+                    <div *ngIf="formSubmitted && mf.state.errors" class="invalid-feedback">
+                      <div *ngIf="mf.state.errors.required">State is required</div>
+                    </div>
+                  </div>
+                </div>
+                <div class="form-row"><div class="form-group col-sm-6"></div></div>
+                <div class="form-row">
+                  <div class="form-group col-sm-6 required">
+                    <label for="country" class="asterisk-if-mandatory">Country </label>
+                    <select required class="form-control" formControlName="country" id="country"  [ngClass]="{ 'is-invalid': formSubmitted && mf.country.errors }">
+                      <option value="" disabled selected>Select Country</option>
+                      <option *ngFor="let country of countries" [value]="country.name">{{country.name}}</option>
+                    </select>
+                    <div *ngIf="formSubmitted && mf.country.errors" class="invalid-feedback">
+                      <div *ngIf="mf.country.errors.required">Country is required</div>
+                    </div>
+                  </div>
+                  <div class="form-group col-sm-4 required">
+                    <label for="areaCode" class="asterisk-if-mandatory">Area Code</label>
+                    <input required formControlName="areaCode" id="areaCode" type="text" class="form-control"
+                      autocomplete="off"  [ngClass]="{ 'is-invalid': formSubmitted && mf.areaCode.errors }">
+                    <div *ngIf="formSubmitted && mf.areaCode.errors" class="invalid-feedback">
+                      <div *ngIf="mf.areaCode.errors.required">Area Code is required</div>
+                    </div>
+                  </div>
+                </div>
+                <div class="form-row">
+                  <div class="form-group col-sm-6 required">
+                    <label for="email" class="asterisk-if-mandatory">Email</label>
+                    <input required formControlName="email" id="email" type="text" class="form-control"
+                      autocomplete="off" [ngClass]="{ 'is-invalid': formSubmitted && mf.email.errors }">
+                    <div *ngIf="formSubmitted && mf.email.errors" class="invalid-feedback">
+                      <div *ngIf="mf.email.errors.required">Email is required</div>
+                      <div *ngIf="mf.email.errors.email">Email must be a valid email address</div>
+                    </div>
+                  </div>
+                  <div class="form-group col-sm-4 required">
+                    <label for="phone" class="asterisk-if-mandatory">Phone</label>
+                    <input required formControlName="phone" id="phone" type="text" class="form-control"
+                      autocomplete="off" [ngClass]="{ 'is-invalid': formSubmitted && mf.phone.errors }">
+                    <div *ngIf="formSubmitted && mf.phone.errors" class="invalid-feedback">
+                      <div *ngIf="mf.phone.errors.required">Phone is required</div>
+                      <div *ngIf="mf.phone.errors.pattern">Phone must be a valid phone number</div>
+                    </div>
+                  </div>
+                </div>
+                <div class="form-row">
+                  <div class="form-group col-sm-6 required">
+                    <label for="website" class="asterisk-if-mandatory">Website</label>
+                    <input required formControlName="website" id="website" type="text" class="form-control"
+                      autocomplete="off" [ngClass]="{ 'is-invalid': formSubmitted && mf.website.errors }">
+                    <div *ngIf="formSubmitted && mf.website.errors" class="invalid-feedback">
+                      <div *ngIf="mf.website.errors.required">Website is required</div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="form-row"><div class="form-group col-sm-6"></div></div>
+              <div formGroupName="contact">
+                <h6 style="color: #353d9f !important;">Contact Details</h6>
+                <div class="form-row">
+                  <div class="form-group col-sm-6 required">
+                    <label for="name" class="asterisk-if-mandatory">Name</label>
+                    <input required formControlName="name" id="name" type="text" class="form-control"
+                      autocomplete="off" [ngClass]="{ 'is-invalid': formSubmitted && cf.name.errors }">
+                    <div *ngIf="formSubmitted && cf.name.errors" class="invalid-feedback">
+                      <div *ngIf="cf.name.errors.required">Name is required</div>
+                      <div *ngIf="cf.name.errors.minlength">Name must be at least 5 characters long.</div>
+                    </div>
+                  </div>
+                  <div class="form-group col-sm-6 required">
+                    <label for="email" class="asterisk-if-mandatory">Email</label>
+                    <input required formControlName="email" id="email" type="text" class="form-control"
+                      autocomplete="off" [ngClass]="{ 'is-invalid': formSubmitted && cf.email.errors }">
+                    <div *ngIf="formSubmitted && cf.email.errors" class="invalid-feedback">
+                      <div *ngIf="cf.email.errors.required">Email is required</div>
+                      <div *ngIf="cf.email.errors.email">Email must be a valid email address</div>
+                    </div>
+                  </div>
+                </div>
+                <div class="form-row">
+                  <div class="form-group col-sm-4">
+                    <label for="phone">Phone</label>
+                    <input formControlName="phone" id="phone" type="text" class="form-control"
+                      autocomplete="off" [ngClass]="{ 'is-invalid': formSubmitted && cf.phone.errors }">
+                    <div *ngIf="formSubmitted && cf.phone.errors" class="invalid-feedback">
+                      <div *ngIf="cf.phone.errors.pattern">Phone must be a valid phone number</div>
+                    </div>
+                  </div>
+                  <div class="form-group col-sm-2 required"></div>
+                  <div class="form-group col-sm-4 required">
+                    <label for="mobile" class="asterisk-if-mandatory">Mobile</label>
+                    <input required formControlName="mobile" id="mobile" type="text" class="form-control"
+                      autocomplete="off" [ngClass]="{ 'is-invalid': formSubmitted && cf.mobile.errors }">
+                    <div *ngIf="formSubmitted && cf.mobile.errors" class="invalid-feedback">
+                      <div *ngIf="cf.mobile.errors.required">Mobile is required</div>
+                      <div *ngIf="cf.mobile.errors.pattern">Mobile must be a valid mobile number</div>
+                    </div>
+                  </div>
+                </div>
+                <div class="form-row">
+                  <div class="form-group col-sm-6 required">
+                    <label for="designation" class="asterisk-if-mandatory">Designation</label>
+                    <input required formControlName="designation" id="designation" type="text" class="form-control"
+                      autocomplete="off" [ngClass]="{ 'is-invalid': formSubmitted && cf.designation.errors }">
+                    <div *ngIf="formSubmitted && cf.designation.errors" class="invalid-feedback">
+                      <div *ngIf="cf.designation.errors.required">Designation is required</div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </form>
+          <div class="button-block">
+            <span class="pr-3"><button type="button" class="btn btn-primary form-button-cancel"
+                (click)="cancel()">Cancel</button>
+            </span>
+            <button type="button" class="btn btn-primary form-button-action" (click)="save()" *ngIf="actionType == 'add'">Save</button>
+            <button type="button" class="btn btn-primary form-button-action" (click)="edit()" *ngIf="actionType == 'view'">Edit</button>
+            <span class="pl-3" *ngIf="actionType == 'view'"><button type="button" class="btn btn-primary form-button-action" (click)="delete()">Delete</button></span>
+            <button type="button" class="btn btn-primary form-button-action" (click)="update()" *ngIf="actionType == 'edit'">Update</button>
+            
+          </div>
+        </div>
+
+
+
+        <!-- <aw-wizard [navBarLayout]="'large-filled-symbols'" class="custom-global-scss">
+          <aw-wizard-step stepTitle="Merchant Information" [navigationSymbol]="{ symbol: '1' }" [canExit]="isMerchantFormValid">
             <ng-template awWizardStepSymbol let-wizardStep="wizardStep">
               <span *ngIf="!wizardStep.completed">1</span>
               <span *ngIf="wizardStep.completed">
@@ -17,122 +196,200 @@
             <div class="form-container pt-4">
               <div class="p-1"><label class="apperr" *ngIf="isFailed">{{errMsg}}</label></div>
               <form [formGroup]="merchantForm">
-                <div *ngFor="let row of formTemplate.merchant.fields.rows">
-                  <div class="row pb-4">
-                    <div [ngClass]="{'col-sm-12': row.cols.length === 1, 'col-sm-6': row.cols.length === 2}"
-                      [ngSwitch]="control.type" *ngFor="let control of row.cols">
-                      <label>{{control.label}}</label>
-                      <div *ngSwitchCase="'text'">
-                        <input type="text" class="form-control" formControlName="{{control.name}}"
-                          [ngStyle]="{'width': control.width}" />
-                      </div>
-                      <div *ngSwitchCase="'textarea'">
-                        <textarea class="form-control" rows="{{control.rows}}" cols="{{control.cols}}"
-                          formControlName="{{control.name}}" [ngStyle]="{'width': control.width}"> </textarea>
-                      </div>
-                      <div *ngSwitchCase="'email'">
-                        <input type="email" class="form-control" formControlName="{{control.name}}"
-                          [ngStyle]="{'width': control.width}" />
+                <div class="modal-body">
+                  <h5 style="color: #353d9f !important;">Merchant Information</h5>
+                  <div class="form-row">
+                    <div class="form-group col-sm-6 required">
+                      <label for="name" class="asterisk-if-mandatory">Name</label>
+                      <input required formControlName="name" id="name" type="text" class="form-control"
+                        autocomplete="off">
+                      <div *ngIf="mFormSubmitted && f.name.errors" class="invalid-feedback">
+                        <div *ngIf="f.name.errors.required">Name is required</div>
                       </div>
                     </div>
                   </div>
+                  <div class="form-row">
+                    <div class="form-group col-sm-12 required">
+                      <label for="address" class="asterisk-if-mandatory">Address</label>
+                      <textarea required formControlName="address" id="address" autocomplete="off" rows="3" cols="80"
+                        class="form-control">  </textarea>
+                      <div *ngIf="mFormSubmitted && f.address.errors" class="invalid-feedback">
+                        <div *ngIf="f.address.errors.required">Address is required</div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="form-row">
+                    <div class="form-group col-sm-6 required">
+                      <label for="city" class="asterisk-if-mandatory">City</label>
+                      <input required formControlName="city" id="city" type="text" class="form-control"
+                        autocomplete="off">
+                      <div *ngIf="mFormSubmitted && f.city.errors" class="invalid-feedback">
+                        <div *ngIf="f.city.errors.required">City is required</div>
+                      </div>
+                    </div>
+                    <div class="form-group col-sm-4 required">
+                      <label for="state" class="asterisk-if-mandatory">Stage</label>
+                      <input required formControlName="state" id="state" type="text" class="form-control"
+                        autocomplete="off">
+                      <div *ngIf="mFormSubmitted && f.areaCode.errors" class="invalid-feedback">
+                        <div *ngIf="f.state.errors.required">State is required</div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="form-row">
+                    <div class="form-group col-sm-6 required">
+                      <label for="country" class="asterisk-if-mandatory">Country </label>
+                      <select required class="form-control" formControlName="country" id="country">
+                        <option value="" disabled selected>Select Country</option>
+                        <option *ngFor="let country of countries" [value]="country.name">{{country.name}}</option>
+                      </select>
+                      <div *ngIf="mFormSubmitted && f.country.errors" class="invalid-feedback">
+                        <div *ngIf="f.country.errors.required">Country is required</div>
+                      </div>
+                    </div>
+                    <div class="form-group col-sm-4 required">
+                      <label for="areaCode" class="asterisk-if-mandatory">Area Code</label>
+                      <input required formControlName="areaCode" id="areaCode" type="text" class="form-control"
+                        autocomplete="off">
+                      <div *ngIf="mFormSubmitted && f.areaCode.errors" class="invalid-feedback">
+                        <div *ngIf="f.areaCode.errors.required">Area Code is required</div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="form-row">
+                    <div class="form-group col-sm-6 required">
+                      <label for="email" class="asterisk-if-mandatory">Email</label>
+                      <input required formControlName="email" id="email" type="text" class="form-control"
+                        autocomplete="off">
+                      <div *ngIf="mFormSubmitted && f.email.errors" class="invalid-feedback">
+                        <div *ngIf="f.email.errors.required">Email is required</div>
+                        <div *ngIf="f.email.errors.email">Email must be a valid email address</div>
+                      </div>
+                    </div>
+                    <div class="form-group col-sm-4 required">
+                      <label for="phone" class="asterisk-if-mandatory">Phone</label>
+                      <input required formControlName="phone" id="phone" type="text" class="form-control"
+                        autocomplete="off">
+                      <div *ngIf="f.phone.touched && f.phone.errors" class="invalid-feedback">
+                        <div *ngIf="f.phone.errors.required">Phone is required</div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="form-row">
+                    <div class="form-group col-sm-6 required">
+                      <label for="website" class="asterisk-if-mandatory">Website</label>
+                      <input required formControlName="website" id="website" type="text" class="form-control"
+                        autocomplete="off">
+                      <div *ngIf="mFormSubmitted && f.website.errors" class="invalid-feedback">
+                        <div *ngIf="f.website.errors.required">Website is required</div>
+                      </div>
+                    </div>
+                  </div>
+
                 </div>
               </form>
               <div class="button-block">
                 <span class="pr-3"><button type="button" class="btn btn-primary form-button-cancel"
                     (click)="cancel()">Cancel</button>
                 </span>
-                <button type="button" class="btn btn-primary form-button-action" awNextStep>Next Step</button>
+                <button type="button" class="btn btn-primary form-button-action" awNextStep (click)="nextTab()">Next Step</button>
               </div>
             </div>
           </aw-wizard-step>
-          <aw-wizard-step stepTitle="Terminal" [navigationSymbol]="{ symbol: '2' }">
+          <aw-wizard-step stepTitle="Merchant Contacts" [navigationSymbol]="{ symbol: '2' }">
+            <ng-template awWizardStepSymbol let-wizardStep="wizardStep">
+              <span *ngIf="!wizardStep.completed">2</span>
+              <span *ngIf="wizardStep.completed">
+                <fa-icon [icon]='faCheck' size="sm"></fa-icon>
+              </span>
+            </ng-template>
             <div class="form-container pt-4">
               <div class="p-1"><label class="apperr" *ngIf="isFailed">{{errMsg}}</label></div>
-              <div class="row pb-4">
-                <!-- <div class="col-sm-4">
-                  <form [formGroup]="terminalForm" class="terminal-form">
-                    <div *ngFor="let row of formTemplate.terminal.fields.rows">
-                      <div class="row pb-4">
-                        <div [ngClass]="{'col-sm-12': row.cols.length === 1, 'col-sm-6': row.cols.length === 2}"
-                          [ngSwitch]="control.type" *ngFor="let control of row.cols">
-                          <label>{{control.label}}</label>
-                          <div *ngSwitchCase="'text'">
-                            <input type="text" class="form-control" formControlName="{{control.name}}"
-                              [ngStyle]="{'width': control.width}" />
-                          </div>
-                          <div *ngSwitchCase="'textarea'">
-                            <textarea class="form-control" rows="{{control.rows}}" cols="{{control.cols}}"
-                              formControlName="{{control.name}}" [ngStyle]="{'width': control.width}"> </textarea>
-                          </div>
-                          <div *ngSwitchCase="'email'">
-                            <input type="email" class="form-control" formControlName="{{control.name}}"
-                              [ngStyle]="{'width': control.width}" />
-                          </div>
+              <form [formGroup]="contactForm">
+                <div class="modal-body">
+                  <div formGroupName="contact1">
+                    <h5 style="color: #353d9f !important;">Contact #1</h5>
+                    <div class="form-row">
+                      <div class="form-group col-sm-6 required">
+                        <label for="name1" class="asterisk-if-mandatory">Name</label>
+                        <input required formControlName="name1" id="name1" type="text" class="form-control"
+                          autocomplete="off">
+                        <div *ngIf="cFormSubmitted && cf.name1.errors" class="invalid-feedback">
+                          <div *ngIf="cf.name1.errors.required">Name is required</div>
+                        </div>
+                      </div>
+                      <div class="form-group col-sm-6 required">
+                        <label for="email1" class="asterisk-if-mandatory">Email</label>
+                        <input required formControlName="email1" id="email1" type="text" class="form-control"
+                          autocomplete="off">
+                        <div *ngIf="cFormSubmitted && cf.email1.errors" class="invalid-feedback">
+                          <div *ngIf="f.email1.errors.required">Email is required</div>
+                          <div *ngIf="cf.email1.errors.email">Email must be a valid email address</div>
                         </div>
                       </div>
                     </div>
-                    <div class="text-right">
-                      <div style="display: inline;">
-                        <a class="terminal-button" (click)="resetTerminal()">
-                          <fa-icon [icon]='faUndo'></fa-icon><span class="pl-2">Reset</span>
-                        </a>
+                    <div class="form-row">
+                      <div class="form-group col-sm-4 required">
+                        <label for="phone1">Phone</label>
+                        <input required formControlName="phone1" id="phone1" type="text" class="form-control"
+                          autocomplete="off">
+                        <div *ngIf="cFormSubmitted && cf.phone1.errors" class="invalid-feedback">
+                          <div *ngIf="cf.phone1.errors.required">Phone is required</div>
+                        </div>
                       </div>
-                      <div class="pl-2" style="display: inline;">
-                        <a class="terminal-button" (click)="addTerminal()">
-                          <fa-icon [icon]='faPlus'></fa-icon><span class="pl-2">Add</span>
-                        </a>
+                      <div class="form-group col-sm-4 required">
+                        <label for="mobile1" class="asterisk-if-mandatory">Mobile</label>
+                        <input required formControlName="mobile1" id="mobile1" type="text" class="form-control"
+                          autocomplete="off">
+                        <div *ngIf="cFormSubmitted && cf.mobile1.errors" class="invalid-feedback">
+                          <div *ngIf="cf.mobile1.errors.required">Mobile is required</div>
+                        </div>
                       </div>
                     </div>
-                  </form>
-                </div> -->
-                <div class="col-sm-12">
-                  <table class="table table-striped">
-                    <thead width="75%">
-                      <tr>
-                        <th scope="col">Terminal Id</th>
-                        <!-- <th scope="col">Terminal IP</th>
-                        <th scope="col">Location</th> -->
-                        <th scope="col">Action</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      <tr *ngIf="terminals.length == 0">
-                        <td colspan="4"><a (click)="openModal(terminalform)">Add New Terminal</a></td>
-                      </tr>
-                      <tr
-                        *ngFor="let terminal of terminals | slice: (page-1) * pageSize : (page-1) * pageSize + pageSize">
-                        <td><span class="terminalid">{{ terminal.terminal_id }}</span></td>
-                        <!-- <td>{{ terminal.terminal_ip }}</td>
-                        <td>{{ terminal.location }}</td> -->
-                        <td>
-                          <!-- <a (click)="editTerminal(terminal.terminal_id)">
-                            <fa-icon [icon]='faEdit'></fa-icon>
-                          </a>
-                          <span class="pl-3"> -->
-                          <a (click)="deleteTerminal(terminal.terminal_id)">
-                            <fa-icon [icon]='faArchive'></fa-icon>
-                          </a>
-                          <!-- </span> -->
-                        </td>
-                      </tr>
-                    </tbody>
-                  </table>
-
-                  <div class="d-flex px-2" *ngIf="terminals.length > pageSize">
-                    <div class="justify-content-between pagination">
-                      <ngb-pagination [collectionSize]="terminals.length" [(page)]="page" [pageSize]="pageSize">
-                      </ngb-pagination>
-
-                      <select [(ngModel)]="pageSize">
-                        <option [ngValue]="5">5 items per page</option>
-                        <option [ngValue]="10">10 items per page</option>
-                        <option [ngValue]="25">25 items per page</option>
-                      </select>
+                  </div>
+                  <div formGroupName="contact2">
+                    <br>
+                    <h5 style="color: #353d9f !important;">Contact #2</h5>
+                    <div class="form-row">
+                      <div class="form-group col-sm-6 required">
+                        <label for="name2">Name</label>
+                        <input required formControlName="name2" id="name2" type="text" class="form-control"
+                          autocomplete="off">
+                        <div *ngIf="cFormSubmitted && cf.name2.errors" class="invalid-feedback">
+                          <div *ngIf="cf.name2.errors.required">Name is required</div>
+                        </div>
+                      </div>
+                      <div class="form-group col-sm-6 required">
+                        <label for="email2">Email</label>
+                        <input required formControlName="email2" id="email2" type="text" class="form-control"
+                          autocomplete="off">
+                        <div *ngIf="cFormSubmitted && cf.email2.errors" class="invalid-feedback">
+                          <div *ngIf="f.email2.errors.required">Email is required</div>
+                          <div *ngIf="cf.email2.errors.email">Email must be a valid email address</div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="form-row">
+                      <div class="form-group col-sm-4 required">
+                        <label for="phone2">Phone</label>
+                        <input required formControlName="phone2" id="phone2" type="text" class="form-control"
+                          autocomplete="off">
+                        <div *ngIf="cFormSubmitted && cf.phone2.errors" class="invalid-feedback">
+                          <div *ngIf="cf.phone2.errors.required">Phone is required</div>
+                        </div>
+                      </div>
+                      <div class="form-group col-sm-4 required">
+                        <label for="mobile2">Mobile</label>
+                        <input required formControlName="mobile2" id="mobile2" type="text" class="form-control"
+                          autocomplete="off">
+                        <div *ngIf="cFormSubmitted && cf.mobile2.errors" class="invalid-feedback">
+                          <div *ngIf="cf.mobile2.errors.required">Mobile is required</div>
+                        </div>
+                      </div>
                     </div>
                   </div>
                 </div>
-              </div>
+              </form>
 
               <div class="button-block">
                 <span class="pr-3"><button type="button" class="btn btn-primary form-button-cancel"
@@ -143,7 +400,116 @@
               </div>
             </div>
           </aw-wizard-step>
-          <aw-wizard-step stepTitle="Bank Data" [navigationSymbol]="{ symbol: '3' }">
+          <aw-wizard-step stepTitle="Confirm" [navigationSymbol]="{ symbol: '3' }">
+            <ng-template awWizardStepSymbol let-wizardStep="wizardStep">
+              <span *ngIf="!wizardStep.completed">3</span>
+              <span *ngIf="wizardStep.completed">
+                <fa-icon [icon]='faCheck' size="sm"></fa-icon>
+              </span>
+            </ng-template>
+            <div class="form-container pt-4">
+              <form>
+                <div class="modal-body">
+                  <h5 style="color: #353d9f !important;">Merchant Information</h5>
+                  <div class="form-row">
+                    <div class="form-group col-sm-6 required">
+                      <label for="name">Name</label>
+                      <input required id="name" type="text" class="form-control" readonly>
+                    </div>
+                  </div>
+                  <div class="form-row">
+                    <div class="form-group col-sm-12 required">
+                      <label for="address">Address</label>
+                      <textarea id="address" rows="3" cols="80" class="form-control" readonly>  </textarea>
+                    </div>
+                  </div>
+                  <div class="form-row">
+                    <div class="form-group col-sm-6 required">
+                      <label for="city">City</label>
+                      <input id="city" type="text" class="form-control" readonly>
+
+                    </div>
+                    <div class="form-group col-sm-4 required">
+                      <label for="areaCode">Area Code</label>
+                      <input id="areaCode" type="text" class="form-control" readonly>
+                    </div>
+                  </div>
+                  <div class="form-row">
+                    <div class="form-group col-sm-6 required">
+                      <label for="country">Country </label>
+                      <select class="form-control" id="country" disabled="true">
+                        <option value="" disabled selected>Select Country</option>
+                        <option *ngFor="let country of countries" [value]="country.name">{{country.name}}</option>
+                      </select>
+                    </div>
+                  </div>
+                  <div class="form-row">
+                    <div class="form-group col-sm-6 required">
+                      <label for="email">Email</label>
+                      <input id="email" type="text" class="form-control" readonly>
+                    </div>
+                    <div class="form-group col-sm-4 required">
+                      <label for="phone">Phone</label>
+                      <input id="phone" type="text" class="form-control" readonly>
+                    </div>
+                  </div>
+                  <div class="form-row">
+                    <div class="form-group col-sm-6 required">
+                      <label for="website">Website</label>
+                      <input id="website" type="text" class="form-control" readonly>
+                    </div>
+                  </div>
+                  <div>
+                    <br>
+                    <h5 style="color: #353d9f !important;">Contact #1</h5>
+                    <div class="form-row">
+                      <div class="form-group col-sm-6 required">
+                        <label for="name1">Name</label>
+                        <input id="name1" type="text" class="form-control" readonly>
+                      </div>
+                      <div class="form-group col-sm-6 required">
+                        <label for="email1">Email</label>
+                        <input id="email1" type="text" class="form-control" readonly>
+                      </div>
+                    </div>
+                    <div class="form-row">
+                      <div class="form-group col-sm-4 required">
+                        <label for="phone1">Phone</label>
+                        <input id="phone1" type="text" class="form-control" readonly>
+                      </div>
+                      <div class="form-group col-sm-4 required">
+                        <label for="mobile1">Mobile</label>
+                        <input id="mobile1" type="text" class="form-control" readonly>
+                      </div>
+                    </div>
+                    <div>
+                      <br>
+                      <h5 style="color: #353d9f !important;">Contact #2</h5>
+                      <div class="form-row">
+                        <div class="form-group col-sm-6 required">
+                          <label for="name2">Name</label>
+                          <input id="name2" type="text" class="form-control" readonly>
+                        </div>
+                        <div class="form-group col-sm-6 required">
+                          <label for="email2">Email</label>
+                          <input id="email2" type="text" class="form-control" readonly>
+                        </div>
+                      </div>
+                      <div class="form-row">
+                        <div class="form-group col-sm-4 required">
+                          <label for="phone2">Phone</label>
+                          <input id="phone2" type="text" class="form-control" readonly>
+                        </div>
+                        <div class="form-group col-sm-4 required">
+                          <label for="mobile2">Mobile</label>
+                          <input id="mobile2" type="text" class="form-control" readonly>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </form>
+            </div>
             <div class="form-container pt-4">
               <div class="button-block">
                 <span class="pr-3"><button type="button" class="btn btn-primary form-button-cancel"
@@ -154,13 +520,10 @@
               </div>
             </div>
           </aw-wizard-step>
-        </aw-wizard>
+        </aw-wizard> -->
       </div>
     </div>
     <div>
     </div>
   </div>
 </div>
-<ng-template #terminalform let-c="close" let-d="dismiss">
-  <app-dynamic-form [formTitle]="terminalFormTitle" [formConfig]="terminalFormConfig" [addMore]="true" (modelClosed)='closeModal($event)'></app-dynamic-form>
-</ng-template>

@@ -1,11 +1,12 @@
-import { Component, OnInit } from '@angular/core';
-import { faPlus, faBars, faTh, faEye, faEyeSlash } from '@fortawesome/free-solid-svg-icons';
+import { Component, OnInit, Output } from '@angular/core';
+import { faPlus, faBars, faTh, faEye, faEyeSlash, faEdit, faArchive } from '@fortawesome/free-solid-svg-icons';
 import { MerchantService } from './merchant.service';
 import { User } from '../model/user';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { first } from 'rxjs/operators';
 import { LoginNotificationService } from '../shared/service/login-notification.service';
 import { Router } from '@angular/router';
+import { ApiResponse } from '../shared/model/api.response';
 
 @Component({
   selector: 'app-merchant',
@@ -14,17 +15,18 @@ import { Router } from '@angular/router';
 })
 export class MerchantComponent implements OnInit {
 
-  faPlus = faPlus;
   faBars = faBars;
-  faTh = faTh;
+  faPlus = faPlus;
   faEye = faEye;
-  faEyeSlash = faEyeSlash;
+  faEdit = faEdit;
+  faArchive = faArchive;
+  faTh = faTh;
 
   pageHeader: string;
   page = 1;
   pageSize = 5;
 
-  mode = 1;
+  mode = 2;
 
   user: User;
 
@@ -49,16 +51,16 @@ export class MerchantComponent implements OnInit {
   }
 
   onLoad() {
-    if (!this.user) {
-      return;
-    }
+    // if (!this.user) {
+    //   return;
+    // }
     this.spinner.show();
-    this.merchantService.getMerchants(this.user.id)
+    this.merchantService.getAllMerchants()
       .pipe(first())
       .subscribe(
-        resp => {
+        (resp: ApiResponse) => {
           console.log('Merchant Response', resp);
-          this.merchants = resp.body;
+          this.merchants = resp.message;
           for (const merchant of this.merchants) {
             merchant.viewApin = false;
             merchant.viewLpin = false;
@@ -74,21 +76,33 @@ export class MerchantComponent implements OnInit {
     this.mode = this.mode === 1 ? 2 : 1;
   }
 
-  editMerchant(){
-    this.router.navigate(['/merchantForm']);
+  createMerchant(){
+    this.router.navigate(['/merchantForm', {actionType: 'add'}]);
+  }
+
+  viewMerchant(id: number) {
+    this.router.navigate(['/merchantForm', {actionType: 'view', id}]);
+  }
+
+  editMerchant(id: number) {
+    this.router.navigate(['/merchantForm', {actionType: 'edit', id}]);
+  }
+
+  deleteMerchant(id: number) {
+    
   }
 
   onToggleAeccessIcon(id: number) {
-    for (const merchant of this.merchants){
-      if (merchant.id === id){
+    for (const merchant of this.merchants) {
+      if (merchant.id === id) {
         merchant.viewApin = merchant.viewApin === true ? false : true;
       }
-  }
+    }
   }
 
   onToggleLoginIcon(id: number) {
-    for (const merchant of this.merchants){
-      if (merchant.id === id){
+    for (const merchant of this.merchants) {
+      if (merchant.id === id) {
         merchant.viewLpin = merchant.viewLpin === true ? false : true;
       }
     }

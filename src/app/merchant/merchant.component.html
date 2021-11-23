@@ -5,7 +5,7 @@
         <span class="pl-2">{{ pageHeader }}</span>
         <span class="count pl-2">({{ merchantCount }})</span></div>
       <div class="col-sm-9 tools text-right">
-        <button class="button" (click)="editMerchant()">
+        <button class="button" (click)="createMerchant()" routerLinkActive="active">
           <fa-icon [icon]='faPlus' size="lg"></fa-icon><span class="pl-2">Add
             New Merchant</span>
         </button>
@@ -32,35 +32,35 @@
         <thead>
           <tr>
             <th scope="col">Name</th>
-            <th scope="col">Access PIN</th>
-            <th scope="col">Login PIN</th>
-            <th scope="col">Primary IP</th>
-            <th scope="col">Primary Port</th>
-            <th scope="col">Secondary IP</th>
-            <th scope="col">Secondary Port</th>
             <th scope="col">Address</th>
-            <th scope="col">Configured Date</th>
+            <th scope="col">Email</th>
+            <th scope="col">Phone</th>
+            <th scope="col">Website</th>
+            <th scope="col">Created Date</th>
             <th scope="col">Action</th>
           </tr>
         </thead>
         <tbody>
           <tr *ngFor="let merchant of merchants | slice: (page-1) * pageSize : (page-1) * pageSize + pageSize">
             <td><span class="merchantName">{{ merchant.name }}</span></td>
-            <td>{{ merchant.accessPin }}<span class="pl-2"><a (click)="onToggleAeccessIcon(merchant.id)"><fa-icon [icon]='faEye'></fa-icon></a></span></td>
-            <td>{{ merchant.loginPin }}<span class="pl-2"><a (click)="onToggleAeccessIcon(merchant.id)"><fa-icon [icon]='faEye'></fa-icon></a></span></td>
-            <td>{{ merchant.primaryIp }}</td>
-            <td>{{ merchant.primaryPort }}</td>
-            <td>{{ merchant.secondaryIp }}</td>
-            <td>{{ merchant.secondaryPort }}</td>
-            <td><span class="address">{{ merchant.address }}</span></td>
+            <td>
+              {{ merchant.address1+', '}}<br>
+              {{ merchant.address2+', '}}<br>
+              {{merchant.city+', '+merchant.country+' - '+merchant.areaCode  }}
+            </td>
+            <td>{{ merchant.email }}</td>
+            <td>{{ merchant.phone }}</td>
+            <td>{{ merchant.website }}</td>
             <td>{{ merchant.createdDate }}</td>
-            <td></td>
+            <td><span class="pr-3"><a (click)="viewMerchant(merchant.id)"  routerLinkActive="active"><fa-icon [icon]='faEye' style="color:#1653da"></fa-icon></a></span>
+            <span class="pr-3"><a (click)="editMerchant(merchant.id)"  routerLinkActive="active"><fa-icon [icon]='faEdit' style="color:#ffc107;"></fa-icon></a></span>
+            <span class="pr-3"><a (click)="deleteMerchant(merchant.id)" routerLinkActive="active"><fa-icon [icon]='faArchive' style="color: #dc3545;"></fa-icon></a></span></td>
           </tr>
         </tbody>
       </table>
 
       <div class="d-flex justify-content-between px-2">
-        <ngb-pagination [collectionSize]="merchants.length" [(page)]="page" [pageSize]="pageSize">
+        <ngb-pagination [collectionSize]="merchantCount" [(page)]="page" [pageSize]="pageSize">
         </ngb-pagination>
 
         <select [(ngModel)]="pageSize">

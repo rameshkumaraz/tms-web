@@ -219,3 +219,8 @@ button {
   font-family: $font-family-bold;
   color: $header-color;
 }
+
+label.asterisk-if-mandatory::after {
+  content: " *";
+  color: $danger;
+}

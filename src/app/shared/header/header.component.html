@@ -9,13 +9,13 @@
     </div>
     <div class="collapse navbar-collapse" id="myNavbar">
       <ul class="navbar-nav mr-auto">
-        <li class="nav-item nav-mi" routerLinkActive="active">
+        <li class="nav-item nav-mi" routerLinkActive="active" *ngIf="hasMerchantAccess">
           <a class="nav-link" routerLink="/merchant">Merchants<span class="sr-only">(current)</span></a>
         </li>
-        <li class="nav-item nav-mi">
+        <li class="nav-item nav-mi" *ngIf="hasLocationAccess">
           <a class="nav-link" routerLink="/location">Location<span class="sr-only">(current)</span></a>
         </li>
-        <li ngbDropdown class="nav-item nav-mi">
+        <li ngbDropdown class="nav-item nav-mi" *ngIf="hasDeviceAccess">
           <div class="nav-link">
             <span class="pl-2">
               <a ngbDropdownToggle id="deviceDropdown">Deivce</a>
@@ -27,7 +27,7 @@
             <a ngbDropdownItem class="nav-smi" href="/download">Download Management</a>
           </div>
         </li>
-        <li ngbDropdown class="nav-item nav-mi">
+        <li ngbDropdown class="nav-item nav-mi" *ngIf="hasReportAccess">
           <div class="nav-link">
             <span class="pl-2">
               <a ngbDropdownToggle id="reportDropdown">Reports</a>
@@ -37,11 +37,11 @@
             <a ngbDropdownItem class="nav-smi" href="#">Alerts</a>
             <a ngbDropdownItem class="nav-smi" href="#">Devices</a>
             <a ngbDropdownItem class="nav-smi" href="#">Downloads</a>
-            <a ngbDropdownItem class="nav-smi" href="#">Merchants</a>
+            <a ngbDropdownItem class="nav-smi" href="#"  *ngIf="hasMReportAccess">Merchants</a>
             <a ngbDropdownItem class="nav-smi" href="#">Users</a>
           </div>
         </li>
-        <li ngbDropdown class="nav-item nav-mi">
+        <li ngbDropdown class="nav-item nav-mi" *ngIf="hasAdminAccess">
           <div class="nav-link">
             <span class="pl-2">
               <a ngbDropdownToggle id="adminDropdown">Administration</a>
@@ -49,7 +49,7 @@
           </div>
           <div ngbDropdownMenu aria-labelledby="adminDropdown" class="nav-sm">
             <a ngbDropdownItem class="nav-smi" href="#">Users</a>
-            <a ngbDropdownItem class="nav-smi" href="#">Roles</a>
+            <a ngbDropdownItem class="nav-smi" href="#" *ngIf="hasMReportAccess">Roles</a>
           </div>
         </li>
       </ul>

@@ -16,11 +16,21 @@ export class HeaderComponent implements OnInit {
 
   @Input() opened: string;
 
-  profile: User;
+  profile: any;
 
   faUser = faUser;
   faSignIn = faSignInAlt;
   faSignOut = faSignOutAlt;
+
+  hasDbAccess = false;
+  hasMDbAccess = false;
+  hasMerchantAccess = false;
+  hasLocationAccess = false;
+  hasDeviceAccess = false;
+  hasReportAccess = false;
+  hasAdminAccess = false;
+  hasMReportAccess = false;
+  hasRoleAccess = false;
 
   constructor(config: NgbModalConfig, private modalService: NgbModal,
     private authenticationService: AuthenticationService,
@@ -32,13 +42,37 @@ export class HeaderComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.profile = JSON.parse(sessionStorage.getItem('user_profile'));
+    this.profile = this.authenticationService.getCurrentUser();
     // console.log(this.profile);
     this.loginNotifyService.events$.pipe(first())
     .subscribe(
       resp => {
         this.profile = resp;
       });
+
+    this.populateAccess();  
+  }
+
+  populateAccess(){
+    console.log('Role...', this.profile.roleName);
+    console.log('Role...', ["AZ_ROOT_ADMIN", "AZ_ADMIN"].indexOf(this.profile.roleName));
+    if(["AZ_ROOT_ADMIN", "AZ_ADMIN"].indexOf(this.profile.roleName) >= 0){
+      this.hasDbAccess = true;
+      this.hasMerchantAccess = true;
+      this.hasMReportAccess = true;
+      this.hasReportAccess = true;
+      this.hasRoleAccess = true;
+    }
+    if(["AZ_ROOT_ADMIN", "MERCHANT_ADMIN"].indexOf(this.profile.roleName) >= 0){ 
+      this.hasMDbAccess = true;
+      this.hasAdminAccess = true;
+      this.hasReportAccess = true;
+    }
+
+    if(["AZ_ROOT_ADMIN", "MERCHANT_ADMIN", "MERCHANT_SUPERVISOR", "MERCHANT_USER"].indexOf(this.profile.roleName) >= 0){ 
+      this.hasLocationAccess = true;
+      this.hasDeviceAccess = true;
+    }
   }
 
   openModal(content) {

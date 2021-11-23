@@ -37,7 +37,7 @@ export class AuthenticationService {
     }
 
     hasRole(role: any) {
-        console.log(this.getCurrentUser().roleName+"=="+role);
+        // console.log(this.getCurrentUser().roleName+"=="+role);
         return this.isAuthorized() && this.getCurrentUser().roleName == role;
     }
 

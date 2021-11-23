@@ -24,7 +24,7 @@ export class DeviceComponent implements OnInit {
   constructor() { }
 
   ngOnInit(): void {
-    this.pageHeader = 'Device';
+    this.pageHeader = 'Devices';
   }
 
   changeView() {

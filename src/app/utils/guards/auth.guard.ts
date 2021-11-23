@@ -1,4 +1,3 @@
-import { Route } from '@angular/compiler/src/core';
 import { Injectable } from '@angular/core';
 import { Router, CanActivate, ActivatedRouteSnapshot, RouterStateSnapshot } from '@angular/router';
 import { Observable } from 'rxjs';

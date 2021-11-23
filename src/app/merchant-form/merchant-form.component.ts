@@ -1,9 +1,15 @@
-import { Component, OnInit, ViewEncapsulation } from '@angular/core';
+import { Component, Input, OnInit, ViewEncapsulation } from '@angular/core';
 import { faCheck, faEdit, faArchive, faPlus, faUndo } from '@fortawesome/free-solid-svg-icons';
-import mockData from '../../assets/config/verifone/merchant-form-config.json';
-import { FormBuilder, FormGroup, FormControl } from '@angular/forms';
-import { Router } from '@angular/router';
-import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Router, ActivatedRoute } from '@angular/router';
+import { countries } from '../shared/model/country-data-store'
+import { Merchant } from '../model/merchant';
+import { MerchantContact } from '../model/merchant-contact';
+import { MerchantService } from '../merchant/merchant.service';
+import { ApiResponse } from '../shared/model/api.response';
+import { NgxSpinnerService } from 'ngx-spinner';
+import { ToastrService } from 'ngx-toastr';
+import { distinctUntilChanged, first } from 'rxjs/operators';
 
 @Component({
   selector: 'app-merchant-form',
@@ -13,113 +19,259 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 })
 export class MerchantFormComponent implements OnInit {
 
-  faCheck = faCheck;
-  faEdit = faEdit;
-  faArchive = faArchive;
-  faPlus = faPlus;
-  faUndo = faUndo;
+  actionType;
+  merchId;
 
   pageHeader = 'New Merchant';
   page = 1;
   pageSize = 10;
 
-  formTemplate: any;
-
   merchantForm: FormGroup;
-  terminalForm: FormGroup;
-  submitted = false;
+  formSubmitted = false;
   isFailed = false;
   errMsg: string;
 
-  terminals: Array<any>;
+  // contactForm: FormGroup;
+  // mFormSubmitted = false;
+  // cFormSubmitted = false;
+  // isMerchantFormValid = false;
+  // isContactFormValid = false;
 
-  terminalFormTitle = 'Add Terminal';
-  terminalFormConfig: any;
+  countries: any = countries;
+
+  merchant = new Merchant();
+  contact = new MerchantContact();
+
+  sub;
+
+  urlRegEx =
+    '[-a-zA-Z0-9@:%_+.~#?&//=]{2,256}(.[a-z]{2,4})?\b(/[-a-zA-Z0-9@:%_+.~#?&//=]*)?';
+
+  // phoneRegEx = '(([+][(]?[0-9]{1,3}[)]?)|([(]?[0-9]{4}[)]?))\s*[)]?[-\s\.]?[(]?[0-9]{1,3}[)]?([-\s\.]?[0-9]{3})([-\s\.]?[0-9]{3,4})';
+  phoneRegEx = /^\+(?:[0-9] ?){6,14}[0-9]$/;
 
   constructor(private formBuilder: FormBuilder,
     private router: Router,
-    private modalService: NgbModal) { }
+    private activatedroute: ActivatedRoute,
+    private merchantService: MerchantService,
+    private spinner: NgxSpinnerService,
+    private toastr: ToastrService) {
+  }
 
   ngOnInit(): void {
-    this.formTemplate = mockData.x990;
-    const merchantGroup = {};
-    this.formTemplate.merchant.fields.rows.forEach(row => {
-      row.cols.forEach(control => {
-        // console.log('Field name', control.name);
-        merchantGroup[control.name] = new FormControl('');
-      });
+    this.sub = this.activatedroute.paramMap.subscribe(params => {
+      console.log(params);
+      this.actionType = params.get('actionType');
+      this.merchId = params.get('id');
     });
-    this.merchantForm = new FormGroup(merchantGroup);
+    console.log(this.actionType);
 
-    this.terminalFormConfig = this.formTemplate.terminal;
-
-    const terminalGroup = {};
-    this.formTemplate.terminal.fields.rows.forEach(row => {
-      row.cols.forEach(control => {
-        // console.log('Field name', control.name);
-        terminalGroup[control.name] = new FormControl('');
-      });
+    this.merchantForm = this.formBuilder.group({
+      merchant: this.formBuilder.group({
+        name: ['', [Validators.required, Validators.minLength(5), Validators.max(200)]],
+        address1: ['', [Validators.required, Validators.minLength(5), Validators.max(200)]],
+        address2: [''],
+        city: ['', [Validators.required, Validators.minLength(3)]],
+        state: ['', [Validators.required, Validators.minLength(3)]],
+        country: ['', [Validators.required]],
+        areaCode: ['', [Validators.required, Validators.minLength(5)]],
+        email: ['', [Validators.required, Validators.email]],
+        phone: ['', [Validators.required, Validators.pattern(this.phoneRegEx)]],
+        website: ['', Validators.required]
+        // website: ['', [Validators.required, Validators.pattern(this.urlRegEx)]]
+      }),
+      contact: this.formBuilder.group({
+        name: ['', [Validators.required, Validators.minLength(5), Validators.maxLength(200)]],
+        email: ['', [Validators.required, Validators.email]],
+        phone: [''],
+        mobile: ['', [Validators.required, Validators.pattern(this.phoneRegEx)]],
+        designation: ['', Validators.required]
+      })
     });
-    this.terminalForm = new FormGroup(terminalGroup);
 
-    this.terminals = new Array();
-  }
+    this.setAddressValidator();
+    this.setPhoneValidator();
 
-  addTerminal(){
-    const formValue = this.terminalForm.value;
-    let isDublicate = false;
-    this.terminals.forEach(terminal => {
-      if (terminal === formValue.terminal_id){
-        isDublicate = true;
-      }
-    });
-    if (!isDublicate) {
-      this.terminals.push(formValue);
-      this.terminalForm.reset();
+    if(this.actionType == 'view'){
+      this.merchantForm.disable();
     }
-    console.log(this.terminals);
-  }
 
-  deleteTerminal(id: string){
-    console.log('delete', id);
-    for (let i = 0 ; i < this.terminals.length; i++){
-      if (this.terminals[i].terminal_id === id){
-        this.terminals.splice(i, 1);
-      }
+    if (this.actionType != 'add') {
+      this.loadMerchant();
     }
+
+    // this.merchantForm = this.formBuilder.group({
+    //   name: ['', [Validators.required, Validators.min(5), Validators.max(200)]],
+    //   address: ['', [Validators.required, Validators.min(5), Validators.max(500)]],
+    //   city: ['', [Validators.required, Validators.min(3)]],
+    //   state: ['', [Validators.required, Validators.min(3)]],
+    //   country: ['', [Validators.required]],
+    //   areaCode: ['', [Validators.required, Validators.min(5)]],
+    //   email:  ['', [Validators.required, Validators.email]],
+    //   phone: ['', [Validators.required, Validators.pattern(this.phoneRegEx)]],
+    //   website: ['', Validators.required]
+    //   // website: ['', [Validators.required, Validators.pattern(this.urlRegEx)]]
+    // });
+
+    // this.contactForm = this.formBuilder.group({
+    //   contact1: this.formBuilder.group({
+    //     name1: ['', Validators.required],
+    //     email1: ['', Validators.required],
+    //     phone1: '', 
+    //     mobile1: ['', Validators.required],
+    //     designation1: ['', Validators.required]
+    //   }),
+    //   contact2: this.formBuilder.group({
+    //     name2: '',
+    //     email2: '',
+    //     phone2: '',
+    //     mobile2: '',
+    //     designation2: ''
+    //   }),
+    // });
+
   }
 
-  editTerminal(id: string){
-    console.log('edit', id);
-    this.terminals.forEach(terminal => {
-      if (terminal.terminal_id === id){
-        this.terminalForm.setValue(terminal);
-      }
-    });
+  get mf() { return this.merchantForm['controls'].merchant['controls'] }
+  get cf() { return this.merchantForm['controls'].contact['controls'] }
+
+  loadMerchant() {
+    this.spinner.show();
+    this.merchantService.getMerchant(this.merchId)
+      .pipe(first())
+      .subscribe(
+        (resp: ApiResponse) => {
+          console.log('Merchant Response', resp);
+          this.merchant = resp.message;
+          if (!this.merchant) {
+            this.toastr.error(this.errMsg);
+          } else {
+            this.merchantForm['controls'].merchant.setValue({
+              name: this.merchant.name,
+              address1: this.merchant.address1,
+              address2: this.merchant.address2,
+              city: this.merchant.city,
+              state: this.merchant.state,
+              country: this.merchant.country,
+              areaCode: this.merchant.areaCode,
+              email: this.merchant.email,
+              phone: this.merchant.phone,
+              website: this.merchant.website
+            });
+
+            if (this.merchant.contacts) {
+              this.merchantForm['controls'].contact.setValue({
+                name: this.merchant.contacts[0].name,
+                email: this.merchant.contacts[0].email,
+                phone: this.merchant.contacts[0].phone,
+                mobile: this.merchant.contacts[0].mobile,
+                designation: this.merchant.contacts[0].designation
+              });
+            }
+          }
+          this.spinner.hide();
+        },
+        err => {
+          console.log('Unable to create merchant, please contact adminstrator', err);
+          this.errMsg = err.message;
+          this.toastr.error(this.errMsg);
+          this.spinner.hide();
+        });
   }
 
-  resetTerminal(){
-    this.terminalForm.reset();
+  save() {
+    console.log('nextTab');
+    this.formSubmitted = true;
+    // stop here if form is invalid
+    if (this.merchantForm.invalid) {
+      console.log('From invalid', this.merchantForm);
+      return;
+    }
+    this.spinner.show();
+    this.merchant = <Merchant>this.merchantForm['controls'].merchant.value;
+    this.contact = <MerchantContact>this.merchantForm['controls'].contact.value;
+    this.merchant.contacts = [];
+    this.merchant.contacts.push(this.contact);
+    this.merchantService.createMerchant(this.merchant).subscribe((resp: ApiResponse) => {
+      this.spinner.hide();
+      this.toastr.success("Merchant has been created successfully.");
+      this.router.navigate(['/merchant']);
+    },
+      err => {
+        console.log('Unable to create merchant, please contact adminstrator', err);
+        this.errMsg = err.message;
+        this.toastr.error(this.errMsg);
+        this.spinner.hide();
+      });
   }
 
-  cancel(){
+  update(){
+    this.formSubmitted = true;
+    // stop here if form is invalid
+    if (this.merchantForm.invalid) {
+      console.log('From invalid', this.merchantForm);
+      return;
+    }
+    this.spinner.show();
+    let merchantToUpdate = <Merchant>this.merchantForm['controls'].merchant.value;
+    Object.assign(this.merchant, merchantToUpdate);
+    let contactToUpdate  = <MerchantContact>this.merchantForm['controls'].contact.value;
+    Object.assign(this.merchant.contacts[0], contactToUpdate);
+    this.merchantService.updateMerchant(this.merchant).subscribe((resp: ApiResponse) => {
+      this.spinner.hide();
+      this.toastr.success("Merchant has been updated successfully.");
+      this.router.navigate(['/merchant']);
+    },
+      err => {
+        console.log('Unable to create merchant, please contact adminstrator', err);
+        this.errMsg = err.message;
+        this.toastr.error(this.errMsg);
+        this.spinner.hide();
+      });
+  }
+
+  edit() {
+    this.actionType = 'edit';
+    this.merchantForm.enable();
+  }
+
+  delete() {
+    // this.actionType = 'edit';
+  }
+
+  cancel() {
     this.router.navigate(['/merchant']);
   }
 
-  saveMerchant(){
-    const merchantValue = this.merchantForm.value;
-    merchantValue.terminals = this.terminals;
-    console.log('Merchant value', merchantValue);
-    localStorage.setItem('draft-merchants', merchantValue);
+  setAddressValidator() {
+    this.mf.address2.valueChanges.
+      pipe(distinctUntilChanged()).
+      subscribe(val => {
+        console.log('address2 value', val + ':' + val.length);
+        if (val.length > 0 && val.length < 6) {
+          this.mf.address2.setValidators([Validators.minLength(6)]);
+          this.mf.address2.setValidators([Validators.minLength(200)]);
+        } else {
+          this.mf.address2.clearValidators();
+        }
+        this.mf.address2.updateValueAndValidity();
+      });
+  };
+
+  setPhoneValidator() {
+    this.cf.phone.valueChanges.
+      pipe(distinctUntilChanged()).
+      subscribe(val => {
+        if (val.length > 0) {
+          this.cf.phone.setValidators([Validators.pattern(this.phoneRegEx)]);
+        } else {
+          this.cf.phone.clearValidators();
+        }
+        this.cf.phone.updateValueAndValidity();
+      });
   }
 
-
-  openModal(content) {
-    this.modalService.open(content, { size: 'sm' });
-  }
-
-  closeModal(content) {
-    console.log('closeModel invoked', content);
-    this.modalService.dismissAll();
+  ngOnDestroy() {
+    this.sub.unsubscribe();
   }
 }

@@ -1,13 +1,26 @@
 import { BaseModel } from './baseModel';
-import { Terminal } from './terminal';
+import { MerchantContact } from './merchant-contact';
 
 export class Merchant extends BaseModel{
-    name: string;
-    accessPin: string;
-    loginPin: string;
-    primaryIp: string;
-    primaryPort: string;
-    secondaryIp: string;
-    secondaryPort: string;
-    terminals: Array<Terminal>;
+    name:string;
+
+    address1:string;
+
+    address2:string;
+
+    city:string;
+
+    state:string;
+
+    country:string;
+
+    areaCode:string;
+
+    email:string;
+
+    phone:string;
+
+    website:string;
+
+    contacts:Array<MerchantContact>;
 }

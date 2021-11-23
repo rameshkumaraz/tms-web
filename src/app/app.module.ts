@@ -65,7 +65,11 @@ import { ErrorComponent } from './shared/error/error.component';
     NgbModule,
     NgxSpinnerModule,
     ReactiveFormsModule,
-    ToastrModule.forRoot()
+    ToastrModule.forRoot({
+      timeOut: 10000,
+      positionClass: 'toast-top-right',
+      preventDuplicates: true,
+    }),
   ],
   providers: [
     AuthGuard,

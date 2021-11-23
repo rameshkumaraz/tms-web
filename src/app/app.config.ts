@@ -3,13 +3,7 @@ export class AppSettings {
 
     public static ENDPOINTS = {
         'login': 'auth/login',
-        'projects': {
-            'recentProjects': '',
-            'allProjects': '',
-            'createProject': '',
-            'updateProject': '',
-            'deleteProject': '',
-            'cloneProject': ''
-        }
+        'merchant': 'merchant',
+        'location': 'location'
     };
 }
