@@ -17,13 +17,13 @@ import { FooterComponent } from './shared/footer/footer.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { MerchantComponent } from './merchant/merchant.component';
 import { PageHeaderComponent } from './shared/page-header/page-header.component';
-import { MerchantCardComponent } from './merchant-card/merchant-card.component';
+import { MerchantCardComponent } from './merchant/merchant-card/merchant-card.component';
 import { FileDndComponent } from './shared/file-dnd/file-dnd.component';
 import { LoginComponent } from './login/login.component';
 import { LoginFormComponent } from './login-form/login-form.component';
 
 import { AppMockDataService } from './utils/services/app-mock-data.service';
-import { MerchantFormComponent } from './merchant-form/merchant-form.component';
+import { MerchantFormComponent } from './merchant/merchant-form/merchant-form.component';
 import { DynamicFormComponent } from './shared/dynamic-form/dynamic-form.component';
 import { AppHttpInterceptor } from './utils/helpers/app-http.interceptor';
 import { LocationComponent } from './location/location.component';
@@ -32,6 +32,15 @@ import { ApplicationComponent } from './application/application.component';
 import { DownloadComponent } from './download/download.component';
 import { MerchantDashboardComponent } from './merchant-dashboard/merchant-dashboard.component';
 import { ErrorComponent } from './shared/error/error.component';
+import { LocationFormComponent } from './location/location-form/location-form.component';
+import { UserComponent } from './user/user.component';
+import { UserFormComponent } from './user/user-form/user-form.component';
+import { DeviceFormComponent } from './device/device-form/device-form.component';
+import { ApplicationFormComponent } from './application/application-form/application-form.component';
+import { RoleComponent } from './role/role.component';
+import { DownloadFormComponent } from './download/download-form/download-form.component';
+import { LocationService } from './location/location.service';
+import { DeviceService } from './device/device.service';
 
 @NgModule({
   declarations: [
@@ -52,7 +61,14 @@ import { ErrorComponent } from './shared/error/error.component';
     MerchantFormComponent,
     DynamicFormComponent,
     MerchantDashboardComponent,
-    ErrorComponent
+    ErrorComponent,
+    LocationFormComponent,
+    UserComponent,
+    UserFormComponent,
+    DeviceFormComponent,
+    ApplicationFormComponent,
+    RoleComponent,
+    DownloadFormComponent
   ],
   imports: [
     AppRoutingModule,
@@ -78,7 +94,9 @@ import { ErrorComponent } from './shared/error/error.component';
       provide: HTTP_INTERCEPTORS,
       useClass: AppHttpInterceptor,
       multi: true
-    }
+    },
+    LocationService,
+    DeviceService
   ],
   bootstrap: [AppComponent]
 })

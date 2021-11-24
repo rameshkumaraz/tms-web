@@ -1,0 +1,53 @@
+<div class="main">
+  <div class="container-fluid">
+    <div class="row page-header">
+      <div class="col-sm-3 title"><img src="../../../assets/images/merchant.svg" />
+        <span class="pl-2">{{ pageHeader }}</span>
+        <span class="count pl-2">({{ roleCount }})</span></div>
+    </div>
+    <div *ngIf="roleCount === 0" class="info">
+      No roles are created yet.
+      <!-- <ul>
+            <li>New role can be created by using <span class="info-highlight">Add New Roles</span> option.</li>
+          </ul> -->
+    </div>
+    <div class="pt-2" *ngIf="roleCount > 0">
+      <table class="table table-striped">
+        <thead>
+          <tr>
+            <th scope="col">Name</th>
+            <th scope="col">Description</th>
+            <th scope="col">Created By</th>
+            <th scope="col">Created Date</th>
+            <th scope="col">Modified By</th>
+            <th scope="col">Modified Date</th>
+            <th scope="col">Action</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let role of roles | slice: (page-1) * pageSize : (page-1) * pageSize + pageSize">
+            <td><span class="table-col-name">{{ role.name }}</span></td>
+            <td>{{ role.desc }}</td>
+            <td>{{ role.createdBy }}</td>
+            <td>{{ role.createdDate }}</td>
+            <td>{{ role.modifiedBy }}</td>
+            <td>{{ role.modifiedDate }}</td>
+            <td><span class="pr-3"><a (click)="viewPolicies(role.id)" routerLinkActive="active">
+                  <fa-icon [icon]='faEye' style="color:#1653da"></fa-icon>
+                </a></span></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="d-flex justify-content-between px-2">
+      <ngb-pagination [collectionSize]="roleCount" [(page)]="page" [pageSize]="pageSize">
+      </ngb-pagination>
+
+      <select [(ngModel)]="pageSize">
+        <option [ngValue]="5">5 items per page</option>
+        <option [ngValue]="10">10 items per page</option>
+        <option [ngValue]="25">25 items per page</option>
+      </select>
+    </div>
+  </div>
+</div>

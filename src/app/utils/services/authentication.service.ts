@@ -10,6 +10,7 @@ import { User } from 'src/app/model/user';
 import { ResponseHandlerService } from '../../shared/service/response-handler.service';
 import { AbstractService } from '../../shared/service/abstract.service';
 import { ApiResponse } from 'src/app/shared/model/api.response';
+import { RolesEnum } from '../guards/roles.enum';
 
 @Injectable({ providedIn: 'root' })
 export class AuthenticationService {
@@ -28,7 +29,7 @@ export class AuthenticationService {
         this.currentUser = this.currentUserSubject.asObservable();
     }
 
-    public getCurrentUser() : any {
+    public getCurrentUser(): any {
         return this.currentUserSubject.value;
     }
 
@@ -41,8 +42,17 @@ export class AuthenticationService {
         return this.isAuthorized() && this.getCurrentUser().roleName == role;
     }
 
-    getRole(){
+    getRole() {
         return this.currentUserSubject.value.roleName;
+    }
+
+    isAdmin() {
+        if (this.getRole() == RolesEnum.AZ_ROOT_ADMIN ||
+            this.getRole() == RolesEnum.AZ_ADMIN ||
+            this.getRole() == RolesEnum.AZ_SUPPORT) {
+            return true;
+        }
+        return false;
     }
 
     public getToken(): string {
@@ -87,7 +97,7 @@ export class AuthenticationService {
         }
     }
 
-    loadUserProfile(){
+    loadUserProfile() {
         console.log();
         this.currentUserSubject = new BehaviorSubject<User>(JSON.parse(sessionStorage.getItem('user_profile')));
         this.currentUser = this.currentUserSubject.asObservable();

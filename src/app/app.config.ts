@@ -4,6 +4,8 @@ export class AppSettings {
     public static ENDPOINTS = {
         'login': 'auth/login',
         'merchant': 'merchant',
-        'location': 'location'
+        'location': 'location',
+        'user': 'users',
+        'role': 'roles'
     };
 }

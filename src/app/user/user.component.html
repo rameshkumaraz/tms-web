@@ -3,27 +3,28 @@
     <div class="row page-header">
       <div class="col-sm-3 title"><img src="../../../assets/images/merchant.svg" />
         <span class="pl-2">{{ pageHeader }}</span>
-        <span class="count pl-2">({{ locationCount }})</span></div>
+        <span class="count pl-2">({{ userCount }})</span></div>
       <div class="col-sm-9 tools text-right">
-        <button class="button" (click)="createLocation()">
+        <button class="button" (click)="createUser()">
           <fa-icon [icon]='faPlus' size="lg"></fa-icon><span class="pl-2">Add
-            New Location</span>
+            New User</span>
         </button>
       </div>
     </div>
-    <div *ngIf="locationCount === 0" class="info">
-      No locations are created yet.
+    <div *ngIf="userCount === 0" class="info">
+      No users are created yet.
       <ul>
-        <li>New location can be created by using <span class="info-highlight">Add New Merchant</span> option.</li>
+        <li>New user can be created by using <span class="info-highlight">Add New User</span> option.</li>
       </ul>
     </div>
-    <div class="pt-2" *ngIf="locationCount > 0">
+    <div class="pt-2" *ngIf="userCount > 0">
       <table class="table table-striped">
         <thead>
           <tr>
             <th scope="col">Name</th>
-            <th scope="col">Address</th>
-            <th scope="col">Desc</th>
+            <th scope="col">Email</th>
+            <th scope="col">Merchant</th>
+            <th scope="col">Role</th>
             <th scope="col">Created By</th>
             <th scope="col">Created Date</th>
             <th scope="col">Modified By</th>
@@ -32,21 +33,24 @@
           </tr>
         </thead>
         <tbody>
-          <tr *ngFor="let location of locations | slice: (page-1) * pageSize : (page-1) * pageSize + pageSize">
-            <td><span class="table-col-name">{{ location.name }}</span></td>
-            <td>{{ location.address}}</td>
-            <td>{{ location.desc }}</td>
-            <td>{{ location.createdBy }}</td>
-            <td>{{ location.createdDate }}</td>
-            <td>{{ location.modifiedBy }}</td>
-            <td>{{ location.modifiedDate }}</td>
-            <td><span class="pr-3"><a (click)="viewLocation(location.id)" routerLinkActive="active">
+          <tr *ngFor="let user of users | slice: (page-1) * pageSize : (page-1) * pageSize + pageSize">
+            <td><span class="table-col-name">{{ user.firstName + ' ' + user.lastName}}</span></td>
+            <td>{{ user.email }}</td>
+            <!-- <td>{{ user.merchant.name }}</td>
+              <td>{{ user.role.name }}</td> -->
+            <td></td>
+            <td></td>
+            <td>{{ user.createdBy }}</td>
+            <td>{{ user.createdDate }}</td>
+            <td>{{ user.modifiedBy }}</td>
+            <td>{{ user.modifiedDate }}</td>
+            <td><span class="pr-3"><a (click)="viewUser(user.id)" routerLinkActive="active">
                   <fa-icon [icon]='faEye' style="color:#1653da"></fa-icon>
                 </a></span>
-              <span class="pr-3"><a (click)="editLocation(location.id)" routerLinkActive="active">
+              <span class="pr-3"><a (click)="editUser(user.id)" routerLinkActive="active">
                   <fa-icon [icon]='faEdit' style="color:#ffc107;"></fa-icon>
                 </a></span>
-              <span class="pr-3"><a (click)="deleteLocation(location.id)" routerLinkActive="active">
+              <span class="pr-3"><a (click)="deleteUser(user.id)" routerLinkActive="active">
                   <fa-icon [icon]='faArchive' style="color: #dc3545;"></fa-icon>
                 </a></span></td>
           </tr>
@@ -54,7 +58,7 @@
       </table>
     </div>
     <div class="d-flex justify-content-between px-2">
-      <ngb-pagination [collectionSize]="locationCount" [(page)]="page" [pageSize]="pageSize">
+      <ngb-pagination [collectionSize]="userCount" [(page)]="page" [pageSize]="pageSize">
       </ngb-pagination>
 
       <select [(ngModel)]="pageSize">

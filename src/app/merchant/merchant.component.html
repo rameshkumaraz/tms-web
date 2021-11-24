@@ -18,15 +18,15 @@
       </div>
     </div>
     <div *ngIf="merchantCount === 0" class="info">
-        No merchants are created yet.
-        <ul>
-          <li>New merchant can be created by using <span class="info-highlight">Add New Merchant</span> option.</li>
-        </ul>
+      No merchants are created yet.
+      <ul>
+        <li>New merchant can be created by using <span class="info-highlight">Add New Merchant</span> option.</li>
+      </ul>
     </div>
     <div class="pt-2" *ngIf="mode == 1">
       <app-merchant-card [(merchants)]="merchants"></app-merchant-card>
     </div>
-    <div class="pt-2" *ngIf="mode == 2">
+    <div class="pt-2" *ngIf="mode == 2 && merchantCount > 0">
 
       <table class="table table-striped">
         <thead>
@@ -36,25 +36,37 @@
             <th scope="col">Email</th>
             <th scope="col">Phone</th>
             <th scope="col">Website</th>
+            <th scope="col">Created By</th>
             <th scope="col">Created Date</th>
+            <th scope="col">Modified By</th>
+            <th scope="col">Modified Date</th>
             <th scope="col">Action</th>
           </tr>
         </thead>
         <tbody>
           <tr *ngFor="let merchant of merchants | slice: (page-1) * pageSize : (page-1) * pageSize + pageSize">
-            <td><span class="merchantName">{{ merchant.name }}</span></td>
-            <td>
-              {{ merchant.address1+', '}}<br>
-              {{ merchant.address2+', '}}<br>
+            <td><span class="table-col-name">{{ merchant.name }}</span></td>
+            <td><span class="table-col-ellipsis">
+              {{ merchant.address1+', '+merchant.address2+', '}}
               {{merchant.city+', '+merchant.country+' - '+merchant.areaCode  }}
+              </span>
             </td>
             <td>{{ merchant.email }}</td>
             <td>{{ merchant.phone }}</td>
             <td>{{ merchant.website }}</td>
+            <td>{{ merchant.createdBy }}</td>
             <td>{{ merchant.createdDate }}</td>
-            <td><span class="pr-3"><a (click)="viewMerchant(merchant.id)"  routerLinkActive="active"><fa-icon [icon]='faEye' style="color:#1653da"></fa-icon></a></span>
-            <span class="pr-3"><a (click)="editMerchant(merchant.id)"  routerLinkActive="active"><fa-icon [icon]='faEdit' style="color:#ffc107;"></fa-icon></a></span>
-            <span class="pr-3"><a (click)="deleteMerchant(merchant.id)" routerLinkActive="active"><fa-icon [icon]='faArchive' style="color: #dc3545;"></fa-icon></a></span></td>
+            <td>{{ merchant.modifiedBy }}</td>
+            <td>{{ merchant.modifiedDate }}</td>
+            <td><span class="pr-3"><a (click)="viewMerchant(merchant.id)" routerLinkActive="active">
+                  <fa-icon [icon]='faEye' style="color:#1653da"></fa-icon>
+                </a></span>
+              <span class="pr-3"><a (click)="editMerchant(merchant.id)" routerLinkActive="active">
+                  <fa-icon [icon]='faEdit' style="color:#ffc107;"></fa-icon>
+                </a></span>
+              <span class="pr-3"><a (click)="deleteMerchant(merchant.id)" routerLinkActive="active">
+                  <fa-icon [icon]='faArchive' style="color: #dc3545;"></fa-icon>
+                </a></span></td>
           </tr>
         </tbody>
       </table>

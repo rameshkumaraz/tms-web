@@ -17,12 +17,12 @@ export class MerchantService {
   merchants: Array<Merchant>;
 
   constructor(private mockDataService: AppMockDataService,
-    private http: HttpClient,) { }
+    private http: HttpClient) { }
 
-    getAllMerchants() {
-      const apiUrl = AppSettings.API_CONTEXT + AppSettings.ENDPOINTS.merchant;
-      return this.http.get(apiUrl);
-    }  
+  getAllMerchants() {
+    const apiUrl = AppSettings.API_CONTEXT + AppSettings.ENDPOINTS.merchant;
+    return this.http.get(apiUrl);
+  }
 
   getMerchant(id: number) {
 
@@ -40,7 +40,7 @@ export class MerchantService {
     }
     else {
       // return this.http.post(apiUrl, bodyJSON, { observe: 'response' });
-      const apiUrl = AppSettings.API_CONTEXT + AppSettings.ENDPOINTS.merchant+"/"+id;
+      const apiUrl = AppSettings.API_CONTEXT + AppSettings.ENDPOINTS.merchant + "/" + id;
       console.log("API Url", apiUrl);
       return this.http.get(apiUrl);
     }
@@ -51,10 +51,9 @@ export class MerchantService {
     const apiUrl = AppSettings.API_CONTEXT + AppSettings.ENDPOINTS.merchant;
 
     console.log('API URL:', apiUrl);
-    const headers = { 'content-type': 'application/json'}  
-    
-    return this.http.post(apiUrl, JSON.stringify(merchant), {'headers':headers});
+    const headers = { 'content-type': 'application/json' }
 
+    return this.http.post(apiUrl, JSON.stringify(merchant), { 'headers': headers });
   }
 
   updateMerchant(merchant: Merchant) {
@@ -63,9 +62,17 @@ export class MerchantService {
     const apiUrl = AppSettings.API_CONTEXT + AppSettings.ENDPOINTS.merchant;
 
     console.log('API URL:', apiUrl);
-    const headers = { 'content-type': 'application/json'}  
-    
-    return this.http.put(apiUrl, JSON.stringify(merchant), {'headers':headers});
+    const headers = { 'content-type': 'application/json' }
 
+    return this.http.put(apiUrl, JSON.stringify(merchant), { 'headers': headers });
+  }
+
+  deleteMerchant(id: number) {
+    const apiUrl = AppSettings.API_CONTEXT + AppSettings.ENDPOINTS.merchant + "/" + id;
+
+    console.log('API URL:', apiUrl);
+    const headers = { 'content-type': 'application/json' }
+
+    return this.http.delete(apiUrl);
   }
 }

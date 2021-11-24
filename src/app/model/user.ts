@@ -1,4 +1,5 @@
 import { BaseModel } from './baseModel';
+import { Merchant } from './merchant';
 import { Role } from './role';
 
 export class User extends BaseModel{
@@ -13,7 +14,7 @@ export class User extends BaseModel{
 
     canEdit: boolean;
 
-    merchant: number;
+    merchant: Merchant;
 
     role: Role;
 

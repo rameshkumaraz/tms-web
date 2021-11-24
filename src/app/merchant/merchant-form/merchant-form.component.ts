@@ -1,12 +1,11 @@
 import { Component, Input, OnInit, ViewEncapsulation } from '@angular/core';
-import { faCheck, faEdit, faArchive, faPlus, faUndo } from '@fortawesome/free-solid-svg-icons';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router, ActivatedRoute } from '@angular/router';
-import { countries } from '../shared/model/country-data-store'
-import { Merchant } from '../model/merchant';
-import { MerchantContact } from '../model/merchant-contact';
-import { MerchantService } from '../merchant/merchant.service';
-import { ApiResponse } from '../shared/model/api.response';
+import { countries } from '../../shared/model/country-data-store'
+import { Merchant } from '../../model/merchant';
+import { MerchantContact } from '../../model/merchant-contact';
+import { MerchantService } from '../../merchant/merchant.service';
+import { ApiResponse } from '../../shared/model/api.response';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { ToastrService } from 'ngx-toastr';
 import { distinctUntilChanged, first } from 'rxjs/operators';
@@ -172,7 +171,7 @@ export class MerchantFormComponent implements OnInit {
           this.spinner.hide();
         },
         err => {
-          console.log('Unable to create merchant, please contact adminstrator', err);
+          console.log('Unable to load merchants, please contact adminstrator', err);
           this.errMsg = err.message;
           this.toastr.error(this.errMsg);
           this.spinner.hide();
@@ -219,7 +218,7 @@ export class MerchantFormComponent implements OnInit {
     Object.assign(this.merchant.contacts[0], contactToUpdate);
     this.merchantService.updateMerchant(this.merchant).subscribe((resp: ApiResponse) => {
       this.spinner.hide();
-      this.toastr.success("Merchant has been updated successfully.");
+      this.toastr.success("Merchant has been updated successfully.", "Merchant");
       this.router.navigate(['/merchant']);
     },
       err => {
