@@ -1,0 +1,19 @@
+@import "../../assets/sass/variables";
+
+location-select {
+  padding-left: 5px;
+  padding-right: 5px;
+  border-color: $header-color;
+  border-radius: 10px;
+  border-width: 2px;
+}
+
+.location-select select {
+  height: 34px;
+  font-family: $font-family-base;
+  font-size: $font-size-sm;
+  color: $header-color;
+  font-weight: $font-weight-lighter;
+  border-radius: 5px;
+  min-width: 200px;
+}

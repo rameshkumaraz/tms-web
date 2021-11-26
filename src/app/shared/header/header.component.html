@@ -22,6 +22,8 @@
             </span>
           </div>
           <div ngbDropdownMenu aria-labelledby="deviceDropdown" class="nav-sm">
+            <a ngbDropdownItem class="nav-smi" href="/dbrand" *ngIf="hasDeviceBrandAccess">Device Brand</a>
+            <a ngbDropdownItem class="nav-smi" href="/dmodel" *ngIf="hasDeviceModelAccess">Device Model</a>
             <a ngbDropdownItem class="nav-smi" href="/device">Device Management</a>
             <a ngbDropdownItem class="nav-smi" href="/application">Application Management</a>
             <a ngbDropdownItem class="nav-smi" href="/download">Download Management</a>
@@ -37,7 +39,7 @@
             <a ngbDropdownItem class="nav-smi" href="#">Alerts</a>
             <a ngbDropdownItem class="nav-smi" href="#">Devices</a>
             <a ngbDropdownItem class="nav-smi" href="#">Downloads</a>
-            <a ngbDropdownItem class="nav-smi" href="#"  *ngIf="hasMReportAccess">Merchants</a>
+            <a ngbDropdownItem class="nav-smi" href="#" *ngIf="hasMReportAccess">Merchants</a>
             <a ngbDropdownItem class="nav-smi" href="#">Users</a>
           </div>
         </li>
@@ -65,9 +67,9 @@
             </span>
           </div>
           <div ngbDropdownMenu aria-labelledby="userDropdown">
-            <button ngbDropdownItem (click)="openLoginModal(logincontent)" *ngIf="!profile">
+            <!-- <button ngbDropdownItem (click)="openLoginModal(logincontent)" *ngIf="!profile">
               <fa-icon [icon]='faSignIn' class="pr-2"></fa-icon>Login as Admin
-            </button>
+            </button> -->
             <button ngbDropdownItem (click)="logout()" *ngIf="profile">
               <fa-icon [icon]='faSignOut' class="pr-2"></fa-icon>Logout
             </button>
@@ -98,6 +100,6 @@
     </button>
   </div>
 </ng-template>
-<ng-template #logincontent let-c="close" let-d="dismiss">
+<!-- <ng-template #logincontent let-c="close" let-d="dismiss">
   <app-login-form [showHeader]="true" [isPopup]="true" (modelClosed)='closeModal($event, "login")'></app-login-form>
-</ng-template>
+</ng-template> -->

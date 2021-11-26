@@ -1,13 +1,10 @@
-import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, Input} from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { faTimes } from '@fortawesome/free-solid-svg-icons';
 import { AuthenticationService } from '../utils/services/authentication.service';
 import { Router } from '@angular/router';
-import { first } from 'rxjs/operators';
 import { NgxSpinnerService } from 'ngx-spinner';
-import { LoginNotificationService } from '../shared/service/login-notification.service';
 import { ApiResponse } from '../shared/model/api.response';
-import { HttpStatusCode } from '@angular/common/http';
 
 @Component({
   selector: 'app-login-form',
@@ -17,9 +14,8 @@ import { HttpStatusCode } from '@angular/common/http';
 export class LoginFormComponent implements OnInit {
 
   @Input() showHeader: boolean;
-  @Input() isPopup: boolean;
 
-  @Output() modelClosed = new EventEmitter();
+  // @Output() modelClosed = new EventEmitter();
 
   faTimes = faTimes;
 
@@ -29,12 +25,12 @@ export class LoginFormComponent implements OnInit {
   errMsg: string;
 
   constructor(private formBuilder: FormBuilder,
-    private authenticationService: AuthenticationService,
-    private loginNotifyService: LoginNotificationService,
+    private authService: AuthenticationService,
     private router: Router,
     private spinner: NgxSpinnerService) { }
 
   ngOnInit() {
+    this.authService.logout();
     this.loginForm = this.formBuilder.group({
       username: ['', [Validators.required, Validators.email]],
       password: ['', [Validators.required, Validators.minLength(8)]]
@@ -58,31 +54,25 @@ export class LoginFormComponent implements OnInit {
 
     const bodyJSON = this.loginForm.value;
     this.spinner.show();
-    this.authenticationService.login(bodyJSON).subscribe((resp: ApiResponse) => {
+    this.authService.login(bodyJSON).subscribe((resp: ApiResponse) => {
       console.log(resp);
       sessionStorage.setItem('access_token', resp.message.access_token);
       sessionStorage.setItem('user_profile', resp.message.user_profile);
-      this.authenticationService.loadUserProfile();
+      this.authService.loadUserProfile();
       this.spinner.hide();
-      if (!this.isPopup) {
 
-        let profile = JSON.parse(resp.message.user_profile);
-        console.log('roleId....',profile.roleId);
-        if(profile.roleId === 1)
-          this.router.navigate(['/dashboard']);
-        else
-          this.router.navigate(['/mdashboard']);
-      } else {
-        console.log('Popup');
-        this.loginNotifyService.notifiy(resp.message);
-        this.close();
-        return;
-      }
+      let profile = JSON.parse(resp.message.user_profile);
+      // console.log('roleId....', profile.roleId);
+      if (profile.roleId === 1)
+        this.router.navigate(['/db']);
+      else
+        this.router.navigate(['/mdb']);
+
     },
       err => {
         console.log('Login error', err);
         if (err.code === 401) {
-          this.authenticationService.logout();
+          this.authService.logout();
           // location.reload();
         }
         this.errMsg = err.message;
@@ -91,8 +81,8 @@ export class LoginFormComponent implements OnInit {
       });
   }
 
-  close() {
-    // /console.log('close invoked');
-    this.modelClosed.emit(true);
-  }
+  // close() {
+  //   // /console.log('close invoked');
+  //   this.modelClosed.emit(true);
+  // }
 }

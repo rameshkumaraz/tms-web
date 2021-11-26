@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { NgxSpinnerService } from 'ngx-spinner';
@@ -7,17 +7,19 @@ import { distinctUntilChanged, first } from 'rxjs/operators';
 import { ApiResponse } from '../../shared/model/api.response';
 import { LocationService } from './../location.service';
 import { Location } from '../../model/location';
-import { AuthenticationService } from '../../utils/services';
 import { Merchant } from '../../model/merchant';
 import { MerchantService } from '../../merchant/merchant.service';
-import { RolesEnum } from 'src/app/utils/guards/roles.enum';
+import { AuthenticationService } from 'src/app/utils/services';
+import { AppService } from 'src/app/shared/service/app.service';
+import { Subscription } from 'rxjs';
+import { ActionEnum } from 'src/app/shared/enum/action.enum';
 
 @Component({
   selector: 'app-loation-form',
   templateUrl: './location-form.component.html',
   styleUrls: ['./location-form.component.scss']
 })
-export class LocationFormComponent implements OnInit {
+export class LocationFormComponent implements OnInit, OnDestroy {
 
   actionType;
   locId;
@@ -33,22 +35,17 @@ export class LocationFormComponent implements OnInit {
 
   location: Location;
 
-  sub;
+  sub: Subscription;
 
   merchant: Merchant;
 
-  merchants: Array<Merchant>;
-
-  isAdmin = false;
-
   constructor(private formBuilder: FormBuilder,
     private router: Router,
+    private appService: AppService,
     private activatedroute: ActivatedRoute,
     private locationService: LocationService,
     private spinner: NgxSpinnerService,
-    private toastr: ToastrService,
-    private authService: AuthenticationService,
-    private merchantService: MerchantService) { }
+    private toastr: ToastrService) { }
 
   ngOnInit(): void {
     this.sub = this.activatedroute.paramMap.subscribe(params => {
@@ -57,30 +54,63 @@ export class LocationFormComponent implements OnInit {
       this.locId = params.get('id');
     });
 
-    console.log(this.authService.getCurrentUser());
+    // console.log(this.authService.getCurrentUser());
     this.locationForm = this.formBuilder.group({
-      merchant: ['', [Validators.required]],
       name: ['', [Validators.required, Validators.minLength(5), Validators.max(200)]],
       address: ['', [Validators.required, Validators.minLength(5), Validators.max(500)]],
       desc: ['']
     });
 
-    if (this.actionType == 'view') {
+    if (this.actionType != ActionEnum.add) {
+      this.onLoad();
+    } else {
+      this.spinner.show();
+      this.appService.userMerchant.subscribe(data => {
+        this.merchant = data;
+        this.spinner.hide();
+      });
+    }
+
+
+    if (this.actionType == ActionEnum.view) {
       this.locationForm.disable();
     }
 
-    if (this.authService.getRole() == RolesEnum.AZ_ROOT_ADMIN ||
-        this.authService.getRole() == RolesEnum.AZ_ADMIN ||
-        this.authService.getRole() == RolesEnum.AZ_SUPPORT) {
-      this.loadMerchants();
-      this.isAdmin = true;
-    } else {
-      this.loadMerchant(this.authService.getCurrentUser().merchantId);
-    }
+    // this.sub = this.locationService.location.subscribe(data => {
+    //   console.log('Location to populate...', data);
+    //   if (!data.name) { }
+    //   else {
+    //     this.location = data;
+    //     // console.log('Location to populate...', this.location);
+    //     this.locationForm.setValue({
+    //       name: this.location.name,
+    //       address: this.location.address,
+    //       desc: this.location.desc,
+    //     });
+    //     if (this.actionType == 'view') {
+    //       this.locationForm.disable();
+    //     }
+    //   }
+    // });
+  }
 
-    if (this.actionType != 'add') {
-      this.loadLocation();
-    }
+  onLoad() {
+    this.spinner.show();
+    this.locationService.getLocation(this.locId).subscribe((resp: ApiResponse) => {
+      this.spinner.hide();
+      this.location = resp.message;
+      this.locationForm.setValue({
+        name: this.location.name,
+        address: this.location.address,
+        desc: this.location.desc,
+      });
+    },
+      err => {
+        console.log('Unable to load location, please contact adminstrator', err);
+        this.errMsg = err.message;
+        this.toastr.error(this.errMsg, "Location");
+        this.spinner.hide();
+      });
   }
 
   get f() { return this.locationForm['controls'] }
@@ -100,75 +130,6 @@ export class LocationFormComponent implements OnInit {
       });
   };
 
-  loadMerchants() {
-    this.spinner.show();
-    this.merchantService.getAllMerchants()
-      .pipe(first())
-      .subscribe(
-        (resp: ApiResponse) => {
-          console.log('Merchant Response', resp);
-          this.merchants = resp.message;
-          if (!this.merchants) {
-            this.toastr.error(this.errMsg);
-          }
-          this.spinner.hide();
-        },
-        err => {
-          console.log('Unable to load merchants, please contact adminstrator', err);
-          this.errMsg = err.message;
-          this.toastr.error(this.errMsg);
-          this.spinner.hide();
-        });
-  }
-
-  loadMerchant(id: number) {
-    this.spinner.show();
-    this.merchantService.getMerchant(id)
-      .pipe(first())
-      .subscribe(
-        (resp: ApiResponse) => {
-          console.log('Merchant Response', resp);
-          this.merchant = resp.message;
-          if (!this.merchant) {
-            this.toastr.error(this.errMsg);
-          }
-          this.spinner.hide();
-        },
-        err => {
-          console.log('Unable to load merchants, please contact adminstrator', err);
-          this.errMsg = err.message;
-          this.toastr.error(this.errMsg);
-          this.spinner.hide();
-        });
-  }
-
-  loadLocation() {
-    this.spinner.show();
-    this.locationService.getLocation(this.locId)
-      .pipe(first())
-      .subscribe(
-        (resp: ApiResponse) => {
-          console.log('Merchant Response', resp);
-          this.location = resp.message;
-          if (!this.location) {
-            this.toastr.error(this.errMsg);
-          } else {
-            this.locationForm.setValue({
-              name: this.location.name,
-              address: this.location.address,
-              desc: this.location.desc,
-            });
-          }
-          this.spinner.hide();
-        },
-        err => {
-          console.log('Unable to load locations, please contact adminstrator', err);
-          this.errMsg = err.message;
-          this.toastr.error(this.errMsg);
-          this.spinner.hide();
-        });
-  }
-
   save() {
     console.log('nextTab');
     this.formSubmitted = true;
@@ -179,6 +140,7 @@ export class LocationFormComponent implements OnInit {
     }
     this.spinner.show();
     this.location = <Location>this.locationForm.value;
+    this.location.merchant = this.merchant.id;
 
     this.locationService.createLocation(this.location).subscribe((resp: ApiResponse) => {
       this.spinner.hide();
@@ -188,7 +150,7 @@ export class LocationFormComponent implements OnInit {
       err => {
         console.log('Unable to create merchant, please contact adminstrator', err);
         this.errMsg = err.message;
-        this.toastr.error(this.errMsg, "Location");
+        this.toastr.error('Unable to create merchant, please contact adminstrator', "Location");
         this.spinner.hide();
       });
   }
@@ -210,24 +172,40 @@ export class LocationFormComponent implements OnInit {
       this.router.navigate(['/location']);
     },
       err => {
-        console.log('Unable to create merchant, please contact adminstrator', err);
+        console.log('Unable to update merchant, please contact adminstrator', err);
         this.errMsg = err.message;
-        this.toastr.error(this.errMsg, "Location");
+        this.toastr.error('Unable to update merchant, please contact adminstrator', "Location");
         this.spinner.hide();
       });
   }
 
   edit() {
-    this.actionType = 'edit';
+    this.actionType = ActionEnum.edit;
     this.locationForm.enable();
   }
 
   delete() {
-    // this.actionType = 'edit';
+    this.locationService.deleteLocation(this.location.id);
+    this.locationService.deleteLocation(this.location.id).subscribe(data => {
+      this.router.navigate(['/location']);
+    },
+    err => {
+      console.log('Unable to delete location, please contact administrator.', 'Location');
+      this.toastr.error('Unable to delete location, please contact administrator.');
+    });
   }
 
   cancel() {
-    this.router.navigate(['/merchant']);
+    this.router.navigate(['/location']);
   }
 
+
+  public get actionEnum(): typeof ActionEnum {
+    return ActionEnum; 
+  }
+
+
+  ngOnDestroy(): void {
+    this.sub.remove;
+  }
 }

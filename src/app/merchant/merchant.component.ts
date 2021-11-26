@@ -51,9 +51,6 @@ export class MerchantComponent implements OnInit {
   }
 
   onLoad() {
-    // if (!this.user) {
-    //   return;
-    // }
     this.spinner.show();
     this.merchantService.getAllMerchants()
       .pipe(first())
@@ -77,15 +74,15 @@ export class MerchantComponent implements OnInit {
   }
 
   createMerchant(){
-    this.router.navigate(['/merchantForm', {actionType: 'add'}]);
+    this.router.navigate(['/mf', {actionType: 'add'}]);
   }
 
   viewMerchant(id: number) {
-    this.router.navigate(['/merchantForm', {actionType: 'view', id}]);
+    this.router.navigate(['/mf', {actionType: 'view', id}]);
   }
 
   editMerchant(id: number) {
-    this.router.navigate(['/merchantForm', {actionType: 'edit', id}]);
+    this.router.navigate(['/mf', {actionType: 'edit', id}]);
   }
 
   deleteMerchant(id: number) {

@@ -5,9 +5,10 @@ import { Merchant } from '../model/merchant';
 import { environment } from '../../environments/environment';
 import mockData from '../../assets/config/mock-data.json';
 import { AppMockDataService } from '../utils/services/app-mock-data.service';
-import { of } from 'rxjs';
+import { BehaviorSubject, Observable, of } from 'rxjs';
 import { delay } from 'rxjs/operators';
 import { AppSettings } from '../app.config';
+import { AuthenticationService } from '../utils/services';
 
 @Injectable({
   providedIn: 'root'
@@ -17,7 +18,8 @@ export class MerchantService {
   merchants: Array<Merchant>;
 
   constructor(private mockDataService: AppMockDataService,
-    private http: HttpClient) { }
+    private http: HttpClient) {
+  }
 
   getAllMerchants() {
     const apiUrl = AppSettings.API_CONTEXT + AppSettings.ENDPOINTS.merchant;

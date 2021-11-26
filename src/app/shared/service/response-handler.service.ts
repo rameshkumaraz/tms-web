@@ -13,7 +13,7 @@ export class ResponseHandlerService {
   constructor() { }
 
   handleResponse(response: any) {
-    console.log(response);
+    // console.log(response);
     this.apiResponse = new ApiResponse();
     this.apiResponse.message = response.body;
     this.apiResponse.status = 'Success';

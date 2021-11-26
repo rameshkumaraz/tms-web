@@ -1,13 +1,11 @@
 import { BaseModel } from './baseModel';
 
-export class location extends BaseModel{
+export class Device extends BaseModel{
     serial:string;
 
     name:string;
 
     model:number;
-
-    timezone:string;
 
     locationId: number;
 }

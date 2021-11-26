@@ -39,8 +39,10 @@ import { DeviceFormComponent } from './device/device-form/device-form.component'
 import { ApplicationFormComponent } from './application/application-form/application-form.component';
 import { RoleComponent } from './role/role.component';
 import { DownloadFormComponent } from './download/download-form/download-form.component';
-import { LocationService } from './location/location.service';
-import { DeviceService } from './device/device.service';
+import { DeviceModelComponent } from './device-model/device-model.component';
+import { DeviceModelFormComponent } from './device-model/device-model-form/device-model-form.component';
+import { DeviceBrandComponent } from './device-brand/device-brand.component';
+import { DeviceBrandFormComponent } from './device-brand/device-brand-form/device-brand-form.component';
 
 @NgModule({
   declarations: [
@@ -68,7 +70,11 @@ import { DeviceService } from './device/device.service';
     DeviceFormComponent,
     ApplicationFormComponent,
     RoleComponent,
-    DownloadFormComponent
+    DownloadFormComponent,
+    DeviceModelComponent,
+    DeviceModelFormComponent,
+    DeviceBrandComponent,
+    DeviceBrandFormComponent
   ],
   imports: [
     AppRoutingModule,
@@ -94,9 +100,7 @@ import { DeviceService } from './device/device.service';
       provide: HTTP_INTERCEPTORS,
       useClass: AppHttpInterceptor,
       multi: true
-    },
-    LocationService,
-    DeviceService
+    }
   ],
   bootstrap: [AppComponent]
 })

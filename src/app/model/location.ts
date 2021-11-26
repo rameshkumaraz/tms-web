@@ -7,5 +7,5 @@ export class Location extends BaseModel{
 
     desc:string;
 
-    merchantId: number;
+    merchant: number;
 }

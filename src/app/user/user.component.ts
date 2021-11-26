@@ -57,15 +57,15 @@ export class UserComponent implements OnInit {
   }
 
   createUser() {
-    this.router.navigate(['/userForm', { actionType: 'add' }]);
+    this.router.navigate(['/uf', { actionType: 'add' }]);
   }
 
   viewUser(id: number) {
-    this.router.navigate(['/userForm', { actionType: 'view', id }]);
+    this.router.navigate(['/uf', { actionType: 'view', id }]);
   }
 
   editUser(id: number) {
-    this.router.navigate(['/userForm', { actionType: 'edit', id }]);
+    this.router.navigate(['/uf', { actionType: 'edit', id }]);
   }
 
   deleteUser(id: number) {

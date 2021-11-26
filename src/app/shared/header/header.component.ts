@@ -2,10 +2,7 @@ import { Component, Input, OnInit } from '@angular/core';
 import { faUser, faSignInAlt, faSignOutAlt } from '@fortawesome/free-solid-svg-icons';
 import { NgbModalConfig, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { Router } from '@angular/router';
-import { User } from 'src/app/model/user';
 import { AuthenticationService } from 'src/app/utils/services';
-import { LoginNotificationService } from '../service/login-notification.service';
-import { first } from 'rxjs/operators';
 
 @Component({
   selector: 'app-header',
@@ -31,10 +28,11 @@ export class HeaderComponent implements OnInit {
   hasAdminAccess = false;
   hasMReportAccess = false;
   hasRoleAccess = false;
+  hasDeviceBrandAccess = false;
+  hasDeviceModelAccess = false;
 
   constructor(config: NgbModalConfig, private modalService: NgbModal,
-    private authenticationService: AuthenticationService,
-    private loginNotifyService: LoginNotificationService,
+    private authService: AuthenticationService,
     private router: Router) {
     // customize default values of modals used by this component tree
     config.backdrop = 'static';
@@ -42,26 +40,22 @@ export class HeaderComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.profile = this.authenticationService.getCurrentUser();
+    this.profile = this.authService.getCurrentUser();
     // console.log(this.profile);
-    this.loginNotifyService.events$.pipe(first())
-    .subscribe(
-      resp => {
-        this.profile = resp;
-      });
-
     this.populateAccess();  
   }
 
   populateAccess(){
-    console.log('Role...', this.profile.roleName);
-    console.log('Role...', ["AZ_ROOT_ADMIN", "AZ_ADMIN"].indexOf(this.profile.roleName));
+    // console.log('Role...', this.profile.roleName);
+    // console.log('Role...', ["AZ_ROOT_ADMIN", "AZ_ADMIN"].indexOf(this.profile.roleName));
     if(["AZ_ROOT_ADMIN", "AZ_ADMIN"].indexOf(this.profile.roleName) >= 0){
       this.hasDbAccess = true;
       this.hasMerchantAccess = true;
       this.hasMReportAccess = true;
       this.hasReportAccess = true;
       this.hasRoleAccess = true;
+      this.hasDeviceBrandAccess = true;
+      this.hasDeviceModelAccess = true;
     }
     if(["AZ_ROOT_ADMIN", "MERCHANT_ADMIN"].indexOf(this.profile.roleName) >= 0){ 
       this.hasMDbAccess = true;
@@ -89,7 +83,7 @@ export class HeaderComponent implements OnInit {
   }
 
   logout() {
-    this.authenticationService.logout();
+    this.authService.logout();
     this.profile = null;
     this.router.navigate(['/login']);
   }
