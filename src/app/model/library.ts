@@ -1,6 +1,6 @@
 import { BaseModel } from './baseModel';
 
-export class library extends BaseModel{
+export class Library extends BaseModel{
 
     name:string;
 

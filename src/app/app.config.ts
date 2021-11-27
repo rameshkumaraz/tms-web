@@ -11,6 +11,8 @@ export class AppSettings {
         'deviceBrand': 'db',
         'deviceModel': 'dm',
         'user': 'users',
-        'role': 'roles'
+        'role': 'roles',
+        'application': 'app',
+        'library': 'lib'
     };
 }

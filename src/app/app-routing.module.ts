@@ -22,6 +22,8 @@ import { UserFormComponent } from './user/user-form/user-form.component';
 import { DeviceFormComponent } from './device/device-form/device-form.component';
 import { ApplicationFormComponent } from './application/application-form/application-form.component';
 import { DownloadFormComponent } from './download/download-form/download-form.component';
+import { LibraryComponent } from './library/library.component';
+import { LibraryFormComponent } from './library/library-form/library-form.component';
 
 const routes: Routes = [
   { path: 'login', component: LoginComponent },
@@ -39,6 +41,8 @@ const routes: Routes = [
   { path: 'df', component: DeviceFormComponent, canLoad: [AuthGuard], canActivate: [AuthGuard], data: {roles: ['AZ_ROOT_ADMIN', 'MERCHANT_ADMIN', 'MERCHANT_SUPERVISOR', 'MERCHANT_USER']} },
   { path: 'application', component: ApplicationComponent, canLoad: [AuthGuard], canActivate: [AuthGuard], data: {roles: ['AZ_ROOT_ADMIN', 'MERCHANT_ADMIN', 'MERCHANT_SUPERVISOR', 'MERCHANT_USER']} },
   { path: 'af', component: ApplicationFormComponent, canLoad: [AuthGuard], canActivate: [AuthGuard], data: {roles: ['AZ_ROOT_ADMIN', 'MERCHANT_ADMIN', 'MERCHANT_SUPERVISOR', 'MERCHANT_USER']} },
+  { path: 'library', component: LibraryComponent, canLoad: [AuthGuard], canActivate: [AuthGuard], data: {roles: ['AZ_ROOT_ADMIN', 'MERCHANT_ADMIN', 'MERCHANT_SUPERVISOR', 'MERCHANT_USER']} },
+  { path: 'lf', component: LibraryFormComponent, canLoad: [AuthGuard], canActivate: [AuthGuard], data: {roles: ['AZ_ROOT_ADMIN', 'MERCHANT_ADMIN', 'MERCHANT_SUPERVISOR', 'MERCHANT_USER']} },
   { path: 'download', component: DownloadComponent, canLoad: [AuthGuard], canActivate: [AuthGuard], data: {roles: ['AZ_ROOT_ADMIN', 'MERCHANT_ADMIN', 'MERCHANT_SUPERVISOR', 'MERCHANT_USER']} },
   { path: 'df', component: DownloadFormComponent, canLoad: [AuthGuard], canActivate: [AuthGuard], data: {roles: ['AZ_ROOT_ADMIN', 'MERCHANT_ADMIN', 'MERCHANT_SUPERVISOR', 'MERCHANT_USER']} },
   { path: 'user', component: UserComponent, canLoad: [AuthGuard], canActivate: [AuthGuard], data: {roles: ['AZ_ROOT_ADMIN', 'AZ_ADMIN', 'MERCHANT_ADMIN', 'MERCHANT_SUPERVISOR']} },

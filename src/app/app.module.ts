@@ -43,6 +43,8 @@ import { DeviceModelComponent } from './device-model/device-model.component';
 import { DeviceModelFormComponent } from './device-model/device-model-form/device-model-form.component';
 import { DeviceBrandComponent } from './device-brand/device-brand.component';
 import { DeviceBrandFormComponent } from './device-brand/device-brand-form/device-brand-form.component';
+import { LibraryComponent } from './library/library.component';
+import { LibraryFormComponent } from './library/library-form/library-form.component';
 
 @NgModule({
   declarations: [
@@ -74,7 +76,9 @@ import { DeviceBrandFormComponent } from './device-brand/device-brand-form/devic
     DeviceModelComponent,
     DeviceModelFormComponent,
     DeviceBrandComponent,
-    DeviceBrandFormComponent
+    DeviceBrandFormComponent,
+    LibraryComponent,
+    LibraryFormComponent
   ],
   imports: [
     AppRoutingModule,

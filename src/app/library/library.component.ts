@@ -6,14 +6,14 @@ import { ToastrService } from 'ngx-toastr';
 import { first } from 'rxjs/operators';
 import { ActionEnum } from '../shared/enum/action.enum';
 import { ApiResponse } from '../shared/model/api.response';
-import { ApplicationService } from './application.service';
+import { LibraryService } from './library.service';
 
 @Component({
-  selector: 'app-application',
-  templateUrl: './application.component.html',
-  styleUrls: ['./application.component.scss']
+  selector: 'app-library',
+  templateUrl: './library.component.html',
+  styleUrls: ['./library.component.scss']
 })
-export class ApplicationComponent implements OnInit {
+export class LibraryComponent implements OnInit {
 
   faBars = faBars;
   faPlus = faPlus;
@@ -26,17 +26,17 @@ export class ApplicationComponent implements OnInit {
   page = 1;
   pageSize = 5;
 
-  appCount = 0;
-  apps: Array<any>;
+  libCount = 0;
+  libs: Array<any>;
 
   constructor(
-    private service: ApplicationService,
+    private service: LibraryService,
     private spinner: NgxSpinnerService,
     private router: Router,
     private toastr: ToastrService) { }
 
   ngOnInit(): void {
-    this.pageHeader = 'Application';
+    this.pageHeader = 'Library';
     this.onLoad();
   }
 
@@ -46,39 +46,39 @@ export class ApplicationComponent implements OnInit {
       .pipe(first())
       .subscribe(
         (resp: ApiResponse) => {
-          console.log('Application Response', resp);
-          this.apps = resp.message;
-          this.appCount = this.apps.length;
+          console.log('Library Response', resp);
+          this.libs = resp.message;
+          this.libCount = this.libs.length;
           this.spinner.hide();
         },
         error => {
-          console.log('Application Response', error);
+          console.log('Library Response', error);
           this.spinner.hide();
         });
   }
 
   create() {
-    console.log('Add new Application');
-    this.router.navigate(['/af', { actionType: ActionEnum.add}],{skipLocationChange: true});
+    console.log('Add new Library');
+    this.router.navigate(['/lf', { actionType: ActionEnum.add}],{skipLocationChange: true});
   }
 
   view(id: number) {
-    this.router.navigate(['/af', { actionType: ActionEnum.view, id: id}],{skipLocationChange: true});
+    this.router.navigate(['/lf', { actionType: ActionEnum.view, id: id}],{skipLocationChange: true});
   }
 
   edit(id: number) {
-    this.router.navigate(['/af', { actionType: ActionEnum.edit, id: id}],{skipLocationChange: true});
+    this.router.navigate(['/lf', { actionType: ActionEnum.edit, id: id}],{skipLocationChange: true});
   }
 
   delete(id: number) {
     this.service.delete(id).subscribe(data => {
-      console.log('Application has been deleted successfully');
-      this.toastr.success('Application has been deleted successfully', 'Application');
-      this.router.navigate(['/application']);
+      console.log('Library has been deleted successfully');
+      this.toastr.success('Library has been deleted successfully', 'Library');
+      this.router.navigate(['/library']);
     },
     err => {
       console.log('Device model delete error....', err);
-      this.toastr.success('Unable to delete application, please contact adminstrator', 'Application');
+      this.toastr.success('Unable to delete Library, please contact adminstrator', 'Library');
     });
   }
 

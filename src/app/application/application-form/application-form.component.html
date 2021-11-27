@@ -1,1 +1,80 @@
-<p>application-form works!</p>
+<div class="main">
+  <div class="container-fluid">
+    <div class="row page-header">
+      <div class="col-sm-3 title"><img src="../../../assets/images/merchant.svg" />
+        <span class="pl-2">{{ pageHeader }}</span></div>
+    </div>
+    <div class="row">
+      <div class="col tools text-right">
+        <div class="form-container pt-4">
+          <div class="p-1"><label class="apperr" *ngIf="isFailed">{{errMsg}}</label></div>
+          <form [formGroup]="appForm">
+            <div class="modal-body">
+
+              <div class="form-row">
+                <div class="form-group col-sm-6 required">
+                  <label for="name" class="asterisk-if-mandatory">Name</label>
+                  <input required formControlName="name" id="name" type="text" class="form-control" autocomplete="off"
+                    [ngClass]="{ 'is-invalid': formSubmitted && f.name.errors }">
+                  <div *ngIf="formSubmitted && f.name.errors" class="invalid-feedback">
+                    <div *ngIf="f.name.errors.required">Name is required</div>
+                    <div *ngIf="f.name.errors?.minlength">Name must be at least 5 characters long.</div>
+                  </div>
+                </div>
+              </div>
+              <div class="form-row">
+                <div class="form-group col-sm-6 required">
+                  <label for="type" class="asterisk-if-mandatory">Type</label>
+                  <input required formControlName="type" id="type" type="text" class="form-control" autocomplete="off"
+                    [ngClass]="{ 'is-invalid': formSubmitted && f.type.errors }">
+                  <div *ngIf="formSubmitted && f.type.errors" class="invalid-feedback">
+                    <div *ngIf="f.type.errors.required">Type is required</div>
+                    <div *ngIf="f.type.errors?.minlength">Type must be at least 1 characters long.</div>
+                  </div>
+                </div>
+              </div>
+              <div class="form-row">
+                <div class="form-group col-sm-4 required">
+                  <label for="appVersion" class="asterisk-if-mandatory">Version</label>
+                  <input required formControlName="appVersion" id="appVersion" type="text" class="form-control" autocomplete="off"
+                    [ngClass]="{ 'is-invalid': formSubmitted && f.appVersion.errors }">
+                  <div *ngIf="formSubmitted && f.appVersion.errors" class="invalid-feedback">
+                    <div *ngIf="f.appVersion.errors.required">Version is required</div>
+                    <div *ngIf="f.appVersion.errors?.minlength">Version must be at least 5 characters long.</div>
+                  </div>
+                </div>
+              </div>
+              <div class="form-row">
+                <div class="form-group col-sm-12">
+                  <label for="desc">Description</label>
+                  <textarea formControlName="desc" id="desc" autocomplete="off" rows="3" cols="80" class="form-control"
+                    [ngClass]="{ 'is-invalid': formSubmitted && f.desc.errors }">  </textarea>
+                  <div *ngIf="formSubmitted && f.desc.errors" class="invalid-feedback">
+                    <div *ngIf="f.desc.errors.minlength">Description must be at least 6 characters long.</div>
+                  </div>
+                </div>
+              </div>
+              <!-- </div> -->
+            </div>
+          </form>
+          <div class="button-block">
+            <span class="pr-3"><button type="button" class="btn btn-primary form-button-cancel"
+                (click)="cancel()">Cancel</button>
+            </span>
+            <button type="button" class="btn btn-primary form-button-action" (click)="save()"
+              *ngIf="actionType == actionEnum.add">Save</button>
+            <button type="button" class="btn btn-primary form-button-action" (click)="edit()"
+              *ngIf="actionType == actionEnum.view">Edit</button>
+            <span class="pl-3" *ngIf="actionType == actionEnum.view"><button type="button"
+                class="btn btn-primary form-button-action" (click)="delete()">Delete</button></span>
+            <button type="button" class="btn btn-primary form-button-action" (click)="update()"
+              *ngIf="actionType == actionEnum.edit">Update</button>
+
+          </div>
+        </div>
+      </div>
+    </div>
+    <div>
+    </div>
+  </div>
+</div>

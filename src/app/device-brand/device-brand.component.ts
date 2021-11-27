@@ -6,7 +6,6 @@ import { ToastrService } from 'ngx-toastr';
 import { first } from 'rxjs/operators';
 import { ActionEnum } from '../shared/enum/action.enum';
 import { ApiResponse } from '../shared/model/api.response';
-import { AppService } from '../shared/service/app.service';
 import { DeviceBrandService } from './device-brand.service';
 
 @Component({
