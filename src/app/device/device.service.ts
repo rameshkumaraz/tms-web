@@ -12,25 +12,25 @@ export class DeviceService {
   constructor(private http: HttpClient,
     private appService: AppService) { }
 
-  getAllDevices() {
+  getAll() {
     const apiUrl = AppSettings.API_CONTEXT + AppSettings.ENDPOINTS.device;
     return this.http.get(apiUrl);
   }
 
-  getdevicesForLocation(id: number) {
-    const apiUrl = AppSettings.API_CONTEXT + AppSettings.ENDPOINTS.deviceForLocation + 
+  getAllForLocation(id: number) {
+    const apiUrl = AppSettings.API_CONTEXT + AppSettings.ENDPOINTS.devicesForLocation + 
       '/' + id;
     console.log(apiUrl);  
     return this.http.get(apiUrl);
   }
 
-  getDevice(id: number) {
+  get(id: number) {
     const apiUrl = AppSettings.API_CONTEXT + AppSettings.ENDPOINTS.device + "/" + id;
     console.log("API Url", apiUrl);
     return this.http.get(apiUrl);
   }
 
-  createDevice(device: Device) {
+  create(device: Device) {
     console.log("Merchant for create....", JSON.stringify(device));
     const apiUrl = AppSettings.API_CONTEXT + AppSettings.ENDPOINTS.device;
 
@@ -40,7 +40,7 @@ export class DeviceService {
     return this.http.post(apiUrl, JSON.stringify(device), { 'headers': headers });
   }
 
-  updateDevice(device: Device) {
+  update(device: Device) {
 
     console.log("Merchant for update....", JSON.stringify(device));
     const apiUrl = AppSettings.API_CONTEXT + AppSettings.ENDPOINTS.device;
@@ -51,7 +51,7 @@ export class DeviceService {
     return this.http.put(apiUrl, JSON.stringify(device), { 'headers': headers });
   }
 
-  deleteDevice(id: number) {
+  delete(id: number) {
     const apiUrl = AppSettings.API_CONTEXT + AppSettings.ENDPOINTS.device + "/" + id;
 
     console.log('API URL:', apiUrl);

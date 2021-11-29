@@ -14,6 +14,11 @@ export class RoleService {
     return this.http.get(apiUrl);
   }
 
+  getRolesForMerchant() {
+    const apiUrl = AppSettings.API_CONTEXT + AppSettings.ENDPOINTS.rolesForMerchant;
+    return this.http.get(apiUrl);
+  }
+
   getRole(id: number) {
     const apiUrl = AppSettings.API_CONTEXT + AppSettings.ENDPOINTS.role + "/" + id;
     console.log("API Url", apiUrl);

@@ -4,8 +4,10 @@ import { faPlus, faBars, faTh, faEye, faEdit, faArchive} from '@fortawesome/free
 import { NgxSpinnerService } from 'ngx-spinner';
 import { ToastrService } from 'ngx-toastr';
 import { first } from 'rxjs/operators';
+import { Merchant } from '../model/merchant';
 import { ActionEnum } from '../shared/enum/action.enum';
 import { ApiResponse } from '../shared/model/api.response';
+import { AppService } from '../shared/service/app.service';
 import { ApplicationService } from './application.service';
 
 @Component({
@@ -29,20 +31,29 @@ export class ApplicationComponent implements OnInit {
   appCount = 0;
   apps: Array<any>;
 
+  merchant: Merchant;
+
   constructor(
     private service: ApplicationService,
+    private appService: AppService,
     private spinner: NgxSpinnerService,
     private router: Router,
     private toastr: ToastrService) { }
 
   ngOnInit(): void {
     this.pageHeader = 'Application';
-    this.onLoad();
+
+    this.appService.userMerchant.subscribe(data => {
+      this.merchant = data;
+      this.onLoad();
+    });
+
+    
   }
 
   onLoad() {
     this.spinner.show();
-    this.service.getAll()
+    this.service.getAllByMerchant(this.merchant.id)
       .pipe(first())
       .subscribe(
         (resp: ApiResponse) => {

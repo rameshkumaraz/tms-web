@@ -51,7 +51,7 @@ export class LocationComponent implements OnInit {
   }
 
   onLoad() {
-    this.spinner.show();
+    
     this.locationService.getLocationsForMerchant(this.merchant.id)
       .pipe(first())
       .subscribe(

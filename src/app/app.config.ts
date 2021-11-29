@@ -5,14 +5,19 @@ export class AppSettings {
         'login': 'auth/login',
         'merchant': 'merchant',
         'location': 'location',
-        'locationForMerchant': 'location/m',
+        'locationsForMerchant': 'location/m',
         'device': 'device',
-        'deviceForLocation': 'device/l',
+        'devicesForLocation': 'device/l',
         'deviceBrand': 'db',
         'deviceModel': 'dm',
         'user': 'users',
+        'usersForAdmin': 'users/a',
+        'usersForMerchant': 'users/m',
         'role': 'roles',
+        'rolesForMerchant': 'roles/m',
         'application': 'app',
-        'library': 'lib'
+        'applicationsForMerchant': 'app/m',
+        'library': 'lib',
+        'librariesForLocationn': 'lib/a'
     };
 }

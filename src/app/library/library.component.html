@@ -1,76 +1,94 @@
 <div class="main">
-    <div class="container-fluid">
-      <div class="row page-header">
-        <div class="col-sm-3 title"><img src="../../../assets/images/merchant.svg" />
-          <span class="pl-2">{{ pageHeader }}</span>
-          <span class="count pl-2">({{ libCount }})</span>
-        </div>
-        <!-- <div class="col-sm-7  tools text-right">
+  <div class="container-fluid">
+    <div class="row page-header">
+      <div class="col-sm-3 title"><img src="../../../assets/images/merchant.svg" />
+        <span class="pl-2">{{ pageHeader }}</span>
+        <span class="count pl-2">({{ libCount }})</span>
+      </div>
+      <!-- <div class="col-sm-7  tools text-right">
           
         </div> -->
-        <div class="col-sm-9 tools text-right">
-          <button class="button" (click)="create()">
-            <fa-icon [icon]='faPlus' size="lg"></fa-icon><span class="pl-2">Add
-              New Library</span>
-          </button>
-        </div>
+      <div class="col-sm-9 tools text-right">
+        <button class="button" (click)="create()">
+          <fa-icon [icon]='faPlus' size="lg"></fa-icon><span class="pl-2">Add
+            New Library</span>
+        </button>
       </div>
-      <div *ngIf="libCount === 0" class="info">
-        No libraries are created yet for the selected location.
-        <ul>
-          <li>New library can be created by using <span class="info-highlight">Add New Library</span> option.</li>
-        </ul>
-      </div>
-      <div class="pt-2" *ngIf="libCount > 0">
-  
-        <table class="table table-striped">
-          <thead>
-            <tr>
-              <th scope="col">Name</th>
-              <th scope="col">Type</th>
-              <th scope="col">Version</th>
-              <th scope="col">Description</th>
-              <th scope="col">Created By</th>
-              <th scope="col">Created Date</th>
-              <th scope="col">Modified By</th>
-              <th scope="col">Modified Date</th>
-              <th scope="col">Action</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr *ngFor="let lib of libs | slice: (page-1) * pageSize : (page-1) * pageSize + pageSize">
-              <td><span class="table-col-name">{{ lib.name }}</span></td>
-              <!-- <td>{{ app.name }}</td>
-              <td>{{ app.appVersion }}</td>
-              <td>{{ app.desc }}</td>
-              <td>{{ app.createdBy }}</td>
-              <td>{{ app.createdDate }}</td>
-              <td>{{ app.modifiedBy }}</td>
-              <td>{{ app.modifiedDate }}</td> -->
-              <td><span class="pr-3"><a (click)="view(lib.id)" routerLinkActive="active">
-                    <fa-icon [icon]='faEye' style="color:#1653da"></fa-icon>
-                  </a></span>
-                <span class="pr-3"><a (click)="edit(lib.id)" routerLinkActive="active">
-                    <fa-icon [icon]='faEdit' style="color:#ffc107;"></fa-icon>
-                  </a></span>
-                <span class="pr-3"><a (click)="delete(lib.id)" routerLinkActive="active">
-                    <fa-icon [icon]='faArchive' style="color: #dc3545;"></fa-icon>
-                  </a></span></td>
-            </tr>
-          </tbody>
-        </table>
-  
-        <div class="d-flex justify-content-between px-2">
-          <ngb-pagination [collectionSize]="libCount" [(page)]="page" [pageSize]="pageSize">
-          </ngb-pagination>
-  
-          <select [(ngModel)]="pageSize">
-            <option [ngValue]="5">5 items per page</option>
-            <option [ngValue]="10">10 items per page</option>
-            <option [ngValue]="25">25 items per page</option>
-          </select>
-        </div>
+    </div>
+    <div *ngIf="libCount === 0" class="info">
+      No libraries are created yet for the selected location.
+      <ul>
+        <li>New library can be created by using <span class="info-highlight">Add New Library</span> option.</li>
+      </ul>
+    </div>
+    <div *ngIf="appCount > 0 && libCount > 0" class="text-right select-app">
+      <span class="pr-2">Select Application</span>
+      <select id="app" (change)="changeApp($event.target.value)" class="select-app-select">
+        <!-- <option value="" disabled selected>Select Application</option> -->
+        <option *ngFor="let a of apps" [value]="a.id" [selected]="app.id == a.id" >{{a.name}}</option>
+      </select>
+    </div>
+    <div class="pt-2" *ngIf="libCount > 0">
+
+      <table class="table table-striped">
+        <thead>
+          <tr>
+            <th scope="col">Name</th>
+            <th scope="col">Application</th>
+            <th scope="col">Type</th>
+            <th scope="col">Version</th>
+            <th scope="col">Base Version</th>
+            <th scope="col">Description</th>
+            <th scope="col">Bundle</th>
+            <th scope="col">Bundle Size</th>
+            <th scope="col">Post Action</th>
+            <th scope="col">Post Action Delay</th>
+            <th scope="col">Created By</th>
+            <th scope="col">Created Date</th>
+            <th scope="col">Modified By</th>
+            <th scope="col">Modified Date</th>
+            <th scope="col">Action</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let lib of libs | slice: (page-1) * pageSize : (page-1) * pageSize + pageSize">
+            <td><span class="table-col-name">{{ lib.name }}</span></td>
+            <td>{{ lib.app.name }}</td>
+            <td>{{ lib.type }}</td>
+            <td>{{ lib.libVersion }}</td>
+            <td>{{ lib.libBaseVersion }}</td>
+            <td>{{ lib.desc }}</td>
+            <td>{{ lib.bundleName }}</td>
+            <td>{{ lib.bundleSize }}</td>
+            <td>{{ lib.postAction }}</td>
+            <td>{{ lib.postActionDelay }}</td>
+            <td>{{ lib.createdBy }}</td>
+            <td>{{ lib.createdDate }}</td>
+            <td>{{ lib.modifiedBy }}</td>
+            <td>{{ lib.modifiedDate }}</td>
+            <td><span class="pr-3"><a (click)="view(lib.id)" routerLinkActive="active">
+                  <fa-icon [icon]='faEye' style="color:#1653da"></fa-icon>
+                </a></span>
+              <!-- <span class="pr-3"><a (click)="edit(lib.id)" routerLinkActive="active">
+                  <fa-icon [icon]='faEdit' style="color:#ffc107;"></fa-icon>
+                </a></span> -->
+              <span class="pr-3"><a (click)="delete(lib.id)" routerLinkActive="active">
+                  <fa-icon [icon]='faArchive' style="color: #dc3545;"></fa-icon>
+                </a></span></td>
+          </tr>
+        </tbody>
+      </table>
+
+      <div class="d-flex justify-content-between px-2">
+        <ngb-pagination [collectionSize]="libCount" [(page)]="page" [pageSize]="pageSize">
+        </ngb-pagination>
+
+        <select [(ngModel)]="pageSize" class="paging">
+          <option [ngValue]="5">5 items per page</option>
+          <option [ngValue]="10">10 items per page</option>
+          <option [ngValue]="25">25 items per page</option>
+        </select>
       </div>
     </div>
   </div>
-  
+</div>

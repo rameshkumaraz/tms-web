@@ -12,9 +12,13 @@ export class Library extends BaseModel{
 
     desc:string;
 
+    bundleName:string;
+
+    bundleSize:string;
+
     postAction:number;
 
     postActionDelay:number;
 
-    appId: number;
+    app: number;
 }

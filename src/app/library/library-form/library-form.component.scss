@@ -1,0 +1,27 @@
+@import "../../../assets/sass/variables";
+
+.form-container {
+  width: 40%;
+  margin-top: 20px;
+  padding-top: 20px;
+  margin-bottom: 20px;
+  background-color: $white !important;
+}
+
+.form-container select {
+  font-size: $font-size-sm;
+  font-weight: $font-weight-lighter;
+  font-family: $font-family-base;
+}
+
+.button-block {
+  margin-top: 20px;
+  text-align: right;
+  padding-right: 40px;
+}
+
+.file-cls{
+  font-size: $font-size-sm;
+  font-weight: $font-weight-lighter;
+  font-family: $font-family-base;
+}

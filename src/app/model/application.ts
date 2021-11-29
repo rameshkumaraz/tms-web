@@ -9,4 +9,6 @@ export class Application extends BaseModel{
     appVersion:string;
     
     desc:string;
+
+    merchant: number;
 }

@@ -27,6 +27,7 @@
           <thead>
             <tr>
               <th scope="col">Name</th>
+              <th scope="col">Brand</th>
               <th scope="col">Version</th>
               <th scope="col">Base Version</th>
               <th scope="col">Description</th>
@@ -40,6 +41,7 @@
           <tbody>
             <tr *ngFor="let model of models | slice: (page-1) * pageSize : (page-1) * pageSize + pageSize">
               <td><span class="table-col-name">{{ model.name }}</span></td>
+              <td>{{ model.brand.name }}</td>
               <td>{{ model.modelVersion }}</td>
               <td>{{ model.baseVersion }}</td>
               <td>{{ model.desc }}</td>

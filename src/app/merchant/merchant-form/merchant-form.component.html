@@ -175,10 +175,10 @@
             <span class="pr-3"><button type="button" class="btn btn-primary form-button-cancel"
                 (click)="cancel()">Cancel</button>
             </span>
-            <button type="button" class="btn btn-primary form-button-action" (click)="save()" *ngIf="actionType == 'add'">Save</button>
-            <button type="button" class="btn btn-primary form-button-action" (click)="edit()" *ngIf="actionType == 'view'">Edit</button>
-            <span class="pl-3" *ngIf="actionType == 'view'"><button type="button" class="btn btn-primary form-button-action" (click)="delete()">Delete</button></span>
-            <button type="button" class="btn btn-primary form-button-action" (click)="update()" *ngIf="actionType == 'edit'">Update</button>
+            <button type="button" class="btn btn-primary form-button-action" (click)="save()" *ngIf="actionType == actionEnum.add">Save</button>
+            <button type="button" class="btn btn-primary form-button-action" (click)="edit()" *ngIf="actionType == actionEnum.view">Edit</button>
+            <span class="pl-3" *ngIf="actionType == actionEnum.view"><button type="button" class="btn btn-primary form-button-action" (click)="delete()">Delete</button></span>
+            <button type="button" class="btn btn-primary form-button-action" (click)="update()" *ngIf="actionType == actionEnum.edit">Update</button>
             
           </div>
         </div>

@@ -59,6 +59,12 @@ export class DeviceBrandFormComponent implements OnInit {
 
     if (this.actionType == ActionEnum.view) {
       this.brandForm.disable();
+      this.pageHeader = 'View Brand';
+    }
+
+    if (this.actionType == ActionEnum.edit) {
+      this.pageHeader = 'Update Brand';
+      this.brandForm['controls'].name.disable();
     }
   }
 
@@ -148,6 +154,8 @@ export class DeviceBrandFormComponent implements OnInit {
   edit() {
     this.actionType = ActionEnum.edit;
     this.brandForm.enable();
+    this.pageHeader = 'Update Brand';
+    this.f.name.disable();
   }
 
   delete() {

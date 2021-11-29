@@ -19,7 +19,7 @@ export class LocationService {
   }
 
   getLocationsForMerchant(id: number) {
-    const apiUrl = AppSettings.API_CONTEXT + AppSettings.ENDPOINTS.locationForMerchant + 
+    const apiUrl = AppSettings.API_CONTEXT + AppSettings.ENDPOINTS.locationsForMerchant + 
       '/' + id;
     console.log(apiUrl);  
     return this.http.get(apiUrl);

@@ -64,7 +64,7 @@
         <ngb-pagination [collectionSize]="appCount" [(page)]="page" [pageSize]="pageSize">
         </ngb-pagination>
 
-        <select [(ngModel)]="pageSize">
+        <select [(ngModel)]="pageSize" class="paging">
           <option [ngValue]="5">5 items per page</option>
           <option [ngValue]="10">10 items per page</option>
           <option [ngValue]="25">25 items per page</option>

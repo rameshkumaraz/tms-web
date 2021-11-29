@@ -15,6 +15,11 @@ export class ApplicationService {
     return this.http.get(apiUrl);
   }
 
+  getAllByMerchant(id: number) {
+    const apiUrl = AppSettings.API_CONTEXT + AppSettings.ENDPOINTS.applicationsForMerchant + "/" + id;
+    return this.http.get(apiUrl);
+  }
+
   getById(id: number) {
     const apiUrl = AppSettings.API_CONTEXT + AppSettings.ENDPOINTS.application + "/" + id;
     console.log("API Url", apiUrl);

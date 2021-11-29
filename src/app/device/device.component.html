@@ -9,25 +9,32 @@
         
       </div> -->
       <div class="col-sm-9 tools text-right" *ngIf="locationCount > 0">
-        <span class="pl-2">Select location</span>
+        <!-- <span class="pl-2">Select location</span>
         <span class="location-select pl-2 pr-2"><select id="location" (change)="onLocationChange($event.target.value)">
-          <option *ngFor="let location of locations" [value]="location.id">{{location.name}}</option>
-        </select></span>
-        <button class="button" (click)="createDevice()">
+            <option *ngFor="let location of locations" [value]="location.id">{{location.name}}</option>
+          </select></span> -->
+        <button class="button" (click)="create()">
           <fa-icon [icon]='faPlus' size="lg"></fa-icon><span class="pl-2">Add
             New Device</span>
         </button>
-
       </div>
     </div>
-    <div *ngIf="locationCount > 0 && deviceCount === 0" class="info">
+    
+    <!-- <div *ngIf="locationCount === 0" class="info">
+      No locations are cofigured yet.
+    </div> -->
+    <div *ngIf="locationCount > 0" class="text-right select-loc">
+      <span class="pr-2">Select Application</span>
+      <select id="app" (change)="onLocationChange($event.target.value)" class="select-loc-select">
+        <!-- <option value="" disabled selected>Select Application</option> -->
+        <option *ngFor="let l of locations" [value]="l.id" [selected]="location.id == l.id" >{{l.name}}</option>
+      </select>
+    </div>
+    <div *ngIf="deviceCount === 0" class="pt-4 info">
       No devices are created yet for the selected location.
       <ul>
         <li>New device can be created by using <span class="info-highlight">Add New Device</span> option.</li>
       </ul>
-    </div>
-    <div *ngIf="locationCount === 0" class="info">
-      No locations are cofigured yet.
     </div>
     <div class="pt-2" *ngIf="deviceCount > 0">
 
@@ -37,28 +44,31 @@
             <th scope="col">Name</th>
             <th scope="col">Serial #</th>
             <th scope="col">Model</th>
+            <th scope="col">Location</th>
             <th scope="col">Created By</th>
             <th scope="col">Created Date</th>
             <th scope="col">Modified By</th>
             <th scope="col">Modified Date</th>
+            <th scope="col">Action</th>
           </tr>
         </thead>
         <tbody>
           <tr *ngFor="let device of devices | slice: (page-1) * pageSize : (page-1) * pageSize + pageSize">
             <td><span class="table-col-name">{{ device.name }}</span></td>
             <td>{{ device.serial }}</td>
-            <td>{{ device.modal }}</td>
+            <td>{{ device.model.name }}</td>
+            <td>{{ device.location.name }}</td>
             <td>{{ device.createdBy }}</td>
             <td>{{ device.createdDate }}</td>
             <td>{{ device.modifiedBy }}</td>
             <td>{{ device.modifiedDate }}</td>
-            <td><span class="pr-3"><a (click)="viewDevice(device.id)" routerLinkActive="active">
+            <td><span class="pr-3"><a (click)="view(device.id)" routerLinkActive="active">
                   <fa-icon [icon]='faEye' style="color:#1653da"></fa-icon>
                 </a></span>
-              <span class="pr-3"><a (click)="editDevice(device.id)" routerLinkActive="active">
+              <!-- <span class="pr-3"><a (click)="edit(device.id)" routerLinkActive="active">
                   <fa-icon [icon]='faEdit' style="color:#ffc107;"></fa-icon>
-                </a></span>
-              <span class="pr-3"><a (click)="deleteDevice(device.id)" routerLinkActive="active">
+                </a></span> -->
+              <span class="pr-3"><a (click)="delete(device.id)" routerLinkActive="active">
                   <fa-icon [icon]='faArchive' style="color: #dc3545;"></fa-icon>
                 </a></span></td>
           </tr>

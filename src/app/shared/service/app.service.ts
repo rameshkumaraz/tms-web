@@ -39,7 +39,11 @@ export class AppService {
         console.log('Merchant Error Response', err);
         this.userMerchantSubject.next({});
       });
+  }
 
+  clearUserMerchant() {
+    console.log("Merchant getting loaded....");
+    this.userMerchantSubject.next({});
   }
 
 }

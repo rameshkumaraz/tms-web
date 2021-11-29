@@ -36,10 +36,8 @@
           <tr *ngFor="let user of users | slice: (page-1) * pageSize : (page-1) * pageSize + pageSize">
             <td><span class="table-col-name">{{ user.firstName + ' ' + user.lastName}}</span></td>
             <td>{{ user.email }}</td>
-            <!-- <td>{{ user.merchant.name }}</td>
-              <td>{{ user.role.name }}</td> -->
-            <td></td>
-            <td></td>
+            <td>{{ user.merchant.name }}</td>
+            <td>{{ user.role.name }}</td>
             <td>{{ user.createdBy }}</td>
             <td>{{ user.createdDate }}</td>
             <td>{{ user.modifiedBy }}</td>

@@ -61,19 +61,23 @@ export class LocationFormComponent implements OnInit, OnDestroy {
       desc: ['']
     });
 
+    this.appService.userMerchant.subscribe(data => {
+      this.merchant = data;
+      this.spinner.hide();
+    });
+
     if (this.actionType != ActionEnum.add) {
       this.onLoad();
-    } else {
-      this.spinner.show();
-      this.appService.userMerchant.subscribe(data => {
-        this.merchant = data;
-        this.spinner.hide();
-      });
-    }
-
+    } 
 
     if (this.actionType == ActionEnum.view) {
       this.locationForm.disable();
+      this.pageHeader = 'View Location';
+    }
+
+    if (this.actionType == ActionEnum.edit) {
+      this.locationForm['controls'].name.disable();
+      this.pageHeader = 'Update Location';
     }
 
     // this.sub = this.locationService.location.subscribe(data => {
@@ -181,7 +185,9 @@ export class LocationFormComponent implements OnInit, OnDestroy {
 
   edit() {
     this.actionType = ActionEnum.edit;
+    this.pageHeader = 'Update Location';
     this.locationForm.enable();
+    this.f.name.disable();
   }
 
   delete() {

@@ -1,11 +1,16 @@
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { faPlus, faBars, faTh, faEye, faEdit, faArchive} from '@fortawesome/free-solid-svg-icons';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { ToastrService } from 'ngx-toastr';
 import { first } from 'rxjs/operators';
+import { ApplicationService } from '../application/application.service';
+import { Application } from '../model/application';
+import { Library } from '../model/library';
+import { Merchant } from '../model/merchant';
 import { ActionEnum } from '../shared/enum/action.enum';
 import { ApiResponse } from '../shared/model/api.response';
+import { AppService } from '../shared/service/app.service';
 import { LibraryService } from './library.service';
 
 @Component({
@@ -27,28 +32,76 @@ export class LibraryComponent implements OnInit {
   pageSize = 5;
 
   libCount = 0;
-  libs: Array<any>;
+  libs: Array<Library>;
+  apps: Array<Application>;
+  appCount = 0;
+
+  app: Application;
+
+  appId;
+
+  merchant: Merchant;
+
+  sub;
 
   constructor(
     private service: LibraryService,
+    private appService: AppService,
+    private aplnService: ApplicationService,
     private spinner: NgxSpinnerService,
     private router: Router,
+    private activatedroute: ActivatedRoute,
     private toastr: ToastrService) { }
 
   ngOnInit(): void {
     this.pageHeader = 'Library';
-    this.onLoad();
+
+    this.sub = this.activatedroute.paramMap.subscribe(params => {
+      console.log(params);
+      this.appId = params.get('appId');
+    });
+
+    this.appService.userMerchant.subscribe(data => {
+      this.merchant = data;
+      this.loadApps();
+    });
+
+    // this.onLoad();
   }
 
-  onLoad() {
+  loadApps(){
     this.spinner.show();
-    this.service.getAll()
+    this.aplnService.getAllByMerchant(this.merchant.id).subscribe((resp: ApiResponse) => {
+      this.spinner.hide();
+      this.apps = resp.message;
+      this.appCount = this.apps.length;
+      // console.log('Selected App....', this.appId);
+      if(this.appId)
+        this.app = this.apps.find(a => a.id == this.appId);
+      else   
+        this.app = this.apps[0];
+      // console.log('apps count...', this.appCount);
+      if(this.appCount > 0)
+        this.loadLibraries();
+    },
+      err => {
+        console.log('Unable to load applications, please contact adminstrator', err);
+        this.toastr.error('Unable to load applications, please contact adminstrator', "Library");
+        this.spinner.hide();
+      });
+  }
+
+  loadLibraries() {
+    this.spinner.show();
+    this.service.getAllForApplication(this.app.id)
       .pipe(first())
       .subscribe(
         (resp: ApiResponse) => {
-          console.log('Library Response', resp);
+          // console.log('Library Response for ', this.app.name+' : '+JSON.stringify(resp));
           this.libs = resp.message;
+          // console.log('Libraries', this.libs);
           this.libCount = this.libs.length;
+          // console.log('Library Count', this.libCount);
           this.spinner.hide();
         },
         error => {
@@ -57,17 +110,25 @@ export class LibraryComponent implements OnInit {
         });
   }
 
+  changeApp(id: number){
+    // console.log("Selected app id...", id +':' + JSON.stringify(this.apps));
+    this.app =  this.apps.find(x => x.id == id);
+    // console.log("Selected app...", this.app);
+    this.libs = [];
+    this.loadLibraries();
+  }
+
   create() {
     console.log('Add new Library');
-    this.router.navigate(['/lf', { actionType: ActionEnum.add}],{skipLocationChange: true});
+    this.router.navigate(['/libf', { actionType: ActionEnum.add}],{skipLocationChange: true});
   }
 
   view(id: number) {
-    this.router.navigate(['/lf', { actionType: ActionEnum.view, id: id}],{skipLocationChange: true});
+    this.router.navigate(['/libf', { actionType: ActionEnum.view, id: id}],{skipLocationChange: true});
   }
 
   edit(id: number) {
-    this.router.navigate(['/lf', { actionType: ActionEnum.edit, id: id}],{skipLocationChange: true});
+    this.router.navigate(['/libf', { actionType: ActionEnum.edit, id: id}],{skipLocationChange: true});
   }
 
   delete(id: number) {

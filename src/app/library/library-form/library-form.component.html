@@ -1,1 +1,145 @@
-<p>library-form works!</p>
+<div class="main">
+  <div class="container-fluid">
+    <div class="row page-header">
+      <div class="col-sm-3 title"><img src="../../../assets/images/merchant.svg" />
+        <span class="pl-2">{{ pageHeader }}</span></div>
+    </div>
+    <div class="row">
+      <div class="col tools text-right">
+        <div class="form-container pt-4">
+          <div class="p-1"><label class="apperr" *ngIf="isFailed">{{errMsg}}</label></div>
+          <form [formGroup]="libForm">
+            <div class="modal-body">
+              <div class="form-row">
+                <div class="form-group col-sm-8 required">
+                  <label for="app" class="asterisk-if-mandatory">Application</label>
+                  <select required class="form-control" formControlName="app" id="app"
+                    [ngClass]="{ 'is-invalid': formSubmitted && f.app.errors }">
+                    <option value="" disabled selected>Select Application</option>
+                    <option *ngFor="let a of apps" [value]="a.id">{{a.name}}</option>
+                  </select>
+                  <div *ngIf="formSubmitted && f.app.errors" class="invalid-feedback">
+                    <div *ngIf="f.app.errors.required">Application is required</div>
+                    <div *ngIf="f.app.errors?.minlength">Application must be at least 1 characters long.</div>
+                  </div>
+                </div>
+              </div>
+              <div class="form-row">
+                <div class="form-group col-sm-8 required">
+                  <label for="name" class="asterisk-if-mandatory">Name</label>
+                  <input required formControlName="name" id="name" type="text" class="form-control" autocomplete="off"
+                    [ngClass]="{ 'is-invalid': formSubmitted && f.name.errors }">
+                  <div *ngIf="formSubmitted && f.name.errors" class="invalid-feedback">
+                    <div *ngIf="f.name.errors.required">Name is required</div>
+                    <div *ngIf="f.name.errors?.minlength">Name must be at least 5 characters long.</div>
+                  </div>
+                </div>
+              </div>
+              <div class="form-row">
+                <div class="form-group col-sm-8 required">
+                  <label for="type" class="asterisk-if-mandatory">Type</label>
+                  <select required class="form-control" formControlName="type" id="type"
+                    [ngClass]="{ 'is-invalid': formSubmitted && f.type.errors }">
+                    <option value="" disabled selected>Select Type</option>
+                    <option *ngFor="let t of libTypeEnum" [value]="t">{{t}}</option>
+                  </select>
+                  <div *ngIf="formSubmitted && f.type.errors" class="invalid-feedback">
+                    <div *ngIf="f.type.errors.required">Name is required</div>
+                    <div *ngIf="f.type.errors?.minlength">Name must be at least 5 characters long.</div>
+                  </div>
+                </div>
+              </div>
+              <div class="form-row">
+                <div class="form-group col-sm-4 required">
+                  <label for="libVersion" class="asterisk-if-mandatory">Version</label>
+                  <input required formControlName="libVersion" id="libVersion" type="text" class="form-control"
+                    autocomplete="off" [ngClass]="{ 'is-invalid': formSubmitted && f.libVersion.errors }">
+                  <div *ngIf="formSubmitted && f.libVersion.errors" class="invalid-feedback">
+                    <div *ngIf="f.libVersion.errors.required">Version is required</div>
+                    <div *ngIf="f.libVersion.errors?.minlength">Version must be at least 1 characters long.</div>
+                  </div>
+                </div>
+                <div class="form-group col-sm-4 required">
+                  <label for="libBaseVersion" class="asterisk-if-mandatory">Base Version</label>
+                  <input required formControlName="libBaseVersion" id="libBaseVersion" type="text" class="form-control"
+                    autocomplete="off" [ngClass]="{ 'is-invalid': formSubmitted && f.libBaseVersion.errors }">
+                  <div *ngIf="formSubmitted && f.libBaseVersion.errors" class="invalid-feedback">
+                    <div *ngIf="f.libBaseVersion.errors.required">Base Version is required</div>
+                    <div *ngIf="f.libBaseVersion.errors?.minlength">Base Version must be at least 1 characters long.
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="form-row">
+                <div class="form-group col-sm-12" *ngIf="actionType != actionEnum.view">
+                  <label for="bundle">Bundle</label>
+                  <input id="bundle" type="file" class="form-control-file file-cls"
+                    (change)="onFileChange($event)" [ngClass]="{ 'is-invalid': formSubmitted && f.bundleName.errors }">
+                  <div *ngIf="formSubmitted && f.bundleName.errors" class="invalid-feedback">
+                    <div *ngIf="f.bundleName.errors.required">Bundle is required.</div>
+                  </div>
+                </div>
+                <div class="form-group col-sm-12" *ngIf="actionType == actionEnum.view">
+                  <label for="bundle">Bundle</label>
+                  <input formControlName="bundleName" id="bundle" type="type" class="form-control">
+                </div>
+              </div>
+              <div class="form-row">
+                <div class="form-group col-sm-12">
+                  <label for="desc">Description</label>
+                  <textarea formControlName="desc" id="desc" autocomplete="off" rows="3" cols="80" class="form-control"
+                    [ngClass]="{ 'is-invalid': formSubmitted && f.desc.errors }">  </textarea>
+                  <div *ngIf="formSubmitted && f.desc.errors" class="invalid-feedback">
+                    <div *ngIf="f.desc.errors.minlength">Description must be at least 6 characters long.</div>
+                  </div>
+                </div>
+              </div>
+              <div class="form-row">
+                <div class="form-group col-sm-4 required">
+                  <label for="postAction" class="asterisk-if-mandatory">Post Action</label>
+                  <select required class="form-control" formControlName="postAction" id="postAction"
+                    [ngClass]="{ 'is-invalid': formSubmitted && f.postAction.errors }">
+                    <option value="" disabled selected>Select Application</option>
+                    <option *ngFor="let a of postActionEnum" [value]="a">{{a}}</option>
+                  </select>
+                  <div *ngIf="formSubmitted && f.postAction.errors" class="invalid-feedback">
+                    <div *ngIf="f.postAction.errors.required">Post action is required</div>
+                    <div *ngIf="f.postAction.errors?.minlength">Post action must be at least 1 characters long.</div>
+                  </div>
+                </div>
+                <div class="form-group col-sm-4 required">
+                  <label for="postActionDelay" class="asterisk-if-mandatory">Post Action Delay</label>
+                  <input required formControlName="postActionDelay" id="postActionDelay" type="text"
+                    class="form-control" autocomplete="off"
+                    [ngClass]="{ 'is-invalid': formSubmitted && f.postActionDelay.errors }"
+                    placeholder="in Milliseconds">
+                  <div *ngIf="formSubmitted && f.postActionDelay.errors" class="invalid-feedback">
+                    <div *ngIf="f.postActionDelay.errors.required">Post action delay is required</div>
+                    <div *ngIf="f.postActionDelay.errors?.minlength">Post action must be at least 1 characters long.
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </form>
+          <div class="button-block">
+            <span class="pr-3"><button type="button" class="btn btn-primary form-button-cancel"
+                (click)="cancel()">Cancel</button>
+            </span>
+            <button type="button" class="btn btn-primary form-button-action" (click)="save()"
+              *ngIf="actionType == actionEnum.add">Save</button>
+            <!-- <button type="button" class="btn btn-primary form-button-action" (click)="edit()"
+              *ngIf="actionType == actionEnum.view">Edit</button> -->
+            <span class="pl-3" *ngIf="actionType == actionEnum.view"><button type="button"
+                class="btn btn-primary form-button-action" (click)="delete()">Delete</button></span>
+            <!-- <button type="button" class="btn btn-primary form-button-action" (click)="update()"
+              *ngIf="actionType == actionEnum.edit">Update</button> -->
+
+          </div>
+        </div>
+      </div>
+    </div>
+    <div>
+    </div>
+  </div>
+</div>

@@ -66,6 +66,12 @@ export class DeviceModelFormComponent implements OnInit {
 
     if (this.actionType == ActionEnum.view) {
       this.modelForm.disable();
+      this.pageHeader = 'View Model';
+    }
+    if (this.actionType == ActionEnum.edit) {
+      this.pageHeader = 'Update Model';
+      this.modelForm['controls'].name.disable();
+      this.modelForm['controls'].brand.disable();
     }
 
     this.setDescValidator();
@@ -175,6 +181,9 @@ export class DeviceModelFormComponent implements OnInit {
   edit() {
     this.actionType = ActionEnum.edit;
     this.modelForm.enable();
+    this.pageHeader = 'Update Model';
+    this.f.name.disable();
+    this.f.brand.disable();
   }
 
   delete() {

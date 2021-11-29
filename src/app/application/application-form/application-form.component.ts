@@ -5,8 +5,10 @@ import { NgxSpinnerService } from 'ngx-spinner';
 import { ToastrService } from 'ngx-toastr';
 import { distinctUntilChanged } from 'rxjs/operators';
 import { Application } from 'src/app/model/application';
+import { Merchant } from 'src/app/model/merchant';
 import { ActionEnum } from 'src/app/shared/enum/action.enum';
 import { ApiResponse } from 'src/app/shared/model/api.response';
+import { AppService } from 'src/app/shared/service/app.service';
 import { ApplicationService } from '../application.service';
 
 @Component({
@@ -30,12 +32,15 @@ export class ApplicationFormComponent implements OnInit {
 
   app: Application;
 
+  merchant: Merchant;
+
   sub;
 
   constructor(private formBuilder: FormBuilder,
     private router: Router,
     private activatedroute: ActivatedRoute,
     private service: ApplicationService,
+    private appService: AppService,
     private spinner: NgxSpinnerService,
     private toastr: ToastrService) { }
 
@@ -44,6 +49,10 @@ export class ApplicationFormComponent implements OnInit {
       console.log(params);
       this.actionType = params.get('actionType');
       this.appId = params.get('id');
+    });
+
+    this.appService.userMerchant.subscribe(data => {
+      this.merchant = data;
     });
 
     // console.log(this.authService.getCurrentUser());
@@ -60,6 +69,12 @@ export class ApplicationFormComponent implements OnInit {
 
     if (this.actionType == ActionEnum.view) {
       this.appForm.disable();
+      this.pageHeader = 'View Application';
+    }
+
+    if (this.actionType == ActionEnum.edit) {
+      this.appForm['controls'].name.disable();
+      this.pageHeader = 'Update Application';
     }
   }
 
@@ -110,6 +125,7 @@ export class ApplicationFormComponent implements OnInit {
     }
     this.spinner.show();
     this.app = <Application>this.appForm.value;
+    this.app.merchant = this.merchant.id;
 
     this.service.create(this.app).subscribe((resp: ApiResponse) => {
       this.spinner.hide();
@@ -150,7 +166,9 @@ export class ApplicationFormComponent implements OnInit {
 
   edit() {
     this.actionType = ActionEnum.edit;
+    this.pageHeader = 'Update Application';
     this.appForm.enable();
+    this.f.name.disable();
   }
 
   delete() {

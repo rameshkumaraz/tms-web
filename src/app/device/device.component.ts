@@ -1,13 +1,16 @@
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { faPlus, faBars, faTh, faEye, faEdit, faArchive} from '@fortawesome/free-solid-svg-icons';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { first } from 'rxjs/operators';
 import { LocationService } from '../location/location.service';
 import { Merchant } from '../model/merchant';
+import { Location } from '../model/location';
 import { ApiResponse } from '../shared/model/api.response';
 import { AppService } from '../shared/service/app.service';
 import { DeviceService } from './device.service';
+import { ActionEnum } from '../shared/enum/action.enum';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-device',
@@ -32,17 +35,30 @@ export class DeviceComponent implements OnInit {
 
   locations: Array<any>;
   locationCount = 0;
+  locId;
+
+  location: Location;
 
   merchant: Merchant;
 
+  sub;
+
   constructor(private appService: AppService,
-    private deviceService: DeviceService,
+    private service: DeviceService,
     private locationService: LocationService,
     private spinner: NgxSpinnerService,
-    private router: Router) { }
+    private router: Router,
+    private activatedroute: ActivatedRoute,
+    private toastr: ToastrService) { }
 
   ngOnInit(): void {
     this.pageHeader = 'Devices';
+
+    this.sub = this.activatedroute.paramMap.subscribe(params => {
+      console.log(params);
+      this.locId = params.get('locId');
+    });
+
     this.appService.userMerchant.subscribe(data => {
       if(Object.keys(data).length > 0) {
         this.merchant = data;
@@ -60,7 +76,15 @@ export class DeviceComponent implements OnInit {
           console.log('Location Response', resp);
           this.locations = resp.message;
           this.locationCount = this.locations.length;
-          this.loadDeviceForLocation(this.locations[0].id);
+          if(this.locId)
+            this.location = this.locations.find(a => a.id == this.locId);
+          else {
+            this.location = this.locations[0];
+            this.locId = this.location.id;
+          }
+
+          if(this.locationCount > 0)
+            this.loadDeviceForLocation(this.locations[0].id);
         },
         error => {
           console.log('Location Response', error);
@@ -69,7 +93,7 @@ export class DeviceComponent implements OnInit {
   }
 
   loadDeviceForLocation(id: number){
-    this.deviceService.getdevicesForLocation(id).pipe(first())
+    this.service.getAllForLocation(id).pipe(first())
     .subscribe(
       (resp: ApiResponse) => {
         console.log('Device Response', resp);
@@ -84,23 +108,37 @@ export class DeviceComponent implements OnInit {
   }
 
   onLocationChange(id: number){
+    this.location =  this.locations.find(x => x.id == id);
+    // console.log("Selected app...", this.app);
+    this.devices = [];
+    this.locId = id;
     this.loadDeviceForLocation(id);
   }
 
-  viewDevice(id: number){
-    // this.router.navigate(['/merchantForm']);
+  create() {
+    console.log('Add new Library', this.locId);
+    this.router.navigate(['/df', { actionType: ActionEnum.add, locId: this.locId}],{skipLocationChange: true});
   }
 
-  createDevice(){
-    // this.router.navigate(['/merchantForm']);
+  view(id: number) {
+    console.log("Device id...", id);
+    this.router.navigate(['/df', { actionType: ActionEnum.view, id: id}],{skipLocationChange: true});
   }
 
-  editDevice(id: number){
-    // this.router.navigate(['/merchantForm']);
+  edit(id: number) {
+    this.router.navigate(['/df', { actionType: ActionEnum.edit, id: id}],{skipLocationChange: true});
   }
 
-  deleteDevice(id: number){
-    // this.router.navigate(['/merchantForm']);
+  delete(id: number) {
+    this.service.delete(id).subscribe(data => {
+      console.log('Library has been deleted successfully');
+      this.toastr.success('Library has been deleted successfully', 'Library');
+      this.router.navigate(['/device']);
+    },
+    err => {
+      console.log('Device model delete error....', err);
+      this.toastr.success('Unable to delete Library, please contact adminstrator', 'Library');
+    });
   }
 
 }

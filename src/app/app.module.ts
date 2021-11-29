@@ -92,7 +92,7 @@ import { LibraryFormComponent } from './library/library-form/library-form.compon
     NgxSpinnerModule,
     ReactiveFormsModule,
     ToastrModule.forRoot({
-      timeOut: 10000,
+      timeOut: 5000,
       positionClass: 'toast-top-right',
       preventDuplicates: true,
     }),

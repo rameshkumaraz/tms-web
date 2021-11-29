@@ -7,6 +7,7 @@ import { first } from 'rxjs/operators';
 import { LoginNotificationService } from '../shared/service/login-notification.service';
 import { Router } from '@angular/router';
 import { ApiResponse } from '../shared/model/api.response';
+import { ActionEnum } from 'src/app/shared/enum/action.enum';
 
 @Component({
   selector: 'app-merchant',
@@ -74,15 +75,15 @@ export class MerchantComponent implements OnInit {
   }
 
   createMerchant(){
-    this.router.navigate(['/mf', {actionType: 'add'}]);
+    this.router.navigate(['/mf', {actionType: ActionEnum.add}],{skipLocationChange: true});
   }
 
   viewMerchant(id: number) {
-    this.router.navigate(['/mf', {actionType: 'view', id}]);
+    this.router.navigate(['/mf', {actionType: ActionEnum.view, id: id}],{skipLocationChange: true});
   }
 
   editMerchant(id: number) {
-    this.router.navigate(['/mf', {actionType: 'edit', id}]);
+    this.router.navigate(['/mf', {actionType: ActionEnum.edit, id: id}],{skipLocationChange: true});
   }
 
   deleteMerchant(id: number) {

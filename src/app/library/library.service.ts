@@ -15,31 +15,36 @@ export class LibraryService {
     return this.http.get(apiUrl);
   }
 
+  getAllForApplication(id: number) {
+    const apiUrl = AppSettings.API_CONTEXT + AppSettings.ENDPOINTS.librariesForLocationn + "/" + id;
+    return this.http.get(apiUrl);
+  }
+
   getById(id: number) {
     const apiUrl = AppSettings.API_CONTEXT + AppSettings.ENDPOINTS.library + "/" + id;
     console.log("API Url", apiUrl);
     return this.http.get(apiUrl);
   }
 
-  create(dto: Library) {
-    console.log("Library for create....", JSON.stringify(dto));
+  create(formData: FormData) {
+    console.log("Library for create....", formData);
     const apiUrl = AppSettings.API_CONTEXT + AppSettings.ENDPOINTS.library;
 
     console.log('API URL:', apiUrl);
-    const headers = { 'content-type': 'application/json' }
+    // const headers = { 'content-type': 'application/json' }
 
-    return this.http.post(apiUrl, JSON.stringify(dto), { 'headers': headers });
+    return this.http.post(apiUrl, formData);
   }
 
-  update(dto: Library) {
+  update(formData: FormData) {
 
-    console.log("Library for update....", JSON.stringify(dto));
+    console.log("Library for update....", JSON.stringify(formData));
     const apiUrl = AppSettings.API_CONTEXT + AppSettings.ENDPOINTS.library;
 
     console.log('API URL:', apiUrl);
-    const headers = { 'content-type': 'application/json' }
+    // const headers = { 'content-type': 'application/json' }
 
-    return this.http.put(apiUrl, JSON.stringify(dto), { 'headers': headers });
+    return this.http.put(apiUrl, formData);
   }
 
   delete(id: number) {

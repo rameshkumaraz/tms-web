@@ -9,6 +9,7 @@ import { ApiResponse } from '../../shared/model/api.response';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { ToastrService } from 'ngx-toastr';
 import { distinctUntilChanged, first } from 'rxjs/operators';
+import { ActionEnum } from 'src/app/shared/enum/action.enum';
 
 @Component({
   selector: 'app-merchant-form',
@@ -91,11 +92,19 @@ export class MerchantFormComponent implements OnInit {
     this.setAddressValidator();
     this.setPhoneValidator();
 
-    if(this.actionType == 'view'){
+    if(this.actionType == ActionEnum.view){
       this.merchantForm.disable();
+      this.pageHeader = 'View Merchant';
     }
 
-    if (this.actionType != 'add') {
+    if(this.actionType == ActionEnum.edit){
+      this.pageHeader = 'Update Merchant';
+      this.merchantForm['controls'].name.disable();
+      this.merchantForm['controls'].email.disable();
+      this.merchantForm['controls'].website.disable();
+    }
+
+    if (this.actionType != ActionEnum.add) {
       this.loadMerchant();
     }
 
@@ -230,8 +239,12 @@ export class MerchantFormComponent implements OnInit {
   }
 
   edit() {
-    this.actionType = 'edit';
+    this.actionType = ActionEnum.edit;
     this.merchantForm.enable();
+    this.pageHeader = 'Update Merchant';
+      this.mf.name.disable();
+      this.mf.email.disable();
+      this.mf.website.disable();
   }
 
   delete() {
@@ -268,6 +281,10 @@ export class MerchantFormComponent implements OnInit {
         }
         this.cf.phone.updateValueAndValidity();
       });
+  }
+
+  public get actionEnum(): typeof ActionEnum {
+    return ActionEnum; 
   }
 
   ngOnDestroy() {

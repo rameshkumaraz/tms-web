@@ -4,7 +4,11 @@ import { faArchive, faBars, faEdit, faEye, faPlus, faTh } from '@fortawesome/fre
 import { NgxSpinnerService } from 'ngx-spinner';
 import { ToastrService } from 'ngx-toastr';
 import { first } from 'rxjs/operators';
+import { Merchant } from '../model/merchant';
 import { ApiResponse } from '../shared/model/api.response';
+import { AppService } from '../shared/service/app.service';
+import { RolesEnum } from '../utils/guards/roles.enum';
+import { AuthenticationService } from '../utils/services';
 import { UserService } from './user.service';
 
 @Component({
@@ -28,19 +32,31 @@ export class UserComponent implements OnInit {
   userCount = 0;
   users: Array<any>;
 
+  merchant: Merchant;
+
   constructor(private userService: UserService,
+    private appService: AppService,
+    private authService : AuthenticationService,
     private spinner: NgxSpinnerService,
     private router: Router,
     private toastr: ToastrService) { }
 
   ngOnInit(): void {
     this.pageHeader = 'Users';
-    this.onLoad();
+    this.appService.userMerchant.subscribe(data => {
+      // console.log('User Merchant.....', data.id+':'+Object.keys(data).length);
+      if(Object.keys(data).length > 0) {
+        this.merchant = data;
+        this.onLoad();
+      }
+    });
   }
 
   onLoad() {
     this.spinner.show();
-    this.userService.getAllRoles()
+    this.spinner.show();
+    if(this.authService.getRole() == RolesEnum.AZ_ROOT_ADMIN) {
+      this.userService.getAdminUsers()
       .pipe(first())
       .subscribe(
         (resp: ApiResponse) => {
@@ -51,9 +67,26 @@ export class UserComponent implements OnInit {
         },
         err => {
           console.log('Unable to load users, please contact adminstrator', err);
-          this.toastr.error('Unable to load users, please contact adminstrator', 'Roles');
+          this.toastr.error('Unable to load users, please contact adminstrator', 'User');
           this.spinner.hide();
         });
+    } else {
+      this.userService.getUsersForMerchant(this.merchant.id)
+        .pipe(first())
+        .subscribe(
+          (resp: ApiResponse) => {
+            console.log('Users Response', resp);
+            this.users = resp.message;
+            this.userCount = this.users.length;
+            this.spinner.hide();
+          },
+          err => {
+            console.log('Unable to load users, please contact adminstrator', err);
+            this.toastr.error('Unable to users roles, please contact adminstrator', 'User');
+            this.spinner.hide();
+          });
+      }
+    
   }
 
   createUser() {

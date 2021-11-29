@@ -5,6 +5,7 @@ import { BehaviorSubject, Observable } from 'rxjs';
 import { AppSettings } from '../../app.config';
 import { RolesEnum } from '../guards/roles.enum';
 import { User } from 'src/app/model/user';
+import { AppService } from 'src/app/shared/service/app.service';
 
 @Injectable({ providedIn: 'root' })
 export class AuthenticationService {

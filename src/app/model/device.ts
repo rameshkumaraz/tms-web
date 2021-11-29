@@ -7,5 +7,5 @@ export class Device extends BaseModel{
 
     model:number;
 
-    locationId: number;
+    location: number;
 }

@@ -13,7 +13,8 @@
               <div class="form-row">
                 <div class="form-group col-sm-8 required">
                   <label for="brand" class="asterisk-if-mandatory">Brand</label>
-                  <select required class="form-control" formControlName="brand" id="brand">
+                  <select required class="form-control" formControlName="brand" id="brand"
+                  [ngClass]="{ 'is-invalid': formSubmitted && f.brand.errors }">
                     <option value="" disabled selected>Select Brand</option>
                     <option *ngFor="let b of brands" [value]="b.id">{{b.name}}</option>
                   </select>
