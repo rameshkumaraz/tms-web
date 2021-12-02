@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { NgxSpinnerService } from 'ngx-spinner';
@@ -17,7 +17,11 @@ import { DeviceBrandService } from '../device-brand.service';
 })
 export class DeviceBrandFormComponent implements OnInit {
 
-  actionType;
+  @Output() modelClosed = new EventEmitter();
+
+  @Input() brand: any;
+  @Input() actionType;
+
   brandId;
 
   pageHeader = 'New Brand';
@@ -27,9 +31,6 @@ export class DeviceBrandFormComponent implements OnInit {
   brandForm: FormGroup;
   formSubmitted = false;
   isFailed = false;
-  errMsg: string;
-
-  brand: DeviceBrand;
 
   sub;
 
@@ -41,11 +42,11 @@ export class DeviceBrandFormComponent implements OnInit {
     private toastr: ToastrService) { }
 
   ngOnInit(): void {
-    this.sub = this.activatedroute.paramMap.subscribe(params => {
-      console.log(params);
-      this.actionType = params.get('actionType');
-      this.brandId = params.get('id');
-    });
+    // this.sub = this.activatedroute.paramMap.subscribe(params => {
+    //   console.log(params);
+    //   this.actionType = params.get('actionType');
+    //   this.brandId = params.get('id');
+    // });
 
     // console.log(this.authService.getCurrentUser());
     this.brandForm = this.formBuilder.group({
@@ -69,21 +70,12 @@ export class DeviceBrandFormComponent implements OnInit {
   }
 
   onLoad() {
-    this.spinner.show();
-    this.service.getById(this.brandId).subscribe((resp: ApiResponse) => {
-      this.spinner.hide();
-      this.brand = resp.message;
-      this.brandForm.setValue({
-        name: this.brand.name,
-        desc: this.brand.desc,
-      });
-    },
-      err => {
-        console.log('Unable to load brand, please contact adminstrator', err);
-        this.errMsg = err.message;
-        this.toastr.error(this.errMsg, "Location");
-        this.spinner.hide();
-      });
+
+    this.brandForm.setValue({
+      name: this.brand.name,
+      desc: this.brand.desc,
+    });
+
   }
 
   get f() { return this.brandForm['controls'] }
@@ -115,13 +107,13 @@ export class DeviceBrandFormComponent implements OnInit {
     this.brand = <DeviceBrand>this.brandForm.value;
 
     this.service.create(this.brand).subscribe((resp: ApiResponse) => {
+      this.onLoad();
       this.spinner.hide();
       this.toastr.success("Brand has been created successfully.", "Location");
-      this.router.navigate(['/dbrand']);
+      this.close(true);
     },
       err => {
         console.log('Unable to create brand, please contact adminstrator', err);
-        this.errMsg = err.message;
         this.toastr.error('Unable to create brand, please contact adminstrator', "Location");
         this.spinner.hide();
       });
@@ -139,13 +131,13 @@ export class DeviceBrandFormComponent implements OnInit {
     Object.assign(this.brand, brandToUpdate);
 
     this.service.update(this.brand).subscribe((resp: ApiResponse) => {
+      this.onLoad();
       this.spinner.hide();
       this.toastr.success("Brand has been updated successfully.", "Location");
-      this.router.navigate(['/dbrand']);
+      this.close(true);
     },
       err => {
         console.log('Unable to update brand, please contact adminstrator', err);
-        this.errMsg = err.message;
         this.toastr.error('Unable to update brand, please contact adminstrator', "Location");
         this.spinner.hide();
       });
@@ -161,20 +153,25 @@ export class DeviceBrandFormComponent implements OnInit {
   delete() {
     this.service.delete(this.brand.id).subscribe(data => {
       this.toastr.success('Brand has been deleted successfully', 'Device Brand')
-      this.router.navigate(['/dbrand']);
+      this.close(true);
     },
-    err => {
-      console.log('Unable to delete brand, please contact administrator.', 'Device Brand');
-      this.toastr.error('Unable to delete brand, please contact administrator.', 'Device Brand');
-    });
+      err => {
+        console.log('Unable to delete brand, please contact administrator.', 'Device Brand');
+        this.toastr.error('Unable to delete brand, please contact administrator.', 'Device Brand');
+      });
   }
 
   cancel() {
-    this.router.navigate(['/dbrand']);
+    this.close(false);
+  }
+
+  close(reload: boolean) {
+    console.log('close invoked');
+    this.modelClosed.emit({reload: reload});
   }
 
 
   public get actionEnum(): typeof ActionEnum {
-    return ActionEnum; 
+    return ActionEnum;
   }
 }

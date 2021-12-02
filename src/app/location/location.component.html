@@ -5,7 +5,7 @@
         <span class="pl-2">{{ pageHeader }}</span>
         <span class="count pl-2">({{ locationCount }})</span></div>
       <div class="col-sm-9 tools text-right">
-        <button class="button" (click)="createLocation()">
+        <button class="button" (click)="create(locModal)">
           <fa-icon [icon]='faPlus' size="lg"></fa-icon><span class="pl-2">Add
             New Location</span>
         </button>
@@ -40,13 +40,13 @@
             <td>{{ location.createdDate }}</td>
             <td>{{ location.modifiedBy }}</td>
             <td>{{ location.modifiedDate }}</td>
-            <td><span class="pr-3"><a (click)="viewLocation(location.id)" routerLinkActive="active">
+            <td><span class="pr-3"><a (click)="view(location.id, locModal)" routerLinkActive="active">
                   <fa-icon [icon]='faEye' style="color:#1653da"></fa-icon>
                 </a></span>
-              <span class="pr-3"><a (click)="editLocation(location.id)" routerLinkActive="active">
+              <span class="pr-3"><a (click)="edit(location.id, locModal)" routerLinkActive="active">
                   <fa-icon [icon]='faEdit' style="color:#ffc107;"></fa-icon>
                 </a></span>
-              <span class="pr-3"><a (click)="deleteLocation(location.id)" routerLinkActive="active">
+              <span class="pr-3"><a (click)="delete(location.id)" routerLinkActive="active">
                   <fa-icon [icon]='faArchive' style="color: #dc3545;"></fa-icon>
                 </a></span></td>
           </tr>
@@ -65,3 +65,6 @@
     </div>
   </div>
 </div>
+<ng-template #locModal let-modal>
+  <app-loation-form [actionType]="actionType" [merchant]="merchant" [location]="location" (modelClosed)='closeModal($event)'></app-loation-form>
+</ng-template>

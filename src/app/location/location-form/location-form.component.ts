@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { NgxSpinnerService } from 'ngx-spinner';
@@ -19,10 +19,16 @@ import { ActionEnum } from 'src/app/shared/enum/action.enum';
   templateUrl: './location-form.component.html',
   styleUrls: ['./location-form.component.scss']
 })
-export class LocationFormComponent implements OnInit, OnDestroy {
+export class LocationFormComponent implements OnInit{
 
-  actionType;
-  locId;
+  @Output() modelClosed = new EventEmitter();
+
+  @Input() merchant;
+  @Input() location;
+  @Input() actionType;
+
+  // actionType;
+  // locId;
 
   pageHeader = 'New Location';
   page = 1;
@@ -33,11 +39,7 @@ export class LocationFormComponent implements OnInit, OnDestroy {
   isFailed = false;
   errMsg: string;
 
-  location: Location;
-
-  sub: Subscription;
-
-  merchant: Merchant;
+  // sub: Subscription;
 
   constructor(private formBuilder: FormBuilder,
     private router: Router,
@@ -48,11 +50,11 @@ export class LocationFormComponent implements OnInit, OnDestroy {
     private toastr: ToastrService) { }
 
   ngOnInit(): void {
-    this.sub = this.activatedroute.paramMap.subscribe(params => {
-      console.log(params);
-      this.actionType = params.get('actionType');
-      this.locId = params.get('id');
-    });
+    // this.sub = this.activatedroute.paramMap.subscribe(params => {
+    //   console.log(params);
+    //   this.actionType = params.get('actionType');
+    //   this.locId = params.get('id');
+    // });
 
     // console.log(this.authService.getCurrentUser());
     this.locationForm = this.formBuilder.group({
@@ -61,10 +63,10 @@ export class LocationFormComponent implements OnInit, OnDestroy {
       desc: ['']
     });
 
-    this.appService.userMerchant.subscribe(data => {
-      this.merchant = data;
-      this.spinner.hide();
-    });
+    // this.appService.userMerchant.subscribe(data => {
+    //   this.merchant = data;
+    //   this.spinner.hide();
+    // });
 
     if (this.actionType != ActionEnum.add) {
       this.onLoad();
@@ -99,22 +101,22 @@ export class LocationFormComponent implements OnInit, OnDestroy {
   }
 
   onLoad() {
-    this.spinner.show();
-    this.locationService.getLocation(this.locId).subscribe((resp: ApiResponse) => {
-      this.spinner.hide();
-      this.location = resp.message;
+    // this.spinner.show();
+    // this.locationService.getLocation(this.locId).subscribe((resp: ApiResponse) => {
+    //   this.spinner.hide();
+    //   this.location = resp.message;
       this.locationForm.setValue({
         name: this.location.name,
         address: this.location.address,
         desc: this.location.desc,
       });
-    },
-      err => {
-        console.log('Unable to load location, please contact adminstrator', err);
-        this.errMsg = err.message;
-        this.toastr.error(this.errMsg, "Location");
-        this.spinner.hide();
-      });
+    // },
+    //   err => {
+    //     console.log('Unable to load location, please contact adminstrator', err);
+    //     this.errMsg = err.message;
+    //     this.toastr.error(this.errMsg, "Location");
+    //     this.spinner.hide();
+    //   });
   }
 
   get f() { return this.locationForm['controls'] }
@@ -123,7 +125,7 @@ export class LocationFormComponent implements OnInit, OnDestroy {
     this.f.desc.valueChanges.
       pipe(distinctUntilChanged()).
       subscribe(val => {
-        console.log('desc value', val + ':' + val.length);
+        // console.log('desc value', val + ':' + val.length);
         if (val.length > 0 && val.length < 6) {
           this.f.desc.setValidators([Validators.minLength(6)]);
           this.f.desc.setValidators([Validators.minLength(200)]);
@@ -149,7 +151,7 @@ export class LocationFormComponent implements OnInit, OnDestroy {
     this.locationService.createLocation(this.location).subscribe((resp: ApiResponse) => {
       this.spinner.hide();
       this.toastr.success("Location has been created successfully.", "Location");
-      this.router.navigate(['/location']);
+      this.close(true);
     },
       err => {
         console.log('Unable to create merchant, please contact adminstrator', err);
@@ -173,7 +175,7 @@ export class LocationFormComponent implements OnInit, OnDestroy {
     this.locationService.updateLocation(this.location).subscribe((resp: ApiResponse) => {
       this.spinner.hide();
       this.toastr.success("Location has been updated successfully.", "Location");
-      this.router.navigate(['/location']);
+      this.close(true);
     },
       err => {
         console.log('Unable to update merchant, please contact adminstrator', err);
@@ -193,7 +195,7 @@ export class LocationFormComponent implements OnInit, OnDestroy {
   delete() {
     this.locationService.deleteLocation(this.location.id);
     this.locationService.deleteLocation(this.location.id).subscribe(data => {
-      this.router.navigate(['/location']);
+      this.close(true);
     },
     err => {
       console.log('Unable to delete location, please contact administrator.', 'Location');
@@ -201,17 +203,12 @@ export class LocationFormComponent implements OnInit, OnDestroy {
     });
   }
 
-  cancel() {
-    this.router.navigate(['/location']);
-  }
-
-
   public get actionEnum(): typeof ActionEnum {
     return ActionEnum; 
   }
 
-
-  ngOnDestroy(): void {
-    this.sub.remove;
+  close(reload: boolean) {
+    console.log('close invoked');
+    this.modelClosed.emit({reload: reload});
   }
 }

@@ -9,7 +9,7 @@
           
         </div> -->
         <div class="col-sm-9 tools text-right">
-          <button class="button" (click)="create()">
+          <button class="button" (click)="create(dbModal)">
             <fa-icon [icon]='faPlus' size="lg"></fa-icon><span class="pl-2">Add
               New Brand</span>
           </button>
@@ -43,10 +43,10 @@
               <td>{{ brand.createdDate }}</td>
               <td>{{ brand.modifiedBy }}</td>
               <td>{{ brand.modifiedDate }}</td>
-              <td><span class="pr-3"><a (click)="view(brand.id)" routerLinkActive="active">
+              <td><span class="pr-3"><a (click)="view(brand.id, dbModal)" routerLinkActive="active">
                     <fa-icon [icon]='faEye' style="color:#1653da"></fa-icon>
                   </a></span>
-                <span class="pr-3"><a (click)="edit(brand.id)" routerLinkActive="active">
+                <span class="pr-3"><a (click)="edit(brand.id, dbModal)" routerLinkActive="active">
                     <fa-icon [icon]='faEdit' style="color:#ffc107;"></fa-icon>
                   </a></span>
                 <span class="pr-3"><a (click)="delete(brand.id)" routerLinkActive="active">
@@ -69,4 +69,6 @@
       </div>
     </div>
   </div>
-  
+  <ng-template #dbModal let-modal>
+    <app-device-brand-form [actionType]="actionType" [brand]="brand" (modelClosed)='closeModal($event)'></app-device-brand-form>
+  </ng-template>

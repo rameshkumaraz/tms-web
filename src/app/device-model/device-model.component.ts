@@ -1,13 +1,14 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { faPlus, faBars, faTh, faEye, faEdit, faArchive} from '@fortawesome/free-solid-svg-icons';
+import { ModalDismissReasons, NgbModal, NgbModalConfig } from '@ng-bootstrap/ng-bootstrap';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { ToastrService } from 'ngx-toastr';
 import { first } from 'rxjs/operators';
+import { ModuleBody } from 'typescript';
 import { DeviceModel } from '../model/device-model';
 import { ActionEnum } from '../shared/enum/action.enum';
 import { ApiResponse } from '../shared/model/api.response';
-import { AppService } from '../shared/service/app.service';
 import { DeviceModelService } from './device-model.service';
 
 @Component({
@@ -28,14 +29,23 @@ export class DeviceModelComponent implements OnInit {
   page = 1;
   pageSize = 5;
 
+  brands: Array<any>;
+
   modelCount = 0;
   models: Array<any>;
+
+  model: DeviceModel;
+
+  actionType;
+
+  closeResult: string;
 
   constructor(
     private service: DeviceModelService,
     private spinner: NgxSpinnerService,
     private router: Router,
-    private toastr: ToastrService) { }
+    private toastr: ToastrService,
+    private modalService: NgbModal) { }
 
   ngOnInit(): void {
     this.pageHeader = 'Device Model';
@@ -59,23 +69,54 @@ export class DeviceModelComponent implements OnInit {
         });
   }
 
-  create() {
-    this.router.navigate(['/dmf', { actionType: ActionEnum.add}],{skipLocationChange: true});
+  openModal(content) {
+    // this.modalService.open(content, { windowClass: 'project-modal', ariaLabelledBy: 'modal-basic-title' }).result.then((result) => {
+    this.modalService.open(content, { size: 'md', ariaLabelledBy: 'modal-basic-title' }).result.then((result) => {
+      this.closeResult = `Closed with: ${result}`;
+    }, (reason) => {
+      this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
+    });
   }
 
-  view(id: number) {
-    this.router.navigate(['/dmf', { actionType: ActionEnum.view, id: id}],{skipLocationChange: true});
+  private getDismissReason(reason: any): string {
+    if (reason === ModalDismissReasons.ESC) {
+      return 'by pressing ESC';
+    } else if (reason === ModalDismissReasons.BACKDROP_CLICK) {
+      return 'by clicking on a backdrop';
+    } else {
+      return `with: ${reason}`;
+    }
   }
 
-  edit(id: number) {
-    this.router.navigate(['/dmf', { actionType: ActionEnum.edit, id: id}],{skipLocationChange: true});
+  create(content:any) {
+    this.actionType = ActionEnum.add;
+    this.openModal(content);
+    // this.router.navigate(['/dmf', { actionType: ActionEnum.add}],{skipLocationChange: true});
+  }
+
+  view(id: number, content:any) {
+    this.actionType = ActionEnum.view;
+    this.model = this.filterModel(id)
+    this.openModal(content);
+    // this.router.navigate(['/dmf', { actionType: ActionEnum.view, id: id}],{skipLocationChange: true});
+  }
+
+  edit(id: number, content:any) {
+    this.actionType = ActionEnum.edit;
+    this.model = this.filterModel(id)
+    this.openModal(content);
+    // this.router.navigate(['/dmf', { actionType: ActionEnum.edit, id: id}],{skipLocationChange: true});
+  }
+
+  filterModel(id: number){
+    return this.models.find(m => m.id == id);
   }
 
   delete(id: number) {
     this.service.delete(id).subscribe(data => {
       console.log('Model has been deleted successfully');
       this.toastr.success('Model has been deleted successfully', 'Device Model');
-      this.router.navigate(['/dmf']);
+      this.router.navigate(['/dmodel']);
     },
     err => {
       console.log('Device model delete error....', err);
@@ -83,4 +124,8 @@ export class DeviceModelComponent implements OnInit {
     });
   }
 
+  closeModal(content) {
+    console.log('CloseModal event received');
+    this.modalService.dismissAll();
+  }
 }

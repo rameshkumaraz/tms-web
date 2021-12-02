@@ -13,7 +13,7 @@
         <span class="location-select pl-2 pr-2"><select id="location" (change)="onLocationChange($event.target.value)">
             <option *ngFor="let location of locations" [value]="location.id">{{location.name}}</option>
           </select></span> -->
-        <button class="button" (click)="create()">
+        <button class="button" (click)="create(deviceModal)">
           <fa-icon [icon]='faPlus' size="lg"></fa-icon><span class="pl-2">Add
             New Device</span>
         </button>
@@ -62,7 +62,7 @@
             <td>{{ device.createdDate }}</td>
             <td>{{ device.modifiedBy }}</td>
             <td>{{ device.modifiedDate }}</td>
-            <td><span class="pr-3"><a (click)="view(device.id)" routerLinkActive="active">
+            <td><span class="pr-3"><a (click)="view(device.id, deviceModal)" routerLinkActive="active">
                   <fa-icon [icon]='faEye' style="color:#1653da"></fa-icon>
                 </a></span>
               <!-- <span class="pr-3"><a (click)="edit(device.id)" routerLinkActive="active">
@@ -88,3 +88,6 @@
     </div>
   </div>
 </div>
+<ng-template #deviceModal let-modal>
+  <app-device-form [actionType]="actionType" [device]="device" [location]="location" (modelClosed)='closeModal($event)'></app-device-form>
+</ng-template>

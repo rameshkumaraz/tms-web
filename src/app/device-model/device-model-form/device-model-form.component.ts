@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { NgxSpinnerService } from 'ngx-spinner';
@@ -17,8 +17,10 @@ import { DeviceModelService } from '../device-model.service';
 })
 export class DeviceModelFormComponent implements OnInit {
 
-  actionType;
-  modelId;
+  @Output() modelClosed = new EventEmitter();
+
+  @Input() actionType;
+  @Input() model: any;
 
   pageHeader = 'New Device Model';
   page = 1;
@@ -27,9 +29,6 @@ export class DeviceModelFormComponent implements OnInit {
   modelForm: FormGroup;
   formSubmitted = false;
   isFailed = false;
-  errMsg: string;
-
-  model: any;
 
   brands: Array<any>;
 
@@ -44,11 +43,11 @@ export class DeviceModelFormComponent implements OnInit {
     private toastr: ToastrService) { }
 
   ngOnInit(): void {
-    this.sub = this.activatedroute.paramMap.subscribe(params => {
-      console.log(params);
-      this.actionType = params.get('actionType');
-      this.modelId = params.get('id');
-    });
+    // this.sub = this.activatedroute.paramMap.subscribe(params => {
+    //   console.log(params);
+    //   this.actionType = params.get('actionType');
+    //   this.modelId = params.get('id');
+    // });
 
     // console.log(this.authService.getCurrentUser());
     this.modelForm = this.formBuilder.group({
@@ -59,6 +58,8 @@ export class DeviceModelFormComponent implements OnInit {
       desc: ['']
     });
 
+    // console.log("Selected model....", this.model);
+
     this.loadBrands();
     if (this.actionType != ActionEnum.add) {
       this.onLoad();
@@ -68,6 +69,7 @@ export class DeviceModelFormComponent implements OnInit {
       this.modelForm.disable();
       this.pageHeader = 'View Model';
     }
+
     if (this.actionType == ActionEnum.edit) {
       this.pageHeader = 'Update Model';
       this.modelForm['controls'].name.disable();
@@ -81,7 +83,7 @@ export class DeviceModelFormComponent implements OnInit {
     this.f.desc.valueChanges.
       pipe(distinctUntilChanged()).
       subscribe(val => {
-        console.log('desc value', val + ':' + val.length);
+        // console.log('desc value', val + ':' + val.length);
         if (val.length > 0 && val.length < 5) {
           this.f.desc.setValidators([Validators.minLength(5)]);
           this.f.desc.setValidators([Validators.minLength(200)]);
@@ -93,28 +95,38 @@ export class DeviceModelFormComponent implements OnInit {
   };
 
   onLoad() {
-    this.spinner.show();
-    this.service.getById(this.modelId).subscribe((resp: ApiResponse) => {
-      this.spinner.hide();
-      this.model = resp.message;
-      console.log("Model...", this.model);
-      this.modelForm.setValue({
-        brand: this.model.brand.id,
-        name: this.model.name,
-        modelVersion: this.model.modelVersion,
-        baseVersion: this.model.baseVersion,
-        desc: this.model.desc,
-      });
-    },
-      err => {
-        console.log('Unable to load brand, please contact adminstrator', err);
-        this.errMsg = err.message;
-        this.toastr.error(this.errMsg, "Location");
-        this.spinner.hide();
-      });
+    this.modelForm.setValue({
+      brand: this.model.brand.id,
+      name: this.model.name,
+      modelVersion: this.model.modelVersion,
+      baseVersion: this.model.baseVersion,
+      desc: this.model.desc,
+    });
   }
 
-  loadBrands(){
+  // onLoad() {
+  //   this.spinner.show();
+  //   this.service.getById(this.modelId).subscribe((resp: ApiResponse) => {
+  //     this.spinner.hide();
+  //     this.model = resp.message;
+  //     console.log("Model...", this.model);
+  //     this.modelForm.setValue({
+  //       brand: this.model.brand.id,
+  //       name: this.model.name,
+  //       modelVersion: this.model.modelVersion,
+  //       baseVersion: this.model.baseVersion,
+  //       desc: this.model.desc,
+  //     });
+  //   },
+  //     err => {
+  //       console.log('Unable to load brand, please contact adminstrator', err);
+  //       this.errMsg = err.message;
+  //       this.toastr.error(this.errMsg, "Location");
+  //       this.spinner.hide();
+  //     });
+  // }
+
+  loadBrands() {
     this.spinner.show();
     this.brandService.getAll().subscribe((resp: ApiResponse) => {
       this.spinner.hide();
@@ -122,7 +134,7 @@ export class DeviceModelFormComponent implements OnInit {
     },
       err => {
         console.log('Unable to load brand, please contact adminstrator', err);
-        this.errMsg = err.message;
+        // this.errMsg = err.message;
         this.toastr.error('Unable to load brand, please contact adminstrator', "Device Model");
         this.spinner.hide();
       });
@@ -144,11 +156,11 @@ export class DeviceModelFormComponent implements OnInit {
     this.service.create(this.model).subscribe((resp: ApiResponse) => {
       this.spinner.hide();
       this.toastr.success("Model has been created successfully.", "Device Model");
-      this.router.navigate(['/dmodel']);
+      this.close(true);
     },
       err => {
         console.log('Unable to create model, please contact adminstrator', err);
-        this.errMsg = err.message;
+        // this.errMsg = err.message;
         this.toastr.error('Unable to create model, please contact adminstrator', "Device Model");
         this.spinner.hide();
       });
@@ -168,11 +180,12 @@ export class DeviceModelFormComponent implements OnInit {
     this.service.update(this.model).subscribe((resp: ApiResponse) => {
       this.spinner.hide();
       this.toastr.success("Model has been updated successfully.", "Device Model");
-      this.router.navigate(['/dmodel']);
+      // this.router.navigate(['/dmodel']);
+      this.close(true);
     },
       err => {
         console.log('Unable to update model, please contact adminstrator', err);
-        this.errMsg = err.message;
+        // this.errMsg = err.message;
         this.toastr.error('Unable to update model, please contact adminstrator', "Device Model");
         this.spinner.hide();
       });
@@ -189,21 +202,22 @@ export class DeviceModelFormComponent implements OnInit {
   delete() {
     this.service.delete(this.model.id).subscribe(data => {
       this.toastr.success('Model has been deleted successfully', 'Device Brand')
-      this.router.navigate(['/dmodel']);
+      // this.router.navigate(['/dmodel']);
+      this.close(true);
     },
-    err => {
-      console.log('Unable to delete model, please contact administrator.');
-      this.toastr.error('Unable to delete model, please contact administrator.', 'Device Model');
-    });
+      err => {
+        console.log('Unable to delete model, please contact administrator.');
+        this.toastr.error('Unable to delete model, please contact administrator.', 'Device Model');
+      });
   }
 
-  cancel() {
-    this.router.navigate(['/dmodel']);
+  close(reload: boolean) {
+    console.log('close invoked');
+    this.modelClosed.emit({reload: reload});
   }
-
 
   public get actionEnum(): typeof ActionEnum {
-    return ActionEnum; 
+    return ActionEnum;
   }
 
 }

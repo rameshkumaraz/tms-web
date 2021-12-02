@@ -70,6 +70,11 @@ button {
   font-size: 0.25rem !important;
 }
 
+.button-block {
+  text-align: right;
+  padding-right: 10px;
+}
+
 .button {
   background-color: $header-color;
   color: $white;
@@ -97,6 +102,23 @@ button {
   font-weight: $font-weight-lighter;
 }
 
+.modal-title {
+  font-size: $font-size-md !important;
+  font-weight: $font-weight-lighter !important;
+  font-family: $font-family-base;
+  // color: $header-color;
+  color: $white;
+}
+
+.modal-header {
+  background-color: $header-color;
+  color: $white;
+}
+
+.modal-header .close{
+  color: $white;
+}
+
 .modal-button {
   color: $white !important;
   border-radius: 3px;
@@ -106,6 +128,16 @@ button {
   font-family: $font-family-base;
   background-color: #18A0FB;
   padding: 5px 15px;
+}
+
+.modal-body{
+  padding: 20px !important;
+}
+
+.modal-body label {
+  font-size: $font-size-xs;
+  font-weight: $font-weight-lighter;
+  font-family: $font-family-base;
 }
 
 .dropdown-menu {
@@ -146,7 +178,7 @@ button {
 
 .form-container {
   width: 100%;
-  padding: 20px;
+  padding: 5px !important;
   text-align: left;
   margin-left: auto;
   margin-right: auto;
@@ -185,18 +217,19 @@ button {
 }
 
 .form-button-action {
-  height: 35px;
-  width: 125px;
+  height: 30px;
+  width: 100px;
   background-color: $header-color;
   font-size: $font-size-sm;
   font-weight: $font-weight-lighter;
   font-family: $font-family-light;
   box-shadow: lightness($color: #000000);
+  line-height: 10px;
 }
 
 .form-button-cancel {
-  height: 35px;
-  width: 125px;
+  height: 30px;
+  width: 100px;
   background-color: $form-color;
   font-size: $font-size-sm;
   font-weight: $font-weight-lighter;
@@ -204,6 +237,7 @@ button {
   box-shadow: lightness($color: #000000);
   border-color: $header-color;
   color: $gray-medium;
+  line-height: 10px;
 }
 
 .form-control:focus {
