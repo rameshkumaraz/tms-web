@@ -1,0 +1,12 @@
+@import "../../../assets/sass/variables";
+
+.btn-outline-secondary {
+    padding: 5px !important;
+    border: solid 1px $body-border-color;
+    font-size: $font-size-sm;
+    color: $footer-font-color;
+}
+
+.btn-outline-secondary:hover {
+    background-color: $body-border-color;
+}

@@ -37,7 +37,7 @@ export class DeviceComponent implements OnInit, OnDestroy {
 
   locations: Array<any>;
   locationCount = 0;
-  locId;
+  // locId;
 
   location: Location;
   device: Device;
@@ -54,8 +54,6 @@ export class DeviceComponent implements OnInit, OnDestroy {
     private service: DeviceService,
     private locationService: LocationService,
     private spinner: NgxSpinnerService,
-    private router: Router,
-    private activatedroute: ActivatedRoute,
     private modalService: NgbModal,
     private toastr: ToastrService) { }
 
@@ -84,12 +82,14 @@ export class DeviceComponent implements OnInit, OnDestroy {
           console.log('Location Response', resp);
           this.locations = resp.message;
           this.locationCount = this.locations.length;
-          
-            this.location = this.locations[0];
-            this.locId = this.location.id;
 
-          if(this.locationCount > 0)
+          if(this.locationCount > 0) {
+            this.location = this.locations[0];
+            // this.locId = this.location.id;
             this.loadDeviceForLocation(this.locations[0].id);
+          } else {
+            this.spinner.hide();
+          }
         },
         error => {
           console.log('Location Response', error);
@@ -116,7 +116,7 @@ export class DeviceComponent implements OnInit, OnDestroy {
     this.location =  this.locations.find(x => x.id == id);
     // console.log("Selected app...", this.app);
     this.devices = [];
-    this.locId = id;
+    // this.locId = id;
     this.loadDeviceForLocation(id);
   }
 

@@ -45,6 +45,8 @@ import { DeviceBrandComponent } from './device-brand/device-brand.component';
 import { DeviceBrandFormComponent } from './device-brand/device-brand-form/device-brand-form.component';
 import { LibraryComponent } from './library/library.component';
 import { LibraryFormComponent } from './library/library-form/library-form.component';
+import { JobComponent } from './job/job.component';
+import { JobFormComponent } from './job/job-form/job-form.component';
 
 @NgModule({
   declarations: [
@@ -78,7 +80,9 @@ import { LibraryFormComponent } from './library/library-form/library-form.compon
     DeviceBrandComponent,
     DeviceBrandFormComponent,
     LibraryComponent,
-    LibraryFormComponent
+    LibraryFormComponent,
+    JobComponent,
+    JobFormComponent
   ],
   imports: [
     AppRoutingModule,

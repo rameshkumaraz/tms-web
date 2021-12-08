@@ -18,27 +18,33 @@ export class AppService {
   constructor(
     private authService: AuthenticationService,
     private merchantService: MerchantService) {
-    console.log('AppService constructor.....');  
+    // console.log('AppService constructor.....');
+    // this.authService.currentUser.subscribe(data => {
+    //   console.log("Subscription log....", data);
+    //   if (!data) {
+    //   } else {
+        this.loadUserMerchant();
+      // }
+    // });
+  }
+
+  loadUserMerchant() {
+
     this.authService.currentUser.subscribe(data => {
       console.log("Subscription log....", data);
       if (!data) {
       } else {
-        this.loadUserMerchant(data);
+        console.log("Merchant getting loaded....");
+        return this.merchantService.getMerchant(data.merchantId).pipe(first()).subscribe((resp: ApiResponse) => {
+          console.log('Loaded Merchant.....', resp);
+          this.userMerchantSubject.next(resp.message);
+        },
+          err => {
+            console.log('Merchant Error Response', err);
+            this.userMerchantSubject.next({});
+          });
       }
     });
-  }
-
-  loadUserMerchant(user: any) {
-
-    console.log("Merchant getting loaded....");
-    return this.merchantService.getMerchant(user.merchantId).pipe(first()).subscribe((resp: ApiResponse) => {
-      console.log('Merchant Response', resp);
-      this.userMerchantSubject.next(resp.message);
-    },
-      err => {
-        console.log('Merchant Error Response', err);
-        this.userMerchantSubject.next({});
-      });
   }
 
   clearUserMerchant() {

@@ -9,7 +9,7 @@
         
       </div> -->
       <div class="col-sm-9 tools text-right">
-        <button class="button" (click)="create()">
+        <button class="button" (click)="create(appModal)">
           <fa-icon [icon]='faPlus' size="lg"></fa-icon><span class="pl-2">Add
             New Application</span>
         </button>
@@ -47,10 +47,10 @@
             <td>{{ app.createdDate }}</td>
             <td>{{ app.modifiedBy }}</td>
             <td>{{ app.modifiedDate }}</td>
-            <td><span class="pr-3"><a (click)="view(app.id)" routerLinkActive="active">
+            <td><span class="pr-3"><a (click)="view(app.id, appModal)" routerLinkActive="active">
                   <fa-icon [icon]='faEye' style="color:#1653da"></fa-icon>
                 </a></span>
-              <span class="pr-3"><a (click)="edit(app.id)" routerLinkActive="active">
+              <span class="pr-3"><a (click)="edit(app.id, appModal)" routerLinkActive="active">
                   <fa-icon [icon]='faEdit' style="color:#ffc107;"></fa-icon>
                 </a></span>
               <span class="pr-3"><a (click)="delete(app.id)" routerLinkActive="active">
@@ -73,3 +73,6 @@
     </div>
   </div>
 </div>
+<ng-template #appModal let-modal>
+  <app-application-form [actionType]="actionType" [merchant]="merchant" [app]="app" (modelClosed)='closeModal($event)'></app-application-form>
+</ng-template>

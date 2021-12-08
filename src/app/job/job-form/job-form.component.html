@@ -1,0 +1,194 @@
+<div class="modal-header">
+  <h4 class="modal-title" id="modal-basic-title">{{ pageHeader }}</h4>
+  <button type="button" class="close" aria-label="Close" (click)="close(false)">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+<div class="modal-body">
+  <form [formGroup]="jobForm">
+    <div class="form-row">
+      <div class="form-group col-sm-8 required">
+        <label for="name" class="asterisk-if-mandatory">Name</label>
+        <input required formControlName="name" id="name" type="text" class="form-control" autocomplete="off"
+          [ngClass]="{ 'is-invalid': formSubmitted && f.name.errors }">
+        <div *ngIf="formSubmitted && f.name.errors" class="invalid-feedback">
+          <div *ngIf="f.name.errors.required">Name is required</div>
+          <div *ngIf="f.name.errors?.minlength">Name must be at least 5 characters long.</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="form-row">
+      <div class="form-group col-sm-4 required">
+        <label for="triggerType" class="asterisk-if-mandatory">Trigger Type</label>
+        <select required class="form-control" formControlName="triggerType" id="triggerType"
+          [ngClass]="{ 'is-invalid': formSubmitted && f.triggerType.errors }">
+          <option value="" disabled selected>Select Trigger</option>
+          <option *ngFor="let t of triggerTypes" [value]="t">{{t}}</option>
+        </select>
+        <div *ngIf="formSubmitted && f.triggerType.errors" class="invalid-feedback">
+          <div *ngIf="f.triggerType.errors.required">Trigger Type is required</div>
+        </div>
+      </div>
+      <div class="form-group col-sm-8 required">
+        <label for="jobType" class="asterisk-if-mandatory">Event Type</label>
+        <select required class="form-control" formControlName="jobType" id="jobType"
+          [ngClass]="{ 'is-invalid': formSubmitted && f.jobType.errors }" (change)="changeJob($event.target.value)">
+          <option value="" disabled selected>Select Type</option>
+          <option *ngFor="let t of jobTypes" [value]="t">{{t}}</option>
+        </select>
+        <div *ngIf="formSubmitted && f.jobType.errors" class="invalid-feedback">
+          <div *ngIf="f.jobType.errors.required">Event Type is required</div>
+          <div *ngIf="f.jobType.errors?.minlength">Event Type must be at least 1 characters long.</div>
+        </div>
+      </div>
+    </div>
+    <div class="form-row" *ngIf="f.triggerType.value == triggerEnum.LATER">
+      <div class="form-group col-sm-7 required">
+        <label for="jobDate" class="asterisk-if-mandatory">Event Date</label>
+        <!-- <div class="input-group">
+          <input class="form-control" formControlName="jobDate" placeholder="yyyy-mm-dd" id="jobDate" ngbDatepicker
+            #d="ngbDatepicker">
+          <div class="input-group-append">
+            <button class="btn btn-outline-secondary" (click)="d.toggle()" type="button">
+              <fa-icon [icon]='faCalendar'></fa-icon>
+            </button>
+          </div>
+        </div> -->
+        <input required formControlName="jobDate" id="jobDate" type="datetime-local" class="form-control" autocomplete="off"
+          [ngClass]="{ 'is-invalid': formSubmitted && f.jobDate.errors }" min="{{min}}" max="{{max}}">
+        <div *ngIf="formSubmitted && f.jobDate.errors" class="invalid-feedback">
+          <div *ngIf="f.jobDate.errors.required">Event Date is required</div>
+          <div *ngIf="f.jobDate.errors?.minlength">Event Date must be a valid date.</div>
+        </div>
+      </div>
+      <!-- <div class="form-group col-sm-3 required">
+        <label for="jobTime" class="asterisk-if-mandatory">Event Time</label>
+        <input required formControlName="jobTime" id="jobTime" type="time" class="form-control" autocomplete="off"
+          [ngClass]="{ 'is-invalid': formSubmitted && f.name.errors }">
+      </div> -->
+    </div>
+    <div class="form-row">
+      <div class="form-group col-sm-12 required">
+        <label for="jobDate" class="asterisk-if-mandatory">Target Type</label>
+        <div class="input-group">
+          <div>
+            <input id="all" type="radio" value="1" formControlName="targetType" (change)="changeTarget($event)" checked>
+            <label for="all" class="pl-1">All Locations</label>
+          </div>
+          <div class="pl-4">
+            <input id="location" type="radio" value="2" formControlName="targetType" (change)="changeTarget($event)">
+            <label for="location" class="pl-1">Location</label>
+          </div>
+          <div class="pl-4">
+            <input id="device" type="radio" value="3" formControlName="targetType" (change)="changeTarget($event)">
+            <label for="device" class="pl-1">Device</label>
+          </div>
+        </div>
+        <div *ngIf="formSubmitted && f.targetType.errors" class="invalid-feedback">
+          <div *ngIf="f.targetType.errors.required">Target Type is required</div>
+        </div>
+      </div>
+    </div>
+    <div class="form-row" *ngIf="f.jobType.value == jobsEnum.SOFTWARE_DOWNLOAD_MSG || f.jobType.value == jobsEnum.APP_VERSION_UPDATE_MSG">
+      <div class="form-group col-sm-6 required">
+        <label for="app" class="asterisk-if-mandatory">Select Application</label>
+        <select required class="form-control" formControlName="app" id="app"
+          [ngClass]="{ 'is-invalid': formSubmitted && f.app.errors }" (change)="changeApp($event.target.value)">
+          <option value="" disabled selected>Select Application</option>
+          <option *ngFor="let a of apps" [value]="a.id">{{a.name}}</option>
+        </select>
+        <div *ngIf="formSubmitted && f.app.errors" class="invalid-feedback">
+          <div *ngIf="f.app.errors.required">Appliction is required</div>
+        </div>
+      </div>
+      <div class="form-group col-sm-6 required">
+        <label for="library" class="asterisk-if-mandatory">Select Library</label>
+        <select required class="form-control" formControlName="library" id="library"
+          [ngClass]="{ 'is-invalid': formSubmitted && f.library.errors }">
+          <option value="" disabled selected *ngIf="f.jobType.value != jobsEnum.APP_VERSION_UPDATE_MSG">Select Library</option>
+          <option *ngFor="let l of libs" [value]="l.id">{{l.name}}</option>
+        </select>
+        <div *ngIf="formSubmitted && f.library.errors" class="invalid-feedback">
+          <div *ngIf="f.library.errors.required">Library is required</div>
+        </div>
+      </div>
+    </div>
+    <div class="form-row" *ngIf="f.jobType.value == jobsEnum.REQ_LOG_MSG">
+      <div class="form-group col-sm-6 required">
+        <label for="app" class="asterisk-if-mandatory">Select Application</label>
+        <select required class="form-control" formControlName="app" id="app"
+          [ngClass]="{ 'is-invalid': formSubmitted && f.app.errors }" (change)="changeApp($event.target.value)">
+          <option value="" disabled selected>Select Application</option>
+          <option *ngFor="let a of apps" [value]="a.id">{{a.name}}</option>
+        </select>
+        <div *ngIf="formSubmitted && f.app.errors" class="invalid-feedback">
+          <div *ngIf="f.app.errors.required">Appliction is required</div>
+        </div>
+      </div>
+    </div>
+    <div class="form-row" *ngIf="f.targetType.value == 2 || f.targetType.value == 3">
+      <div class="form-group col-sm-6 required">
+        <label for="location" class="asterisk-if-mandatory">Select Location</label>
+        <select required class="form-control" formControlName="location" id="location" *ngIf="f.targetType.value == 2"
+        [ngClass]="{ 'is-invalid': formSubmitted && f.location.errors }" (change)="changeLoc($event.target.value, false)">
+        <option value="" disabled selected>Select Location</option>
+        <option *ngFor="let l of locs" [value]="l.id">{{l.name}}</option>
+      </select>
+      <select required class="form-control" formControlName="location" id="location" *ngIf="f.targetType.value == 3"
+        [ngClass]="{ 'is-invalid': formSubmitted && f.location.errors }" (change)="changeLoc($event.target.value, true)">
+        <option value="" disabled selected>Select Location</option>
+        <option *ngFor="let l of locs" [value]="l.id">{{l.name}}</option>
+      </select>
+        <div *ngIf="formSubmitted && f.location.errors" class="invalid-feedback">
+          <div *ngIf="f.location.errors.required">Location is required</div>
+        </div>
+      </div>
+      <div class="form-group col-sm-6 required" *ngIf="f.targetType.value == 3">
+        <label for="device" class="asterisk-if-mandatory">Select Device</label>
+        <select required class="form-control" formControlName="device" id="device"
+        [ngClass]="{ 'is-invalid': formSubmitted && f.device.errors }">
+        <option value="" disabled selected>Select Device</option>
+        <option *ngFor="let d of devices" [value]="d.id">{{d.name}} ({{d.serial}})</option>
+      </select>
+        <div *ngIf="formSubmitted && f.device.errors" class="invalid-feedback">
+          <div *ngIf="f.device.errors.required">Device is required</div>
+        </div>
+      </div>
+    </div>
+    <!-- <div class="form-row" *ngIf="f.jobType.value == jobsEnum.SOFTWARE_DOWNLOAD_MSG">
+      <div class="form-group col-sm-6 required">
+        <label for="library" class="asterisk-if-mandatory">Select Library</label>
+        <input required formControlName="library" id="library" type="text" class="form-control" autocomplete="off"
+          [ngClass]="{ 'is-invalid': formSubmitted && f.library.errors }">
+        <div *ngIf="formSubmitted && f.library.errors" class="invalid-feedback">
+          <div *ngIf="f.library.errors.required">Library is required</div>
+        </div>
+      </div>
+    </div> -->
+    <div class="form-row">
+      <div class="form-group col-sm-12">
+        <label for="desc">Description</label>
+        <textarea formControlName="desc" id="desc" autocomplete="off" rows="3" cols="80" class="form-control"
+          [ngClass]="{ 'is-invalid': formSubmitted && f.desc.errors }">  </textarea>
+        <div *ngIf="formSubmitted && f.desc.errors" class="invalid-feedback">
+          <div *ngIf="f.desc.errors.minlength">Description must be at least 6 characters long.</div>
+        </div>
+      </div>
+    </div>
+  </form>
+  <div class="button-block">
+    <span class="pr-2"><button type="button" class="btn btn-primary form-button-cancel"
+        (click)="close(false)">Cancel</button>
+    </span>
+    <button type="button" class="btn btn-primary form-button-action" (click)="save()"
+      *ngIf="actionType == actionEnum.add">Save</button>
+    <!-- <button type="button" class="btn btn-primary form-button-action" (click)="edit()"
+      *ngIf="actionType == actionEnum.view">Edit</button> -->
+    <span class="pl-2" *ngIf="actionType == actionEnum.view"><button type="button"
+        class="btn btn-primary form-button-action" (click)="delete()">Delete</button></span>
+    <!-- <button type="button" class="btn btn-primary form-button-action" (click)="update()"
+      *ngIf="actionType == actionEnum.edit">Update</button> -->
+
+  </div>
+</div>

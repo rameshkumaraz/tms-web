@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { NgxSpinnerService } from 'ngx-spinner';
@@ -21,9 +21,12 @@ import { LibraryService } from '../library.service';
 })
 export class LibraryFormComponent implements OnInit {
 
-  actionType;
-  libId;
-  appId;
+  @Output() modelClosed = new EventEmitter();
+
+  // @Input() merchant;
+  @Input() app;
+  @Input() lib;
+  @Input() actionType;
 
   pageHeader = 'New Library';
   page = 1;
@@ -36,12 +39,6 @@ export class LibraryFormComponent implements OnInit {
 
   apps: Array<any>;
 
-  lib: any;
-
-  merchant: Merchant;
-
-  sub;
-
   constructor(private formBuilder: FormBuilder,
     private router: Router,
     private activatedroute: ActivatedRoute,
@@ -52,11 +49,11 @@ export class LibraryFormComponent implements OnInit {
     private toastr: ToastrService) { }
 
   ngOnInit(): void {
-    this.sub = this.activatedroute.paramMap.subscribe(params => {
-      console.log(params);
-      this.actionType = params.get('actionType');
-      this.libId = params.get('id');
-    });
+    // this.sub = this.activatedroute.paramMap.subscribe(params => {
+    //   console.log(params);
+    //   this.actionType = params.get('actionType');
+    //   this.libId = params.get('id');
+    // });
 
     // console.log(this.authService.getCurrentUser());
     this.libForm = this.formBuilder.group({
@@ -74,10 +71,10 @@ export class LibraryFormComponent implements OnInit {
 
     this.setDescValidator();
 
-    this.appService.userMerchant.subscribe(data => {
-      this.merchant = data;
-      this.loadApps();
-    });
+    // this.appService.userMerchant.subscribe(data => {
+    //   this.merchant = data;
+    //   this.loadApps();
+    // });
 
     if (this.actionType != ActionEnum.add) {
       this.onLoad();
@@ -87,6 +84,8 @@ export class LibraryFormComponent implements OnInit {
       this.libForm.disable();
       this.pageHeader = 'View Library';
     }
+
+    this.libForm['controls'].app.setValue(this.app.id+"");
   }
 
   loadApps(){
@@ -105,11 +104,11 @@ export class LibraryFormComponent implements OnInit {
   }
 
   onLoad() {
-    this.spinner.show();
-    this.service.getById(this.libId).subscribe((resp: ApiResponse) => {
-      this.spinner.hide();
-      this.lib = resp.message;
-      console.log('Library....', this.lib);
+    // this.spinner.show();
+    // this.service.getById(this.libId).subscribe((resp: ApiResponse) => {
+    //   this.spinner.hide();
+    //   this.lib = resp.message;
+    //   console.log('Library....', this.lib);
       this.libForm.setValue({
         app: this.lib.app.id,
         name: this.lib.name,
@@ -123,14 +122,14 @@ export class LibraryFormComponent implements OnInit {
         postActionDelay: this.lib.postActionDelay,
       });
 
-      this.appId = this.f.app.value;
-    },
-      err => {
-        console.log('Unable to load Library, please contact adminstrator', err);
-        this.errMsg = err.message;
-        this.toastr.error(this.errMsg, "Library");
-        this.spinner.hide();
-      });
+    //   this.appId = this.f.app.value;
+    // },
+    //   err => {
+    //     console.log('Unable to load Library, please contact adminstrator', err);
+    //     this.errMsg = err.message;
+    //     this.toastr.error(this.errMsg, "Library");
+    //     this.spinner.hide();
+    //   });
   }
 
   get f() { return this.libForm['controls'] }
@@ -166,7 +165,7 @@ export class LibraryFormComponent implements OnInit {
     this.service.create(formData).subscribe((resp: ApiResponse) => {
       this.spinner.hide();
       this.toastr.success("Library has been created successfully.", "Library");
-      this.router.navigate(['/library', { appId: this.appId}]);
+      this.close(true);
     },
       err => {
         console.log('Unable to create Library, please contact adminstrator', err);
@@ -224,7 +223,7 @@ export class LibraryFormComponent implements OnInit {
   delete() {
     this.service.delete(this.lib.id).subscribe(data => {
       this.toastr.success('Library has been deleted successfully', 'Library')
-      this.router.navigate(['/library', { appId: this.appId}]);
+      this.close(true);
     },
     err => {
       console.log('Unable to delete library, please contact administrator.', 'Library');
@@ -233,7 +232,7 @@ export class LibraryFormComponent implements OnInit {
   }
 
   cancel() {
-    this.router.navigate(['/library', { appId: this.appId}]);
+    this.close(false);
   }
 
   onFileChange(event) {
@@ -241,11 +240,17 @@ export class LibraryFormComponent implements OnInit {
     if (event.target.files.length > 0) {
       const file = event.target.files[0];
       this.libForm.patchValue({
-        bundle : file
+        bundle : file,
+        bundleName: file.name
       });
     }
+    // console.log("File name", this.f.bundleName.value);
   }
 
+  close(reload: boolean) {
+    console.log('close invoked');
+    this.modelClosed.emit({reload: reload});
+  }
 
   public get actionEnum(): typeof ActionEnum {
     return ActionEnum; 

@@ -1,1 +1,96 @@
-<p>user-form works!</p>
+<div class="modal-header">
+  <h4 class="modal-title" id="modal-basic-title">{{ pageHeader }}</h4>
+  <button type="button" class="close" aria-label="Close" (click)="close(false)">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+<div class="modal-body">
+  <form [formGroup]="userForm">
+    <div class="form-row">
+      <div class="form-group col-sm-6 required">
+        <label for="firstName" class="asterisk-if-mandatory">First Name</label>
+        <input required formControlName="firstName" id="firstName" type="text" class="form-control" autocomplete="off"
+          [ngClass]="{ 'is-invalid': formSubmitted && f.firstName.errors }">
+        <div *ngIf="formSubmitted && f.firstName.errors" class="invalid-feedback">
+          <div *ngIf="f.firstName.errors.required">First Name is required</div>
+          <div *ngIf="f.firstName.errors?.minlength">First Name must be at least 5 characters long.</div>
+        </div>
+      </div>
+      <div class="form-group col-sm-6 required">
+        <label for="lastName" class="asterisk-if-mandatory">Last Name</label>
+        <input required formControlName="lastName" id="lastName" type="text" class="form-control" autocomplete="off"
+          [ngClass]="{ 'is-invalid': formSubmitted && f.lastName.errors }">
+        <div *ngIf="formSubmitted && f.lastName.errors" class="invalid-feedback">
+          <div *ngIf="f.lastName.errors.required">Last Name is required</div>
+          <div *ngIf="f.lastName.errors?.minlength">Last Name must be at least 5 characters long.</div>
+        </div>
+      </div>
+    </div>
+    <!-- <div class="form-row">
+      
+    </div> -->
+    <div class="form-row">
+      <div class="form-group col-sm-6 required">
+        <label for="email" class="asterisk-if-mandatory">Email</label>
+        <input required formControlName="email" id="email" type="text" class="form-control" autocomplete="off"
+          [ngClass]="{ 'is-invalid': formSubmitted && f.email.errors }">
+        <div *ngIf="formSubmitted && f.email.errors" class="invalid-feedback">
+          <div *ngIf="f.email.errors.required">Email is required</div>
+          <div *ngIf="f.email.errors?.minlength">Email must be a valid email.</div>
+        </div>
+      </div>
+    </div>
+    <div class="form-row">
+      <div class="form-group col-sm-6 required">
+        <label for="password" class="asterisk-if-mandatory">Password</label>
+        <input required formControlName="password" id="password" type="text" class="form-control" autocomplete="off"
+          [ngClass]="{ 'is-invalid': formSubmitted && f.password.errors }">
+        <div *ngIf="formSubmitted && f.password.errors" class="invalid-feedback">
+          <div *ngIf="f.password.errors.required">Password is required</div>
+          <div *ngIf="f.password.errors?.minlength">Password must be at least 8 characters long.</div>
+        </div>
+      </div>
+      <div class="form-group col-sm-6 required">
+        <label for="confirmPassword" class="asterisk-if-mandatory">Confirm Password</label>
+        <input required formControlName="confirmPassword" id="confirmPassword" type="text" class="form-control"
+          autocomplete="off" [ngClass]="{ 'is-invalid': formSubmitted && f.confirmPassword.errors && f.confirmPassword.value != f.password.value}">
+        <div *ngIf="formSubmitted && f.confirmPassword.errors" class="invalid-feedback">
+          <div *ngIf="f.confirmPassword.errors.required">Confirm Password is required</div>
+          <div *ngIf="f.confirmPassword.errors.invalid">Password doesn't match</div>
+        </div>
+      </div>
+    </div>
+    <!-- <div class="form-row">
+      
+    </div> -->
+    <div class="form-row">
+      <div class="form-group col-sm-6 required">
+        <label for="role" class="asterisk-if-mandatory">Role</label>
+        <select required class="form-control" formControlName="role" id="role"
+          [ngClass]="{ 'is-invalid': formSubmitted && f.role.errors }">
+          <option value="" disabled selected>Select Role</option>
+          <option *ngFor="let r of roles" [value]="r.id">{{r.name}}</option>
+        </select>
+        <div *ngIf="formSubmitted && f.role.errors" class="invalid-feedback">
+          <div *ngIf="f.role.errors.required">Role is required</div>
+        </div>
+      </div>
+    </div>
+    <input required formControlName="merchant" id="merchant" type="text" class="form-control"
+          [hidden]='true' [ngClass]="{ 'is-invalid': formSubmitted && f.confirmPassword.errors && f.confirmPassword.value != f.password.value}">
+  </form>
+  <div class="button-block">
+    <span class="pr-3"><button type="button" class="btn btn-primary form-button-cancel"
+        (click)="cancel()">Cancel</button>
+    </span>
+    <button type="button" class="btn btn-primary form-button-action" (click)="save()"
+      *ngIf="actionType == actionEnum.add">Save</button>
+    <button type="button" class="btn btn-primary form-button-action" (click)="edit()"
+      *ngIf="actionType == actionEnum.view">Edit</button>
+    <span class="pl-3" *ngIf="actionType == actionEnum.view"><button type="button"
+        class="btn btn-primary form-button-action" (click)="delete()">Delete</button></span>
+    <button type="button" class="btn btn-primary form-button-action" (click)="update()"
+      *ngIf="actionType == actionEnum.edit">Update</button>
+
+  </div>
+</div>

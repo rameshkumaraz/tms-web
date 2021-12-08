@@ -5,7 +5,7 @@
         <span class="pl-2">{{ pageHeader }}</span>
         <span class="count pl-2">({{ userCount }})</span></div>
       <div class="col-sm-9 tools text-right">
-        <button class="button" (click)="createUser()">
+        <button class="button" (click)="createUser(userModal)">
           <fa-icon [icon]='faPlus' size="lg"></fa-icon><span class="pl-2">Add
             New User</span>
         </button>
@@ -42,10 +42,10 @@
             <td>{{ user.createdDate }}</td>
             <td>{{ user.modifiedBy }}</td>
             <td>{{ user.modifiedDate }}</td>
-            <td><span class="pr-3"><a (click)="viewUser(user.id)" routerLinkActive="active">
+            <td><span class="pr-3"><a (click)="viewUser(user.id, userModal)" routerLinkActive="active">
                   <fa-icon [icon]='faEye' style="color:#1653da"></fa-icon>
                 </a></span>
-              <span class="pr-3"><a (click)="editUser(user.id)" routerLinkActive="active">
+              <span class="pr-3"><a (click)="editUser(user.id, userModal)" routerLinkActive="active">
                   <fa-icon [icon]='faEdit' style="color:#ffc107;"></fa-icon>
                 </a></span>
               <span class="pr-3"><a (click)="deleteUser(user.id)" routerLinkActive="active">
@@ -54,16 +54,20 @@
           </tr>
         </tbody>
       </table>
-    </div>
-    <div class="d-flex justify-content-between px-2">
-      <ngb-pagination [collectionSize]="userCount" [(page)]="page" [pageSize]="pageSize">
-      </ngb-pagination>
+      <div class="d-flex justify-content-between px-2">
+        <ngb-pagination [collectionSize]="userCount" [(page)]="page" [pageSize]="pageSize">
+        </ngb-pagination>
 
-      <select [(ngModel)]="pageSize">
-        <option [ngValue]="5">5 items per page</option>
-        <option [ngValue]="10">10 items per page</option>
-        <option [ngValue]="25">25 items per page</option>
-      </select>
+        <select [(ngModel)]="pageSize">
+          <option [ngValue]="5">5 items per page</option>
+          <option [ngValue]="10">10 items per page</option>
+          <option [ngValue]="25">25 items per page</option>
+        </select>
+      </div>
     </div>
   </div>
+
 </div>
+<ng-template #userModal let-modal>
+  <app-user-form [actionType]="actionType" [merchant]="merchant" [user]="user" (modelClosed)='closeModal($event)'></app-user-form>
+</ng-template>

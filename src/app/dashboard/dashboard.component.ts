@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { Merchant } from '../model/merchant';
@@ -9,11 +9,13 @@ import { AppService } from '../shared/service/app.service';
   templateUrl: './dashboard.component.html',
   styleUrls: ['./dashboard.component.scss']
 })
-export class DashboardComponent implements OnInit {
+export class DashboardComponent implements OnInit, OnDestroy {
 
   pageHeader: string;
 
   merchant : Merchant;
+
+  mSub;
 
   constructor(private appService: AppService,
     private spinner: NgxSpinnerService,
@@ -22,7 +24,7 @@ export class DashboardComponent implements OnInit {
   ngOnInit(): void {
     this.pageHeader = 'Dashboard';
 
-    this.appService.userMerchant.subscribe(data => {
+    this.mSub = this.appService.userMerchant.subscribe(data => {
       this.spinner.show();
       // console.log('User Merchant.....', data.id+':'+Object.keys(data).length);
       if(Object.keys(data).length > 0) {
@@ -30,6 +32,10 @@ export class DashboardComponent implements OnInit {
         this.spinner.hide();
       }
     });
+  }
+
+  ngOnDestroy(): void {
+    this.mSub.remove;
   }
 
 }

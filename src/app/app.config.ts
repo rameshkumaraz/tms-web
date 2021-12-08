@@ -18,6 +18,9 @@ export class AppSettings {
         'application': 'app',
         'applicationsForMerchant': 'app/m',
         'library': 'lib',
-        'librariesForLocationn': 'lib/a'
+        'librariesForLocation': 'lib/a',
+        'latestForLocation': 'lib/l',
+        'job': 'jobs',
+        'jobForMerchant': 'jobs/m'
     };
 }

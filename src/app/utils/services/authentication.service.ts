@@ -60,6 +60,7 @@ export class AuthenticationService {
         console.log('Loading user profile subject.....');
         this.currentUserSubject = new BehaviorSubject<User>(JSON.parse(sessionStorage.getItem('user_profile')));
         this.currentUser = this.currentUserSubject.asObservable();
+        console.log('Loading user profile subject.....', this.currentUserSubject.value);
     }
 
     logout() {

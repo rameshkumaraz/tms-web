@@ -5,6 +5,7 @@ import { AuthenticationService } from '../utils/services/authentication.service'
 import { Router } from '@angular/router';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { ApiResponse } from '../shared/model/api.response';
+import { AppService } from '../shared/service/app.service';
 
 @Component({
   selector: 'app-login-form',
@@ -26,6 +27,7 @@ export class LoginFormComponent implements OnInit {
 
   constructor(private formBuilder: FormBuilder,
     private authService: AuthenticationService,
+    private appService: AppService,
     private router: Router,
     private spinner: NgxSpinnerService) { }
 
@@ -59,6 +61,7 @@ export class LoginFormComponent implements OnInit {
       sessionStorage.setItem('access_token', resp.message.access_token);
       sessionStorage.setItem('user_profile', resp.message.user_profile);
       this.authService.loadUserProfile();
+      this.appService.loadUserMerchant();
       this.spinner.hide();
 
       let profile = JSON.parse(resp.message.user_profile);

@@ -16,7 +16,12 @@ export class LibraryService {
   }
 
   getAllForApplication(id: number) {
-    const apiUrl = AppSettings.API_CONTEXT + AppSettings.ENDPOINTS.librariesForLocationn + "/" + id;
+    const apiUrl = AppSettings.API_CONTEXT + AppSettings.ENDPOINTS.librariesForLocation + "/" + id;
+    return this.http.get(apiUrl);
+  }
+
+  getLatestForApplication(id: number) {
+    const apiUrl = AppSettings.API_CONTEXT + AppSettings.ENDPOINTS.latestForLocation + "/" + id;
     return this.http.get(apiUrl);
   }
 

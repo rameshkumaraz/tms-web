@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { NgxSpinnerService } from 'ngx-spinner';
@@ -18,8 +18,11 @@ import { ApplicationService } from '../application.service';
 })
 export class ApplicationFormComponent implements OnInit {
 
-  actionType;
-  appId;
+  @Output() modelClosed = new EventEmitter();
+
+  @Input() merchant;
+  @Input() app;
+  @Input() actionType;
 
   pageHeader = 'New Application';
   page = 1;
@@ -30,11 +33,7 @@ export class ApplicationFormComponent implements OnInit {
   isFailed = false;
   errMsg: string;
 
-  app: Application;
-
-  merchant: Merchant;
-
-  sub;
+  mSub;
 
   constructor(private formBuilder: FormBuilder,
     private router: Router,
@@ -45,15 +44,15 @@ export class ApplicationFormComponent implements OnInit {
     private toastr: ToastrService) { }
 
   ngOnInit(): void {
-    this.sub = this.activatedroute.paramMap.subscribe(params => {
-      console.log(params);
-      this.actionType = params.get('actionType');
-      this.appId = params.get('id');
-    });
+    // this.sub = this.activatedroute.paramMap.subscribe(params => {
+    //   console.log(params);
+    //   this.actionType = params.get('actionType');
+    //   this.appId = params.get('id');
+    // });
 
-    this.appService.userMerchant.subscribe(data => {
-      this.merchant = data;
-    });
+    // thisthis.appService.userMerchant.subscribe(data => {
+    //   this.merchant = data;
+    // });
 
     // console.log(this.authService.getCurrentUser());
     this.appForm = this.formBuilder.group({
@@ -79,23 +78,23 @@ export class ApplicationFormComponent implements OnInit {
   }
 
   onLoad() {
-    this.spinner.show();
-    this.service.getById(this.appId).subscribe((resp: ApiResponse) => {
-      this.spinner.hide();
-      this.app = resp.message;
+    // this.spinner.show();
+    // this.service.getById(this.appId).subscribe((resp: ApiResponse) => {
+    //   this.spinner.hide();
+    //   this.app = resp.message;
       this.appForm.setValue({
         name: this.app.name,
         type: this.app.type,
         appVersion: this.app.appVersion,
         desc: this.app.desc,
       });
-    },
-      err => {
-        console.log('Unable to load application, please contact adminstrator', err);
-        this.errMsg = err.message;
-        this.toastr.error(this.errMsg, "Application");
-        this.spinner.hide();
-      });
+    // },
+    //   err => {
+    //     console.log('Unable to load application, please contact adminstrator', err);
+    //     this.errMsg = err.message;
+    //     this.toastr.error(this.errMsg, "Application");
+    //     this.spinner.hide();
+    //   });
   }
 
   get f() { return this.appForm['controls'] }
@@ -130,7 +129,7 @@ export class ApplicationFormComponent implements OnInit {
     this.service.create(this.app).subscribe((resp: ApiResponse) => {
       this.spinner.hide();
       this.toastr.success("Application has been created successfully.", "Application");
-      this.router.navigate(['/application']);
+      this.close(true);
     },
       err => {
         console.log('Unable to create application, please contact adminstrator', err);
@@ -154,7 +153,7 @@ export class ApplicationFormComponent implements OnInit {
     this.service.update(this.app).subscribe((resp: ApiResponse) => {
       this.spinner.hide();
       this.toastr.success("Application has been updated successfully.", "Application");
-      this.router.navigate(['/application']);
+      this.close(true);
     },
       err => {
         console.log('Unable to update application, please contact adminstrator', err);
@@ -174,7 +173,7 @@ export class ApplicationFormComponent implements OnInit {
   delete() {
     this.service.delete(this.app.id).subscribe(data => {
       this.toastr.success('Application has been deleted successfully', 'Application')
-      this.router.navigate(['/application']);
+      this.close(true);
     },
     err => {
       console.log('Unable to delete application, please contact administrator.', 'Application');
@@ -183,9 +182,13 @@ export class ApplicationFormComponent implements OnInit {
   }
 
   cancel() {
-    this.router.navigate(['/application']);
+    this.close(false);
   }
 
+  close(reload: boolean) {
+    console.log('close invoked');
+    this.modelClosed.emit({reload: reload});
+  }
 
   public get actionEnum(): typeof ActionEnum {
     return ActionEnum; 

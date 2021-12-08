@@ -6,17 +6,18 @@ import { first } from 'rxjs/operators';
 import { Merchant } from '../model/merchant';
 import { ApiResponse } from '../shared/model/api.response';
 import { AppService } from '../shared/service/app.service';
-import { LocationService } from './location.service';
+import { JobService } from './job.service';
 import { ActionEnum } from '../shared/enum/action.enum';
 import { ModalDismissReasons, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ToastrService } from 'ngx-toastr';
+import { TriggerType } from '../shared/enum/trigger-type.enum';
 
 @Component({
-  selector: 'app-location',
-  templateUrl: './location.component.html',
-  styleUrls: ['./location.component.scss']
+  selector: 'app-job',
+  templateUrl: './job.component.html',
+  styleUrls: ['./job.component.scss']
 })
-export class LocationComponent implements OnInit, OnDestroy {
+export class JobComponent implements OnInit {
 
   faBars = faBars;
   faPlus = faPlus;
@@ -29,10 +30,10 @@ export class LocationComponent implements OnInit, OnDestroy {
   page = 1;
   pageSize = 10;
 
-  locationCount = 0;
-  locations: Array<any>;
+  jobCount = 0;
+  jobs: Array<any>;
 
-  location: any
+  job: any
   
   merchant: Merchant;
 
@@ -42,7 +43,7 @@ export class LocationComponent implements OnInit, OnDestroy {
 
   mSub;
 
-  constructor(private locationService: LocationService,
+  constructor(private service: JobService,
     private appService: AppService,
     private spinner: NgxSpinnerService,
     private modalService: NgbModal,
@@ -50,7 +51,7 @@ export class LocationComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
-    this.pageHeader = 'Location';
+    this.pageHeader = 'Schedule Events';
     this.mSub = this.appService.userMerchant.subscribe(data => {
       // console.log('User Merchant.....', data.id+':'+Object.keys(data).length);
       if(Object.keys(data).length > 0) {
@@ -63,17 +64,17 @@ export class LocationComponent implements OnInit, OnDestroy {
 
   onLoad() {
     
-    this.locationService.getLocationsForMerchant(this.merchant.id)
+    this.service.getAllForMerchant(this.merchant.id)
       .pipe(first())
       .subscribe(
         (resp: ApiResponse) => {
-          console.log('Location Response', resp);
-          this.locations = resp.message;
-          this.locationCount = this.locations.length;
+          console.log('Jobs Response', resp);
+          this.jobs = resp.message;
+          this.jobCount = this.jobs.length;
           this.spinner.hide();
         },
         error => {
-          console.log('Location Response', error);
+          console.log('Jobs Response', error);
         });
   }
 
@@ -104,33 +105,37 @@ export class LocationComponent implements OnInit, OnDestroy {
 
   view(id: number, content: any) {
     this.actionType = ActionEnum.view;
-    this.location = this.filterLocation(id)
+    this.job = this.filterJob(id)
     this.openModal(content);
     // this.router.navigate(['/lf', { actionType: ActionEnum.view, id: id}],{skipLocationChange: true});
   }
 
   edit(id: number, content: any) {
     this.actionType = ActionEnum.edit;
-    this.location = this.filterLocation(id)
+    this.job = this.filterJob(id)
     this.openModal(content);
     // this.router.navigate(['/lf', { actionType: ActionEnum.edit, id: id}],{skipLocationChange: true});
   }
 
-  filterLocation(id: number){
-    return this.locations.find(m => m.id == id);
+  filterJob(id: number){
+    return this.jobs.find(m => m.id == id);
   }
 
   delete(id: number) {
-    this.locationService.deleteLocation(id).subscribe(data => {
-      console.log('Location delete success....', data);
-      this.toastr.success('Location has been deleted successfully.','Location');
+    this.service.delete(id).subscribe(data => {
+      console.log('Job delete success....', data);
+      this.toastr.success('Event has been deleted successfully', 'Event');
       this.onLoad();
     },
     err => {
-      console.log('Location delete error....', err);
-      this.toastr.success('Unable to delete location, please contact administrator.','Location');
+      console.log('Job delete error....', err);
+      this.toastr.error('Unable to delete user, please contact administrator.', 'Event');
     });
   }
+
+  // enaleEdit(date : string): boolean{
+
+  // }
 
   closeModal(event) {
     console.log('CloseModal event received', event);
@@ -142,6 +147,10 @@ export class LocationComponent implements OnInit, OnDestroy {
 
   ngOnDestroy(): void {
     this.mSub.remove;
+  }
+
+  public get triggerEnum(): typeof TriggerType {
+    return TriggerType;
   }
 
 }
