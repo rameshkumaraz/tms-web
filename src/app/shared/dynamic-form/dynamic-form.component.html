@@ -1,41 +1,92 @@
-<div class="form-container">
-  <div class="form-header d-flex" *ngIf="formTitle">
-    {{formTitle}}
-    <span class="ml-auto">
-      <a (click)="close()">
-        <fa-icon [icon]='faTimes'></fa-icon>
-      </a>
-    </span>
-  </div>
-  <div class="p-1"><label class="apperr" *ngIf="isFailed">{{errMsg}}</label></div>
+<div class="modal-header">
+  <h4 class="modal-title" id="modal-basic-title">New Project</h4>
+  <button type="button" class="close" aria-label="Close" (click)="close()">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
 
-  <form [formGroup]="formGroup" class="terminal-form">
-    <div *ngFor="let row of formConfig.fields.rows">
-      <div class="row pb-4">
-        <div [ngClass]="{'col-sm-12': row.cols.length === 1, 'col-sm-6': row.cols.length === 2}"
-          [ngSwitch]="control.type" *ngFor="let control of row.cols">
-          <label>{{control.label}}</label>
-          <div *ngSwitchCase="'text'">
-            <input type="text" class="form-control" formControlName="{{control.name}}"
-              [ngStyle]="{'width': control.width}" />
+
+
+<div *ngIf="formType == 'simple'" class="pt-3">
+
+</div>
+<div *ngIf="formType != 'simple'" class="pt-3">
+  <aw-wizard [navBarLayout]="'large-filled-symbols'" class="custom-global-scss">
+    <aw-wizard-step *ngFor="let step of steps" [navigationSymbol]="{ symbol: step.step_idx+1 }"
+      stepTitle="{{step.step_name}}">
+      <div class="modal-body">
+        <form [formGroup]="formGroups[step.step_idx]">
+          <div *ngFor="let row of step.fields.rows">
+            <div class="row pb-4">
+              <div [ngClass]="{'col-sm-12': row.cols.length === 1, 'col-sm-6': row.cols.length === 2, 'col-sm-4': row.cols.length === 3}"
+                [ngSwitch]="control.type" *ngFor="let control of row.cols">
+                <label [ngClass]="{'asterisk-if-mandatory': control.validation.mandatory}">{{control.label}}</label>
+                <div *ngSwitchCase="'text'">
+                  <input type="text" class="form-control" id="{{control.name}}" formControlName="{{control.name}}"
+                    [ngStyle]="{'width': control.width}"
+                    [ngClass]="{ 'is-invalid': form.get(control.name) && formSubmitted && form.get(control.name).invalid }" />
+                </div>
+                <div *ngSwitchCase="'textarea'">
+                  <textarea class="form-control" id="{{control.name}}" rows="{{control.rows}}" cols="{{control.cols}}"
+                    formControlName="{{control.name}}" [ngStyle]="{'width': control.width}"
+                    [ngClass]="{ 'is-invalid': form.get(control.name) && formSubmitted && form.get(control.name).invalid }"> </textarea>
+                </div>
+                <div *ngSwitchCase="'email'">
+                  <input type="email" class="form-control" id="{{control.name}}" formControlName="{{control.name}}"
+                    [ngStyle]="{'width': control.width}"
+                    [ngClass]="{ 'is-invalid': form.get(control.name) && formSubmitted && form.get(control.name).invalid }" />
+                </div>
+                <div *ngSwitchCase="'date'">
+                  <input type="date" class="form-control" id="{{control.name}}" formControlName="{{control.name}}"
+                    [ngStyle]="{'width': control.width}"
+                    [ngClass]="{ 'is-invalid': form.get(control.name) && formSubmitted && form.get(control.name).invalid }" />
+                </div>
+                <div *ngSwitchCase="'currency'">
+                  <select id="{{control.name}}" formControlName="{{control.name}}" class="form-control"
+                    [ngStyle]="{'width': control.width}"
+                    [ngClass]="{ 'is-invalid': form.get(control.name) && formSubmitted && form.get(control.name).invalid }">
+                    <option value="{{currency.code}}" *ngFor="let currency of currencies">{{currency.country}}</option>
+                  </select>
+                </div>
+                <div *ngSwitchCase="'radio'">
+                  <!-- <label for="jobDate" class="'asterisk-if-mandatory': control.validation.mandatory">{{control.lebel}}</label> -->
+                  <div class="input-group">
+                    <div *ngFor="let option of control.options" class="pr-4">
+                      <input id="{{option.label}}" type="radio" value="{{option.value}}"
+                        formControlName="{{control.name}}">
+                      <label for="all" class="pl-1">{{option.label}}</label>
+                    </div>
+                  </div>
+                  <!-- <div *ngIf="formSubmitted && f.targetType.errors" class="invalid-feedback">
+                    <div *ngIf="f.targetType.errors.required">Target Type is required</div>
+                  </div> -->
+                </div>
+              </div>
+            </div>
           </div>
-          <div *ngSwitchCase="'textarea'">
-            <textarea class="form-control" rows="{{control.rows}}" cols="{{control.cols}}"
-              formControlName="{{control.name}}" [ngStyle]="{'width': control.width}"> </textarea>
-          </div>
-          <div *ngSwitchCase="'email'">
-            <input type="email" class="form-control" formControlName="{{control.name}}"
-              [ngStyle]="{'width': control.width}" />
-          </div>
-        </div>
+
+        </form>
       </div>
-    </div>
-  </form>
-
-  <div class="button-block">
-    <!-- <span class="pr-3"><button type="button" class="btn btn-primary form-cancel"
-        (click)="cancel()">Cancel</button></span> -->
-    <span class="pl-2"><button type="button" class="btn btn-primary modal-button" (click)="save()">Save</button></span>
-    <span class="pl-2" *ngIf="addMore"><button type="button" class="btn btn-primary modal-button" (click)="saveMore()">Add More</button></span>
-  </div>
+      <div class="modal-footer text-right">
+        <button type="button" class="btn btn-primary form-button-cancel">Cancel</button>
+        <span *ngIf="step.step_idx != 0" class="pl-2"><button type="button" class="btn btn-primary form-button-action"
+            awPreviousStep>Previous</button></span>
+        <!-- <button type="button" class="btn btn-default" nextStep (click)="nextTab()" [disabled]="!form.valid">Next
+              Step</button></span> -->
+        <span class="pl-2 pr-2"><button type="button" class="btn btn-primary form-button-action" awNextStep
+            (click)="nextTab(step.step_idx)" [disabled]="!form.valid">Next
+            Step</button></span>
+      </div>
+    </aw-wizard-step>
+    <aw-wizard-completion-step enableBackLinks stepTitle="Confirm" navigationSymbol="&#xf111;"
+      navigationSymbolFontFamily="FontAwesome">
+      <div class="modal-body">
+        Content of Confirmation
+      </div>
+      <div class="modal-footer text-right">
+        <!-- <button type="button" class="btn btn-primary form-button-action" awPreviousStep>Previous Step</button> -->
+        <span class="pr-2"><button type="button" class="btn btn-primary form-button-action">Finish</button></span>
+      </div>
+    </aw-wizard-completion-step>
+  </aw-wizard>
 </div>

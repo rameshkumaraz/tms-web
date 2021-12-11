@@ -1,14 +1,190 @@
-.form-container {
-  padding: 10px 20px !important;
-  width: 100% !important;
-  border: 0px !important;
-  margin-top: 0px;
+@import "../../../assets/sass/variables";
+@import '../../../../node_modules/angular-archwizard/variables';
+
+// ::ng-deep {
+
+//   .horizontal ul.steps-indicator {
+//     // width: 40px !important;
+//     // height: 40px !important;
+//     padding: 40px 0px 10px 0px !important;
+//   }
+
+//   .horizontal ul.steps-indicator li {
+//     padding-top: 0 !important;
+//   }
+
+//   .horizontal ul.steps-indicator li:after {
+//     position: absolute !important;
+//     top: -30px !important;
+//     left: calc(50% - 10px) !important;
+//     width: 26px !important;
+//     height: 26px !important;
+//     content: '\f111' !important;
+//     text-align: center !important;
+//     vertical-align: middle !important;
+//     line-height: 23px !important;
+//     transition: 0.25s !important;
+//     border-radius: 100% !important;
+//     background-color: #E6E6E6 !important;
+//     color: $gray-medium !important;
+//     // content: attr(step-symbol) !important;
+//     font-size: $font-size-xsm;
+//     font-family: $font-family-base;
+//   }
+
+//   .horizontal ul.steps-indicator li.current:after {
+//     background-color: $white !important;
+//     color: $az-blue-primary !important;
+//     border: 2px solid $az-blue-primary !important;
+//   }
+
+//   .horizontal ul.steps-indicator li.done:after {
+//     background-color: $az-blue-secondary !important;
+//     color: $white !important;
+//     content: '\f00c' !important;
+//     font-size: $font-size-xsm;
+//     font-family: $font-family-base;
+//     border: 2px $white !important;
+//     line-height: 25px !important;
+//   }
+
+//   .horizontal ul.steps-indicator li.current div a {
+//     color: $az-blue-primary !important;
+//   }
+
+//   .horizontal ul.steps-indicator li.done div a {
+//     color: $az-blue-primary !important;
+//   }
+
+//   .horizontal ul {
+//     border-bottom: 1px solid $body-border-color !important;
+//   }
+
+//   .horizontal ul.steps-indicator li {
+//     font-family: $font-family-light !important;
+//     font-size: $font-size-xsm !important;
+//   }
+
+//   .horizontal ul.steps-indicator li div {
+//     max-width: 60px !important;
+//     min-width: 50px !important;
+//   }
+
+//   .horizontal ul.steps-indicator li div a {
+//     font-size: $font-size-xsm !important;
+//     font-weight: $font-weight-lighter !important;
+//   }
+
+//   .horizontal ul.steps-indicator li div a:hover {
+//     cursor: pointer;
+//     font-weight: $font-weight-bolder !important;
+//   }
+// }
+
+.centered-content {
+  margin: auto;
+  text-align: center;
 }
 
-.button-block {
-  padding-right: 0px;
-}
+// Redefine current step styles via SCSS variables
+$aw-colors: map-merge($aw-colors, ('_': map-merge(map-get($aw-colors, '_'), ('current': ('border-color-default': $form-color,
+          'border-color-hover': $form-color,
+          'background-color-default': $form-color,
+          'background-color-hover': $form-color,
+          'symbol-color-default': $form-color,
+          'symbol-color-hover': $form-color,
+        ),
+        // If the current step is in 'editing' state, 'editing' state styles will override
+        // the 'current' ones, so 'editing' styles should be redefined as well
+        'editing': ('border-color-default': $form-color,
+          'border-color-hover': $form-color,
+          'background-color-default': $form-color,
+          'background-color-hover': $form-color,
+          'symbol-color-default': $form-color,
+          'symbol-color-hover': $form-color,
+        ),
+      )))) !global;
 
-.modal-button {
-  border: 0px;
+  aw-wizard.custom-global-scss {
+
+  // @include aw-define-styles();
+
+  aw-wizard-navigation-bar.horizontal {
+    margin: auto;
+    text-align: center;
+    min-width: 95%;
+  }
+
+  //   aw-wizard-navigation-bar.horizontal.large-filled-symbols ul.steps-indicator {
+  //     width: 40%;
+  //   }
+
+  aw-wizard-navigation-bar.horizontal ul.steps-indicator li {
+    &.current {
+      .label {
+        color: $header-color;
+      }
+    }
+
+    .label {
+      color: $gray-medium;
+      font-size: $font-size-xs !important;
+      font-family: $font-family-bold !important;
+      padding: 0px;
+    }
+  }
+
+  aw-wizard-navigation-bar.horizontal.large-filled-symbols ul.steps-indicator {
+    padding: 50px 0 10px 0 !important;
+    background-color: $white;
+    border-radius: 5px;
+    border: 1px solid $body-border-color;
+  }
+
+  aw-wizard-navigation-bar.horizontal.large-filled-symbols ul.steps-indicator li .step-indicator {
+    width: 25px;
+    height: 25px;
+    line-height: 25px;
+    color: $gray-medium !important;
+    font-size: $font-size-xs !important;
+    top: -35px;
+  }
+
+  aw-wizard-navigation-bar.horizontal.large-filled-symbols ul.steps-indicator li.current .step-indicator {
+    background-color: $header-color !important;
+    border-color: $form-color !important;
+    color: $white !important;
+  }
+
+  aw-wizard-navigation-bar.horizontal.large-filled-symbols ul.steps-indicator li.done .step-indicator {
+    background-color: $header-color !important;
+    border-color: $form-color !important;
+    color: $white !important;
+  }
+
+  aw-wizard-navigation-bar.horizontal.large-filled-symbols ul.steps-indicator li.done .label {
+    color: $header-color !important;
+  }
+
+  aw-wizard-navigation-bar.horizontal.large-filled-symbols ul.steps-indicator li:not(:last-child):after {
+    left: calc(50% + 12px) !important;
+    top: -23px;
+    height: 2px
+  }
+
+  aw-wizard-navigation-bar.horizontal ul.steps-indicator li.done:not(.editing):not(:last-child):after {
+    background-color: $header-color !important;
+  }
+
+  aw-wizard-step {
+    .centered-content {
+      background-color: #eeeeee;
+      color: $header-color;
+    }
+
+    h3 {
+      text-decoration: underline;
+      color: $header-color;
+    }
+  }
 }

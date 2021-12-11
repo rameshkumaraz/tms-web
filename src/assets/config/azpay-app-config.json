@@ -1,6 +1,8 @@
 {
-  "x990": {
-    "merchant": {
+  "type": "multi-step",
+  "steps": [{
+      "name": "merchant",
+      "display_name": "Merchant",
       "fields": {
         "rows": [{
             "cols": [{
@@ -10,7 +12,7 @@
               "type": "text",
               "val": "",
               "validation": {
-                "min": 10,
+                "min": 5,
                 "max": 50,
                 "mandatory": true,
                 "type": "text"
@@ -33,13 +35,13 @@
                   "type": "number"
                 },
                 "editable": true,
-                "width": "40%"
+                "width": "60%"
               },
               {
                 "name": "login_pin",
                 "label": "Login PIN",
                 "desc": "description about this field, should be displayed on popup on clicking info icon",
-                "type": "number",
+                "type": "text",
                 "val": "",
                 "validation": {
                   "min": 4,
@@ -48,7 +50,7 @@
                   "type": "number"
                 },
                 "editable": true,
-                "width": "40%"
+                "width": "60%"
               }
             ]
           },
@@ -60,19 +62,19 @@
                 "type": "text",
                 "val": "",
                 "validation": {
-                  "min": 15,
+                  "min": 8,
                   "max": 15,
                   "mandatory": true,
-                  "type": "text"
+                  "type": "ip"
                 },
                 "editable": true,
-                "width": "40%"
+                "width": "100%"
               },
               {
                 "name": "primary_port",
                 "label": "Primary Port",
                 "desc": "description about this field, should be displayed on popup on clicking info icon",
-                "type": "number",
+                "type": "text",
                 "val": "",
                 "validation": {
                   "min": 4,
@@ -81,7 +83,7 @@
                   "type": "number"
                 },
                 "editable": true,
-                "width": "40%"
+                "width": "60%"
               }
             ]
           },
@@ -93,13 +95,13 @@
                 "type": "text",
                 "val": "",
                 "validation": {
-                  "min": 15,
+                  "min": 8,
                   "max": 15,
                   "mandatory": true,
-                  "type": "text"
+                  "type": "ip"
                 },
                 "editable": true,
-                "width": "40%"
+                "width": "100%"
               },
               {
                 "name": "secondary_port",
@@ -114,46 +116,28 @@
                   "type": "number"
                 },
                 "editable": true,
-                "width": "40%"
+                "width": "60%"
               }
             ]
           },
           {
             "cols": [{
-                "name": "address1",
-                "label": "Address 1",
-                "desc": "description about this field, should be displayed on popup on clicking info icon",
-                "type": "textarea",
-                "val": "",
-                "rows": 3,
-                "cols": 50,
-                "validation": {
-                  "min": 50,
-                  "max": 250,
-                  "mandatory": true,
-                  "type": "number"
-                },
-                "editable": true,
-                "width": "90%"
+              "name": "address",
+              "label": "Address",
+              "desc": "description about this field, should be displayed on popup on clicking info icon",
+              "type": "textarea",
+              "val": "",
+              "rows": 3,
+              "cols": 50,
+              "validation": {
+                "min": 50,
+                "max": 250,
+                "mandatory": true,
+                "type": "number"
               },
-              {
-                "name": "address2",
-                "label": "Address 2",
-                "desc": "description about this field, should be displayed on popup on clicking info icon",
-                "type": "textarea",
-                "val": "",
-                "rows": 3,
-                "cols": 50,
-                "validation": {
-                  "min": 50,
-                  "max": 250,
-                  "mandatory": true,
-                  "type": "number"
-                },
-                "editable": true,
-                "width": "90%"
-              }
-            ]
+              "editable": true,
+              "width": "100%"
+            }]
           },
           {
             "cols": [{
@@ -163,13 +147,11 @@
                 "type": "text",
                 "val": "",
                 "validation": {
-                  "min": 15,
-                  "max": 15,
                   "mandatory": true,
-                  "type": "text"
+                  "type": "phone"
                 },
                 "editable": true,
-                "width": "60%"
+                "width": "100%"
               },
               {
                 "name": "email",
@@ -178,44 +160,43 @@
                 "type": "email",
                 "val": "",
                 "validation": {
-                  "min": 10,
-                  "max": 100,
                   "mandatory": true,
                   "type": "email"
                 },
                 "editable": true,
-                "width": "80%"
+                "width": "100%"
               }
             ]
           }
         ]
       }
     },
-    "terminal": {
+    {
+      "name": "terminal",
+      "display_name": "Terminal",
       "fields": {
+
         "rows": [{
-            "cols": [{
+          "cols": [{
               "name": "terminal_id",
               "label": "Terminal Id",
               "desc": "description about this field, should be displayed on popup on clicking info icon",
               "type": "text",
               "val": "",
               "validation": {
-                "min": 10,
+                "min": 4,
                 "max": 100,
                 "mandatory": true,
-                "type": "text"
+                "type": "string"
               },
               "editable": true,
               "width": "100%"
-            }]
-          },
-          {
-            "cols": [{
+            },
+            {
               "name": "install_date",
               "label": "Installed Date",
               "desc": "description about this field, should be displayed on popup on clicking info icon",
-              "type": "text",
+              "type": "date",
               "val": "",
               "validation": {
                 "mandatory": true,
@@ -223,12 +204,14 @@
               },
               "editable": true,
               "width": "100%"
-            }]
-          }
-        ]
+            }
+          ]
+        }]
       }
     },
-    "bank_data": {
+    {
+      "name": "bank",
+      "display_name": "Bank",
       "fields": {
         "rows": [{
             "cols": [{
@@ -236,13 +219,15 @@
                 "label": "Bank",
                 "desc": "description about this field, should be displayed on popup on clicking info icon",
                 "type": "text",
-                "val": "NIBL",
+                "val": "",
                 "validation": {
                   "mandatory": true,
-                  "type": "number"
+                  "min": 4,
+                  "max": 100,
+                  "type": "string"
                 },
                 "editable": false,
-                "width": "60%"
+                "width": "100%"
               },
               {
                 "name": "b_access_pin",
@@ -257,41 +242,24 @@
                   "type": "number"
                 },
                 "editable": true,
-                "width": "60%"
+                "width": "50%"
               }
             ]
           },
           {
             "cols": [{
-                "name": "currency",
-                "label": "Currency",
-                "desc": "description about this field, should be displayed on popup on clicking info icon",
-                "type": "select",
-                "val": "",
-                "options": "",
-                "validation": {
-                  "mandatory": true,
-                  "type": "text"
-                },
-                "editable": true,
-                "width": "40%"
+              "name": "currency",
+              "label": "Currency",
+              "desc": "description about this field, should be displayed on popup on clicking info icon",
+              "type": "currency",
+              "val": "",
+              "validation": {
+                "mandatory": true,
+                "type": "currency"
               },
-              {
-                "name": "currency_text",
-                "label": "Currency Text",
-                "desc": "description about this field, should be displayed on popup on clicking info icon",
-                "type": "text",
-                "val": "",
-                "validation": {
-                  "min": 4,
-                  "max": 10,
-                  "mandatory": true,
-                  "type": "text"
-                },
-                "editable": true,
-                "width": "40%"
-              }
-            ]
+              "editable": true,
+              "width": "100%"
+            }]
           },
           {
             "cols": [{
@@ -301,19 +269,19 @@
                 "type": "text",
                 "val": "",
                 "validation": {
-                  "min": 15,
-                  "max": 15,
+                  "min": 1,
+                  "max": 3,
                   "mandatory": true,
-                  "type": "text"
+                  "type": "number"
                 },
                 "editable": true,
-                "width": "40%"
+                "width": "100%"
               },
               {
                 "name": "max_search_retry_limit",
                 "label": "Max Search Retry Limit",
                 "desc": "description about this field, should be displayed on popup on clicking info icon",
-                "type": "number",
+                "type": "text",
                 "val": "",
                 "validation": {
                   "min": 1,
@@ -322,26 +290,24 @@
                   "type": "number"
                 },
                 "editable": true,
-                "width": "40%"
+                "width": "100%"
+              },
+              {
+                "name": "pinpad_timeout",
+                "label": "PinPad Timeout",
+                "desc": "description about this field, should be displayed on popup on clicking info icon",
+                "type": "text",
+                "val": "",
+                "validation": {
+                  "min": 1,
+                  "max": 3,
+                  "mandatory": true,
+                  "type": "number"
+                },
+                "editable": true,
+                "width": "100%"
               }
             ]
-          },
-          {
-            "cols": [{
-              "name": "pinpad_timeout",
-              "label": "PinPad Timeout",
-              "desc": "description about this field, should be displayed on popup on clicking info icon",
-              "type": "number",
-              "val": "",
-              "validation": {
-                "min": 1,
-                "max": 3,
-                "mandatory": true,
-                "type": "number"
-              },
-              "editable": true,
-              "width": "40%"
-            }]
           },
           {
             "cols": [{
@@ -357,7 +323,7 @@
                   "type": "number"
                 },
                 "editable": true,
-                "width": "90%"
+                "width": "50%"
               },
               {
                 "name": "card_entry_max_length",
@@ -372,47 +338,34 @@
                   "type": "number"
                 },
                 "editable": true,
-                "width": "90%"
+                "width": "50%"
               }
+              
             ]
           },
           {
             "cols": [{
-                "name": "debug_mode",
-                "lebel": "Debug Mode",
-                "val": "Debug Mode",
-                "type": "checkbox",
-                "editable": true,
-                "width": "60%"
+              "name": "debug_mode",
+              "label": "Debug Mode",
+              "type": "radio",
+              "options": [{
+                  "label": "Yes",
+                  "value": 1
+                },
+                {
+                  "label": "No",
+                  "value": 0
+                }
+              ],
+              "validation": {
+                "mandatory": true
               },
-              {
-                "name": "debug_mode",
-                "lebel": "Debug Mode",
-                "val": "Debug Mode",
-                "type": "checkbox",
-                "editable": true,
-                "width": "60%"
-              },
-              {
-                "name": "debug_mode",
-                "lebel": "Debug Mode",
-                "val": "Debug Mode",
-                "type": "checkbox",
-                "editable": true,
-                "width": "60%"
-              },
-              {
-                "name": "debug_mode",
-                "lebel": "Debug Mode",
-                "val": "Debug Mode",
-                "type": "checkbox",
-                "editable": true,
-                "width": "60%"
-              }
-            ]
+              "editable": true,
+              "width": "100%"
+            }]
           }
         ]
       }
     }
-  }
+  ]
 }

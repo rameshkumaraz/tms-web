@@ -41,6 +41,8 @@ export class JobService {
       delete model.device;
     if(!model.library)
       delete model.library;  
+    if(!model.app)
+      delete model.app;    
 
     return this.http.post(apiUrl, JSON.stringify(model), { 'headers': headers });
   }
@@ -52,6 +54,15 @@ export class JobService {
 
     console.log('API URL:', apiUrl);
     const headers = { 'content-type': 'application/json' }
+
+    if(!model.location)
+      delete model.location;  
+    if(!model.device)
+      delete model.device;
+    if(!model.library)
+      delete model.library;  
+    if(!model.app)
+      delete model.app; 
 
     return this.http.put(apiUrl, JSON.stringify(model), { 'headers': headers });
   }

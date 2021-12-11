@@ -218,7 +218,8 @@ button {
 
 .form-button-action {
   height: 30px;
-  width: 100px;
+  // width: 100px;
+  min-width: 100px;
   background-color: $header-color;
   font-size: $font-size-sm;
   font-weight: $font-weight-lighter;

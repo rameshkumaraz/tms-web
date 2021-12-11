@@ -46,8 +46,8 @@
               <td>{{ job.desc }}</td>
               <td>{{ job.createdBy }}</td>
               <td>{{ job.createdDate }}</td>
-              <td>{{ job.modifiedBy }}</td>
-              <td>{{ job.modifiedDate }}</td>
+              <td>{{ job.lastUpdatedBy }}</td>
+              <td>{{ job.updatedDate }}</td>
               <td><span class="pr-3"><a (click)="view(job.id, jobModal)" routerLinkActive="active">
                     <fa-icon [icon]='faEye' style="color:#1653da"></fa-icon>
                   </a></span>

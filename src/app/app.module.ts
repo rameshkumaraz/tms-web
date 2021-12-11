@@ -47,6 +47,7 @@ import { LibraryComponent } from './library/library.component';
 import { LibraryFormComponent } from './library/library-form/library-form.component';
 import { JobComponent } from './job/job.component';
 import { JobFormComponent } from './job/job-form/job-form.component';
+import { AppParamComponent } from './app-param/app-param.component';
 
 @NgModule({
   declarations: [
@@ -82,7 +83,8 @@ import { JobFormComponent } from './job/job-form/job-form.component';
     LibraryComponent,
     LibraryFormComponent,
     JobComponent,
-    JobFormComponent
+    JobFormComponent,
+    AppParamComponent
   ],
   imports: [
     AppRoutingModule,

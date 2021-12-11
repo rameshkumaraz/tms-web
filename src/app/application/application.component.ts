@@ -130,7 +130,7 @@ export class ApplicationComponent implements OnInit, OnDestroy {
       this.onLoad();
     },
     err => {
-      console.log('Device model delete error....', err);
+      console.log('Unable to delete application....', err);
       this.toastr.success('Unable to delete application, please contact adminstrator', 'Application');
     });
   }
