@@ -188,3 +188,11 @@ $aw-colors: map-merge($aw-colors, ('_': map-merge(map-get($aw-colors, '_'), ('cu
     }
   }
 }
+
+.form-group-title {
+  background-color: #f2f2f2; 
+  border-color:#e0e7ff;
+  border-radius: 8px;
+  text-align: right;
+  padding-top: 8px;
+}

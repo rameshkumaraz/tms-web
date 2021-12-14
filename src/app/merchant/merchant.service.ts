@@ -27,27 +27,11 @@ export class MerchantService {
   }
 
   getMerchant(id: number) {
-
-    if (environment.mockResponse) {
-      this.mockDataService.getMerchants().forEach(merchant => {
-        // console.log('Merchant', merchant);
-        if (merchant.user === id) {
-          // console.log('Merchants for user id' + id, merchant.merchants);
-          this.merchants = merchant.merchants;
-        }
-      });
-
-      return of(new HttpResponse({ status: 200, body: this.merchants })).pipe(
-        delay(environment.mockResponseDelay || 100));
-    }
-    else {
-      // return this.http.post(apiUrl, bodyJSON, { observe: 'response' });
-      const apiUrl = AppSettings.API_CONTEXT + AppSettings.ENDPOINTS.merchant + "/" + id;
-      console.log("API Url", apiUrl);
-      return this.http.get(apiUrl);
-    }
-
+    const apiUrl = AppSettings.API_CONTEXT + AppSettings.ENDPOINTS.merchant + "/" + id;
+    console.log("API Url", apiUrl);
+    return this.http.get(apiUrl);
   }
+
   createMerchant(merchant: Merchant) {
     console.log("Merchant for create....", JSON.stringify(merchant));
     const apiUrl = AppSettings.API_CONTEXT + AppSettings.ENDPOINTS.merchant;

@@ -1,113 +1,4 @@
 @import "../../../assets/sass/variables";
-@import '../../../../node_modules/angular-archwizard/variables';
-
-.centered-content {
-  margin: auto;
-  text-align: center;
-}
-
-// Redefine current step styles via SCSS variables
-$aw-colors: map-merge($aw-colors, ('_': map-merge(map-get($aw-colors, '_'), ('current': ('border-color-default': $form-color,
-          'border-color-hover': $form-color,
-          'background-color-default': $form-color,
-          'background-color-hover': $form-color,
-          'symbol-color-default': $form-color,
-          'symbol-color-hover': $form-color,
-        ),
-        // If the current step is in 'editing' state, 'editing' state styles will override
-        // the 'current' ones, so 'editing' styles should be redefined as well
-        'editing': ('border-color-default': $form-color,
-          'border-color-hover': $form-color,
-          'background-color-default': $form-color,
-          'background-color-hover': $form-color,
-          'symbol-color-default': $form-color,
-          'symbol-color-hover': $form-color,
-        ),
-      )))) !global;
-
-aw-wizard.custom-global-scss {
-
-  @include aw-define-styles();
-
-  aw-wizard-navigation-bar.horizontal {
-    margin: auto;
-    text-align: center;
-    min-width: 60%;
-  }
-
-  //   aw-wizard-navigation-bar.horizontal.large-filled-symbols ul.steps-indicator {
-  //     width: 40%;
-  //   }
-
-  aw-wizard-navigation-bar.horizontal ul.steps-indicator li {
-    &.current {
-      .label {
-        color: $header-color;
-      }
-    }
-
-    .label {
-      color: $gray-medium;
-      font-size: $font-size-xs !important;
-      font-family: $font-family-bold !important;
-      padding: 0px;
-    }
-  }
-
-  aw-wizard-navigation-bar.horizontal.large-filled-symbols ul.steps-indicator {
-    padding: 50px 0 10px 0 !important;
-    background-color: $white;
-    border-radius: 5px;
-    border: 1px solid $body-border-color;
-  }
-
-  aw-wizard-navigation-bar.horizontal.large-filled-symbols ul.steps-indicator li .step-indicator {
-    width: 25px;
-    height: 25px;
-    line-height: 25px;
-    color: $gray-medium !important;
-    font-size: $font-size-xs !important;
-    top: -35px;
-  }
-
-  aw-wizard-navigation-bar.horizontal.large-filled-symbols ul.steps-indicator li.current .step-indicator {
-    background-color: $header-color !important;
-    border-color: $form-color !important;
-    color: $white !important;
-  }
-
-  aw-wizard-navigation-bar.horizontal.large-filled-symbols ul.steps-indicator li.done .step-indicator {
-    background-color: $header-color !important;
-    border-color: $form-color !important;
-    color: $white !important;
-  }
-
-  aw-wizard-navigation-bar.horizontal.large-filled-symbols ul.steps-indicator li.done .label {
-    color: $header-color !important;
-  }
-
-  aw-wizard-navigation-bar.horizontal.large-filled-symbols ul.steps-indicator li:not(:last-child):after {
-    left: calc(50% + 12px) !important;
-    top: -23px;
-    height: 2px
-  }
-
-  aw-wizard-navigation-bar.horizontal ul.steps-indicator li.done:not(.editing):not(:last-child):after {
-    background-color: $header-color !important;
-  }
-
-  aw-wizard-step {
-    .centered-content {
-      background-color: #eeeeee;
-      color: $header-color;
-    }
-
-    h3 {
-      text-decoration: underline;
-      color: $header-color;
-    }
-  }
-}
 
 .form-container {
   width: 60%;
@@ -129,83 +20,83 @@ aw-wizard.custom-global-scss {
   padding-right: 40px;
 }
 
-.table {
-  border-collapse: separate;
-  border-spacing: 0px;
-  width: 90%;
-  margin-left: auto;
-  margin-right: auto;
-}
+// .table {
+//   border-collapse: separate;
+//   border-spacing: 0px;
+//   width: 90%;
+//   margin-left: auto;
+//   margin-right: auto;
+// }
 
-.table thead {
-  color: $header-color;
-  font-size: $font-size-xs;
-  font-family: $font-family-bold;
-  padding-top: 0;
-  min-height: 30px;
-  line-height: 30px;
-  background-color: #ebebeb;
-  border: none;
-}
+// .table thead {
+//   color: $header-color;
+//   font-size: $font-size-xs;
+//   font-family: $font-family-bold;
+//   padding-top: 0;
+//   min-height: 30px;
+//   line-height: 30px;
+//   background-color: #ebebeb;
+//   border: none;
+// }
 
-.table thead th {
-  border-bottom: none;
-}
+// .table thead th {
+//   border-bottom: none;
+// }
 
-.table thead th:first-child {
-  border-left: 1px solid #dee2e6;
-}
+// .table thead th:first-child {
+//   border-left: 1px solid #dee2e6;
+// }
 
-.table thead th:last-child {
-  border-right: 1px solid #dee2e6;
-}
+// .table thead th:last-child {
+//   border-right: 1px solid #dee2e6;
+// }
 
-.table td {
-  font-size: $font-size-xs;
-  color: $gray;
-  background-color: $white;
-  font-family: $font-family-light;
-  // border: 1px solid $az-font-color;
-}
+// .table td {
+//   font-size: $font-size-xs;
+//   color: $gray;
+//   background-color: $white;
+//   font-family: $font-family-light;
+//   // border: 1px solid $az-font-color;
+// }
 
-.table tr td:first-child {
-  border-left: 1px solid #dee2e6;
-}
+// .table tr td:first-child {
+//   border-left: 1px solid #dee2e6;
+// }
 
-.table tr td:last-child {
-  border-right: 1px solid #dee2e6;
-}
+// .table tr td:last-child {
+//   border-right: 1px solid #dee2e6;
+// }
 
-.table tbody tr {
-  border: 1px solid $gray;
-  box-shadow: 2px 2px 3px $gray-lighter;
-  -webkit-box-shadow: 2px 2px 3px $gray-lighter;
-  -moz-box-shadow: 2px 2px 3px $gray-lighter;
-}
+// .table tbody tr {
+//   border: 1px solid $gray;
+//   box-shadow: 2px 2px 3px $gray-lighter;
+//   -webkit-box-shadow: 2px 2px 3px $gray-lighter;
+//   -moz-box-shadow: 2px 2px 3px $gray-lighter;
+// }
 
-.terminalid {
-  font-family: $font-family-light;
-  font-size: $font-size-xs;
-  font-weight: $font-weight-bold;
-}
+// .terminalid {
+//   font-family: $font-family-light;
+//   font-size: $font-size-xs;
+//   font-weight: $font-weight-bold;
+// }
 
-.pagination {
-  width: 80% !important;
-  margin-left: auto;
-  margin-right: auto;
-}
+// .pagination {
+//   width: 80% !important;
+//   margin-left: auto;
+//   margin-right: auto;
+// }
 
-.pagination select {
-  height: 30px;
-  font-family: $font-family-light;
-  font-size: $font-size-xs;
-  color: $gray-medium !important;
-  padding-left: 5px;
-  padding-right: 5px;
-  border-color: $header-color;
-  border-radius: 3px;
-}
+// .pagination select {
+//   height: 30px;
+//   font-family: $font-family-light;
+//   font-size: $font-size-xs;
+//   color: $gray-medium !important;
+//   padding-left: 5px;
+//   padding-right: 5px;
+//   border-color: $header-color;
+//   border-radius: 3px;
+// }
 
-.page-item.active .page-link {
-  color: $white !important;
-}
+// .page-item.active .page-link {
+//   color: $white !important;
+// }
