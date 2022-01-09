@@ -1,5 +1,6 @@
 export enum LibTypeEnum {
-    APK = 'APK',
-    AAR = 'AAR',
-    JAR = 'JAR'
+    APK = 'APK'
+    // ,
+    // AAR = 'AAR',
+    // JAR = 'JAR'
 }

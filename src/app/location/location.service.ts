@@ -3,61 +3,64 @@ import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
 import { AppSettings } from '../app.config';
 import { Location } from '../model/location';
+import { BaseService } from '../shared/core/base.service';
 import { AppService } from '../shared/service/app.service';
 
 @Injectable({
   providedIn: 'root'
 })
-export class LocationService {
+export class LocationService extends BaseService {
 
-  constructor(private http: HttpClient,
-    private appService: AppService) { }
-
-  getAllLocations() {
-    const apiUrl = AppSettings.API_CONTEXT + AppSettings.ENDPOINTS.location;
-    return this.http.get(apiUrl);
+  constructor(private client: HttpClient) {
+    super(client, 'location');
   }
 
-  getLocationsForMerchant(id: number) {
-    const apiUrl = AppSettings.API_CONTEXT + AppSettings.ENDPOINTS.locationsForMerchant + 
+  // getAllLocations() {
+  //   const apiUrl = AppSettings.API_CONTEXT + AppSettings.ENDPOINTS.location.endpoint;
+  //   return this.http.get(apiUrl);
+  // }
+
+  getByMerchant(id: number) {
+    const apiUrl = AppSettings.API_CONTEXT + AppSettings.ENDPOINTS.location.endpoint + 
+      '/' + AppSettings.ENDPOINTS.location.path.merchant + 
       '/' + id;
-    console.log(apiUrl);  
-    return this.http.get(apiUrl);
+    console.log(apiUrl);
+    return this.getByCustomUrl(apiUrl);
   }
 
-  getLocation(id: number) {
-    const apiUrl = AppSettings.API_CONTEXT + AppSettings.ENDPOINTS.location + "/" + id;
-    console.log("API Url", apiUrl);
-    return this.http.get(apiUrl);
-  }
+  // getLocation(id: number) {
+  //   const apiUrl = AppSettings.API_CONTEXT + AppSettings.ENDPOINTS.location.endpoint + "/" + id;
+  //   console.log("API Url", apiUrl);
+  //   return this.http.get(apiUrl);
+  // }
 
-  createLocation(location: Location) {
-    console.log("Merchant for create....", JSON.stringify(location));
-    const apiUrl = AppSettings.API_CONTEXT + AppSettings.ENDPOINTS.location;
+  // createLocation(location: Location) {
+  //   console.log("Merchant for create....", JSON.stringify(location));
+  //   const apiUrl = AppSettings.API_CONTEXT + AppSettings.ENDPOINTS.location.endpoint;
 
-    console.log('API URL:', apiUrl);
-    const headers = { 'content-type': 'application/json' }
+  //   console.log('API URL:', apiUrl);
+  //   const headers = { 'content-type': 'application/json' }
 
-    return this.http.post(apiUrl, JSON.stringify(location), { 'headers': headers });
-  }
+  //   return this.http.post(apiUrl, JSON.stringify(location), { 'headers': headers });
+  // }
 
-  updateLocation(location: Location) {
+  // updateLocation(location: Location) {
 
-    console.log("Merchant for update....", JSON.stringify(location));
-    const apiUrl = AppSettings.API_CONTEXT + AppSettings.ENDPOINTS.location;
+  //   console.log("Merchant for update....", JSON.stringify(location));
+  //   const apiUrl = AppSettings.API_CONTEXT + AppSettings.ENDPOINTS.location.endpoint;
 
-    console.log('API URL:', apiUrl);
-    const headers = { 'content-type': 'application/json' }
+  //   console.log('API URL:', apiUrl);
+  //   const headers = { 'content-type': 'application/json' }
 
-    return this.http.put(apiUrl, JSON.stringify(location), { 'headers': headers });
-  }
+  //   return this.http.put(apiUrl, JSON.stringify(location), { 'headers': headers });
+  // }
 
-  deleteLocation(id: number) {
-    const apiUrl = AppSettings.API_CONTEXT + AppSettings.ENDPOINTS.location + "/" + id;
+  // deleteLocation(id: number) {
+  //   const apiUrl = AppSettings.API_CONTEXT + AppSettings.ENDPOINTS.location.endpoint + "/" + id;
 
-    console.log('API URL:', apiUrl);
+  //   console.log('API URL:', apiUrl);
 
-    return this.http.delete(apiUrl);
-  }
+  //   return this.http.delete(apiUrl);
+  // }
 
 }

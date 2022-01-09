@@ -51,10 +51,6 @@
           <div *ngIf="f.baseVersion.errors?.minlength">Base Version must be at least 1 characters long.</div>
         </div>
       </div>
-
-      <!-- <div class="form-row">
-                
-              </div> -->
       <div class="form-row">
         <div class="form-group col-sm-12">
           <label for="desc">Description</label>
@@ -66,8 +62,6 @@
         </div>
       </div>
     </div>
-    <!-- </div> -->
-    <!-- </div> -->
   </form>
 
   <div class="button-block">
@@ -77,11 +71,11 @@
     <button type="button" class="btn btn-primary form-button-action" (click)="save()"
       *ngIf="actionType == actionEnum.add">Save</button>
     <button type="button" class="btn btn-primary form-button-action" (click)="edit()"
-      *ngIf="actionType == actionEnum.view">Edit</button>
-    <span class="pl-2" *ngIf="actionType == actionEnum.view"><button type="button"
+      *ngIf="actionType == actionEnum.view && canEdit(model.status)">Edit</button>
+    <span class="pl-2" *ngIf="actionType == actionEnum.view && canDelete(model.status)"><button type="button"
         class="btn btn-primary form-button-action" (click)="delete()">Delete</button></span>
     <button type="button" class="btn btn-primary form-button-action" (click)="update()"
-      *ngIf="actionType == actionEnum.edit">Update</button>
+      *ngIf="actionType == actionEnum.edit && canEdit(model.status)">Update</button>
 
   </div>
 </div>

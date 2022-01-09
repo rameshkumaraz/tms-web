@@ -10,6 +10,7 @@ import { NgxSpinnerService } from 'ngx-spinner';
 import { ToastrService } from 'ngx-toastr';
 import { distinctUntilChanged, first } from 'rxjs/operators';
 import { ActionEnum } from 'src/app/shared/enum/action.enum';
+import { BaseComponent } from 'src/app/shared/core/base.component';
 
 @Component({
   selector: 'app-merchant-form',
@@ -17,10 +18,10 @@ import { ActionEnum } from 'src/app/shared/enum/action.enum';
   styleUrls: ['./merchant-form.component.scss'],
   encapsulation: ViewEncapsulation.None
 })
-export class MerchantFormComponent implements OnInit {
+export class MerchantFormComponent extends BaseComponent {
 
-  actionType;
-  merchId;
+  @Input() merchant;
+  @Input() actionType;
 
   pageHeader = 'New Merchant';
   page = 1;
@@ -29,7 +30,6 @@ export class MerchantFormComponent implements OnInit {
   merchantForm: FormGroup;
   formSubmitted = false;
   isFailed = false;
-  errMsg: string;
 
   // contactForm: FormGroup;
   // mFormSubmitted = false;
@@ -39,10 +39,7 @@ export class MerchantFormComponent implements OnInit {
 
   countries: any = countries;
 
-  merchant = new Merchant();
-  contact = new MerchantContact();
-
-  sub;
+  // sub;
 
   urlRegEx =
     '[-a-zA-Z0-9@:%_+.~#?&//=]{2,256}(.[a-z]{2,4})?\b(/[-a-zA-Z0-9@:%_+.~#?&//=]*)?';
@@ -51,20 +48,19 @@ export class MerchantFormComponent implements OnInit {
   phoneRegEx = /^\+(?:[0-9] ?){6,14}[0-9]$/;
 
   constructor(private formBuilder: FormBuilder,
-    private router: Router,
-    private activatedroute: ActivatedRoute,
     private merchantService: MerchantService,
     private spinner: NgxSpinnerService,
     private toastr: ToastrService) {
+    super(null);
   }
 
   ngOnInit(): void {
-    this.sub = this.activatedroute.paramMap.subscribe(params => {
-      console.log(params);
-      this.actionType = params.get('actionType');
-      this.merchId = params.get('id');
-    });
-    console.log(this.actionType);
+    // this.sub = this.activatedroute.paramMap.subscribe(params => {
+    //   console.log(params);
+    //   this.actionType = params.get('actionType');
+    //   this.merchId = params.get('id');
+    // });
+    // console.log(this.actionType);
 
     this.merchantForm = this.formBuilder.group({
       merchant: this.formBuilder.group({
@@ -92,12 +88,12 @@ export class MerchantFormComponent implements OnInit {
     this.setAddressValidator();
     this.setPhoneValidator();
 
-    if(this.actionType == ActionEnum.view){
+    if (this.actionType == ActionEnum.view) {
       this.merchantForm.disable();
       this.pageHeader = 'View Merchant';
     }
 
-    if(this.actionType == ActionEnum.edit){
+    if (this.actionType == ActionEnum.edit) {
       this.pageHeader = 'Update Merchant';
       this.merchantForm['controls'].name.disable();
       this.merchantForm['controls'].email.disable();
@@ -105,7 +101,7 @@ export class MerchantFormComponent implements OnInit {
     }
 
     if (this.actionType != ActionEnum.add) {
-      this.loadMerchant();
+      this.onPageLoad();
     }
 
     // this.merchantForm = this.formBuilder.group({
@@ -143,52 +139,33 @@ export class MerchantFormComponent implements OnInit {
   get mf() { return this.merchantForm['controls'].merchant['controls'] }
   get cf() { return this.merchantForm['controls'].contact['controls'] }
 
-  loadMerchant() {
-    this.spinner.show();
-    this.merchantService.getMerchant(this.merchId)
-      .pipe(first())
-      .subscribe(
-        (resp: ApiResponse) => {
-          console.log('Merchant Response', resp);
-          this.merchant = resp.message;
-          if (!this.merchant) {
-            this.toastr.error(this.errMsg);
-          } else {
-            this.merchantForm['controls'].merchant.setValue({
-              name: this.merchant.name,
-              address1: this.merchant.address1,
-              address2: this.merchant.address2,
-              city: this.merchant.city,
-              state: this.merchant.state,
-              country: this.merchant.country,
-              areaCode: this.merchant.areaCode,
-              email: this.merchant.email,
-              phone: this.merchant.phone,
-              website: this.merchant.website
-            });
+  onPageLoad() {
+    this.merchantForm['controls'].merchant.setValue({
+      name: this.merchant.name,
+      address1: this.merchant.address1,
+      address2: this.merchant.address2,
+      city: this.merchant.city,
+      state: this.merchant.state,
+      country: this.merchant.country,
+      areaCode: this.merchant.areaCode,
+      email: this.merchant.email,
+      phone: this.merchant.phone,
+      website: this.merchant.website
+    });
 
-            if (this.merchant.contacts) {
-              this.merchantForm['controls'].contact.setValue({
-                name: this.merchant.contacts[0].name,
-                email: this.merchant.contacts[0].email,
-                phone: this.merchant.contacts[0].phone,
-                mobile: this.merchant.contacts[0].mobile,
-                designation: this.merchant.contacts[0].designation
-              });
-            }
-          }
-          this.spinner.hide();
-        },
-        err => {
-          console.log('Unable to load merchants, please contact adminstrator', err);
-          this.errMsg = err.message;
-          this.toastr.error(this.errMsg);
-          this.spinner.hide();
-        });
+    if (this.merchant.contacts) {
+      this.merchantForm['controls'].contact.setValue({
+        name: this.merchant.contacts[0].name,
+        email: this.merchant.contacts[0].email,
+        phone: this.merchant.contacts[0].phone,
+        mobile: this.merchant.contacts[0].mobile,
+        designation: this.merchant.contacts[0].designation
+      });
+
+    }
   }
 
   save() {
-    console.log('nextTab');
     this.formSubmitted = true;
     // stop here if form is invalid
     if (this.merchantForm.invalid) {
@@ -197,23 +174,22 @@ export class MerchantFormComponent implements OnInit {
     }
     this.spinner.show();
     this.merchant = <Merchant>this.merchantForm['controls'].merchant.value;
-    this.contact = <MerchantContact>this.merchantForm['controls'].contact.value;
+    let contact = <MerchantContact>this.merchantForm['controls'].contact.value;
     this.merchant.contacts = [];
-    this.merchant.contacts.push(this.contact);
-    this.merchantService.createMerchant(this.merchant).subscribe((resp: ApiResponse) => {
+    this.merchant.contacts.push(contact);
+    this.merchantService.create(this.merchant).subscribe((resp: ApiResponse) => {
       this.spinner.hide();
-      this.toastr.success("Merchant has been created successfully.");
-      this.router.navigate(['/merchant']);
+      this.toastr.success('Merchant has been created successfully.', 'Merchant');
+      this.close(true);
     },
       err => {
         console.log('Unable to create merchant, please contact adminstrator', err);
-        this.errMsg = err.message;
-        this.toastr.error(this.errMsg);
+        this.toastr.error('Unable to create merchant, please contact adminstrator', 'Merchant');
         this.spinner.hide();
       });
   }
 
-  update(){
+  update() {
     this.formSubmitted = true;
     // stop here if form is invalid
     if (this.merchantForm.invalid) {
@@ -223,17 +199,16 @@ export class MerchantFormComponent implements OnInit {
     this.spinner.show();
     let merchantToUpdate = <Merchant>this.merchantForm['controls'].merchant.value;
     Object.assign(this.merchant, merchantToUpdate);
-    let contactToUpdate  = <MerchantContact>this.merchantForm['controls'].contact.value;
+    let contactToUpdate = <MerchantContact>this.merchantForm['controls'].contact.value;
     Object.assign(this.merchant.contacts[0], contactToUpdate);
-    this.merchantService.updateMerchant(this.merchant).subscribe((resp: ApiResponse) => {
+    this.merchantService.update(this.merchant).subscribe((resp: ApiResponse) => {
       this.spinner.hide();
       this.toastr.success("Merchant has been updated successfully.", "Merchant");
-      this.router.navigate(['/merchant']);
+      this.close(true);
     },
       err => {
         console.log('Unable to create merchant, please contact adminstrator', err);
-        this.errMsg = err.message;
-        this.toastr.error(this.errMsg);
+        this.toastr.error('Unable to update merchant, please contact adminstrator', 'Merchant');
         this.spinner.hide();
       });
   }
@@ -242,17 +217,9 @@ export class MerchantFormComponent implements OnInit {
     this.actionType = ActionEnum.edit;
     this.merchantForm.enable();
     this.pageHeader = 'Update Merchant';
-      this.mf.name.disable();
-      this.mf.email.disable();
-      this.mf.website.disable();
-  }
-
-  delete() {
-    // this.actionType = 'edit';
-  }
-
-  cancel() {
-    this.router.navigate(['/merchant']);
+    this.mf.name.disable();
+    this.mf.email.disable();
+    this.mf.website.disable();
   }
 
   setAddressValidator() {
@@ -283,11 +250,14 @@ export class MerchantFormComponent implements OnInit {
       });
   }
 
-  public get actionEnum(): typeof ActionEnum {
-    return ActionEnum; 
-  }
-
-  ngOnDestroy() {
-    this.sub.unsubscribe();
+  delete() {
+    this.merchantService.delete(this.merchant.id).subscribe(data => {
+      this.close(true);
+      this.toastr.success('Merchant has been deleted successfully.', 'Merchants');
+    },
+      err => {
+        console.log('Unable to delete merchant, please contact administrator.', 'Merchants');
+        this.toastr.error('Unable to delete merchant, please contact administrator.', 'Merchants');
+      });
   }
 }

@@ -23,8 +23,9 @@
       <div class="form-group col-sm-8 required">
         <label for="app" class="asterisk-if-mandatory">Application</label>
         <select required class="form-control" formControlName="app" id="app"
-          [ngClass]="{ 'is-invalid': formSubmitted && f.app.errors }" >
-          <option [value]="app.id" selected>{{app.name}}</option>
+          [ngClass]="{ 'is-invalid': formSubmitted && f.app.errors }" (change)="onAppChange($event.target.value)">
+          <option value="" disabled selected>Select Application</option>
+          <option *ngFor="let a of apps" [value]="a.id" selected>{{a.name}}</option>
         </select>
         <div *ngIf="formSubmitted && f.app.errors" class="invalid-feedback">
           <div *ngIf="f.app.errors.required">Application is required</div>
@@ -70,7 +71,7 @@
       <div class="form-group col-sm-12" *ngIf="actionType != actionEnum.view">
         <label for="bundle">Bundle</label>
         <input id="bundle" type="file" class="form-control-file file-cls" (change)="onFileChange($event)"
-          [ngClass]="{ 'is-invalid': formSubmitted && f.bundleName.errors }">
+          [ngClass]="{ 'is-invalid': formSubmitted && f.bundleName.errors }" accept=".apk">
         <!-- <input id="bundleName" type="file" class="form-control-file file-cls" (change)="onFileChange($event)" hidden> -->
         <div *ngIf="formSubmitted && f.bundleName.errors" class="invalid-feedback">
           <div *ngIf="f.bundleName.errors.required">Bundle is required.</div>
@@ -114,7 +115,7 @@
         <label for="postActionDelay" class="asterisk-if-mandatory">Post Action Delay</label>
         <input required formControlName="postActionDelay" id="postActionDelay" type="text" class="form-control"
           autocomplete="off" [ngClass]="{ 'is-invalid': formSubmitted && f.postActionDelay.errors }"
-          placeholder="in Milliseconds">
+          placeholder="in Seconds">
         <div *ngIf="formSubmitted && f.postActionDelay.errors" class="invalid-feedback">
           <div *ngIf="f.postActionDelay.errors.required">Post action delay is required</div>
           <div *ngIf="f.postActionDelay.errors?.minlength">Post action must be at least 1 characters long.

@@ -14,13 +14,13 @@
             <option *ngFor="let location of locations" [value]="location.id">{{location.name}}</option>
           </select></span> -->
           <!-- <div *ngIf="locationCount > 0" class="text-right select-loc"> -->
-            <span class="pr-2">Select Location</span>
+            <!-- <span class="pr-2">Select Location</span>
             <span class="location-select pr-4">
             <select id="app" (change)="onLocationChange($event.target.value)" class="select-loc-select">
-              <!-- <option value="" disabled selected>Select Application</option> -->
+              <option value="" disabled selected>Select Application</option>
               <option *ngFor="let l of locations" [value]="l.id" [selected]="location.id == l.id" >{{l.name}}</option>
             </select>
-          </span>
+          </span> -->
           <!-- </div>   -->
         <button class="button" (click)="create(deviceModal)">
           <fa-icon [icon]='faPlus' size="lg"></fa-icon><span class="pl-2">Add
@@ -44,27 +44,31 @@
       <table class="table table-striped">
         <thead>
           <tr>
-            <th scope="col">Name</th>
-            <th scope="col">Serial #</th>
-            <th scope="col">Model</th>
-            <th scope="col">Location</th>
-            <th scope="col">Created By</th>
-            <th scope="col">Created Date</th>
-            <th scope="col">Modified By</th>
-            <th scope="col">Modified Date</th>
-            <th scope="col">Action</th>
+            <th scope="col" style="width: 10%;">Name</th>
+            <th scope="col" style="width: 8%;">Serial #</th>
+            <th scope="col" style="width: 8%;">Model</th>
+            <th scope="col" style="width: 10%;">Location</th>
+            <th scope="col" style="width: 10%;">Heartbeat Status</th>
+            <th scope="col" style="width: 9%;">Recent Alarm</th>
+            <th scope="col" style="width: 9%;">Battery Health</th>
+            <th scope="col" style="width: 6%;">Status</th>
+            <th scope="col" style="width: 10%;">Last Update By</th>
+            <th scope="col" style="width: 10%;">Last Update On</th>
+            <th scope="col" style="width: 10%;">Action</th>
           </tr>
         </thead>
         <tbody>
           <tr *ngFor="let device of devices | slice: (page-1) * pageSize : (page-1) * pageSize + pageSize">
-            <td><span class="table-col-name">{{ device.name }}</span></td>
+            <td><a [routerLink]="['/dProfile']" [queryParams]="{ id: device.id}" > <span class="table-col-name">{{ device.name }}</span></a></td>
             <td>{{ device.serial }}</td>
             <td>{{ device.model.name }}</td>
             <td>{{ device.location.name }}</td>
-            <td>{{ device.createdBy }}</td>
-            <td>{{ device.createdDate }}</td>
-            <td>{{ device.modifiedBy }}</td>
-            <td>{{ device.modifiedDate }}</td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td>{{ getStatus(device.status) }}</td>
+            <td>{{ device.lastUpdatedBy }}</td>
+            <td>{{ device.updatedDate | date: 'dd/MM/yyyy HH:mm'}}</td>
             <td><span class="pr-3"><a (click)="view(device.id, deviceModal)" routerLinkActive="active">
                   <fa-icon [icon]='faEye' style="color:#1653da"></fa-icon>
                 </a></span>
@@ -92,5 +96,5 @@
   </div>
 </div>
 <ng-template #deviceModal let-modal>
-  <app-device-form [actionType]="actionType" [device]="device" [location]="location" (modelClosed)='closeModal($event)'></app-device-form>
+  <app-device-form [actionType]="actionType" [merchant]="merchant" [device]="device" [locations]="locations" (modelClosed)='closeModal($event)'></app-device-form>
 </ng-template>

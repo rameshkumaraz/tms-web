@@ -8,10 +8,11 @@ import { NgxSpinnerModule } from 'ngx-spinner';
 import { ToastrModule } from 'ngx-toastr';
 import { ArchwizardModule } from 'angular-archwizard';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
+import { NgSelectModule } from '@ng-select/ng-select';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import {AuthGuard} from './utils/guards';
+import {AuthGuard} from './auth/guards';
 import { HeaderComponent } from './shared/header/header.component';
 import { FooterComponent } from './shared/footer/footer.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
@@ -22,7 +23,6 @@ import { FileDndComponent } from './shared/file-dnd/file-dnd.component';
 import { LoginComponent } from './login/login.component';
 import { LoginFormComponent } from './login-form/login-form.component';
 
-import { AppMockDataService } from './utils/services/app-mock-data.service';
 import { MerchantFormComponent } from './merchant/merchant-form/merchant-form.component';
 import { DynamicFormComponent } from './shared/dynamic-form/dynamic-form.component';
 import { AppHttpInterceptor } from './utils/helpers/app-http.interceptor';
@@ -48,6 +48,14 @@ import { LibraryFormComponent } from './library/library-form/library-form.compon
 import { JobComponent } from './job/job.component';
 import { JobFormComponent } from './job/job-form/job-form.component';
 import { AppParamComponent } from './app-param/app-param.component';
+import { PolicyComponent } from './policy/policy.component';
+import { PolicyFormComponent } from './policy/policy-form/policy-form.component';
+import { RoleFormComponent } from './role/role-form/role-form.component';
+import { AdminUserComponent } from './admin-user/admin-user.component';
+import { AdminUserFormComponent } from './admin-user/admin-user-form/admin-user-form.component';
+import { SidebarComponent } from './sidebar/sidebar.component';
+import { DeviceProfileComponent } from './device/device-profile/device-profile.component';
+import { JobDetailComponent } from './job/job-detail/job-detail.component';
 
 @NgModule({
   declarations: [
@@ -84,7 +92,15 @@ import { AppParamComponent } from './app-param/app-param.component';
     LibraryFormComponent,
     JobComponent,
     JobFormComponent,
-    AppParamComponent
+    AppParamComponent,
+    PolicyComponent,
+    PolicyFormComponent,
+    RoleFormComponent,
+    AdminUserComponent,
+    AdminUserFormComponent,
+    SidebarComponent,
+    DeviceProfileComponent,
+    JobDetailComponent
   ],
   imports: [
     AppRoutingModule,
@@ -95,6 +111,7 @@ import { AppParamComponent } from './app-param/app-param.component';
     FormsModule,
     HttpClientModule,
     NgbModule,
+    NgSelectModule,
     NgxSpinnerModule,
     ReactiveFormsModule,
     ToastrModule.forRoot({
@@ -105,7 +122,6 @@ import { AppParamComponent } from './app-param/app-param.component';
   ],
   providers: [
     AuthGuard,
-    AppMockDataService,
     {
       provide: HTTP_INTERCEPTORS,
       useClass: AppHttpInterceptor,

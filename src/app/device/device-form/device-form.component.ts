@@ -22,9 +22,9 @@ export class DeviceFormComponent implements OnInit {
 
   @Output() modelClosed = new EventEmitter();
 
-  // @Input() merchant;
-  // @Input() locations: Array<any>;
-  @Input() location;
+  @Input() merchant;
+  @Input() locations: Array<any>;
+  // @Input() location;
   @Input() device;
   @Input() actionType;
 
@@ -59,22 +59,9 @@ export class DeviceFormComponent implements OnInit {
     private toastr: ToastrService) { }
 
   ngOnInit(): void {
-    // this.sub = this.activatedroute.paramMap.subscribe(params => {
-    //   console.log(params);
-    //   this.actionType = params.get('actionType');
-    //   this.deviceId = params.get('id');
-    //   this.locId = params.get('locId');
-    // });
-
-    // this.appService.userMerchant.subscribe(data => {
-    //   this.merchant = data;
-    //   this.loadLocations();
-    //   this.loadModels();
-    // });
 
     this.loadModels();
 
-    // console.log(this.authService.getCurrentUser());
     this.deviceForm = this.formBuilder.group({
       location: ['', [Validators.required]],
       serial: ['', [Validators.required, Validators.minLength(1), Validators.maxLength(25)]],
@@ -83,35 +70,14 @@ export class DeviceFormComponent implements OnInit {
     });
 
     if (this.actionType != ActionEnum.add) {
-      this.onLoad();
+      this.onPageLoad();
     }
 
     if (this.actionType == ActionEnum.view) {
       this.deviceForm.disable();
       this.pageHeader = 'View Device';
     }
-
-    // if (this.actionType == ActionEnum.edit) {
-    //   this.deviceForm['controls'].serial.disable();
-    //   this.deviceForm['controls'].model.disable();
-    // }
-    // this.deviceForm['controls'].location.disable();
-    this.deviceForm['controls'].location.setValue(this.location.id+"");
   }
-
-  // loadLocations() {
-  //   this.spinner.show();
-  //   this.locService.getLocationsForMerchant(this.merchant.id).subscribe((resp: ApiResponse) => {
-  //     this.spinner.hide();
-  //     this.locations = resp.message;
-  //   },
-  //     err => {
-  //       console.log('Unable to load locations, please contact adminstrator', err);
-  //       this.errMsg = err.message;
-  //       this.toastr.error('Unable to load locations, please contact adminstrator', "Device");
-  //       this.spinner.hide();
-  //     });
-  // }
 
   loadModels() {
     this.spinner.show();
@@ -127,25 +93,13 @@ export class DeviceFormComponent implements OnInit {
       });
   }
 
-  onLoad() {
-    // this.spinner.show();
-    // this.service.get(this.deviceId).subscribe((resp: ApiResponse) => {
-    //   this.spinner.hide();
-    //   this.device = resp.message;
-      this.deviceForm.setValue({
-        location: this.device.location.id,
-        serial: this.device.serial,
-        name: this.device.name,
-        model: this.device.model.id,
-      });
-      // this.locId = this.device.location.id;
-    // },
-    //   err => {
-    //     console.log('Unable to load application, please contact adminstrator', err);
-    //     this.errMsg = err.message;
-    //     this.toastr.error(this.errMsg, "Application");
-    //     this.spinner.hide();
-    //   });
+  onPageLoad() {
+    this.deviceForm.setValue({
+      location: this.device.location.id,
+      serial: this.device.serial,
+      name: this.device.name,
+      model: this.device.model.id,
+    });
   }
 
   get f() { return this.deviceForm['controls'] }
@@ -174,8 +128,7 @@ export class DeviceFormComponent implements OnInit {
     }
     this.spinner.show();
     this.device = <Device>this.deviceForm.value;
-    // this.device.location = this.location.id;
-    // this.app.merchant = this.merchant.id;
+    this.device.merchant = ''+this.merchant.id;
 
     console.log("Device value...", this.device);
 
@@ -203,6 +156,9 @@ export class DeviceFormComponent implements OnInit {
     let appToUpdate = <Device>this.deviceForm.value;
     // appToUpdate.location = this.location.id;
     Object.assign(this.device, appToUpdate);
+    //this.device.merchant = ''+this.merchant.id;
+    this.device.canEdit = !!this.device.canEdit;
+    this.device.canView = !!this.device.canView;
 
     this.service.update(this.device).subscribe((resp: ApiResponse) => {
       this.spinner.hide();
@@ -229,10 +185,10 @@ export class DeviceFormComponent implements OnInit {
       this.toastr.success('Device has been deleted successfully', 'Device')
       this.close(true);
     },
-    err => {
-      console.log('Unable to delete device, please contact administrator.', 'Device');
-      this.toastr.error('Unable to delete device, please contact administrator.', 'Device');
-    });
+      err => {
+        console.log('Unable to delete device, please contact administrator.', 'Device');
+        this.toastr.error('Unable to delete device, please contact administrator.', 'Device');
+      });
   }
 
   cancel() {
@@ -241,12 +197,12 @@ export class DeviceFormComponent implements OnInit {
 
 
   public get actionEnum(): typeof ActionEnum {
-    return ActionEnum; 
+    return ActionEnum;
   }
 
   close(reload: boolean) {
     console.log('close invoked');
-    this.modelClosed.emit({reload: reload});
+    this.modelClosed.emit({ reload: reload });
   }
 
 }

@@ -1,0 +1,84 @@
+<div class="modal-header">
+  <h4 class="modal-title" id="modal-basic-title">{{ pageHeader }}</h4>
+  <button type="button" class="close" aria-label="Close" (click)="cancel()">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+<div class="modal-body">
+  <form [formGroup]="roleForm">
+    <div class="form-row">
+      <div class="form-group col-sm-8 required">
+        <label for="name" class="asterisk-if-mandatory">Name</label>
+        <input required formControlName="name" id="name" type="text" class="form-control" autocomplete="off"
+          [ngClass]="{ 'is-invalid': formSubmitted && f.name.errors }">
+        <div *ngIf="formSubmitted && f.name.errors" class="invalid-feedback">
+          <div *ngIf="f.name.errors.required">Name is required</div>
+          <div *ngIf="f.name.errors?.minlength">Name must be at least 5 characters long.</div>
+        </div>
+      </div>
+    </div>
+    <div class="form-row">
+      <div class="form-group col-sm-12">
+        <label for="desc">Description</label>
+        <textarea formControlName="desc" id="desc" autocomplete="off" rows="3" cols="80" class="form-control"
+          [ngClass]="{ 'is-invalid': formSubmitted && f.desc.errors }">  </textarea>
+        <div *ngIf="formSubmitted && f.desc.errors" class="invalid-feedback">
+          <div *ngIf="f.desc.errors.minlength">Description must be at least 6 characters long.</div>
+        </div>
+      </div>
+    </div>
+    <div class="form-row">
+      <div class="form-group col-sm-12 mb-0">
+        <label for="search">Policies</label>
+        <!-- <ng-select [items]="policies" bindLabel="name" bindValue="id" labelForId="policyList" [multiple]="true"
+          placeholder="Select Policy" clearAllText="Clear" formControlName="policyList" [closeOnSelect]="false"
+          [clearOnBackspace]="true" (add)="onAdd($event)" (remove)="onRemove($event)">
+          <ng-template ng-option-tmp let-item="item" let-item$="item$" let-index="index">
+            <input id="item-{{index}}" type="checkbox" [ngModel]="item$.selected"/> {{item.name}}
+        </ng-template>
+        </ng-select> -->
+        <input type="text" id="searchInput" (keyup)="search($event)" placeholder="Search for policy...">
+      </div>
+      <div class="form-group col-sm-12" style="height:218px; overflow-y: scroll;">
+        <table class="table table-striped">
+          <tbody>
+            <tr *ngFor="let p of filteredPolicies">
+              <td *ngIf="p.canView"><input id="p-{{p.id}}" type="checkbox" [value]="p.id" (click)="selectPolicy($event)"
+                  [checked]='p.checked'><span class="pl-4">{{p.name}}</span></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </form>
+  <!-- <form [formGroup]="policyForm">
+    <div class="form-row">
+      <div class="form-group col-sm-12 mb-0">
+        <label for="search">Policies</label>
+        <input type="text" id="searchInput" (keyup)="search($event)" placeholder="Search for policy...">
+      </div>
+      <div class="form-group col-sm-12" style="height:218px; overflow-y: scroll;">
+        <table class="table table-striped">
+          <tbody>
+            <tr *ngFor="let p of filteredPolicies">
+              <td><input id="p-{{p.id}}" type="checkbox" [value]="p.id" onclick=""><span class="pl-4">{{p.name}}</span></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </form> -->
+  <div class="button-block">
+    <span class="pr-3"><button type="button" class="btn btn-primary form-button-cancel"
+        (click)="cancel()">Cancel</button>
+    </span>
+    <button type="button" class="btn btn-primary form-button-action" (click)="save()"
+      *ngIf="actionType == actionEnum.add">Save</button>
+    <button type="button" class="btn btn-primary form-button-action" (click)="edit()"
+      *ngIf="actionType == actionEnum.view && canEdit(role.status)">Edit</button>
+    <span class="pl-3" *ngIf="actionType == actionEnum.view && canDelete(role.status)"><button type="button"
+        class="btn btn-primary form-button-action" (click)="delete()">Delete</button></span>
+    <button type="button" class="btn btn-primary form-button-action" (click)="update()"
+      *ngIf="actionType == actionEnum.edit && canEdit(role.status)">Update</button>
+  </div>
+</div>

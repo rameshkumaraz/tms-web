@@ -17,7 +17,8 @@
         </select> -->
          <select required class="form-control" formControlName="location" id="location"
           [ngClass]="{ 'is-invalid': formSubmitted && f.location.errors }" >
-          <option [value]="location.id" selected>{{location.name}}</option>
+          <option value="" disabled selected>Select Location</option>
+          <option *ngFor="let l of locations" [value]="l.id" selected>{{l.name}}</option>
         </select>
         <!-- <input required formControlName="location" id="location" type="text" class="form-control" autocomplete="off"
           [ngClass]="{ 'is-invalid': formSubmitted && f.location.errors }" readonly placeholder="location.name"> -->

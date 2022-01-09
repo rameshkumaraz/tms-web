@@ -5,7 +5,7 @@
         <span class="pl-2">{{ pageHeader }}</span>
         <span class="count pl-2">({{ userCount }})</span></div>
       <div class="col-sm-9 tools text-right">
-        <button class="button" (click)="createUser(userModal)">
+        <button class="button" (click)="create(userModal)">
           <fa-icon [icon]='faPlus' size="lg"></fa-icon><span class="pl-2">Add
             New User</span>
         </button>
@@ -21,15 +21,14 @@
       <table class="table table-striped">
         <thead>
           <tr>
-            <th scope="col">Name</th>
-            <th scope="col">Email</th>
-            <th scope="col">Merchant</th>
-            <th scope="col">Role</th>
-            <th scope="col">Created By</th>
-            <th scope="col">Created Date</th>
-            <th scope="col">Modified By</th>
-            <th scope="col">Modified Date</th>
-            <th scope="col">Action</th>
+            <th scope="col" style="width: 15%;">Name</th>
+            <th scope="col" style="width: 15%;">Email</th>
+            <th scope="col" style="width: 20%;">Merchant</th>
+            <th scope="col" style="width: 10%;">Role</th>
+            <th scope="col" style="width: 10%;">Status</th>
+            <th scope="col" style="width: 10%;">Last Update By</th>
+            <th scope="col" style="width: 10%;">Last Updated On</th>
+            <th scope="col" style="width: 10%;">Action</th>
           </tr>
         </thead>
         <tbody>
@@ -38,17 +37,16 @@
             <td>{{ user.email }}</td>
             <td>{{ user.merchant.name }}</td>
             <td>{{ user.role.name }}</td>
-            <td>{{ user.createdBy }}</td>
-            <td>{{ user.createdDate }}</td>
-            <td>{{ user.modifiedBy }}</td>
-            <td>{{ user.modifiedDate }}</td>
-            <td><span class="pr-3"><a (click)="viewUser(user.id, userModal)" routerLinkActive="active">
+            <td>{{ getStatus(user.status) }}</td>
+            <td>{{ user.lastUpdatedBy }}</td>
+            <td>{{ user.updatedDate | date: 'dd/MM/yyyy HH:mm'}}</td>
+            <td><span class="pr-3"><a (click)="view(user.id, userModal)" routerLinkActive="active">
                   <fa-icon [icon]='faEye' style="color:#1653da"></fa-icon>
                 </a></span>
-              <span class="pr-3"><a (click)="editUser(user.id, userModal)" routerLinkActive="active">
+              <span class="pr-3"><a (click)="edit(user.id, userModal)" routerLinkActive="active">
                   <fa-icon [icon]='faEdit' style="color:#ffc107;"></fa-icon>
                 </a></span>
-              <span class="pr-3"><a (click)="deleteUser(user.id)" routerLinkActive="active">
+              <span class="pr-3"><a (click)="delete(user.id)" routerLinkActive="active">
                   <fa-icon [icon]='faArchive' style="color: #dc3545;"></fa-icon>
                 </a></span></td>
           </tr>

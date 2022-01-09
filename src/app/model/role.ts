@@ -1,4 +1,4 @@
-import { BaseModel } from "./baseModel";
+import { BaseModel } from "./base.model";
 import { Policy } from "./policy";
 
 export class Role extends BaseModel{

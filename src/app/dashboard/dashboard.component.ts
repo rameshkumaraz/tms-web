@@ -1,21 +1,17 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { NgxSpinnerService } from 'ngx-spinner';
-import { Merchant } from '../model/merchant';
 import { AppService } from '../shared/service/app.service';
+import menuAccess from '../../assets/config/menu-access.json';
 
 @Component({
   selector: 'app-dashboard',
   templateUrl: './dashboard.component.html',
   styleUrls: ['./dashboard.component.scss']
 })
-export class DashboardComponent implements OnInit, OnDestroy {
+export class DashboardComponent implements OnInit {
 
   pageHeader: string;
-
-  merchant : Merchant;
-
-  mSub;
 
   constructor(private appService: AppService,
     private spinner: NgxSpinnerService,
@@ -24,18 +20,14 @@ export class DashboardComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.pageHeader = 'Dashboard';
 
-    this.mSub = this.appService.userMerchant.subscribe(data => {
-      this.spinner.show();
-      // console.log('User Merchant.....', data.id+':'+Object.keys(data).length);
-      if(Object.keys(data).length > 0) {
-        this.merchant = data;
-        this.spinner.hide();
-      }
-    });
+    this.appService.clearMerchant();
+    // this.resetMenuAccess();
   }
 
-  ngOnDestroy(): void {
-    this.mSub.remove;
+  resetMenuAccess(){
+    Object.keys(menuAccess).forEach(function (key) {
+      menuAccess[key] = false;
+    });
   }
 
 }

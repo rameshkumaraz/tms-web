@@ -21,14 +21,14 @@
       <table class="table table-striped">
         <thead>
           <tr>
-            <th scope="col">Name</th>
-            <th scope="col">Address</th>
-            <th scope="col">Desc</th>
-            <th scope="col">Created By</th>
-            <th scope="col">Created Date</th>
-            <th scope="col">Modified By</th>
-            <th scope="col">Modified Date</th>
-            <th scope="col">Action</th>
+            <th scope="col" style="width: 15%;">Name</th>
+            <th scope="col" style="width: 20%;">Address</th>
+            <th scope="col" style="width: 20%;">Desc</th>
+            <th scope="col" style="width: 8%;">Device Count</th>
+            <th scope="col" style="width: 7%;">Status</th>
+            <th scope="col" style="width: 10%;">Last Update By</th>
+            <th scope="col" style="width: 10%;">Last Updated On</th>
+            <th scope="col" style="width: 10%;">Action</th>
           </tr>
         </thead>
         <tbody>
@@ -36,10 +36,13 @@
             <td><span class="table-col-name">{{ location.name }}</span></td>
             <td>{{ location.address}}</td>
             <td>{{ location.desc }}</td>
-            <td>{{ location.createdBy }}</td>
-            <td>{{ location.createdDate }}</td>
-            <td>{{ location.modifiedBy }}</td>
-            <td>{{ location.modifiedDate }}</td>
+            <td *ngIf="location.deviceCount > 0"><a routerLink="/device"><span
+                  class="table-col-name">{{location.deviceCount}}</span></a></td>
+            <td *ngIf="location.deviceCount === 0">{{location.deviceCount}}</td>
+            <td>{{ getStatus(location.status) }}</td>
+            <td>{{ location.lastUpdatedBy }}</td>
+            <td>{{ location.updatedDate | date: 'dd/MM/yyyy HH:mm' }}</td>
+
             <td><span class="pr-3"><a (click)="view(location.id, locModal)" routerLinkActive="active">
                   <fa-icon [icon]='faEye' style="color:#1653da"></fa-icon>
                 </a></span>

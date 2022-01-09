@@ -3,6 +3,7 @@
 @import '~bootstrap/scss/bootstrap';
 @import '../node_modules/angular-archwizard/archwizard.scss';
 @import "assets/sass/lato-font.scss";
+@import "~@ng-select/ng-select/themes/default.theme.css";
 
 @import '~ngx-toastr/toastr';
 @import '~ngx-toastr/toastr-bs4-alert';
@@ -407,5 +408,17 @@ padding-left: 5px !important;
 padding-right: 5px !important;
 border-color: $header-color;
 border-radius: 3px !important;
+}
+
+.tool-tip .tooltip-inner{
+  font-family: $font-family-light;
+  font-size: $font-size-xs;
+  font-weight: $font-weight-bolder;
+  background-color: $header-color;
+  color: $white;
+}
+
+.tool-tip .arrow::before {
+  border-top-color: $header-color;
 }
 

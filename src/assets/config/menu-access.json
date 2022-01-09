@@ -1,0 +1,16 @@
+{
+  "merchant": false,
+  "location": false,
+  "device": false,
+  "report": false,
+  "admin": false,
+  "device-brand": false,
+  "device-model": false,
+  "admin-user": false,
+  "role": false,
+  "device-param": false,
+  "event": false,
+  "app": false,
+  "library": false,
+  "user": false
+}

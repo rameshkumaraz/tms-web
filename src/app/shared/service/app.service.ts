@@ -1,10 +1,8 @@
-import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { first } from 'rxjs/operators';
 import { MerchantService } from 'src/app/merchant/merchant.service';
-import { RolesEnum } from 'src/app/utils/guards/roles.enum';
-import { AuthenticationService } from 'src/app/utils/services';
+import { AuthenticationService } from 'src/app/auth/services/authentication.service';
 import { ApiResponse } from '../model/api.response';
 
 @Injectable({
@@ -18,38 +16,51 @@ export class AppService {
   constructor(
     private authService: AuthenticationService,
     private merchantService: MerchantService) {
-    // console.log('AppService constructor.....');
-    // this.authService.currentUser.subscribe(data => {
-    //   console.log("Subscription log....", data);
-    //   if (!data) {
-    //   } else {
-        this.loadUserMerchant();
-      // }
-    // });
+    this.loadMerchantFromUser();
   }
 
-  loadUserMerchant() {
+  loadMerchantFromUser() {
 
     this.authService.currentUser.subscribe(data => {
-      console.log("Subscription log....", data);
+      console.log("Subscription log user....", data);
       if (!data) {
       } else {
-        console.log("Merchant getting loaded....");
-        return this.merchantService.getMerchant(data.merchantId).pipe(first()).subscribe((resp: ApiResponse) => {
-          console.log('Loaded Merchant.....', resp);
-          this.userMerchantSubject.next(resp.message);
-        },
-          err => {
-            console.log('Merchant Error Response', err);
-            this.userMerchantSubject.next({});
-          });
+        if (sessionStorage.getItem('merchant')) {
+          this.userMerchantSubject.next(JSON.parse(sessionStorage.getItem('merchant')));
+        } else {
+        if (data.merchantId) {
+            console.log("Merchant getting loaded....");
+            return this.merchantService.get(data.merchantId).pipe(first()).subscribe((resp: ApiResponse) => {
+              console.log('Loaded Merchant.....', resp);
+              this.userMerchantSubject.next(resp.message);
+            },
+              err => {
+                console.log('Merchant Error Response', err);
+                this.userMerchantSubject.next({});
+              });
+          }
+        } 
       }
     });
   }
 
-  clearUserMerchant() {
-    console.log("Merchant getting loaded....");
+  loadMerchant(merchant: any) {
+    console.log('Load merchant to sub....', merchant);
+    this.userMerchantSubject.next(merchant);
+  }
+
+  clearMerchant() {
+    console.log("Reset merchant in sub....");
     this.userMerchantSubject.next({});
+    this.clearMerchantSession();
+  }
+
+  initMerchantSession(merchant: any) {
+    sessionStorage.setItem('merchant', JSON.stringify(merchant));
+  }
+
+  clearMerchantSession() {
+    sessionStorage.removeItem('merchant');
   }
 
 }

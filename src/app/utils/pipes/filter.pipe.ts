@@ -1,5 +1,5 @@
 import { Pipe, PipeTransform } from '@angular/core';
-import { TestGroup } from 'src/app/models/testGroup';
+
 @Pipe({
     name: 'filter'
 })

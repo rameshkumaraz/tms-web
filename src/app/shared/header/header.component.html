@@ -1,7 +1,7 @@
 <nav class="navbar navbar-expand-lg navbar-dark header">
   <div class="container-fluid">
     <div class="navbar-header">
-      <a class="navbar-brand" href="#"><img src="../../../assets/images/az_pay_config_logo.svg"></a>
+      <a class="navbar-brand" style='cursor: pointer;' (click)='showDashboard()'><img src="../../../assets/images/az_pay_config_logo.svg"></a>
       <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#myNavbar"
         aria-controls="myNavbar" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
@@ -9,51 +9,55 @@
     </div>
     <div class="collapse navbar-collapse" id="myNavbar">
       <ul class="navbar-nav mr-auto">
-        <li class="nav-item nav-mi" routerLinkActive="active" *ngIf="hasMerchantAccess">
+        <li class="nav-item nav-mi" *ngIf="hasMenuAccess('mdb')">
+          <a class="nav-link" routerLink="/mdb">Merchant Dashboard<span class="sr-only">(current)</span></a>
+        </li>
+        <li class="nav-item nav-mi" *ngIf="hasMenuAccess('merchant')">
           <a class="nav-link" routerLink="/merchant">Merchants<span class="sr-only">(current)</span></a>
         </li>
-        <li class="nav-item nav-mi" *ngIf="hasLocationAccess">
+        <li class="nav-item nav-mi" *ngIf="hasMenuAccess('location')">
           <a class="nav-link" routerLink="/location">Location<span class="sr-only">(current)</span></a>
         </li>
-        <li ngbDropdown class="nav-item nav-mi" *ngIf="hasDeviceAccess">
+        <li ngbDropdown class="nav-item nav-mi" *ngIf="hasMenuAccess('device')">
           <div class="nav-link">
             <span class="pl-2">
               <a ngbDropdownToggle id="deviceDropdown">Deivce</a>
             </span>
           </div>
           <div ngbDropdownMenu aria-labelledby="deviceDropdown" class="nav-sm">
-            <a ngbDropdownItem class="nav-smi" href="/dbrand" *ngIf="hasDeviceBrandAccess">Device Brand</a>
-            <a ngbDropdownItem class="nav-smi" href="/dmodel" *ngIf="hasDeviceModelAccess">Device Model</a>
-            <a ngbDropdownItem class="nav-smi" href="/device">Device Management</a>
-            <a ngbDropdownItem class="nav-smi" href="/application">Application Management</a>
-            <a ngbDropdownItem class="nav-smi" href="/library">Library Management</a>
-            <a ngbDropdownItem class="nav-smi" href="/param">Application Parameter</a>
-            <a ngbDropdownItem class="nav-smi" href="/event">Schedule Event</a>
+            <a ngbDropdownItem class="nav-smi" routerLink="/device" *ngIf="hasMenuAccess('device')">Device</a>
+            <a ngbDropdownItem class="nav-smi" routerLink="/param" *ngIf="hasMenuAccess('device-param')">Application Parameter</a>
+            <a ngbDropdownItem class="nav-smi" routerLink="/event" *ngIf="hasMenuAccess('event')">Schedule Event</a>
           </div>
         </li>
-        <li ngbDropdown class="nav-item nav-mi" *ngIf="hasReportAccess">
+        <li ngbDropdown class="nav-item nav-mi" *ngIf="hasMenuAccess('report')">
           <div class="nav-link">
             <span class="pl-2">
               <a ngbDropdownToggle id="reportDropdown">Reports</a>
             </span>
           </div>
           <div ngbDropdownMenu aria-labelledby="reportDropdown" class="nav-sm">
-            <a ngbDropdownItem class="nav-smi" href="#">Alerts</a>
-            <a ngbDropdownItem class="nav-smi" href="#">Devices</a>
-            <a ngbDropdownItem class="nav-smi" href="#">Downloads</a>
-            <a ngbDropdownItem class="nav-smi" href="#" *ngIf="hasMReportAccess">Merchants</a>
-            <a ngbDropdownItem class="nav-smi" href="#">Users</a>
+            <a ngbDropdownItem class="nav-smi" routerLink="#">Alerts</a>
+            <a ngbDropdownItem class="nav-smi" routerLink="#">Devices</a>
+            <a ngbDropdownItem class="nav-smi" routerLink="#">Downloads</a>
+            <a ngbDropdownItem class="nav-smi" routerLink="#">Merchants</a>
+            <a ngbDropdownItem class="nav-smi" routerLink="#">Users</a>
           </div>
         </li>
-        <li ngbDropdown class="nav-item nav-mi" *ngIf="hasAdminAccess">
+        <li ngbDropdown class="nav-item nav-mi" *ngIf="hasMenuAccess('admin')">
           <div class="nav-link">
             <span class="pl-2">
               <a ngbDropdownToggle id="adminDropdown">Administration</a>
             </span>
           </div>
           <div ngbDropdownMenu aria-labelledby="adminDropdown" class="nav-sm">
-            <a ngbDropdownItem class="nav-smi" href="/user">Users</a>
-            <a ngbDropdownItem class="nav-smi" href="/role">Roles</a>
+            <a ngbDropdownItem class="nav-smi" routerLink="/dbrand" *ngIf="hasMenuAccess('device-brand')">Device Brand</a>
+            <a ngbDropdownItem class="nav-smi" routerLink="/dmodel" *ngIf="hasMenuAccess('device-model')">Device Model</a>
+            <a ngbDropdownItem class="nav-smi" routerLink="/app" *ngIf="hasMenuAccess('app')">Application</a>
+            <a ngbDropdownItem class="nav-smi" routerLink="/library" *ngIf="hasMenuAccess('library')">Application Bundle</a>
+            <a ngbDropdownItem class="nav-smi" routerLink="/au" *ngIf="hasMenuAccess('admin-user')">Admin Users</a>
+            <a ngbDropdownItem class="nav-smi" routerLink="/user" *ngIf="hasMenuAccess('user')">Users</a>
+            <a ngbDropdownItem class="nav-smi" routerLink="/role" *ngIf="hasMenuAccess('role')">Roles</a>
           </div>
         </li>
       </ul>

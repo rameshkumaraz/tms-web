@@ -1,23 +1,22 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { AbstractControl, FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Component, Input } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { ToastrService } from 'ngx-toastr';
-import { ActionEnum } from 'src/app/shared/enum/action.enum';
 import { UserService } from '../user.service';
 import { User } from '../../model/user';
 import { ApiResponse } from 'src/app/shared/model/api.response';
 import { RoleService } from 'src/app/role/role.service';
-import { AuthenticationService } from 'src/app/utils/services';
 import { Merchant } from 'src/app/model/merchant';
+import { BaseComponent } from 'src/app/shared/core/base.component';
+import { DatePipe } from '@angular/common';
 
 @Component({
   selector: 'app-user-form',
   templateUrl: './user-form.component.html',
-  styleUrls: ['./user-form.component.scss']
+  styleUrls: ['./user-form.component.scss'],
+  providers: [DatePipe]
 })
-export class UserFormComponent implements OnInit {
-
-  @Output() modelClosed = new EventEmitter();
+export class UserFormComponent extends BaseComponent {
 
   @Input() merchant: Merchant;
   @Input() user: any;
@@ -33,16 +32,23 @@ export class UserFormComponent implements OnInit {
   formSubmitted = false;
   isFailed = false;
 
+  min: any;
+  max: any;
+
   sub;
 
   constructor(private formBuilder: FormBuilder,
-    private authService: AuthenticationService,
     private service: UserService,
     private roleService: RoleService,
     private spinner: NgxSpinnerService,
-    private toastr: ToastrService) { }
+    private toastr: ToastrService,
+    private datePipe: DatePipe) {
+    super(null);
+  }
 
   ngOnInit(): void {
+
+    console.log('Merchant.....', this.merchant);
 
     this.userForm = this.formBuilder.group({
       firstName: ['', [Validators.required, Validators.minLength(5), Validators.max(100)]],
@@ -51,31 +57,32 @@ export class UserFormComponent implements OnInit {
       password: ['', [Validators.required, Validators.minLength(5), Validators.max(100)]],
       confirmPassword: ['', [Validators.required, Validators.minLength(5), Validators.max(100)]],
       role: [''],
-      merchant: [this.merchant.id+""]
+      merchant: [this.merchant.id + ""],
+      dob: ['', [Validators.required]]
     }, { validator: this.passwordConfirming('password', 'confirmPassword') });
 
     this.loadRoles();
 
-    if (this.actionType != ActionEnum.add) {
-      this.onLoad();
+    if (this.actionType != this.actionEnum.add) {
+      this.onPageLoad();
     }
 
-    if (this.actionType == ActionEnum.view) {
+    if (this.actionType == this.actionEnum.view) {
       this.userForm.disable();
       this.pageHeader = 'View User';
     }
 
-    if (this.actionType == ActionEnum.edit) {
+    if (this.actionType == this.actionEnum.edit) {
       this.pageHeader = 'Update User';
       this.userForm['controls'].email.disable();
     }
+
+    let date = new Date();
+    this.max = this.datePipe.transform(date.setFullYear(date.getFullYear() - 20), 'yyyy-MM-dd');
+    this.min = this.datePipe.transform(date.setFullYear(date.getFullYear() - 60), 'yyyy-MM-dd');
   }
 
   passwordConfirming(passwordKey: string, passwordConfirmationKey: string) {
-    // if (c.get('password').value !== c.get('confirmPassword').value) {
-    //     return {invalid: true};
-    //     return c.get('confirmPassword').setErrors({notEquivalent: true})
-    // }
     return (group: FormGroup) => {
       let passwordInput = group.controls[passwordKey],
         passwordConfirmationInput = group.controls[passwordConfirmationKey];
@@ -88,38 +95,29 @@ export class UserFormComponent implements OnInit {
     }
   }
 
-
   loadRoles() {
-    if (this.authService.getRole() == 'AZ_ROOT_ADMIN') {
-      this.roleService.getAllRoles().subscribe((resp: ApiResponse) => {
-        this.roles = resp.message;
-      },
-        err => {
-          console.log('Unable to load roles, please contact adminstrator', err);
-          this.toastr.error('Unable to load rolles, please contact adminstrator', "User");
-          this.spinner.hide();
-        });
-    } else {
-      this.roleService.getRolesForMerchant().subscribe((resp: ApiResponse) => {
-        this.roles = resp.message;
-      },
-        err => {
-          console.log('Unable to load roles, please contact adminstrator', err);
-          this.toastr.error('Unable to load rolles, please contact adminstrator', "User");
-          this.spinner.hide();
-        });
-    }
+    console.log('Load roles.....');
+    this.roleService.getRoles(false).subscribe((resp: ApiResponse) => {
+      console.log('Load roles.....', resp);
+      this.roles = resp.message;
+    },
+      err => {
+        console.log('Unable to load roles, please contact adminstrator', err);
+        this.toastr.error('Unable to load rolles, please contact adminstrator', "User");
+        this.spinner.hide();
+      });
   }
 
-  onLoad() {
+  onPageLoad() {
     this.userForm.setValue({
       firstName: this.user.firstName,
       lastName: this.user.lastName,
       email: this.user.email,
       password: this.user.password,
       confirmPassword: this.user.password,
-      role: this.user.role.id+"",
-      merchant: this.user.merchant.id+""
+      role: this.user.role.id + "",
+      merchant: this.user.merchant.id + "",
+      dob: this.datePipe.transform(this.user.dob, 'yyyy-MM-dd')
     });
 
   }
@@ -136,6 +134,8 @@ export class UserFormComponent implements OnInit {
     }
     this.spinner.show();
     this.user = <User>this.userForm.value;
+    this.user.role = +this.user.role;
+    this.user.merchant = +this.user.merchant;
 
     this.service.create(this.user).subscribe((resp: ApiResponse) => {
       this.spinner.hide();
@@ -158,7 +158,21 @@ export class UserFormComponent implements OnInit {
     }
     this.spinner.show();
     let userToUpdate = <User>this.userForm.value;
-    Object.assign(this.user, userToUpdate);
+    // console.log("Update form value...", this.userForm.value);
+    // Object.assign(this.user, userToUpdate);
+    this.user.firstName = userToUpdate.firstName;
+    this.user.lastName = userToUpdate.lastName;
+    this.user.dob = userToUpdate.dob;
+    this.user.canEdit = !!this.user.canEdit;
+    this.user.canView = !!this.user.canEdit;
+    this.user.role = this.user.role.id;
+    this.user.merchant = this.user.merchant.id;
+
+    console.log("User for update...", this.user);
+
+    let value = this.user;
+    delete value.password;
+    delete value.confirmPassword;
 
     this.service.update(this.user).subscribe((resp: ApiResponse) => {
       this.spinner.hide();
@@ -173,10 +187,11 @@ export class UserFormComponent implements OnInit {
   }
 
   edit() {
-    this.actionType = ActionEnum.edit;
+    this.actionType = this.actionEnum.edit;
     this.userForm.enable();
     this.pageHeader = 'Update User';
     this.f.email.disable();
+    this.f.role.disable();
   }
 
   delete() {
@@ -193,15 +208,4 @@ export class UserFormComponent implements OnInit {
   cancel() {
     this.close(false);
   }
-
-  close(reload: boolean) {
-    console.log('close invoked');
-    this.modelClosed.emit({ reload: reload });
-  }
-
-
-  public get actionEnum(): typeof ActionEnum {
-    return ActionEnum;
-  }
-
 }

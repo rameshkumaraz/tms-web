@@ -1,11 +1,10 @@
-import { Inject, Injectable } from '@angular/core';
+import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { BehaviorSubject, Observable } from 'rxjs';
 
 import { AppSettings } from '../../app.config';
 import { RolesEnum } from '../guards/roles.enum';
 import { User } from 'src/app/model/user';
-import { AppService } from 'src/app/shared/service/app.service';
 
 @Injectable({ providedIn: 'root' })
 export class AuthenticationService {
@@ -28,6 +27,25 @@ export class AuthenticationService {
     hasRole(role: any) {
         // console.log(this.getCurrentUser().roleName+"=="+role);
         return this.isAuthorized() && this.getCurrentUser().roleName == role;
+    }
+
+    hasAccess(policy: any) {
+        // console.log(this.getCurrentUser().roleName+"=="+role);
+        if(!this.isAuthorized())
+            return false;
+
+        if(this.getCurrentUser().roleName == RolesEnum.AZ_ROOT_ADMIN)
+            return true;
+
+        console.log('Filtered policy..... ', this.getCurrentUser().policies.find(p => p.name == policy ));    
+        
+        if(this.getCurrentUser().policies.find(p => p.name == policy ))
+            return true;
+
+        if(this.getCurrentUser().policies.find(p => p.name.indexOf(policy) >= 0 ))
+            return true;    
+
+        return false;
     }
 
     getRole() {

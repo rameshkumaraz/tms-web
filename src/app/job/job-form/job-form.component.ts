@@ -1,9 +1,8 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { Router } from '@angular/router';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { ToastrService } from 'ngx-toastr';
-import {NgbDateStruct, NgbTimeStruct} from '@ng-bootstrap/ng-bootstrap';
+import { NgbDateStruct} from '@ng-bootstrap/ng-bootstrap';
 import { distinctUntilChanged } from 'rxjs/operators';
 import { LibraryService } from 'src/app/library/library.service';
 import { ActionEnum } from 'src/app/shared/enum/action.enum';
@@ -19,6 +18,7 @@ import { ApplicationService } from 'src/app/application/application.service';
 import { DatePipe } from '@angular/common';
 import { LocationService } from 'src/app/location/location.service';
 import { DeviceService } from 'src/app/device/device.service';
+import { BaseComponent } from 'src/app/shared/core/base.component';
 
 @Component({
   selector: 'app-job-form',
@@ -26,7 +26,7 @@ import { DeviceService } from 'src/app/device/device.service';
   styleUrls: ['./job-form.component.scss'],
   providers: [DatePipe]
 })
-export class JobFormComponent implements OnInit {
+export class JobFormComponent extends BaseComponent {
 
   @Output() modelClosed = new EventEmitter();
 
@@ -50,9 +50,9 @@ export class JobFormComponent implements OnInit {
   libs: Array<any>;
   locs: Array<any>;
   devices: Array<any>;
-  
+
   app: any;
-  loc:any;
+  loc: any;
 
   min: any;
   max: any;
@@ -67,7 +67,9 @@ export class JobFormComponent implements OnInit {
     private deviceService: DeviceService,
     private spinner: NgxSpinnerService,
     private toastr: ToastrService,
-    private datePipe: DatePipe) { }
+    private datePipe: DatePipe) {
+    super(null);
+  }
 
   ngOnInit(): void {
     this.jobForm = this.formBuilder.group({
@@ -84,31 +86,25 @@ export class JobFormComponent implements OnInit {
       device: ['']
     });
 
-    // this.getDatetime();
-
     if (this.actionType != ActionEnum.add) {
 
-      if(this.job.jobType == JobsEnum.SOFTWARE_DOWNLOAD_MSG) {
+      if (this.job.jobType == JobsEnum.SOFTWARE_DOWNLOAD_MSG) {
         this.loadApps(1);
-      } else if(this.job.jobType == JobsEnum.APP_VERSION_UPDATE_MSG) {
+      } else if (this.job.jobType == JobsEnum.APP_VERSION_UPDATE_MSG) {
         this.loadApps(2);
-      } else if(this.job.jobType == JobsEnum.REQ_LOG_MSG) {
+      } else if (this.job.jobType == JobsEnum.REQ_LOG_MSG) {
         this.loadApps(3);
       }
 
-      if(this.job.targetType == 2) {
+      if (this.job.targetType == 2) {
         this.loadLocations(false);
       }
 
-      if(this.job.targetType == 3) {
+      if (this.job.targetType == 3) {
         this.loadLocations(true);
       }
-      this.onLoad();
+      this.onPageLoad();
     }
-
-    // if (this.actionType == ActionEnum.add) {
-    //   this.loadApps();
-    // }
 
     if (this.actionType == ActionEnum.view) {
       this.jobForm.disable();
@@ -124,9 +120,9 @@ export class JobFormComponent implements OnInit {
     this.min = this.datePipe.transform(new Date(), 'yyyy-MM-ddTHH:mm');
     let maxDate = new Date();
     // maxDate.setDate(maxDate.getDate() + 30);
-    this.max = this.datePipe.transform(maxDate.setMonth(maxDate.getMonth()+ 1), 'yyyy-MM-ddTHH:mm');
+    this.max = this.datePipe.transform(maxDate.setMonth(maxDate.getMonth() + 1), 'yyyy-MM-ddTHH:mm');
 
-    console.log(this.min+":"+this.max);
+    console.log(this.min + ":" + this.max);
 
     this.jobForm.controls['jobDate'].setValue(this.datePipe.transform(new Date(), 'yyyy-MM-ddTHH:mm'));
 
@@ -148,14 +144,14 @@ export class JobFormComponent implements OnInit {
       });
   };
 
-  onLoad() {
+  onPageLoad() {
     console.log("Job to update...", this.job);
     this.jobForm.setValue({
       name: this.job.name,
       triggerType: this.job.triggerType,
       jobType: this.job.jobType,
       jobDate: this.job.jobDate,
-      targetType: this.job.targetType+"",
+      targetType: this.job.targetType + "",
       // jobTime: this.job.jobTime,
       desc: this.job.desc,
       library: this.job.library ? this.job.library.id : '',
@@ -166,28 +162,28 @@ export class JobFormComponent implements OnInit {
   }
 
   loadApps(libType) {
-      this.spinner.show();
-      this.appService.getAllByMerchant(this.merchant.id).subscribe((resp: ApiResponse) => {
+    this.spinner.show();
+    this.appService.getByMerchant(this.merchant.id).subscribe((resp: ApiResponse) => {
+      this.spinner.hide();
+      this.apps = resp.message;
+      this.app = this.apps[0];
+      this.f.app.setValue(this.app.id);
+      if(libType === 1)
+        this.loadLibraries();
+      else if(libType === 2)
+        this.loadLatestLibrary();  
+    },
+      err => {
+        console.log('Unable to load applicationss, please contact adminstrator', err);
+        // this.errMsg = err.message;
+        this.toastr.error('Unable to load applications, please contact adminstrator', "Event");
         this.spinner.hide();
-        this.apps = resp.message;
-        this.app = this.apps[0];
-        this.f.app.setValue(this.app.id);
-        if(libType === 1)
-          this.loadLibraries();
-        else if(libType === 2)
-          this.loadLatestLibrary();  
-      },
-        err => {
-          console.log('Unable to load applicationss, please contact adminstrator', err);
-          // this.errMsg = err.message;
-          this.toastr.error('Unable to load applications, please contact adminstrator', "Event");
-          this.spinner.hide();
-        });
-    }
+      });
+  }
 
   loadLibraries() {
     this.spinner.show();
-    this.libService.getAllForApplication(this.app.id).subscribe((resp: ApiResponse) => {
+    this.libService.findForApp(this.app.id).subscribe((resp: ApiResponse) => {
       this.spinner.hide();
       this.libs = resp.message;
     },
@@ -199,9 +195,9 @@ export class JobFormComponent implements OnInit {
       });
   }
 
-  loadLatestLibrary(){
+  loadLatestLibrary() {
     this.spinner.show();
-    this.libService.getLatestForApplication(this.app.id).subscribe((resp: ApiResponse) => {
+    this.libService.findLatestForApp(this.app.id).subscribe((resp: ApiResponse) => {
       this.spinner.hide();
       this.libs = resp.message;
       this.f.library.setValue(this.libs[0].id);
@@ -216,26 +212,26 @@ export class JobFormComponent implements OnInit {
 
   get f() { return this.jobForm['controls'] }
 
-  changeJob(type: string){
-    if(type == JobsEnum.SOFTWARE_DOWNLOAD_MSG) {
+  changeJob(type: string) {
+    if (type == JobsEnum.SOFTWARE_DOWNLOAD_MSG) {
       this.loadApps(1);
-    } else if(type == JobsEnum.APP_VERSION_UPDATE_MSG) {
+    } else if (type == JobsEnum.APP_VERSION_UPDATE_MSG) {
       this.loadApps(2);
-    } else if(type == JobsEnum.REQ_LOG_MSG) {
+    } else if (type == JobsEnum.REQ_LOG_MSG) {
       this.loadApps(3);
     }
 
   }
 
-  changeApp(id: number){
+  changeApp(id: number) {
     // console.log("Selected app id...", id +':' + JSON.stringify(this.apps));
-    this.app =  this.apps.find(x => x.id == id);
+    this.app = this.apps.find(x => x.id == id);
     this.f.app.setValue(this.app.id);
     // console.log("Selected app...", this.app);
     this.libs = [];
-    if(this.f.jobType.value == JobsEnum.APP_VERSION_UPDATE_MSG) {
+    if (this.f.jobType.value == JobsEnum.APP_VERSION_UPDATE_MSG) {
       this.loadLatestLibrary();
-    } 
+    }
     this.loadLibraries();
   }
 
@@ -259,11 +255,11 @@ export class JobFormComponent implements OnInit {
     }
     this.spinner.show();
     this.job = <Job>this.jobForm.value;
-    this.job.merchant = this.merchant.id+"";
-    this.job.app = this.job.app+"";
-    this.job.library = this.job.library+"";
-    if(this.job.targetType == 2)
-      this.job.location = this.job.location+"";
+    this.job.merchant = this.merchant.id + "";
+    this.job.app = this.job.app + "";
+    this.job.library = this.job.library + "";
+    if (this.job.targetType == 2)
+      this.job.location = this.job.location + "";
 
     this.service.create(this.job).subscribe((resp: ApiResponse) => {
       this.spinner.hide();
@@ -288,10 +284,10 @@ export class JobFormComponent implements OnInit {
     this.spinner.show();
     let jobToUpdate = <Job>this.jobForm.value;
     Object.assign(this.job, jobToUpdate);
-    this.job.merchant = this.merchant.id+"";
-    this.job.location = this.job.location+"";
-    this.job.app = this.job.app+"";
-    this.job.library = this.job.library+"";
+    this.job.merchant = this.merchant.id + "";
+    this.job.location = this.job.location + "";
+    this.job.app = this.job.app + "";
+    this.job.library = this.job.library + "";
 
     this.service.update(this.job).subscribe((resp: ApiResponse) => {
       this.spinner.hide();
@@ -329,16 +325,16 @@ export class JobFormComponent implements OnInit {
 
   changeTarget(e) {
     console.log(e.target.value);
-    if(e.target.value == 2){
+    if (e.target.value == 2) {
       this.loadLocations(false);
-    } else if(e.target.value == 3){
+    } else if (e.target.value == 3) {
       this.loadLocations(true);
     }
   }
 
   loadLocations(loadDevices: boolean) {
     this.spinner.show();
-    this.locService.getLocationsForMerchant(this.merchant.id).subscribe((resp: ApiResponse) => {
+    this.locService.getByMerchant(this.merchant.id).subscribe((resp: ApiResponse) => {
       this.spinner.hide();
       this.locs = resp.message;
       this.loc = this.locs[0];
@@ -357,7 +353,7 @@ export class JobFormComponent implements OnInit {
 
   loadDevices() {
     this.spinner.show();
-    this.deviceService.getAllForLocation(this.loc.id).subscribe((resp: ApiResponse) => {
+    this.deviceService.findByLocation(this.loc.id).subscribe((resp: ApiResponse) => {
       this.spinner.hide();
       this.devices = resp.message;
       // this.f.device.setValue(this.devices[0].id);
@@ -370,19 +366,14 @@ export class JobFormComponent implements OnInit {
       });
   }
 
-  changeLoc(id: number, loadDevices: boolean){
+  changeLoc(id: number, loadDevices: boolean) {
     // console.log("Selected app id...", id +':' + JSON.stringify(this.apps));
-    this.loc =  this.locs.find(x => x.id == id);
+    this.loc = this.locs.find(x => x.id == id);
     this.f.location.setValue(this.loc.id);
     // console.log("Selected app...", this.app);
     this.devices = [];
-    if(loadDevices)
+    if (loadDevices)
       this.loadDevices();
-  }
-
-  close(reload: boolean) {
-    console.log('close invoked');
-    this.modelClosed.emit({reload: reload});
   }
 
   public get actionEnum(): typeof ActionEnum {
@@ -402,11 +393,11 @@ export class JobFormComponent implements OnInit {
   }
 
   public get jobTypes() {
-    return Object.values(JobsEnum); 
+    return Object.values(JobsEnum);
   }
 
   public get triggerTypes() {
-    return Object.values(TriggerType); 
+    return Object.values(TriggerType);
   }
 
 }

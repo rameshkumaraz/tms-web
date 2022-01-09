@@ -13,22 +13,21 @@ import { LibTypeEnum } from 'src/app/shared/enum/lib-type.enum';
 import { ApiResponse } from 'src/app/shared/model/api.response';
 import { AppService } from 'src/app/shared/service/app.service';
 import { LibraryService } from '../library.service';
+import { BaseComponent } from 'src/app/shared/core/base.component';
 
 @Component({
   selector: 'app-library-form',
   templateUrl: './library-form.component.html',
   styleUrls: ['./library-form.component.scss']
 })
-export class LibraryFormComponent implements OnInit {
+export class LibraryFormComponent extends BaseComponent {
 
-  @Output() modelClosed = new EventEmitter();
-
-  // @Input() merchant;
-  @Input() app;
+  @Input() merchant;
+  @Input() apps;
   @Input() lib;
   @Input() actionType;
 
-  pageHeader = 'New Library';
+  pageHeader = 'New Bundle';
   page = 1;
   pageSize = 10;
 
@@ -37,7 +36,7 @@ export class LibraryFormComponent implements OnInit {
   isFailed = false;
   errMsg: string;
 
-  apps: Array<any>;
+  // apps: Array<any>;
 
   constructor(private formBuilder: FormBuilder,
     private router: Router,
@@ -46,16 +45,11 @@ export class LibraryFormComponent implements OnInit {
     private aplnService: ApplicationService,
     private service: LibraryService,
     private spinner: NgxSpinnerService,
-    private toastr: ToastrService) { }
+    private toastr: ToastrService) {
+    super(null);
+  }
 
   ngOnInit(): void {
-    // this.sub = this.activatedroute.paramMap.subscribe(params => {
-    //   console.log(params);
-    //   this.actionType = params.get('actionType');
-    //   this.libId = params.get('id');
-    // });
-
-    // console.log(this.authService.getCurrentUser());
     this.libForm = this.formBuilder.group({
       app: ['', [Validators.required, Validators.minLength(1)]],
       name: ['', [Validators.required, Validators.minLength(5), Validators.maxLength(100)]],
@@ -69,6 +63,8 @@ export class LibraryFormComponent implements OnInit {
       postActionDelay: ['', [Validators.required, Validators.minLength(1), Validators.maxLength(10)]]
     });
 
+    this.libForm['controls'].libBaseVersion.disable();
+
     this.setDescValidator();
 
     // this.appService.userMerchant.subscribe(data => {
@@ -77,59 +73,45 @@ export class LibraryFormComponent implements OnInit {
     // });
 
     if (this.actionType != ActionEnum.add) {
-      this.onLoad();
+      this.onPageLoad();
     }
 
     if (this.actionType == ActionEnum.view) {
       this.libForm.disable();
-      this.pageHeader = 'View Library';
+      this.pageHeader = 'View Bundle';
     }
 
-    this.libForm['controls'].app.setValue(this.app.id+"");
+    // this.libForm['controls'].app.setValue(this.app.id + "");
   }
 
-  loadApps(){
-    this.spinner.show();
-    // this.aplnService.getAllByMerchant(this.merchant.id).subscribe((resp: ApiResponse) => {
-    this.aplnService.getAll().subscribe((resp: ApiResponse) => {
-      this.spinner.hide();
-      this.apps = resp.message;
-    },
-      err => {
-        console.log('Unable to load libraries, please contact adminstrator', err);
-        this.errMsg = err.message;
-        this.toastr.error('Unable to load libraries, please contact adminstrator', "Library");
-        this.spinner.hide();
-      });
-  }
-
-  onLoad() {
+  // loadApps() {
     // this.spinner.show();
-    // this.service.getById(this.libId).subscribe((resp: ApiResponse) => {
+    // // this.aplnService.getAllByMerchant(this.merchant.id).subscribe((resp: ApiResponse) => {
+    // this.aplnService.getAll().subscribe((resp: ApiResponse) => {
     //   this.spinner.hide();
-    //   this.lib = resp.message;
-    //   console.log('Library....', this.lib);
-      this.libForm.setValue({
-        app: this.lib.app.id,
-        name: this.lib.name,
-        type: this.lib.type,
-        libVersion: this.lib.libVersion,
-        libBaseVersion: this.lib.libBaseVersion,
-        bundleName: this.lib.bundleName,
-        bundle: this.lib.bundleName,
-        desc: this.lib.desc,
-        postAction: this.lib.postAction,
-        postActionDelay: this.lib.postActionDelay,
-      });
-
-    //   this.appId = this.f.app.value;
+    //   this.apps = resp.message;
     // },
     //   err => {
-    //     console.log('Unable to load Library, please contact adminstrator', err);
+    //     console.log('Unable to load libraries, please contact adminstrator', err);
     //     this.errMsg = err.message;
-    //     this.toastr.error(this.errMsg, "Library");
+    //     this.toastr.error('Unable to load libraries, please contact adminstrator', "Library");
     //     this.spinner.hide();
     //   });
+  // }
+
+  onPageLoad() {
+    this.libForm.setValue({
+      app: this.lib.app.id,
+      name: this.lib.name,
+      type: this.lib.type,
+      libVersion: this.lib.libVersion,
+      libBaseVersion: this.lib.libBaseVersion,
+      bundleName: this.lib.bundleName,
+      bundle: this.lib.bundleName,
+      desc: this.lib.desc,
+      postAction: this.lib.postAction,
+      postActionDelay: this.lib.postActionDelay,
+    });
   }
 
   get f() { return this.libForm['controls'] }
@@ -148,6 +130,10 @@ export class LibraryFormComponent implements OnInit {
       });
   };
 
+  onAppChange(id: number){
+    this.f.libBaseVersion.setValue(this.apps.find(a => a.id == id).appVersion);
+  }
+
   save() {
     console.log('nextTab');
     this.formSubmitted = true;
@@ -162,15 +148,15 @@ export class LibraryFormComponent implements OnInit {
 
     console.log('Form data....', formData);
 
-    this.service.create(formData).subscribe((resp: ApiResponse) => {
+    this.service.createLib(formData).subscribe((resp: ApiResponse) => {
       this.spinner.hide();
-      this.toastr.success("Library has been created successfully.", "Library");
+      this.toastr.success("Bundle has been created successfully.", "Application Bundle");
       this.close(true);
     },
       err => {
-        console.log('Unable to create Library, please contact adminstrator', err);
+        console.log('Unable to create bundle, please contact adminstrator', err);
         this.errMsg = err.message;
-        this.toastr.error('Unable to create library, please contact adminstrator', "Library");
+        this.toastr.error('Unable to create bundle, please contact adminstrator', "Application Bundle");
         this.spinner.hide();
       });
   }
@@ -200,7 +186,7 @@ export class LibraryFormComponent implements OnInit {
   //     });
   // }
 
-  getFormData(): FormData{
+  getFormData(): FormData {
     const formData = new FormData();
     formData.append('bundle', this.libForm.get('bundle').value);
     formData.append('app', this.libForm.get('app').value);
@@ -212,22 +198,23 @@ export class LibraryFormComponent implements OnInit {
     formData.append('desc', this.libForm.get('desc').value);
     formData.append('postAction', this.libForm.get('postAction').value);
     formData.append('postActionDelay', this.libForm.get('postActionDelay').value);
+    formData.append('merchant', this.merchant.id);
     return formData;
   }
 
-  // edit() {
-  //   this.actionType = ActionEnum.edit;
-  //   this.libForm.enable();
-  // }
+  edit() {
+    this.actionType = ActionEnum.edit;
+    this.libForm.enable();
+  }
 
   delete() {
     this.service.delete(this.lib.id).subscribe(data => {
-      this.toastr.success('Library has been deleted successfully', 'Library')
+      this.toastr.success('Bundle has been deleted successfully', 'Application Bundle')
       this.close(true);
     },
     err => {
-      console.log('Unable to delete library, please contact administrator.', 'Library');
-      this.toastr.error('Unable to delete library, please contact administrator.', 'Library');
+      console.log('Unable to delete bundle, please contact administrator.', 'Application Bundle');
+      this.toastr.error('Unable to delete bundle, please contact administrator.', 'Application Bundle');
     });
   }
 
@@ -236,32 +223,23 @@ export class LibraryFormComponent implements OnInit {
   }
 
   onFileChange(event) {
-  
+
     if (event.target.files.length > 0) {
       const file = event.target.files[0];
       this.libForm.patchValue({
-        bundle : file,
+        bundle: file,
         bundleName: file.name
       });
     }
     // console.log("File name", this.f.bundleName.value);
   }
 
-  close(reload: boolean) {
-    console.log('close invoked');
-    this.modelClosed.emit({reload: reload});
-  }
-
-  public get actionEnum(): typeof ActionEnum {
-    return ActionEnum; 
-  }
-
   public get postActionEnum() {
-    return Object.values(PostActionEnum); 
+    return Object.values(PostActionEnum);
   }
 
   public get libTypeEnum() {
-    return Object.values(LibTypeEnum); 
+    return Object.values(LibTypeEnum);
   }
 
 }

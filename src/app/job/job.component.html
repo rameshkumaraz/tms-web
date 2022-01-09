@@ -21,33 +21,31 @@
         <table class="table table-striped">
           <thead>
             <tr>
-              <th scope="col">Name</th>
-              <th scope="col">Trigger Type</th>
-              <th scope="col">Event Type</th>
-              <th scope="col">Event Date</th>
-              <th scope="col">Target</th>
-              <th scope="col">Description</th>
-              <th scope="col">Created By</th>
-              <th scope="col">Created Date</th>
-              <th scope="col">Modified By</th>
-              <th scope="col">Modified Date</th>
-              <th scope="col">Action</th>
+              <th scope="col" style="width: 15%;">Name</th>
+              <th scope="col" style="width: 8%;">Trigger Type</th>
+              <th scope="col" style="width: 10%;">Event Type</th>
+              <th scope="col" style="width: 8%;">Event Date</th>
+              <th scope="col" style="width: 8%;">Target</th>
+              <th scope="col" style="width: 10%;">Event Status</th>
+              <th scope="col" style="width: 8%;">Status</th>
+              <th scope="col" style="width: 10%;">Last Update By</th>
+              <th scope="col" style="width: 10%;">Last Update On</th>
+              <th scope="col" style="width: 10%;">Action</th>
             </tr>
           </thead>
           <tbody>
             <tr *ngFor="let job of jobs | slice: (page-1) * pageSize : (page-1) * pageSize + pageSize">
-              <td><span class="table-col-name">{{ job.name }}</span></td>
+              <td><a [routerLink]="['/eDetail']" [queryParams]="{ id: job.id}" > <span class="table-col-name">{{ job.name }}</span></a></td>
               <td>{{ job.triggerType}}</td>
               <td>{{ job.jobType }}</td>
-              <td>{{ job.jobDate }}</td>
+              <td>{{ job.jobDate | date: 'dd/MM/yyyy HH:mm'}}</td>
               <td *ngIf="job.targetType == 1">All Locations</td>
               <td *ngIf="job.targetType == 2">{{ job.location.name }}</td>
               <td *ngIf="job.targetType == 3">{{ job.device.name }}</td>
-              <td>{{ job.desc }}</td>
-              <td>{{ job.createdBy }}</td>
-              <td>{{ job.createdDate }}</td>
+              <td></td>
+              <td>{{ getStatus(job.status) }}</td>
               <td>{{ job.lastUpdatedBy }}</td>
-              <td>{{ job.updatedDate }}</td>
+              <td>{{ job.updatedDate | date: 'dd/MM/yyyy HH:mm'}}</td>
               <td><span class="pr-3"><a (click)="view(job.id, jobModal)" routerLinkActive="active">
                     <fa-icon [icon]='faEye' style="color:#1653da"></fa-icon>
                   </a></span>

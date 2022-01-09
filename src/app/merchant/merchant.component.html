@@ -5,16 +5,16 @@
         <span class="pl-2">{{ pageHeader }}</span>
         <span class="count pl-2">({{ merchantCount }})</span></div>
       <div class="col-sm-9 tools text-right">
-        <button class="button" (click)="createMerchant()" routerLinkActive="active">
+        <button class="button" (click)="create(merchantModal)" routerLinkActive="active">
           <fa-icon [icon]='faPlus' size="lg"></fa-icon><span class="pl-2">Add
             New Merchant</span>
         </button>
-        <span class="pl-3 header-icon"><a (click)="changeView()">
+        <!-- <span class="pl-3 header-icon"><a (click)="changeView()">
             <fa-icon [icon]='faTh'></fa-icon>
           </a></span>
         <span class="pl-3 header-icon"><a (click)="changeView()">
             <fa-icon [icon]='faBars'></fa-icon>
-          </a></span>
+          </a></span> -->
       </div>
     </div>
     <div *ngIf="merchantCount === 0" class="info">
@@ -23,48 +23,46 @@
         <li>New merchant can be created by using <span class="info-highlight">Add New Merchant</span> option.</li>
       </ul>
     </div>
-    <div class="pt-2" *ngIf="mode == 1">
-      <app-merchant-card [(merchants)]="merchants"></app-merchant-card>
-    </div>
-    <div class="pt-2" *ngIf="mode == 2 && merchantCount > 0">
-
+    <div class="pt-2" *ngIf="merchantCount > 0">
       <table class="table table-striped">
         <thead>
           <tr>
-            <th scope="col">Name</th>
-            <th scope="col">Address</th>
-            <th scope="col">Email</th>
-            <th scope="col">Phone</th>
-            <th scope="col">Website</th>
-            <th scope="col">Created By</th>
-            <th scope="col">Created Date</th>
-            <th scope="col">Modified By</th>
-            <th scope="col">Modified Date</th>
-            <th scope="col">Action</th>
+            <th scope="col" style="width: 20%;">Name</th>
+            <th scope="col" style="width: 16%;">Contact Details</th>
+            <th scope="col" style="width: 8%;"># of Locations</th>
+            <th scope="col" style="width: 7%;"># of Users</th>
+            <th scope="col" style="width: 7%;"># of Apps</th>
+            <th scope="col" style="width: 7%;">Status</th>
+            <th scope="col" style="width: 10%;">Last Update By</th>
+            <th scope="col" style="width: 15%;">Last Updated On</th>
+            <th scope="col" style="width: 10%;">Action</th>
           </tr>
         </thead>
         <tbody>
           <tr *ngFor="let merchant of merchants | slice: (page-1) * pageSize : (page-1) * pageSize + pageSize">
-            <td><span class="table-col-name">{{ merchant.name }}</span></td>
-            <td><span class="table-col-ellipsis">
-              {{ merchant.address1+', '+merchant.address2+', '}}
-              {{merchant.city+', '+merchant.country+' - '+merchant.areaCode  }}
-              </span>
-            </td>
-            <td>{{ merchant.email }}</td>
-            <td>{{ merchant.phone }}</td>
-            <td>{{ merchant.website }}</td>
-            <td>{{ merchant.createdBy }}</td>
-            <td>{{ merchant.createdDate }}</td>
-            <td>{{ merchant.modifiedBy }}</td>
-            <td>{{ merchant.modifiedDate }}</td>
-            <td><span class="pr-3"><a (click)="viewMerchant(merchant.id)" routerLinkActive="active">
+            <td><a (click)="openMerchant(merchant.id)" style="cursor: pointer;"><span class="table-col-name">{{ merchant.name }}<br>{{merchant.city+', '+merchant.country}}</span></a></td>
+            <td>{{ merchant.phone }}<br><a href="mailto:{{ merchant.email }}"
+                class="table-col-name">{{ merchant.email }}</a><br><a href="{{ merchant.website }}"
+                class="table-col-name">{{ merchant.website }}</a></td>
+            <td *ngIf="merchant.locationCount > 0"><a routerLink="/dmodel"><span
+                  class="table-col-name">{{merchant.locationCount}}</span></a></td>
+            <td *ngIf="merchant.locationCount === 0">{{merchant.locationCount}}</td>
+            <td *ngIf="merchant.userCount > 0"><a routerLink="/dmodel"><span
+                  class="table-col-name">{{merchant.userCount}}</span></a></td>
+            <td *ngIf="merchant.userCount === 0">{{merchant.userCount}}</td>
+            <td *ngIf="merchant.appCount > 0"><a routerLink="/dmodel"><span
+                  class="table-col-name">{{merchant.appCount}}</span></a></td>
+            <td *ngIf="merchant.appCount === 0">{{merchant.appCount}}</td>
+            <td>{{ getStatus(merchant.status) }}</td>
+            <td>{{ merchant.lastUpdatedBy }}</td>
+            <td>{{ merchant.updatedDate | date: 'dd/MM/yyyy HH:mm' }}</td>
+            <td><span class="pr-3"><a (click)="view(merchant.id, merchantModal)" routerLinkActive="active">
                   <fa-icon [icon]='faEye' style="color:#1653da"></fa-icon>
                 </a></span>
-              <span class="pr-3"><a (click)="editMerchant(merchant.id)" routerLinkActive="active">
+              <span class="pr-3"><a (click)="edit(merchant.id, merchantModal)" routerLinkActive="active">
                   <fa-icon [icon]='faEdit' style="color:#ffc107;"></fa-icon>
                 </a></span>
-              <span class="pr-3"><a (click)="deleteMerchant(merchant.id)" routerLinkActive="active">
+              <span class="pr-3"><a (click)="delete(merchant.id)" routerLinkActive="active">
                   <fa-icon [icon]='faArchive' style="color: #dc3545;"></fa-icon>
                 </a></span></td>
           </tr>
@@ -84,3 +82,7 @@
     </div>
   </div>
 </div>
+<ng-template #merchantModal let-modal>
+  <app-merchant-form [actionType]="actionType" [merchant]="merchant" (modelClosed)='closeModal($event)'>
+  </app-merchant-form>
+</ng-template>

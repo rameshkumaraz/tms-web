@@ -1,11 +1,12 @@
-import { Component, OnInit, Input} from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { faTimes } from '@fortawesome/free-solid-svg-icons';
-import { AuthenticationService } from '../utils/services/authentication.service';
+import { AuthenticationService } from '../auth/services/authentication.service';
 import { Router } from '@angular/router';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { ApiResponse } from '../shared/model/api.response';
 import { AppService } from '../shared/service/app.service';
+import menuAccess from '../../assets/config/menu-access.json';
 
 @Component({
   selector: 'app-login-form',
@@ -37,9 +38,17 @@ export class LoginFormComponent implements OnInit {
       username: ['', [Validators.required, Validators.email]],
       password: ['', [Validators.required, Validators.minLength(8)]]
     });
+
+    this.resetMenuAccess();
   }
 
   get f() { return this.loginForm.controls; }
+
+  resetMenuAccess(){
+    Object.keys(menuAccess).forEach(function (key) {
+      menuAccess[key] = false;
+    });
+  }
 
   // asGuest(){
   //   sessionStorage.setItem('currentUser', JSON.stringify({'Guest'}));
@@ -61,15 +70,16 @@ export class LoginFormComponent implements OnInit {
       sessionStorage.setItem('access_token', resp.message.access_token);
       sessionStorage.setItem('user_profile', resp.message.user_profile);
       this.authService.loadUserProfile();
-      this.appService.loadUserMerchant();
       this.spinner.hide();
 
       let profile = JSON.parse(resp.message.user_profile);
       // console.log('roleId....', profile.roleId);
-      if (profile.roleId === 1)
+      if (profile.roleName.indexOf('AZ_') === 0)
         this.router.navigate(['/db']);
-      else
+      else {
+        this.appService.loadMerchantFromUser();
         this.router.navigate(['/mdb']);
+      }
 
     },
       err => {

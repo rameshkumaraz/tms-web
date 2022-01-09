@@ -2,8 +2,8 @@ export class BaseModel {
     id: number;
     createdBy: string;
     createdDate: string;
-    modifiedBy: string;
-    modifiedDate: string;
+    lastUpdatedBy: string;
+    updatedDate: string;
     version: number;
     status: boolean;
 }

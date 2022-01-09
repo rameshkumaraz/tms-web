@@ -1,4 +1,4 @@
-import { BaseModel } from './baseModel';
+import { BaseModel } from './base.model';
 import { Merchant } from './merchant';
 import { Role } from './role';
 
@@ -9,6 +9,8 @@ export class User extends BaseModel{
     lastName: string;
 
     email: string;
+
+    dob: string;
 
     password: string;
 

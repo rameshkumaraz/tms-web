@@ -27,8 +27,6 @@
           <div *ngIf="f.type.errors?.minlength">Type must be at least 1 characters long.</div>
         </div>
       </div>
-    </div>
-    <div class="form-row">
       <div class="form-group col-sm-4 required">
         <label for="appVersion" class="asterisk-if-mandatory">Version</label>
         <input required formControlName="appVersion" id="appVersion" type="text" class="form-control" autocomplete="off"
@@ -39,6 +37,17 @@
         </div>
       </div>
     </div>
+    <!-- <div class="form-row">
+      <div class="form-group col-sm-4 required">
+        <label for="appVersion" class="asterisk-if-mandatory">Version</label>
+        <input required formControlName="appVersion" id="appVersion" type="text" class="form-control" autocomplete="off"
+          [ngClass]="{ 'is-invalid': formSubmitted && f.appVersion.errors }">
+        <div *ngIf="formSubmitted && f.appVersion.errors" class="invalid-feedback">
+          <div *ngIf="f.appVersion.errors.required">Version is required</div>
+          <div *ngIf="f.appVersion.errors?.minlength">Version must be at least 5 characters long.</div>
+        </div>
+      </div>
+    </div> -->
     <div class="form-row">
       <div class="form-group col-sm-12">
         <label for="desc">Description</label>

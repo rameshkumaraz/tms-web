@@ -5,7 +5,7 @@ import { NgxSpinnerService } from 'ngx-spinner';
 import { ToastrService } from 'ngx-toastr';
 import { distinctUntilChanged } from 'rxjs/operators';
 import { Application } from 'src/app/model/application';
-import { Merchant } from 'src/app/model/merchant';
+import { BaseComponent } from 'src/app/shared/core/base.component';
 import { ActionEnum } from 'src/app/shared/enum/action.enum';
 import { ApiResponse } from 'src/app/shared/model/api.response';
 import { AppService } from 'src/app/shared/service/app.service';
@@ -16,9 +16,7 @@ import { ApplicationService } from '../application.service';
   templateUrl: 'application-form.component.html',
   styleUrls: ['application-form.component.scss']
 })
-export class ApplicationFormComponent implements OnInit {
-
-  @Output() modelClosed = new EventEmitter();
+export class ApplicationFormComponent extends BaseComponent {
 
   @Input() merchant;
   @Input() app;
@@ -41,19 +39,11 @@ export class ApplicationFormComponent implements OnInit {
     private service: ApplicationService,
     private appService: AppService,
     private spinner: NgxSpinnerService,
-    private toastr: ToastrService) { }
+    private toastr: ToastrService) {
+    super(null);
+  }
 
   ngOnInit(): void {
-    // this.sub = this.activatedroute.paramMap.subscribe(params => {
-    //   console.log(params);
-    //   this.actionType = params.get('actionType');
-    //   this.appId = params.get('id');
-    // });
-
-    // thisthis.appService.userMerchant.subscribe(data => {
-    //   this.merchant = data;
-    // });
-
     // console.log(this.authService.getCurrentUser());
     this.appForm = this.formBuilder.group({
       name: ['', [Validators.required, Validators.minLength(5), Validators.max(100)]],
@@ -63,7 +53,7 @@ export class ApplicationFormComponent implements OnInit {
     });
 
     if (this.actionType != ActionEnum.add) {
-      this.onLoad();
+      this.onPageLoad();
     }
 
     if (this.actionType == ActionEnum.view) {
@@ -77,24 +67,13 @@ export class ApplicationFormComponent implements OnInit {
     }
   }
 
-  onLoad() {
-    // this.spinner.show();
-    // this.service.getById(this.appId).subscribe((resp: ApiResponse) => {
-    //   this.spinner.hide();
-    //   this.app = resp.message;
-      this.appForm.setValue({
-        name: this.app.name,
-        type: this.app.type,
-        appVersion: this.app.appVersion,
-        desc: this.app.desc,
-      });
-    // },
-    //   err => {
-    //     console.log('Unable to load application, please contact adminstrator', err);
-    //     this.errMsg = err.message;
-    //     this.toastr.error(this.errMsg, "Application");
-    //     this.spinner.hide();
-    //   });
+  onPageLoad() {
+    this.appForm.setValue({
+      name: this.app.name,
+      type: this.app.type,
+      appVersion: this.app.appVersion,
+      desc: this.app.desc,
+    });
   }
 
   get f() { return this.appForm['controls'] }
@@ -150,6 +129,9 @@ export class ApplicationFormComponent implements OnInit {
     let appToUpdate = <Application>this.appForm.value;
     Object.assign(this.app, appToUpdate);
 
+    this.app.canEdit = !!this.app.canEdit;
+    this.app.canView = !!this.app.canEdit;
+
     this.service.update(this.app).subscribe((resp: ApiResponse) => {
       this.spinner.hide();
       this.toastr.success("Application has been updated successfully.", "Application");
@@ -180,18 +162,4 @@ export class ApplicationFormComponent implements OnInit {
       this.toastr.error('Unable to delete application, please contact administrator.', 'Application');
     });
   }
-
-  cancel() {
-    this.close(false);
-  }
-
-  close(reload: boolean) {
-    console.log('close invoked');
-    this.modelClosed.emit({reload: reload});
-  }
-
-  public get actionEnum(): typeof ActionEnum {
-    return ActionEnum; 
-  }
-
 }

@@ -1,6 +1,6 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { faPlus, faBars, faTh, faEye, faEdit, faArchive} from '@fortawesome/free-solid-svg-icons';
+import { faPlus, faBars, faTh, faEye, faEdit, faArchive } from '@fortawesome/free-solid-svg-icons';
 import { ModalDismissReasons, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { ToastrService } from 'ngx-toastr';
@@ -9,7 +9,9 @@ import { ApplicationService } from '../application/application.service';
 import { Application } from '../model/application';
 import { Library } from '../model/library';
 import { Merchant } from '../model/merchant';
+import { BaseComponent } from '../shared/core/base.component';
 import { ActionEnum } from '../shared/enum/action.enum';
+import { PostActionEnum } from '../shared/enum/post-action.enum';
 import { ApiResponse } from '../shared/model/api.response';
 import { AppService } from '../shared/service/app.service';
 import { LibraryService } from './library.service';
@@ -19,14 +21,7 @@ import { LibraryService } from './library.service';
   templateUrl: './library.component.html',
   styleUrls: ['./library.component.scss']
 })
-export class LibraryComponent implements OnInit, OnDestroy {
-
-  faBars = faBars;
-  faPlus = faPlus;
-  faEye = faEye;
-  faEdit = faEdit;
-  faArchive = faArchive;
-  faTh = faTh;
+export class LibraryComponent extends BaseComponent {
 
   pageHeader: string;
   page = 1;
@@ -55,39 +50,35 @@ export class LibraryComponent implements OnInit, OnDestroy {
     private appService: AppService,
     private aplnService: ApplicationService,
     private spinner: NgxSpinnerService,
-    private modalService: NgbModal,
-    private toastr: ToastrService) { }
-
-  ngOnInit(): void {
-    this.pageHeader = 'Library';
-
-    // this.sub = this.activatedroute.paramMap.subscribe(params => {
-    //   console.log(params);
-    //   this.appId = params.get('appId');
-    // });
-
-    this.mSub = this.appService.userMerchant.subscribe(data => {
-      this.merchant = data;
-      this.loadApps();
-    });
-
-    // this.onLoad();
+    private modal: NgbModal,
+    private toastr: ToastrService) {
+    super(modal);
   }
 
-  loadApps(){
+  ngOnInit(): void {
+    this.pageHeader = 'Application Bundle';
+    this.mSub = this.appService.userMerchant.subscribe(data => {
+      this.merchant = data;
+      this.onPageLoad();
+    });
+  }
+
+  onPageLoad() {
     this.spinner.show();
-    this.aplnService.getAllByMerchant(this.merchant.id).subscribe((resp: ApiResponse) => {
-      this.spinner.hide();
+    this.aplnService.getByMerchant(this.merchant.id).subscribe((resp: ApiResponse) => {
+      //this.spinner.hide();
       this.apps = resp.message;
       this.appCount = this.apps.length;
       // console.log('Selected App....', this.appId);
-      if(this.appId)
-        this.app = this.apps.find(a => a.id == this.appId);
-      else   
-        this.app = this.apps[0];
+      // if(this.appId)
+      //   this.app = this.apps.find(a => a.id == this.appId);
+      // else   
+      //   this.app = this.apps[0];
       // console.log('apps count...', this.appCount);
-      if(this.appCount > 0)
+      if (this.appCount > 0)
         this.loadLibraries();
+      else
+        this.spinner.hide();
     },
       err => {
         console.log('Unable to load applications, please contact adminstrator', err);
@@ -97,16 +88,13 @@ export class LibraryComponent implements OnInit, OnDestroy {
   }
 
   loadLibraries() {
-    this.spinner.show();
-    this.service.getAllForApplication(this.app.id)
+    this.service.findForMerchant(this.merchant.id)
       .pipe(first())
       .subscribe(
         (resp: ApiResponse) => {
-          // console.log('Library Response for ', this.app.name+' : '+JSON.stringify(resp));
           this.libs = resp.message;
           // console.log('Libraries', this.libs);
           this.libCount = this.libs.length;
-          // console.log('Library Count', this.libCount);
           this.spinner.hide();
         },
         error => {
@@ -115,56 +103,40 @@ export class LibraryComponent implements OnInit, OnDestroy {
         });
   }
 
-  changeApp(id: number){
-    // console.log("Selected app id...", id +':' + JSON.stringify(this.apps));
-    this.app =  this.apps.find(x => x.id == id);
-    // console.log("Selected app...", this.app);
-    this.libs = [];
-    this.loadLibraries();
-  }
-
-  openModal(content) {
-    // this.modalService.open(content, { windowClass: 'project-modal', ariaLabelledBy: 'modal-basic-title' }).result.then((result) => {
-    this.modalService.open(content, { size: 'md', ariaLabelledBy: 'modal-basic-title' }).result.then((result) => {
-      this.closeResult = `Closed with: ${result}`;
-    }, (reason) => {
-      this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
-    });
-  }
-
-  private getDismissReason(reason: any): string {
-    if (reason === ModalDismissReasons.ESC) {
-      return 'by pressing ESC';
-    } else if (reason === ModalDismissReasons.BACKDROP_CLICK) {
-      return 'by clicking on a backdrop';
-    } else {
-      return `with: ${reason}`;
-    }
-  }
+  // changeApp(id: number) {
+  //   // console.log("Selected app id...", id +':' + JSON.stringify(this.apps));
+  //   this.app = this.apps.find(x => x.id == id);
+  //   // console.log("Selected app...", this.app);
+  //   this.libs = [];
+  //   this.loadLibraries();
+  // }
 
   create(content: any) {
     this.actionType = ActionEnum.add;
-    this.openModal(content);
-    // this.router.navigate(['/df', { actionType: ActionEnum.add, locId: this.locId}],{skipLocationChange: true});
+    this.openModal(content, 'md', 'Library Form');
   }
 
   view(id: number, content: any) {
     this.actionType = ActionEnum.view;
     this.lib = this.filterLib(id)
-    this.openModal(content);
-    // console.log("Device id...", id);
-    // this.router.navigate(['/df', { actionType: ActionEnum.view, id: id}],{skipLocationChange: true});
+    this.openModal(content, 'md', 'Library Form');
   }
 
   edit(id: number, content: any) {
     this.actionType = ActionEnum.edit;
     this.lib = this.filterLib(id)
-    this.openModal(content);
-    // this.router.navigate(['/df', { actionType: ActionEnum.edit, id: id}],{skipLocationChange: true});
+    this.openModal(content, 'md', 'Library Form');
   }
 
-  filterLib(id: number){
+  filterLib(id: number) {
     return this.libs.find(m => m.id == id);
+  }
+
+  getPostActionDetails(postAction: string, delay: number) {
+    if (postAction === PostActionEnum.NONE)
+      return postAction;
+    else
+      return postAction + '(' + delay + ')';
   }
 
   delete(id: number) {
@@ -173,18 +145,10 @@ export class LibraryComponent implements OnInit, OnDestroy {
       this.toastr.success('Library has been deleted successfully', 'Library');
       this.loadLibraries();
     },
-    err => {
-      console.log('Device model delete error....', err);
-      this.toastr.success('Unable to delete Library, please contact adminstrator', 'Library');
-    });
-  }
-
-  closeModal(event) {
-    console.log('CloseModal event received', event);
-    if(event.reload)
-    this.loadLibraries();
-
-    this.modalService.dismissAll();
+      err => {
+        console.log('Device model delete error....', err);
+        this.toastr.success('Unable to delete Library, please contact adminstrator', 'Library');
+      });
   }
 
   ngOnDestroy(): void {

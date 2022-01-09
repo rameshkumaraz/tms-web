@@ -1,4 +1,4 @@
-import { BaseModel } from './baseModel';
+import { BaseModel } from './base.model';
 import { MerchantContact } from './merchant-contact';
 
 export class Merchant extends BaseModel{

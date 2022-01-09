@@ -1,10 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
-import { faPlus, faBars, faTh, faEye, faEdit, faArchive} from '@fortawesome/free-solid-svg-icons';
-import { ModalDismissReasons, NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { ToastrService } from 'ngx-toastr';
 import { first } from 'rxjs/operators';
+import { BaseComponent } from '../shared/core/base.component';
 import { ActionEnum } from '../shared/enum/action.enum';
 import { ApiResponse } from '../shared/model/api.response';
 import { DeviceBrandService } from './device-brand.service';
@@ -14,18 +13,11 @@ import { DeviceBrandService } from './device-brand.service';
   templateUrl: './device-brand.component.html',
   styleUrls: ['./device-brand.component.scss']
 })
-export class DeviceBrandComponent implements OnInit {
-
-  faBars = faBars;
-  faPlus = faPlus;
-  faEye = faEye;
-  faEdit = faEdit;
-  faArchive = faArchive;
-  faTh = faTh;
+export class DeviceBrandComponent extends BaseComponent {
 
   pageHeader: string;
   page = 1;
-  pageSize = 5;
+  pageSize = 10;
 
   brandCount = 0;
   brands: Array<any>;
@@ -39,16 +31,17 @@ export class DeviceBrandComponent implements OnInit {
   constructor(
     private service: DeviceBrandService,
     private spinner: NgxSpinnerService,
-    private router: Router,
-    private modalService: NgbModal,
-    private toastr: ToastrService) { }
+    private modal: NgbModal,
+    private toastr: ToastrService) {
+    super(modal);
+  }
 
   ngOnInit(): void {
     this.pageHeader = 'Device Brand';
-    this.onLoad();
+    this.onPageLoad();
   }
 
-  onLoad() {
+  onPageLoad() {
     this.spinner.show();
     this.service.getAll()
       .pipe(first())
@@ -65,47 +58,24 @@ export class DeviceBrandComponent implements OnInit {
         });
   }
 
-  openModal(content) {
-    // this.modalService.open(content, { windowClass: 'project-modal', ariaLabelledBy: 'modal-basic-title' }).result.then((result) => {
-    this.modalService.open(content, { size: 'md', ariaLabelledBy: 'modal-basic-title' }).result.then((result) => {
-      this.closeResult = `Closed with: ${result}`;
-    }, (reason) => {
-      this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
-    });
-  }
-
-  private getDismissReason(reason: any): string {
-    if (reason === ModalDismissReasons.ESC) {
-      return 'by pressing ESC';
-    } else if (reason === ModalDismissReasons.BACKDROP_CLICK) {
-      return 'by clicking on a backdrop';
-    } else {
-      return `with: ${reason}`;
-    }
-  }
-
-  create(content:any) {
+  create(content: any) {
     this.actionType = ActionEnum.add;
-    this.openModal(content);
-    // console.log('Add new brand');
-    // this.router.navigate(['/dbf', { actionType: ActionEnum.add}],{skipLocationChange: true});
+    this.openModal(content, 'md', 'Device Brand Form');
   }
 
-  view(id: number, content:any) {
+  view(id: number, content: any) {
     this.actionType = ActionEnum.view;
     this.brand = this.filterBrand(id)
-    this.openModal(content);
-    // this.router.navigate(['/dbf', { actionType: ActionEnum.view, id: id}],{skipLocationChange: true});
+    this.openModal(content, 'md', 'Device Brand Form');
   }
 
-  edit(id: number, content:any) {
+  edit(id: number, content: any) {
     this.actionType = ActionEnum.edit;
     this.brand = this.filterBrand(id)
-    this.openModal(content);
-    // this.router.navigate(['/dbf', { actionType: ActionEnum.edit, id: id}],{skipLocationChange: true});
+    this.openModal(content, 'md', 'Device Brand Form');
   }
 
-  filterBrand(id: number){
+  filterBrand(id: number) {
     return this.brands.find(m => m.id == id);
   }
 
@@ -113,20 +83,11 @@ export class DeviceBrandComponent implements OnInit {
     this.service.delete(id).subscribe(data => {
       console.log('Brand has been deleted successfully');
       this.toastr.success('Brand has been deleted successfully', 'Device Brand');
-      //this.router.navigate(['/dbrand']);
-      this.onLoad();
+      this.onPageLoad();
     },
-    err => {
-      console.log('Device model delete error....', err);
-      this.toastr.success('Unable to delete brand, please contact adminstrator', 'Device Brand');
-    });
-  }
-
-  closeModal(event) {
-    console.log('CloseModal event received', event);
-    if(event.reload)
-      this.onLoad()
-
-    this.modalService.dismissAll();
+      err => {
+        console.log('Device model delete error....', err);
+        this.toastr.success('Unable to delete brand, please contact adminstrator', 'Device Brand');
+      });
   }
 }

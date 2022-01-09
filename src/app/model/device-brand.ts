@@ -1,4 +1,4 @@
-import { BaseModel } from './baseModel';
+import { BaseModel } from './base.model';
 
 export class DeviceBrand extends BaseModel{
 

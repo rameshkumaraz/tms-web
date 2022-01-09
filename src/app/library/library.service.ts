@@ -2,61 +2,39 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { AppSettings } from '../app.config';
 import { Library } from '../model/library';
+import { BaseService } from '../shared/core/base.service';
 
 @Injectable({
   providedIn: 'root'
 })
-export class LibraryService {
+export class LibraryService extends BaseService {
 
-  constructor(private http: HttpClient) { }
+  constructor(private client: HttpClient) {
+    super(client, 'lib');
+   }
 
-  getAll() {
-    const apiUrl = AppSettings.API_CONTEXT + AppSettings.ENDPOINTS.library;
-    return this.http.get(apiUrl);
+  findForApp(id: number) {
+    const apiUrl = AppSettings.API_CONTEXT + AppSettings.ENDPOINTS.lib.endpoint +'/'+  AppSettings.ENDPOINTS.lib.path.app + "/" + id;
+    return this.getByCustomUrl(apiUrl);
   }
 
-  getAllForApplication(id: number) {
-    const apiUrl = AppSettings.API_CONTEXT + AppSettings.ENDPOINTS.librariesForLocation + "/" + id;
-    return this.http.get(apiUrl);
+  findLatestForApp(id: number) {
+    const apiUrl = AppSettings.API_CONTEXT + AppSettings.ENDPOINTS.lib.endpoint +'/'+  AppSettings.ENDPOINTS.lib.path.appLatest + "/" + id;
+    return this.getByCustomUrl(apiUrl);
   }
 
-  getLatestForApplication(id: number) {
-    const apiUrl = AppSettings.API_CONTEXT + AppSettings.ENDPOINTS.latestForLocation + "/" + id;
-    return this.http.get(apiUrl);
+  findForMerchant(id: number) {
+    const apiUrl = AppSettings.API_CONTEXT + AppSettings.ENDPOINTS.lib.endpoint +'/'+  AppSettings.ENDPOINTS.lib.path.merchant + "/" + id;
+    return this.getByCustomUrl(apiUrl);
   }
 
-  getById(id: number) {
-    const apiUrl = AppSettings.API_CONTEXT + AppSettings.ENDPOINTS.library + "/" + id;
-    console.log("API Url", apiUrl);
-    return this.http.get(apiUrl);
-  }
-
-  create(formData: FormData) {
+  createLib(formData: FormData) {
     console.log("Library for create....", formData);
-    const apiUrl = AppSettings.API_CONTEXT + AppSettings.ENDPOINTS.library;
+    const apiUrl = AppSettings.API_CONTEXT + AppSettings.ENDPOINTS.lib.endpoint;
 
     console.log('API URL:', apiUrl);
     // const headers = { 'content-type': 'application/json' }
 
-    return this.http.post(apiUrl, formData);
-  }
-
-  update(formData: FormData) {
-
-    console.log("Library for update....", JSON.stringify(formData));
-    const apiUrl = AppSettings.API_CONTEXT + AppSettings.ENDPOINTS.library;
-
-    console.log('API URL:', apiUrl);
-    // const headers = { 'content-type': 'application/json' }
-
-    return this.http.put(apiUrl, formData);
-  }
-
-  delete(id: number) {
-    const apiUrl = AppSettings.API_CONTEXT + AppSettings.ENDPOINTS.library + "/" + id;
-
-    console.log('API URL:', apiUrl);
-
-    return this.http.delete(apiUrl);
+    return this.client.post(apiUrl, formData);
   }
 }

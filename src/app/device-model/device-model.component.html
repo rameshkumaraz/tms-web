@@ -27,36 +27,35 @@
       <table class="table table-striped">
         <thead>
           <tr>
-            <th scope="col">Name</th>
-            <th scope="col">Brand</th>
-            <th scope="col">Version</th>
-            <th scope="col">Base Version</th>
-            <th scope="col">Description</th>
-            <th scope="col">Created By</th>
-            <th scope="col">Created Date</th>
-            <th scope="col">Modified By</th>
-            <th scope="col">Modified Date</th>
-            <th scope="col">Action</th>
+            <th scope="col" style="width: 20%;">Name</th>
+            <th scope="col" style="width: 20%;">Brand</th>
+            <th scope="col" style="width: 8%;">Version</th>
+            <th scope="col" style="width: 8%;"># of Devices</th>
+            <th scope="col" style="width: 7%;">Status</th>
+            <th scope="col" style="width: 15%;">Last Update By</th>
+            <th scope="col" style="width: 10%;">Last Updated On</th>
+            <th scope="col" style="width: 10%;">Action</th>
           </tr>
         </thead>
         <tbody>
           <tr *ngFor="let model of models | slice: (page-1) * pageSize : (page-1) * pageSize + pageSize">
             <td><span class="table-col-name">{{ model.name }}</span></td>
             <td>{{ model.brand.name }}</td>
-            <td>{{ model.modelVersion }}</td>
-            <td>{{ model.baseVersion }}</td>
-            <td>{{ model.desc }}</td>
-            <td>{{ model.createdBy }}</td>
-            <td>{{ model.createdDate }}</td>
-            <td>{{ model.modifiedBy }}</td>
-            <td>{{ model.modifiedDate }}</td>
-            <td><span class="pr-3"><a (click)="view(model.id, dmModal)" routerLinkActive="active">
+            <td>{{ model.baseVersion+'.'+model.modelVersion }}</td>
+            <td>{{ model.deviceCount }}</td>
+            <td>{{ getStatus(model.status)}}</td>
+            <td>{{ model.lastUpdatedBy }}</td>
+            <td>{{ model.updatedDate | date: 'dd/MM/yyyy HH:mm'}}</td>
+            <td><span class="pr-3"><a (click)="view(model.id, dmModal)" routerLinkActive="active"
+                  *ngIf="canView(model.status)">
                   <fa-icon [icon]='faEye' style="color:#1653da"></fa-icon>
                 </a></span>
-              <span class="pr-3"><a (click)="edit(model.id, dmModal)" routerLinkActive="active">
+              <span class="pr-3"><a (click)="edit(model.id, dmModal)" routerLinkActive="active"
+                  *ngIf="canEdit(model.status)">
                   <fa-icon [icon]='faEdit' style="color:#ffc107;"></fa-icon>
                 </a></span>
-              <span class="pr-3"><a (click)="delete(model.id)" routerLinkActive="active">
+              <span class="pr-3"><a (click)="delete(model.id)" routerLinkActive="active"
+                  *ngIf="canDelete(model.status)">
                   <fa-icon [icon]='faArchive' style="color: #dc3545;"></fa-icon>
                 </a></span></td>
           </tr>
@@ -77,5 +76,6 @@
   </div>
 </div>
 <ng-template #dmModal let-modal>
-  <app-device-model-form [actionType]="actionType" [model]="model" (modelClosed)='closeModal($event)'></app-device-model-form>
+  <app-device-model-form [actionType]="actionType" [model]="model" (modelClosed)='closeModal($event)'>
+  </app-device-model-form>
 </ng-template>

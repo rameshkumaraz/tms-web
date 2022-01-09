@@ -1,4 +1,4 @@
-import { BaseModel } from './baseModel';
+import { BaseModel } from './base.model';
 
 export class Library extends BaseModel{
 
@@ -21,4 +21,6 @@ export class Library extends BaseModel{
     postActionDelay:number;
 
     app: number;
+
+    merchant: number;
 }

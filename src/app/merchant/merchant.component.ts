@@ -8,52 +8,46 @@ import { LoginNotificationService } from '../shared/service/login-notification.s
 import { Router } from '@angular/router';
 import { ApiResponse } from '../shared/model/api.response';
 import { ActionEnum } from 'src/app/shared/enum/action.enum';
+import { BaseComponent } from '../shared/core/base.component';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { ToastrService } from 'ngx-toastr';
+import { AppService } from '../shared/service/app.service';
 
 @Component({
   selector: 'app-merchant',
   templateUrl: './merchant.component.html',
   styleUrls: ['./merchant.component.scss']
 })
-export class MerchantComponent implements OnInit {
-
-  faBars = faBars;
-  faPlus = faPlus;
-  faEye = faEye;
-  faEdit = faEdit;
-  faArchive = faArchive;
-  faTh = faTh;
+export class MerchantComponent extends BaseComponent {
 
   pageHeader: string;
   page = 1;
   pageSize = 5;
 
-  mode = 2;
-
-  user: User;
-
   merchants: Array<any>;
   merchantCount = 0;
 
+  merchant;
+
+  actionType;
+
   constructor(private merchantService: MerchantService,
-    private loginNotifyService: LoginNotificationService,
+    private appService: AppService,
+    private modal: NgbModal,
     private spinner: NgxSpinnerService,
-    private router: Router) { }
+    private toastr: ToastrService,
+    public router: Router) { 
+      super(modal);
+    }
 
   ngOnInit(): void {
-    this.user = JSON.parse(sessionStorage.getItem('currentUser'));
     this.pageHeader = 'Merchant';
-    this.onLoad();
-    this.loginNotifyService.events$.pipe(first())
-    .subscribe(
-      resp => {
-        this.user = resp;
-        this.onLoad();
-      });
+    this.onPageLoad();
   }
 
-  onLoad() {
+  onPageLoad() {
     this.spinner.show();
-    this.merchantService.getAllMerchants()
+    this.merchantService.getAll()
       .pipe(first())
       .subscribe(
         (resp: ApiResponse) => {
@@ -67,42 +61,45 @@ export class MerchantComponent implements OnInit {
           this.spinner.hide();
         },
         error => {
+          this.spinner.hide();
         });
   }
-
-  changeView() {
-    this.mode = this.mode === 1 ? 2 : 1;
+  filterMerchant(id: number){
+    return this.merchants.find(m => m.id == id);
   }
 
-  createMerchant(){
-    this.router.navigate(['/mf', {actionType: ActionEnum.add}],{skipLocationChange: true});
+  create(content: any) {
+    this.actionType = ActionEnum.add;
+    this.openModal(content, 'lg', 'Merchant Form');
   }
 
-  viewMerchant(id: number) {
-    this.router.navigate(['/mf', {actionType: ActionEnum.view, id: id}],{skipLocationChange: true});
+  view(id: number, content: any) {
+    this.actionType = ActionEnum.view;
+    this.merchant = this.filterMerchant(id)
+    this.openModal(content, 'lg', 'Merchant Form');
   }
 
-  editMerchant(id: number) {
-    this.router.navigate(['/mf', {actionType: ActionEnum.edit, id: id}],{skipLocationChange: true});
+  edit(id: number, content: any) {
+    this.actionType = ActionEnum.edit;
+    this.merchant = this.filterMerchant(id)
+    this.openModal(content, 'lg', 'Merchant Form');
   }
 
-  deleteMerchant(id: number) {
-    
+  delete(id: number) {
+    this.merchantService.delete(id).subscribe(data => {
+      console.log('Merchant has been deleted successfully');
+      this.toastr.success('Merchant has been deleted successfully', 'Merchant');
+      this.onPageLoad();
+    },
+    err => {
+      console.log('Unable to delete merchant....', err);
+      this.toastr.error('Unable to delete merchant, please contact adminstrator', 'Merchant');
+    });
   }
 
-  onToggleAeccessIcon(id: number) {
-    for (const merchant of this.merchants) {
-      if (merchant.id === id) {
-        merchant.viewApin = merchant.viewApin === true ? false : true;
-      }
-    }
-  }
-
-  onToggleLoginIcon(id: number) {
-    for (const merchant of this.merchants) {
-      if (merchant.id === id) {
-        merchant.viewLpin = merchant.viewLpin === true ? false : true;
-      }
-    }
+  openMerchant(id: number){
+    this.appService.loadMerchant(this.filterMerchant(id));
+    this.appService.initMerchantSession(this.filterMerchant(id));
+    this.router.navigate(['/mdb']);
   }
 }

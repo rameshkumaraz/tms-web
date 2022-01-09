@@ -9,23 +9,23 @@
           
         </div> -->
       <div class="col-sm-9 tools text-right">
-            <span class="pr-4">
+            <!-- <span class="pr-4">
               <span class="pr-2">Select Application</span>
               <select id="app" (change)="changeApp($event.target.value)" class="select-app-select">
-                <!-- <option value="" disabled selected>Select Application</option> -->
+                <option value="" disabled selected>Select Application</option>
                 <option *ngFor="let a of apps" [value]="a.id" [selected]="app.id == a.id" >{{a.name}}</option>
               </select>
-          </span>
+          </span> -->
         <button class="button" (click)="create(libModal)">
           <fa-icon [icon]='faPlus' size="lg"></fa-icon><span class="pl-2">Add
-            New Library</span>
+            New Bundle</span>
         </button>
       </div>
     </div>
     <div *ngIf="libCount === 0" class="info">
       No libraries are created yet for the selected application.
       <ul>
-        <li>New library can be created by using <span class="info-highlight">Add New Library</span> option.</li>
+        <li>New library can be created by using <span class="info-highlight">Add New Bundle</span> option.</li>
       </ul>
     </div>
     <!-- <div *ngIf="appCount > 0 && libCount > 0" class="text-right select-app">
@@ -36,39 +36,37 @@
       <table class="table table-striped">
         <thead>
           <tr>
-            <th scope="col">Name</th>
-            <th scope="col">Application</th>
-            <th scope="col">Type</th>
-            <th scope="col">Version</th>
-            <th scope="col">Base Version</th>
-            <th scope="col">Description</th>
-            <th scope="col">Bundle</th>
-            <th scope="col">Bundle Size</th>
-            <th scope="col">Post Action</th>
-            <th scope="col">Post Action Delay</th>
-            <th scope="col">Created By</th>
-            <th scope="col">Created Date</th>
-            <th scope="col">Modified By</th>
-            <th scope="col">Modified Date</th>
-            <th scope="col">Action</th>
+            <th scope="col" style="width: 15%;">Name</th>
+            <th scope="col" style="width: 15%;">Application</th>
+            <!-- <th scope="col">Type</th> -->
+            <th scope="col" style="width: 8%;">Version</th>
+            <!-- <th scope="col">Base Version</th> -->
+            <!-- <th scope="col">Description</th> -->
+            <th scope="col" style="width: 8%;">Bundle Name</th>
+            <th scope="col" style="width: 8%;">Bundle Size</th>
+            <th scope="col" style="width: 8%;">Post Action</th>
+            <!-- <th scope="col" style="width: 8%;">Post Action Delay</th> -->
+            <th scope="col" style="width: 8%;">Status</th>
+            <th scope="col" style="width: 10%;">Last Update By</th>
+            <th scope="col" style="width: 10%;">Last Update On</th>
+            <th scope="col" style="width: 10%;">Action</th>
           </tr>
         </thead>
         <tbody>
           <tr *ngFor="let lib of libs | slice: (page-1) * pageSize : (page-1) * pageSize + pageSize">
             <td><span class="table-col-name">{{ lib.name }}</span></td>
             <td>{{ lib.app.name }}</td>
-            <td>{{ lib.type }}</td>
-            <td>{{ lib.libVersion }}</td>
-            <td>{{ lib.libBaseVersion }}</td>
-            <td>{{ lib.desc }}</td>
+            <!-- <td>{{ lib.type }}</td> -->
+            <td>{{ lib.libBaseVersion+'.'+lib.libVersion }}</td>
+            <!-- <td>{{ lib.libBaseVersion }}</td>
+            <td>{{ lib.desc }}</td> -->
             <td>{{ lib.bundleName }}</td>
             <td>{{ lib.bundleSize }}</td>
-            <td>{{ lib.postAction }}</td>
-            <td>{{ lib.postActionDelay }}</td>
-            <td>{{ lib.createdBy }}</td>
-            <td>{{ lib.createdDate }}</td>
-            <td>{{ lib.modifiedBy }}</td>
-            <td>{{ lib.modifiedDate }}</td>
+            <td>{{ getPostActionDetails(lib.postAction, lib.postActionDelay) }}</td>
+            <!-- <td>{{ lib.postActionDelay }}</td> -->
+            <td>{{ getStatus(lib.status) }}</td>
+            <td>{{ lib.lastUpdatedBy }}</td>
+            <td>{{ lib.updatedDate | date: 'dd/MM/yyyy HH:mm'}}</td>
             <td><span class="pr-3"><a (click)="view(lib.id, libModal)" routerLinkActive="active">
                   <fa-icon [icon]='faEye' style="color:#1653da"></fa-icon>
                 </a></span>
@@ -96,5 +94,5 @@
   </div>
 </div>
 <ng-template #libModal let-modal>
-  <app-library-form [actionType]="actionType" [app]="app" [lib]="lib" (modelClosed)='closeModal($event)'></app-library-form>
+  <app-library-form [actionType]="actionType" [merchant]="merchant" [apps]="apps" [lib]="lib" (modelClosed)='closeModal($event)'></app-library-form>
 </ng-template>

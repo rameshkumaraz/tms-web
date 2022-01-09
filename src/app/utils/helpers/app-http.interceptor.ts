@@ -5,8 +5,7 @@ import { catchError, map } from 'rxjs/operators';
 
 import { ResponseHandlerService } from '../../shared/service/response-handler.service';
 import { ApiResponse } from '../../shared/model/api.response';
-import { AppService } from 'src/app/shared/service/app.service';
-import { AuthenticationService } from '../services';
+import { AuthenticationService } from '../../auth/services/authentication.service';
 import { Router } from '@angular/router';
 
 @Injectable()
