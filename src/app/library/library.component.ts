@@ -136,7 +136,7 @@ export class LibraryComponent extends BaseComponent {
     if (postAction === PostActionEnum.NONE)
       return postAction;
     else
-      return postAction + '(' + delay + ')';
+      return postAction + ' (' + delay + ')';
   }
 
   delete(id: number) {

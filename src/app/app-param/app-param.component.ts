@@ -9,20 +9,17 @@ import { ActionEnum } from '../shared/enum/action.enum';
 import { AppService } from '../shared/service/app.service';
 import { AppParamService } from './app-param.service';
 import mockData from '../../assets/config/azpay-app-config.json';
+import { BaseComponent } from '../shared/core/base.component';
+import { ApplicationService } from '../application/application.service';
+import { first } from 'rxjs/operators';
+import { ApiResponse } from '../shared/model/api.response';
 
 @Component({
   selector: 'app-app-param',
   templateUrl: './app-param.component.html',
   styleUrls: ['./app-param.component.scss']
 })
-export class AppParamComponent implements OnInit {
-
-  faBars = faBars;
-  faPlus = faPlus;
-  faEye = faEye;
-  faEdit = faEdit;
-  faArchive = faArchive;
-  faTh = faTh;
+export class AppParamComponent extends BaseComponent {
 
   pageHeader: string;
   page = 1;
@@ -32,6 +29,10 @@ export class AppParamComponent implements OnInit {
   appParams: Array<any>;
 
   appParam: any;
+
+  apps: Array<any>;
+  appsCount = 0;
+  app: any;
 
   merchant: Merchant;
 
@@ -44,13 +45,17 @@ export class AppParamComponent implements OnInit {
   formTitle: any;
   formConfig: any;
 
+  dynamicFormValue: any;
+
   constructor(
-    private service: AppParamService,
+    public paramService: AppParamService,
     private appService: AppService,
+    private applicationService: ApplicationService,
     private spinner: NgxSpinnerService,
-    private modalService: NgbModal,
-    private toastr: ToastrService) { }
- 
+    private modal: NgbModal,
+    private toastr: ToastrService) {
+    super(modal);
+  }
 
   ngOnInit(): void {
     this.pageHeader = 'Parameter Configuration';
@@ -59,14 +64,27 @@ export class AppParamComponent implements OnInit {
 
     this.mSub = this.appService.userMerchant.subscribe(data => {
       this.merchant = data;
-      this.onLoad();
+      this.onPageLoad();
     });
 
-    
+    console.log("Selected app.....", this.app);
   }
 
-  onLoad() {
-    // this.spinner.show();
+  onPageLoad() {
+    this.spinner.show();
+    this.applicationService.getByMerchant(this.merchant.id)
+      .pipe(first())
+      .subscribe(
+        (resp: ApiResponse) => {
+          console.log('Application Response', resp);
+          this.apps = resp.message;
+          this.appsCount = this.apps.length;
+          this.spinner.hide();
+        },
+        error => {
+          console.log('Application Response', error);
+          this.spinner.hide();
+        });
     // this.service.getAllByMerchant(this.merchant.id)
     //   .pipe(first())
     //   .subscribe(
@@ -82,45 +100,31 @@ export class AppParamComponent implements OnInit {
     //     });
   }
 
-  openModal(content) {
-    // this.modalService.open(content, { windowClass: 'project-modal', ariaLabelledBy: 'modal-basic-title' }).result.then((result) => {
-    this.modalService.open(content, { size: 'md', ariaLabelledBy: 'modal-basic-title' }).result.then((result) => {
-      this.closeResult = `Closed with: ${result}`;
-    }, (reason) => {
-      this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
-    });
-  }
-
-  private getDismissReason(reason: any): string {
-    if (reason === ModalDismissReasons.ESC) {
-      return 'by pressing ESC';
-    } else if (reason === ModalDismissReasons.BACKDROP_CLICK) {
-      return 'by clicking on a backdrop';
-    } else {
-      return `with: ${reason}`;
-    }
-  }
-
-  create(content: any) {
-    // this.actionType = ActionEnum.add;
-    this.openModal(content);
+  create(appId: number, content: any) {
+    this.actionType = ActionEnum.add;
+    this.app = this.filterApp(appId);
+    this.openModal(content, 'md', 'Parameter Form');
+    this.paramService.setRelation(this.merchant.id, this.app.id);
+    console.log('Relation.....', this.paramService.setRelation);
   }
 
   view(id: number, content: any) {
-    // this.actionType = ActionEnum.view;
-    // this.app = this.filterApp(id)
-    // this.openModal(content);
+    this.actionType = ActionEnum.view;
+    this.app = this.filterApp(id)
+    this.openModal(content, 'md', 'Parameter Form');
   }
 
   edit(id: number, content: any) {
-    // this.actionType = ActionEnum.edit;
-    // this.app = this.filterApp(id)
-    // this.openModal(content);
+    this.actionType = ActionEnum.edit;
+    this.app = this.filterApp(id)
+    this.openModal(content, 'md', 'Parameter Form');
+    this.paramService.setRelation(this.merchant.id, this.app.id);
+    console.log('Relation.....', this.paramService.getRelation());
   }
 
-  // filterApp(id: number){
-  //   return this.apps.find(m => m.id == id);
-  // }
+  filterApp(id: number) {
+    return this.apps.find(m => m.id == id);
+  }
 
   delete(id: number) {
     // this.service.delete(id).subscribe(data => {
@@ -132,14 +136,6 @@ export class AppParamComponent implements OnInit {
     //   console.log('Device model delete error....', err);
     //   this.toastr.success('Unable to delete application, please contact adminstrator', 'Application');
     // });
-  }
-
-  closeModal(event) {
-    console.log('CloseModal event received', event);
-    if(event.reload)
-      this.onLoad();
-
-    this.modalService.dismissAll();
   }
 
   ngOnDestroy(): void {

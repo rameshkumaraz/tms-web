@@ -1,52 +1,73 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { AppSettings } from '../app.config';
+import { BaseService } from '../shared/core/base.service';
 import { DynamicFormService } from '../shared/dynamic-form/dynamic-form.service';
 
 @Injectable({
   providedIn: 'root'
 })
-export class AppParamService extends DynamicFormService{
+export class AppParamService extends BaseService {
 
-  constructor(private http: HttpClient) {
-    super();
-   }
-
-  getAll(){
-    const apiUrl = AppSettings.API_CONTEXT + AppSettings.ENDPOINTS.appParam.endpoint;
-    return this.http.get(apiUrl);
+  relation = {
+    merchant: 0,
+    app: 0
   };
 
-  getById(id: number){
-    const apiUrl = AppSettings.API_CONTEXT + AppSettings.ENDPOINTS.appParam.endpoint + "/" + id;
-    return this.http.get(apiUrl);
-  };
+  constructor(private client: HttpClient) {
+    super(client, 'appParam');
+  }
 
-  create(dto: any){
-    console.log("Application for create....", JSON.stringify(dto));
-    const apiUrl = AppSettings.API_CONTEXT + AppSettings.ENDPOINTS.appParam.endpoint;
+  getRelation(){
+    return this.relation;
+  }
 
-    console.log('API URL:', apiUrl);
-    const headers = { 'content-type': 'application/json' }
+  setRelation(merchant: number, app: number){
+    this.relation.merchant = merchant;
+    this.relation.app = app;
+  }
 
-    return this.http.post(apiUrl, JSON.stringify(dto), { 'headers': headers });
-  };
+  // getAll() {
+  //   const apiUrl = AppSettings.API_CONTEXT + AppSettings.ENDPOINTS.appParam.endpoint;
+  //   return this.http.get(apiUrl);
+  // };
 
-  update(dto: any){
-    console.log("Application for update....", JSON.stringify(dto));
-    const apiUrl = AppSettings.API_CONTEXT + AppSettings.ENDPOINTS.appParam.endpoint;
+  // getById(id: number) {
+  //   const apiUrl = AppSettings.API_CONTEXT + AppSettings.ENDPOINTS.appParam.endpoint + "/" + id;
+  //   return this.http.get(apiUrl);
+  // };
 
-    console.log('API URL:', apiUrl);
-    const headers = { 'content-type': 'application/json' }
+  // getById(id: number){
+  //   const apiUrl = AppSettings.API_CONTEXT + AppSettings.ENDPOINTS.appParam.endpoint + "/" + id;
+  //   return this.http.get(apiUrl);
+  // };
 
-    return this.http.put(apiUrl, JSON.stringify(dto), { 'headers': headers });
-  };
+  // create(dto: any) {
+    // console.log("Application for create....", JSON.stringify(dto));
+    // const apiUrl = AppSettings.API_CONTEXT + AppSettings.ENDPOINTS.appParam.endpoint;
 
-  delete(id: number){
-    const apiUrl = AppSettings.API_CONTEXT + AppSettings.ENDPOINTS.appParam.endpoint + "/" + id;
+    // console.log('API URL:', apiUrl);
+    // const headers = { 'content-type': 'application/json' }
 
-    console.log('API URL:', apiUrl);
+    // return this.client.post(apiUrl, JSON.stringify(dto), { 'headers': headers });
+    return 
+  // };
 
-    return this.http.delete(apiUrl);
-  };
+  // update(dto: any) {
+  //   console.log("Application for update....", JSON.stringify(dto));
+  //   const apiUrl = AppSettings.API_CONTEXT + AppSettings.ENDPOINTS.appParam.endpoint;
+
+  //   console.log('API URL:', apiUrl);
+  //   const headers = { 'content-type': 'application/json' }
+
+  //   return this.client.put(apiUrl, JSON.stringify(dto), { 'headers': headers });
+  // };
+
+  // delete(id: number) {
+  //   const apiUrl = AppSettings.API_CONTEXT + AppSettings.ENDPOINTS.appParam.endpoint + "/" + id;
+
+  //   console.log('API URL:', apiUrl);
+
+  //   return this.client.delete(apiUrl);
+  // };
 }

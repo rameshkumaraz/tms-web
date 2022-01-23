@@ -1,20 +1,25 @@
-import { Injectable } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+import { Inject, Injectable } from '@angular/core';
+import { BaseService } from '../core/base.service';
 
 @Injectable({
   providedIn: 'root'
 })
-export abstract class DynamicFormService {
+export class DynamicFormService extends BaseService{
 
-  constructor() {}
+  constructor(private client: HttpClient,
+    @Inject('module') private module: string) {
+    super(client, module);
+  }
 
-  abstract getAll();
+  // abstract getAll();
 
-  abstract getById(id: number);
+  // abstract getById(id: number);
 
-  abstract create(dto: any);
+  // abstract create(dto: any);
 
-  abstract update(dto: any);
+  // abstract update(dto: any);
 
-  abstract delete(id: number);
+  // abstract delete(id: number);
 
 }

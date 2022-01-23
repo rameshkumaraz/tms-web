@@ -90,7 +90,7 @@
         </div>
       </div>
     </div>
-    <div class="form-row" *ngIf="f.jobType.value == jobsEnum.SOFTWARE_DOWNLOAD_MSG || f.jobType.value == jobsEnum.APP_VERSION_UPDATE_MSG">
+    <div class="form-row" *ngIf="f.jobType.value == jobsEnum.APP_INSTALL || f.jobType.value == jobsEnum.APP_PARAM_UPDATE">
       <div class="form-group col-sm-6 required">
         <label for="app" class="asterisk-if-mandatory">Select Application</label>
         <select required class="form-control" formControlName="app" id="app"
@@ -103,18 +103,18 @@
         </div>
       </div>
       <div class="form-group col-sm-6 required">
-        <label for="library" class="asterisk-if-mandatory">Select Library</label>
+        <label for="library" class="asterisk-if-mandatory">Select Version</label>
         <select required class="form-control" formControlName="library" id="library"
           [ngClass]="{ 'is-invalid': formSubmitted && f.library.errors }">
-          <option value="" disabled selected *ngIf="f.jobType.value != jobsEnum.APP_VERSION_UPDATE_MSG">Select Library</option>
+          <option value="" disabled selected>Select Version</option>
           <option *ngFor="let l of libs" [value]="l.id">{{l.name}}</option>
         </select>
         <div *ngIf="formSubmitted && f.library.errors" class="invalid-feedback">
-          <div *ngIf="f.library.errors.required">Library is required</div>
+          <div *ngIf="f.library.errors.required">Version is required</div>
         </div>
       </div>
     </div>
-    <div class="form-row" *ngIf="f.jobType.value == jobsEnum.REQ_LOG_MSG">
+    <!-- <div class="form-row" *ngIf="f.jobType.value == jobsEnum.REQ_LOG_MSG">
       <div class="form-group col-sm-6 required">
         <label for="app" class="asterisk-if-mandatory">Select Application</label>
         <select required class="form-control" formControlName="app" id="app"
@@ -126,7 +126,7 @@
           <div *ngIf="f.app.errors.required">Appliction is required</div>
         </div>
       </div>
-    </div>
+    </div> -->
     <div class="form-row" *ngIf="f.targetType.value == 2 || f.targetType.value == 3">
       <div class="form-group col-sm-6 required">
         <label for="location" class="asterisk-if-mandatory">Select Location</label>

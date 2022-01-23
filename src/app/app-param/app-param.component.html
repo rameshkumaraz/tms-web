@@ -8,21 +8,21 @@
       <!-- <div class="col-sm-7  tools text-right">
           
         </div> -->
-      <div class="col-sm-7 tools text-right">
+      <!-- <div class="col-sm-7 tools text-right">
         <button class="button" (click)="create(paramform)">
           <fa-icon [icon]='faPlus' size="lg"></fa-icon><span class="pl-2">Add
             Configuration</span>
         </button>
-      </div>
+      </div> -->
     </div>
-    <div *ngIf="appParamCount === 0" class="info">
+    <div *ngIf="appsCount === 0" class="info">
       No application paramater configured yet for the selected application.
       <ul>
         <li>Parameter configurationn can be added by using <span class="info-highlight">Add Configuration</span> option.
         </li>
       </ul>
     </div>
-    <div class="pt-2" *ngIf="appParamCount > 0">
+    <div class="pt-2" *ngIf="appsCount > 0">
 
       <table class="table table-striped">
         <thead>
@@ -32,15 +32,15 @@
           </tr>
         </thead>
         <tbody>
-          <tr *ngFor="let appParam of appParams | slice: (page-1) * pageSize : (page-1) * pageSize + pageSize">
-            <td><span class="table-col-name">{{ appParam.name }}</span></td>
-            <td><span class="pr-3"><a (click)="view(appParam.id, paramform)" routerLinkActive="active">
+          <tr *ngFor="let app of apps | slice: (page-1) * pageSize : (page-1) * pageSize + pageSize">
+            <td><span class="table-col-name">{{ app.name }}</span></td>
+            <td><span class="pr-3"><a (click)="view(app.id, paramform)" routerLinkActive="active">
                   <fa-icon [icon]='faEye' style="color:#1653da"></fa-icon>
                 </a></span>
-              <span class="pr-3"><a (click)="edit(appParam.id, paramform)" routerLinkActive="active">
+              <span class="pr-3"><a (click)="edit(app.id, paramform)" routerLinkActive="active">
                   <fa-icon [icon]='faEdit' style="color:#ffc107;"></fa-icon>
                 </a></span>
-              <span class="pr-3"><a (click)="delete(appParam.id)" routerLinkActive="active">
+              <span class="pr-3"><a (click)="delete(app.id)" routerLinkActive="active">
                   <fa-icon [icon]='faArchive' style="color: #dc3545;"></fa-icon>
                 </a></span></td>
           </tr>
@@ -48,7 +48,7 @@
       </table>
 
       <div class="d-flex justify-content-between px-2">
-        <ngb-pagination [collectionSize]="appParamCount" [(page)]="page" [pageSize]="pageSize">
+        <ngb-pagination [collectionSize]="appsCount" [(page)]="page" [pageSize]="pageSize">
         </ngb-pagination>
 
         <select [(ngModel)]="pageSize" class="paging">
@@ -61,5 +61,5 @@
   </div>
 </div>
 <ng-template #paramform let-c="close" let-d="dismiss">
-  <app-dynamic-form [merchant]="merchant" [formTitle]="formTitle" [formConfig]="formConfig" [addMore]="true" (modelClosed)='closeModal($event)'></app-dynamic-form>
+  <app-dynamic-form [formTitle]="formTitle" [formConfig]="formConfig" [service]='paramService' (modelClosed)='closeModal($event)'></app-dynamic-form>
 </ng-template>

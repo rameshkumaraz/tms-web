@@ -26,7 +26,6 @@
           </div>
           <div ngbDropdownMenu aria-labelledby="deviceDropdown" class="nav-sm">
             <a ngbDropdownItem class="nav-smi" routerLink="/device" *ngIf="hasMenuAccess('device')">Device</a>
-            <a ngbDropdownItem class="nav-smi" routerLink="/param" *ngIf="hasMenuAccess('device-param')">Application Parameter</a>
             <a ngbDropdownItem class="nav-smi" routerLink="/event" *ngIf="hasMenuAccess('event')">Schedule Event</a>
           </div>
         </li>
@@ -55,6 +54,7 @@
             <a ngbDropdownItem class="nav-smi" routerLink="/dmodel" *ngIf="hasMenuAccess('device-model')">Device Model</a>
             <a ngbDropdownItem class="nav-smi" routerLink="/app" *ngIf="hasMenuAccess('app')">Application</a>
             <a ngbDropdownItem class="nav-smi" routerLink="/library" *ngIf="hasMenuAccess('library')">Application Bundle</a>
+            <a ngbDropdownItem class="nav-smi" routerLink="/param" *ngIf="hasMenuAccess('app-param')">Application Parameter</a>
             <a ngbDropdownItem class="nav-smi" routerLink="/au" *ngIf="hasMenuAccess('admin-user')">Admin Users</a>
             <a ngbDropdownItem class="nav-smi" routerLink="/user" *ngIf="hasMenuAccess('user')">Users</a>
             <a ngbDropdownItem class="nav-smi" routerLink="/role" *ngIf="hasMenuAccess('role')">Roles</a>

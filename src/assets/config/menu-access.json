@@ -8,7 +8,7 @@
   "device-model": false,
   "admin-user": false,
   "role": false,
-  "device-param": false,
+  "app-param": false,
   "event": false,
   "app": false,
   "library": false,

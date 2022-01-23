@@ -88,13 +88,9 @@ export class JobFormComponent extends BaseComponent {
 
     if (this.actionType != ActionEnum.add) {
 
-      if (this.job.jobType == JobsEnum.SOFTWARE_DOWNLOAD_MSG) {
+      if (this.job.jobType == JobsEnum.APP_INSTALL) {
         this.loadApps(1);
-      } else if (this.job.jobType == JobsEnum.APP_VERSION_UPDATE_MSG) {
-        this.loadApps(2);
-      } else if (this.job.jobType == JobsEnum.REQ_LOG_MSG) {
-        this.loadApps(3);
-      }
+      } 
 
       if (this.job.targetType == 2) {
         this.loadLocations(false);
@@ -213,14 +209,9 @@ export class JobFormComponent extends BaseComponent {
   get f() { return this.jobForm['controls'] }
 
   changeJob(type: string) {
-    if (type == JobsEnum.SOFTWARE_DOWNLOAD_MSG) {
+    if (type == JobsEnum.APP_INSTALL) {
       this.loadApps(1);
-    } else if (type == JobsEnum.APP_VERSION_UPDATE_MSG) {
-      this.loadApps(2);
-    } else if (type == JobsEnum.REQ_LOG_MSG) {
-      this.loadApps(3);
-    }
-
+    } 
   }
 
   changeApp(id: number) {
@@ -229,7 +220,7 @@ export class JobFormComponent extends BaseComponent {
     this.f.app.setValue(this.app.id);
     // console.log("Selected app...", this.app);
     this.libs = [];
-    if (this.f.jobType.value == JobsEnum.APP_VERSION_UPDATE_MSG) {
+    if (this.f.jobType.value == JobsEnum.APP_INSTALL) {
       this.loadLatestLibrary();
     }
     this.loadLibraries();
@@ -258,8 +249,11 @@ export class JobFormComponent extends BaseComponent {
     this.job.merchant = this.merchant.id + "";
     this.job.app = this.job.app + "";
     this.job.library = this.job.library + "";
-    if (this.job.targetType == 2)
+    this.job.targetType = +this.job.targetType;
+    if (this.job.targetType === 2)
       this.job.location = this.job.location + "";
+    else
+      this.job.location = "";  
 
     this.service.create(this.job).subscribe((resp: ApiResponse) => {
       this.spinner.hide();

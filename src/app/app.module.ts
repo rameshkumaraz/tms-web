@@ -56,6 +56,7 @@ import { AdminUserFormComponent } from './admin-user/admin-user-form/admin-user-
 import { SidebarComponent } from './sidebar/sidebar.component';
 import { DeviceProfileComponent } from './device/device-profile/device-profile.component';
 import { JobDetailComponent } from './job/job-detail/job-detail.component';
+import { AppParamService } from './app-param/app-param.service';
 
 @NgModule({
   declarations: [
@@ -126,7 +127,8 @@ import { JobDetailComponent } from './job/job-detail/job-detail.component';
       provide: HTTP_INTERCEPTORS,
       useClass: AppHttpInterceptor,
       multi: true
-    }
+    },
+    AppParamService
   ],
   bootstrap: [AppComponent]
 })

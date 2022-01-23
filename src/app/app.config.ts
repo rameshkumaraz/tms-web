@@ -1,5 +1,5 @@
 export class AppSettings {
-    public static API_CONTEXT = 'http://localhost:3000/';
+    public static API_CONTEXT = 'http://54.173.91.60:3000/';
 
     public static ENDPOINTS = {
         'login': 'auth/login',
@@ -69,9 +69,10 @@ export class AppSettings {
         // 'appParams': 'params',
         // 'appParamsByApp': 'params/a'
         'appParam': {
-            'endpoint': 'appParam',
+            'endpoint': 'params',
             'path': {
-                'app': 'a'
+                'app': 'a',
+                'merchant': 'm'
             }
         },
         'adminUser' : {'endpoint': 'admin/user'}
