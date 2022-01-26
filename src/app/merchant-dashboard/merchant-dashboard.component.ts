@@ -2,6 +2,7 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { Merchant } from '../model/merchant';
+import { BaseComponent } from '../shared/core/base.component';
 import { AppService } from '../shared/service/app.service';
 
 @Component({
@@ -9,7 +10,7 @@ import { AppService } from '../shared/service/app.service';
   templateUrl: './merchant-dashboard.component.html',
   styleUrls: ['./merchant-dashboard.component.scss']
 })
-export class MerchantDashboardComponent implements OnInit, OnDestroy {
+export class MerchantDashboardComponent extends BaseComponent {
 
   pageHeader: string;
 
@@ -17,9 +18,27 @@ export class MerchantDashboardComponent implements OnInit, OnDestroy {
 
   mSub;
 
+  locations: Array<any>;
+  devices: Array<any>;
+
+  activeDeviceCount = 0;
+  inactiveDeviceCount = 0;
+
+  locCount = 0;
+  deviceCount = 0;
+
+  locChangeCount = 0;
+  deviceChangeCount = 0;
+  activeDeviceChange = 0;
+
+  locationChangeText: string;
+  deviceChangeText: string;
+
   constructor(private appService: AppService,
     private spinner: NgxSpinnerService,
-    private router: Router) { }
+    private router: Router) { 
+      super(null);
+    }
   
 
   ngOnInit(): void {
@@ -33,6 +52,19 @@ export class MerchantDashboardComponent implements OnInit, OnDestroy {
         this.spinner.hide();
       }
     });
+
+    this.activeDeviceCount = 0;
+    this.inactiveDeviceCount = 0;
+  
+    this.locCount = 0;
+    this.deviceCount = 0;
+  
+    this.locChangeCount = 0;
+    this.deviceChangeCount = 0;
+    this.activeDeviceChange = 0;
+  }
+
+  onPageLoad() {
   }
 
   ngOnDestroy(): void {

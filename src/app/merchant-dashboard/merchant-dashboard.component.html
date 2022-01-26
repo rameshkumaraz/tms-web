@@ -1,8 +1,103 @@
 <div class="main">
   <div class="container-fluid">
     <div class="row page-header">
-      <div class="col-sm-3 title"><img src="../../../assets/images/merchant.svg" />
+      <div class="col-sm-3 title">
+        <fa-icon [icon]='faDashboard'></fa-icon>
         <span class="pl-2">{{ pageHeader }}</span>
       </div>
     </div>
+    <div class="row db-card">
+      <div class="col-sm-3">
+        <div class="main">
+          <div class="col-12 location">
+            <fa-icon [icon]='faMap' size="lg"></fa-icon>
+          </div>
+          <div class="col-12 title">TOTAL LOCATIONS<span class="float-right highlight">Change(Month)</span></div>
+          <div class="col-12 text">{{locCount}}<span class="float-right" [ngClass]="{'text-hl-positive': locChangeCount > 0, 'text-hl-none' : locChangeCount === 0 }">{{locationChangeText}}</span></div>
+        </div>
+      </div>
+      <div class="col-sm-3">
+        <div class="main">
+          <div class="col-12 device">
+            <fa-icon [icon]='faMobile' size="lg"></fa-icon>
+          </div>
+          <div class="col-12 title">TOTAL DEVICES<span class="float-right highlight">Change(Month)</span></div>
+          <div class="col-12 text">{{deviceCount}}<span class="float-right" [ngClass]="{'text-hl-positive': deviceChangeCount > 0, 'text-hl-none' : deviceChangeCount === 0 }">{{deviceChangeText}}</span></div>
+        </div>
+      </div>
+      <div class="col-sm-3">
+        <div class="main">
+          <div class="col-12 active-device">
+            <fa-icon [icon]='faMobile' size="lg"></fa-icon>
+          </div>
+          <div class="col-12 title">TOTAL ACTIVE DEVICES<span class="float-right highlight">Change(Month)</span></div>
+          <div class="col-12 text">{{activeDeviceCount}}<span class="float-right" [ngClass]="{'text-hl-negative': activeDeviceChange > 0, 'text-hl-none' : activeDeviceChange === 0 }">{{activeDeviceChange}}</span></div>
+        </div>
+      </div>
+      <div class="col-sm-3">
+        <div class="main">
+          <div class="col-12 inactive-device">
+            <fa-icon [icon]='faMobile' size="lg"></fa-icon>
+          </div>
+          <div class="col-12 title">TOTAL INACTIVE DEVICES<span class="float-right highlight">Change(Month)</span></div>
+          <div class="col-12 text">{{inactiveDeviceCount}}<span class="float-right" [ngClass]="{'text-hl-negative': activeDeviceChange > 0, 'text-hl-none' : activeDeviceChange === 0 }">{{activeDeviceChange}}</span></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- <div class="row db-map">
+      <div class="col-sm-7">
+        <div class="row">
+          <div class="col-sm-4 title">Merchant Overview</div>
+          <div class="col-sm-4 title-filter">
+            <select id="country" class="form-control">
+              <option value="" disabled selected>All Countries</option>
+              <option value="{{country.code}}" *ngFor="let country of countries">{{country.name}}</option>
+            </select>
+          </div>
+          <div class="col-sm-4 title-filter">
+            <select id="merchant" class="form-control">
+              <option value="" disabled selected>All Merchant</option>
+              <option value="{{merchant.id}}" *ngFor="let merchant of merchants">{{merchant.name}}</option>
+            </select>
+          </div>
+        </div>
+        <div class="col-sm-12 p-0">
+          <google-chart [data]="geoChart"></google-chart>
+        </div>
+      </div>
+      <div class="col-sm-5">
+        <div class="row">
+          <div class="col-sm-12">
+            <div class="row">
+              <div class="col-sm-12 top-title">Top 10 Merchants</div>
+              <div class="col-sm-12 px-0 py-2">
+                <table class="table table-striped" style="min-height:50px">
+                  <thead>
+                    <tr>
+                      <th scope="col" style="width: 60%;">Merchant</th>
+                      <th scope="col" style="width: 20%;"># of Locations</th>
+                      <th scope="col" style="width: 20%;"># of Device</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr *ngFor="let merchant of merchants">
+                      <td>{{ merchant.name }}</td>
+                      <td>{{merchant.locationCount}}</td>
+                      <td>{{merchant.deviceCount}}</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+          <div class="col-sm-12 top-title">
+            <div class="row">
+              <div class="col-sm-12">Top 5 Locations</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div> -->
   </div>
+</div>

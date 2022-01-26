@@ -1,5 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { faUser, faSignInAlt, faSignOutAlt } from '@fortawesome/free-solid-svg-icons';
+import { faUser, faSignInAlt, faSignOutAlt,faMapMarker, faHome, faMobile, faChartArea,faUserCog, faLandmark, faIndustry, faMobileAlt, faMapMarkerAlt, faFilePowerpoint, faTachometerAlt } from '@fortawesome/free-solid-svg-icons';
 import { NgbModalConfig, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { Router } from '@angular/router';
 import { AuthenticationService } from 'src/app/auth/services/authentication.service';
@@ -25,6 +25,14 @@ export class HeaderComponent implements OnInit {
   faUser = faUser;
   faSignIn = faSignInAlt;
   faSignOut = faSignOutAlt;
+  faHome = faHome;
+  faUserCog = faUserCog;
+  faMap = faMapMarkerAlt;
+  faReport = faChartArea;
+  faMobile = faMobileAlt;
+  faMerchant = faIndustry;
+  faDashboard = faTachometerAlt;
+
 
   mSub: Subscription;
 

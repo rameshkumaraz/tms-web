@@ -9,6 +9,7 @@ import { ToastrModule } from 'ngx-toastr';
 import { ArchwizardModule } from 'angular-archwizard';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { NgSelectModule } from '@ng-select/ng-select';
+import { Ng2GoogleChartsModule } from 'ng2-google-charts';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -114,6 +115,7 @@ import { AppParamService } from './app-param/app-param.service';
     NgbModule,
     NgSelectModule,
     NgxSpinnerModule,
+    Ng2GoogleChartsModule,
     ReactiveFormsModule,
     ToastrModule.forRoot({
       timeOut: 5000,

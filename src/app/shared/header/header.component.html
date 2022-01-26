@@ -10,18 +10,21 @@
     <div class="collapse navbar-collapse" id="myNavbar">
       <ul class="navbar-nav mr-auto">
         <li class="nav-item nav-mi" *ngIf="hasMenuAccess('mdb')">
-          <a class="nav-link" routerLink="/mdb">Merchant Dashboard<span class="sr-only">(current)</span></a>
+          <a class="nav-link" routerLink="/db"><span class="pr-1"><fa-icon [icon]='faHome' size="md"></fa-icon></span>Home</a>
+        </li>
+        <li class="nav-item nav-mi" *ngIf="hasMenuAccess('mdb')">
+          <a class="nav-link" routerLink="/mdb"><span class="pr-1"><fa-icon [icon]='faDashboard' size="md"></fa-icon></span>Dashboard</a>
         </li>
         <li class="nav-item nav-mi" *ngIf="hasMenuAccess('merchant')">
-          <a class="nav-link" routerLink="/merchant">Merchants<span class="sr-only">(current)</span></a>
+          <a class="nav-link" routerLink="/merchant"><span class="pr-1"><fa-icon [icon]='faMerchant' size="md"></fa-icon></span>Merchants</a>
         </li>
         <li class="nav-item nav-mi" *ngIf="hasMenuAccess('location')">
-          <a class="nav-link" routerLink="/location">Location<span class="sr-only">(current)</span></a>
+          <a class="nav-link" routerLink="/location"><span class="pr-1"><fa-icon [icon]='faMap' size="md"></fa-icon></span>Location</a>
         </li>
         <li ngbDropdown class="nav-item nav-mi" *ngIf="hasMenuAccess('device')">
           <div class="nav-link">
             <span class="pl-2">
-              <a ngbDropdownToggle id="deviceDropdown">Deivce</a>
+              <a ngbDropdownToggle id="deviceDropdown"><span class="pr-1"><fa-icon [icon]='faMobile' size="md"></fa-icon></span>Deivce</a>
             </span>
           </div>
           <div ngbDropdownMenu aria-labelledby="deviceDropdown" class="nav-sm">
@@ -32,7 +35,7 @@
         <li ngbDropdown class="nav-item nav-mi" *ngIf="hasMenuAccess('report')">
           <div class="nav-link">
             <span class="pl-2">
-              <a ngbDropdownToggle id="reportDropdown">Reports</a>
+              <a ngbDropdownToggle id="reportDropdown"><span class="pr-1"><fa-icon [icon]='faReport' size="md"></fa-icon></span>Reports</a>
             </span>
           </div>
           <div ngbDropdownMenu aria-labelledby="reportDropdown" class="nav-sm">
@@ -46,7 +49,7 @@
         <li ngbDropdown class="nav-item nav-mi" *ngIf="hasMenuAccess('admin')">
           <div class="nav-link">
             <span class="pl-2">
-              <a ngbDropdownToggle id="adminDropdown">Administration</a>
+              <a ngbDropdownToggle id="adminDropdown"><span class="pr-1"><fa-icon [icon]='faUserCog' size="md"></fa-icon></span>Administration</a>
             </span>
           </div>
           <div ngbDropdownMenu aria-labelledby="adminDropdown" class="nav-sm">
@@ -74,10 +77,10 @@
           </div>
           <div ngbDropdownMenu aria-labelledby="userDropdown">
             <!-- <button ngbDropdownItem (click)="openLoginModal(logincontent)" *ngIf="!profile">
-              <fa-icon [icon]='faSignIn' class="pr-2"></fa-icon>Login as Admin
+              <fa-icon [icon]='faSignIn' class="pr-1"></fa-icon>Login as Admin
             </button> -->
             <button ngbDropdownItem (click)="logout()" *ngIf="profile">
-              <fa-icon [icon]='faSignOut' class="pr-2"></fa-icon>Logout
+              <fa-icon [icon]='faSignOut' class="pr-1"></fa-icon>Logout
             </button>
           </div>
         </li>

@@ -1,5 +1,5 @@
 import { Component, EventEmitter, OnDestroy, OnInit, Output } from '@angular/core';
-import { faArchive, faBars, faEdit, faEye, faPlus, faSearch, faTh } from '@fortawesome/free-solid-svg-icons';
+import { faArchive, faBars, faChartArea, faEdit, faEye, faHome, faIndustry, faMapMarkerAlt, faMobileAlt, faPlus, faSearch, faTachometerAlt, faTh, faUserCog } from '@fortawesome/free-solid-svg-icons';
 import { ModalDismissReasons, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { Subscription } from 'rxjs';
 import { StatusEnum } from '../enum/status.enum';
@@ -19,6 +19,14 @@ export abstract class BaseComponent implements OnInit, OnDestroy {
     faArchive = faArchive;
     faTh = faTh;
     faSearch = faSearch;
+
+    faHome = faHome;
+    faUserCog = faUserCog;
+    faMap = faMapMarkerAlt;
+    faReport = faChartArea;
+    faMobile = faMobileAlt;
+    faMerchant = faIndustry;
+    faDashboard = faTachometerAlt;
 
 
     mSub: Subscription;
