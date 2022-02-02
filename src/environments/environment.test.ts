@@ -4,8 +4,8 @@
 
 export const environment = {
   production: false,
-  title: 'azPayCc',
-  apiURL: 'http://localhost:3000/'
+  title: 'azPayCcTest',
+  apiURL: 'http://54.173.91.60:3000/'
 };
 
 /*

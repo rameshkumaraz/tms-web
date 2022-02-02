@@ -1,9 +1,15 @@
+import { environment } from './../environments/environment';
 export class AppSettings {
-    public static API_CONTEXT = 'http://localhost:3000/';
+    public static API_CONTEXT = environment.apiURL;
 
     public static ENDPOINTS = {
         'login': 'auth/login',
-        'merchant': {'endpoint': 'merchant'},
+        'merchant': {
+            'endpoint': 'merchant',
+            'path': {
+                'filter': 'f'
+            }
+        },
         'location': {
             'endpoint': 'location',
             'path': {
@@ -72,7 +78,8 @@ export class AppSettings {
             'endpoint': 'params',
             'path': {
                 'app': 'a',
-                'merchant': 'm'
+                'merchant': 'm',
+                'template': 't'
             }
         },
         'adminUser' : {'endpoint': 'admin/user'}

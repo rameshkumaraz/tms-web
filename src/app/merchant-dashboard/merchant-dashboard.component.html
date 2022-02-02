@@ -31,7 +31,7 @@
             <fa-icon [icon]='faMobile' size="lg"></fa-icon>
           </div>
           <div class="col-12 title">TOTAL ACTIVE DEVICES<span class="float-right highlight">Change(Month)</span></div>
-          <div class="col-12 text">{{activeDeviceCount}}<span class="float-right" [ngClass]="{'text-hl-negative': activeDeviceChange > 0, 'text-hl-none' : activeDeviceChange === 0 }">{{activeDeviceChange}}</span></div>
+          <div class="col-12 text">{{activeDeviceCount}}<span class="float-right" [ngClass]="{'text-hl-positive': activeDeviceChange > 0, 'text-hl-none' : activeDeviceChange === 0 }">{{activeDeviceChangeText}}</span></div>
         </div>
       </div>
       <div class="col-sm-3">
@@ -40,11 +40,73 @@
             <fa-icon [icon]='faMobile' size="lg"></fa-icon>
           </div>
           <div class="col-12 title">TOTAL INACTIVE DEVICES<span class="float-right highlight">Change(Month)</span></div>
-          <div class="col-12 text">{{inactiveDeviceCount}}<span class="float-right" [ngClass]="{'text-hl-negative': activeDeviceChange > 0, 'text-hl-none' : activeDeviceChange === 0 }">{{activeDeviceChange}}</span></div>
+          <div class="col-12 text">{{inactiveDeviceCount}}<span class="float-right" [ngClass]="{'text-hl-negative': inactiveDeviceChange > 0, 'text-hl-none' : inactiveDeviceChange === 0 }">{{inactiveDeviceChangeText}}</span></div>
         </div>
       </div>
     </div>
-
+    <div class="row overview-body">
+      <div class="col-sm-4 overview-main">
+        <div class="row">
+          <div class="col-sm-12 top-title">Top Locations</div>
+          <div class="col-sm-12 px-0 py-2 overview-data">
+            <table class="table" style="min-height:50px">
+              <tbody>
+                <tr *ngFor="let location of locations">
+                  <td style="width: 80%;">{{ location.name }}</td>
+                  <td style="width: 20%;">{{location.deviceCount}}</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+      <!-- <div class="col-sm-3 overview-main">
+        <div class="row">
+          <div class="col-sm-12 top-title">Top Brands</div>
+          <div class="col-sm-12 px-0 py-2 overview-data">
+            <table class="table table-striped" style="min-height:50px">
+              <tbody>
+                <tr *ngFor="let brand of brands">
+                  <td style="width: 80%;">{{ brand.name }}</td>
+                  <td style="width: 20%;">{{brand.name}}</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div> -->
+      <div class="col-sm-4 overview-main">
+        <div class="row">
+          <div class="col-sm-12 top-title">Top Models</div>
+          <div class="col-sm-12 px-0 py-2 overview-data">
+            <!-- <table class="table table-striped" style="min-height:50px">
+              <tbody>
+                <tr *ngFor="let model of models">
+                  <td style="width: 80%;">{{ model.name }}</td>
+                  <td style="width: 20%;">{{model.deviceCount}}</td>
+                </tr>
+              </tbody>
+            </table> -->
+            <google-chart [data]="pieChart" *ngIf="isMapReady"></google-chart>
+          </div>
+        </div>
+      </div>
+      <div class="col-sm-4 overview-main">
+        <div class="row">
+          <div class="col-sm-12 top-title">Recent Events</div>
+          <div class="col-sm-12 px-0 py-2 overview-data">
+            <table class="table table-striped" style="min-height:50px">
+              <tbody>
+                <tr *ngFor="let event of events">
+                  <td style="width: 80%;">{{ event.name }}</td>
+                  <td style="width: 20%;">{{ event.name }}</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
     <!-- <div class="row db-map">
       <div class="col-sm-7">
         <div class="row">

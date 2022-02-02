@@ -1,0 +1,60 @@
+@import "../../../assets/sass/variables";
+
+.highlights-label {
+  height: 20px;
+  font-family: $font-family-light;
+  font-size: $font-size-xs;
+  color: $gray-medium;
+}
+
+.device-details {
+  border: 1px solid $input-border-color;
+  background-color: $form-color;
+  border-radius: 2px;
+  min-height: 490px;
+  margin: 20px 0px;
+  padding: 20px;
+}
+
+.device-details .dashboard-item {
+  border: 1px solid $input-border-color;
+  background-color: $white;
+  border-radius: 2px;
+  min-height: 375px;
+  margin: 0px;
+  padding: 0px;
+  //font-size: $font-size-md;
+}
+
+.device-details .dashboard-item .image-sec {
+  border-right: 1px solid $input-border-color;
+}
+
+.address {
+  font-size: $font-size-xs;
+}
+
+.application {
+  font-size: $font-size-sm;
+}
+
+.tab-content {
+  border: 1px solid $body-border-color;
+  background-color: $body-color;
+  border-radius: 2px;
+  padding: 20px;
+  min-height: 400px;
+}
+
+// :host {
+//   color: gray;
+// }
+
+// :host ::ng-deep a.nav-link {
+//   color: $gray-medium;
+// }
+
+// :host ::ng-deep a.nav-link.active {
+//   color: $az-blue-primary;
+//   font-weight: bold;
+// }

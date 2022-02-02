@@ -47,13 +47,13 @@ export class DeviceBrandComponent extends BaseComponent {
       .pipe(first())
       .subscribe(
         (resp: ApiResponse) => {
-          console.log('Brand Response', resp);
+          console.log('Device Brand Response', resp);
           this.brands = resp.message;
           this.brandCount = this.brands.length;
           this.spinner.hide();
         },
         error => {
-          console.log('Location Response', error);
+          console.log('Device Brand Response', error);
           this.spinner.hide();
         });
   }

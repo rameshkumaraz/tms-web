@@ -17,7 +17,8 @@ export class ApplicationService extends BaseService {
     const apiUrl = AppSettings.API_CONTEXT + AppSettings.ENDPOINTS.app.endpoint +
       '/' + AppSettings.ENDPOINTS.app.path.merchant +
       '/' + id;
-    console.log(apiUrl);
+    // console.log(apiUrl);
     return this.getByCustomUrl(apiUrl);
   }
+
 }

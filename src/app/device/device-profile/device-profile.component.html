@@ -1,10 +1,126 @@
 <div class="main">
-    <div class="container-fluid">
-      <div class="row page-header">
-        <div class="col-sm-3 title"><img src="../../../assets/images/merchant.svg" />
-          <span class="pl-2">{{ pageHeader }}</span>
-        </div>
-        <div class="col-sm-9  tools text-right">
-          
-        </div>
+  <div class="container-fluid">
+    <div class="row page-header">
+      <div class="col-sm-3 title">
+        <fa-icon [icon]='faMobile'></fa-icon>
+        <span class="pl-2">{{ pageHeader }}</span>
+      </div>
+      <div class="col-sm-9  tools text-right">
+
+      </div>
+    </div>
+    <div class="row highlights-label">
+      <div class="col-sm-2">Device Name</div>
+      <div class="col-sm-1">Serial #</div>
+      <div class="col-sm-1">Modal</div>
+      <div class="col-sm-8">Status</div>
+    </div>
+    <div class="row">
+      <div class="col-sm-2">D1</div>
+      <div class="col-sm-1">12345678</div>
+      <div class="col-sm-1">X990</div>
+      <div class="col-sm-1">Active</div>
+    </div>
+    <div class="row device-details">
+      <ngb-tabset #t="ngbTabset" style="width: 100%;">
+        <ngb-tab id="tab-dashboard" title="Dashboard">
+          <ng-template ngbTabContent>
+            <div class="tab-content">
+              <div class="row">
+                <div class="col-sm-8">
+                  <div class="row dashboard-item">
+                    <div class="col-sm-4 image-sec">
+
+                    </div>
+                    <div class="col-sm-8">
+                      <div class="row pt-4 pb-2 px-4">
+                        <div class="col-sm-12 highlights-label">Location</div>
+                      </div>
+                      <div class="row px-4">
+                        <div class="col-sm-12 address">Level 11, Prestige Khoday Center, No 5 Rajbhavan Road, Bangalore – 560001, Karnataka, INDIA</div>
+                      </div>
+                      <hr/>
+                      <div class="row pb-2 px-4">
+                        <div class="col-sm-4 highlights-label">Device Status</div>
+                        <div class="col-sm-4 highlights-label">Device Health</div>
+                        <div class="col-sm-4 highlights-label">Software Status</div>
+                      </div>
+                      <div class="row py-2 px-4">
+                        <div class="col-sm-4">N/A</div>
+                        <div class="col-sm-4">N/A</div>
+                        <div class="col-sm-4">N/A</div>
+                      </div>
+                      <div class="row py2 px-4">
+                        <div class="col-sm-4 highlights-label">Device Version</div>
+                        <div class="col-sm-4 highlights-label">Baseline Version</div>
+                      </div>
+                      <div class="row px-4">
+                        <div class="col-sm-4">N/A</div>
+                        <div class="col-sm-4">N/A</div>
+                      </div>
+                      <hr/>
+                      <div class="row pb-2 px-4">
+                        <div class="col-sm-6 highlights-label">Battery Level</div>
+                        <div class="col-sm-6 highlights-label">RAM Level</div>
+                      </div>
+                      <div class="row px-4">
+                        <div class="col-sm-6">100%</div>
+                        <div class="col-sm-6">70%</div>
+                      </div>
+                      <div class="row pt-3 px-4">
+                        <div class="col-sm-6"><ngb-progressbar type="success" [value]="100" height="20px"></ngb-progressbar></div>
+                        <div class="col-sm-6"><ngb-progressbar type="success" [value]="70" height="20px"></ngb-progressbar></div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <!-- <div class="col-sm-5 pl-0">
+                  <div class="dashboard-item">
+                  </div>
+                </div> -->
+                <div class="col-sm-4 pl-0">
+                  <div class="dashboard-item px-3">
+                    <div class="row pt-4 pb-2 px-4">
+                      <div class="col-sm-12 highlights-label">Timeline</div>
+                    </div>
+                    <div class="row px-4">
+                      <div class="col-sm-12">(UTC-08:00) Pacific Time (US&Canada)</div>
+                    </div>
+                    <hr/>
+                    <div class="row px-4">
+                      <div class="col-sm-12">Applications</div>
+                    </div>
+                    <div class="row py-2 px-4">
+                      <div class="col-sm-4 highlights-label">Name</div>
+                      <div class="col-sm-4 highlights-label">Version</div>
+                      <div class="col-sm-4 highlights-label">Updated Date</div>
+                    </div>
+                    <div class="row px-4">
+                      <div class="col-sm-4 application">N/A</div>
+                      <div class="col-sm-4 application">N/A</div>
+                      <div class="col-sm-4 application">N/A</div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </ng-template>
+        </ngb-tab>
+        <ngb-tab id="tab-details" title="Details">
+          <ng-template ngbTabContent>
+            <div class="tab-content">
+              Raw denim you probably haven't heard of them jean shorts Austin. Nesciunt tofu stumptown aliqua, retro synth master cleanse. Mustache cliche tempor, williamsburg carles vegan helvetica. Reprehenderit butcher retro keffiyeh dreamcatcher synth. Cosby sweater eu banh mi, qui irure terry richardson ex squid. Aliquip placeat salvia cillum iphone. Seitan aliquip quis cardigan american apparel, butcher voluptate nisi qui.
+            </div>
+          </ng-template>
+        </ngb-tab>
+        <ngb-tab id="tab-events" title="Events">
+          <ng-template ngbTabContent>
+            <div class="tab-content">
+
+            </div>
+          </ng-template>
+        </ngb-tab>
+      </ngb-tabset>
+    </div>
   </div>
+</div>

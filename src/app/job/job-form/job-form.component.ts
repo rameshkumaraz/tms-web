@@ -353,9 +353,9 @@ export class JobFormComponent extends BaseComponent {
       // this.f.device.setValue(this.devices[0].id);
     },
       err => {
-        console.log('Unable to load brand, please contact adminstrator', err);
+        console.log('Unable to load devices, please contact adminstrator', err);
         // this.errMsg = err.message;
-        this.toastr.error('Unable to load brand, please contact adminstrator', "Device Model");
+        this.toastr.error('Unable to load devices, please contact adminstrator', "Device");
         this.spinner.hide();
       });
   }

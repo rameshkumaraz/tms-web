@@ -40,7 +40,7 @@
             <fa-icon [icon]='faMobile' size="lg"></fa-icon>
           </div>
           <div class="col-12 title">TOTAL ACTIVE DEVICES<span class="float-right highlight">Change(Month)</span></div>
-          <div class="col-12 text">{{activeDeviceCount}}<span class="float-right" [ngClass]="{'text-hl-negative': activeDeviceChange > 0, 'text-hl-none' : activeDeviceChange === 0 }">{{activeDeviceChange}}</span></div>
+          <div class="col-12 text">{{activeDeviceCount}}<span class="float-right" [ngClass]="{'text-hl-positive': activeDeviceChange > 0, 'text-hl-none' : activeDeviceChange === 0 }">{{activeDeviceChangeText}}</span></div>
         </div>
       </div>
     </div>
@@ -70,9 +70,9 @@
         <div class="row">
           <div class="col-sm-12">
             <div class="row">
-              <div class="col-sm-12 top-title">Top 10 Merchants</div>
-              <div class="col-sm-12 px-0 py-2">
-                <table class="table table-striped" style="min-height:50px">
+              <div class="col-sm-12 top-title">Top Merchants</div>
+              <div class="col-sm-12 px-0 py-2 top-merchants">
+                <table class="table table-striped">
                   <thead>
                     <tr>
                       <th scope="col" style="width: 60%;">Merchant</th>

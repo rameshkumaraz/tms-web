@@ -1,6 +1,68 @@
-{
+[{
   "type": "multi-step",
-  "steps": [{
+  "steps": [
+    {
+      "name": "application",
+      "display_name": "Application",
+      "fields": {
+        "rows": [{
+          "cols": [{
+              "name": "app",
+              "label": "Application",
+              "desc": "Application Name / Application Id",
+              "type": "app",
+              "val": "",
+              "validation": {
+                "min": 4,
+                "max": 100,
+                "mandatory": true,
+                "type": "string"
+              },
+              "editable": true,
+              "width": "100%"
+            }
+          ]
+        }]
+      }
+    },
+    {
+      "name": "device",
+      "display_name": "Device",
+      "fields": {
+        "rows": [{
+          "cols": [{
+              "name": "device_name",
+              "label": "Device Name",
+              "desc": "Device Name / Device Id",
+              "type": "device",
+              "val": "",
+              "validation": {
+                "min": 4,
+                "max": 100,
+                "mandatory": true,
+                "type": "string"
+              },
+              "editable": true,
+              "width": "100%"
+            },
+            {
+              "name": "install_date",
+              "label": "Installed Date",
+              "desc": "Date when the device installation is done",
+              "type": "date",
+              "val": "",
+              "validation": {
+                "mandatory": true,
+                "type": "date"
+              },
+              "editable": true,
+              "width": "100%"
+            }
+          ]
+        }]
+      }
+    },
+    {
       "name": "merchant",
       "display_name": "Merchant",
       "fields": {
@@ -8,7 +70,7 @@
             "cols": [{
               "name": "merchant_name",
               "label": "Merchant Name",
-              "desc": "description about this field, should be displayed on popup on clicking info icon",
+              "desc": "Merchant Name",
               "type": "text",
               "val": "",
               "validation": {
@@ -25,7 +87,7 @@
             "cols": [{
                 "name": "access_pin",
                 "label": "Access PIN",
-                "desc": "description about this field, should be displayed on popup on clicking info icon",
+                "desc": "Access PIN to manage the settings",
                 "type": "text",
                 "val": "",
                 "validation": {
@@ -40,7 +102,7 @@
               {
                 "name": "login_pin",
                 "label": "Login PIN",
-                "desc": "description about this field, should be displayed on popup on clicking info icon",
+                "desc": "Login PIN to get into the application",
                 "type": "text",
                 "val": "",
                 "validation": {
@@ -58,7 +120,7 @@
             "cols": [{
                 "name": "primary_ip",
                 "label": "Primary IP",
-                "desc": "description about this field, should be displayed on popup on clicking info icon",
+                "desc": "Primary Switch IP",
                 "type": "text",
                 "val": "",
                 "validation": {
@@ -73,7 +135,7 @@
               {
                 "name": "primary_port",
                 "label": "Primary Port",
-                "desc": "description about this field, should be displayed on popup on clicking info icon",
+                "desc": "Primary Switch Port",
                 "type": "text",
                 "val": "",
                 "validation": {
@@ -91,7 +153,7 @@
             "cols": [{
                 "name": "secondary_ip",
                 "label": "Secondary IP",
-                "desc": "description about this field, should be displayed on popup on clicking info icon",
+                "desc": "Secondary Switch IP",
                 "type": "text",
                 "val": "",
                 "validation": {
@@ -106,7 +168,7 @@
               {
                 "name": "secondary_port",
                 "label": "Secondary Port",
-                "desc": "description about this field, should be displayed on popup on clicking info icon",
+                "desc": "Secondary Switch Port",
                 "type": "text",
                 "val": "",
                 "validation": {
@@ -124,7 +186,7 @@
             "cols": [{
               "name": "address",
               "label": "Address",
-              "desc": "description about this field, should be displayed on popup on clicking info icon",
+              "desc": "Merchant / Divice location address",
               "type": "textarea",
               "val": "",
               "rows": 3,
@@ -143,7 +205,7 @@
             "cols": [{
                 "name": "phone",
                 "label": "Phone",
-                "desc": "description about this field, should be displayed on popup on clicking info icon",
+                "desc": "Phone",
                 "type": "text",
                 "val": "",
                 "validation": {
@@ -156,7 +218,7 @@
               {
                 "name": "email",
                 "label": "E-Mail",
-                "desc": "description about this field, should be displayed on popup on clicking info icon",
+                "desc": "E-Mail",
                 "type": "email",
                 "val": "",
                 "validation": {
@@ -169,44 +231,6 @@
             ]
           }
         ]
-      }
-    },
-    {
-      "name": "terminal",
-      "display_name": "Terminal",
-      "fields": {
-
-        "rows": [{
-          "cols": [{
-              "name": "terminal_id",
-              "label": "Terminal Id",
-              "desc": "description about this field, should be displayed on popup on clicking info icon",
-              "type": "text",
-              "val": "",
-              "validation": {
-                "min": 4,
-                "max": 100,
-                "mandatory": true,
-                "type": "string"
-              },
-              "editable": true,
-              "width": "100%"
-            },
-            {
-              "name": "install_date",
-              "label": "Installed Date",
-              "desc": "description about this field, should be displayed on popup on clicking info icon",
-              "type": "date",
-              "val": "",
-              "validation": {
-                "mandatory": true,
-                "type": "date"
-              },
-              "editable": true,
-              "width": "100%"
-            }
-          ]
-        }]
       }
     },
     {
@@ -340,7 +364,7 @@
                 "editable": true,
                 "width": "50%"
               }
-              
+
             ]
           },
           {
@@ -368,4 +392,4 @@
       }
     }
   ]
-}
+}]

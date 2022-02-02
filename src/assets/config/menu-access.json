@@ -1,4 +1,6 @@
 {
+  "home": false,
+  "mhome": false,
   "merchant": false,
   "location": false,
   "device": false,

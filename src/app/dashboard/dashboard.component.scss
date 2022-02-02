@@ -104,7 +104,7 @@
     font-size: $font-size-md;
     font-weight: $font-weight-bold;
     line-height: 38px;
-    color: $green;
+    color: $danger;
 }
 
 .db-card .text-hl-none{
@@ -144,11 +144,50 @@
     border-color: $input-border-color;
 }
 
+.top-merchants{
+    min-height: 458px;
+    background-color: $white;
+    overflow-y: scroll;
+}
+
+.table td {
+    font-size: $font-size-xs;
+    color: $gray;
+    background-color: $white;
+    font-family: $font-family-base;
+    // border: 1px solid $az-font-color;
+    }
+
+.table tr td:first-child {
+  border-left: 1px solid $white;
+}
+
+.table tr td:last-child {
+  border-right: 1px solid $white;
+}
+
+.table tbody tr {
+  border: 1px solid $white;
+  box-shadow: 2px 2px 3px $white;
+  -webkit-box-shadow: 2px 2px 3px $white;
+  -moz-box-shadow: 2px 2px 3px $white;
+}
+
 .table th, .table td{
     padding-top: 3px !important;
     padding-bottom: 3px !important;
     background-color: $white;
     border: 0px;
+}
+
+.deviceCount {
+    border-radius: 50%;
+    width: 36px;
+    height: 36px;
+    padding: 8px;
+    background: $form-color;
+    color: $az-font-color;
+    text-align: center;
 }
 
 // .table th{

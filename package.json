@@ -1,11 +1,13 @@
 {
-  "name": "az-pay-configurator",
+  "name": "azpay_cc",
   "version": "0.0.0",
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
     "build": "ng build",
-    "test": "ng test",
+    "build-prod": "ng build --configuration=production",
+    "build-test": "ng build --configuration=test",
+    "build-dev": "ng build --configuration=dev",
     "lint": "ng lint",
     "e2e": "ng e2e"
   },

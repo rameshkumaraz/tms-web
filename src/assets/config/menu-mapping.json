@@ -1,6 +1,7 @@
 {
   "admin-menu": {
     "level-1": {
+      "home": ["ALL", "AZ_ADMIN_DASHBOARD"],
       "merchant": ["MERCHANT_ALL", "MERCHANT_VIEW", "MERCHANT_ADD", "MERCHANT_UPDATE", "MERCHANT_DELETE"],
       "report": [],
       "admin": [
@@ -19,6 +20,7 @@
   },
   "merchant-menu": {
     "level-1": {
+      "home": ["MERCHANT_DASHBOARD"],
       "location": ["LOCATION_ALL", "LOCATION_VIEW", "LOCATION_ADD", "LOCATION_UPDATE", "LOCATION_DELETE"],
       "device": ["DEVICE_ALL", "DEVICE_VIEW", "DEVICE_ADD", "DEVICE_UPDATE", "DEVICE_DELETE",
         "DEVICE_PARAM_ALL", "DEVICE_PARAM_VIEW", "DEVICE_PARAM_ADD", "DEVICE_PARAM_UPDATE", "DEVICE_PARAM_DELETE",

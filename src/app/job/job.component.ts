@@ -56,6 +56,7 @@ export class JobComponent extends BaseComponent  {
   }
 
   onPageLoad() {
+    this.spinner.show();
     this.service.getByMerchant(this.merchant.id)
       .pipe(first())
       .subscribe(
@@ -67,6 +68,7 @@ export class JobComponent extends BaseComponent  {
         },
         error => {
           console.log('Jobs Response', error);
+          this.spinner.hide();
         });
   }
 

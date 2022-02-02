@@ -9,14 +9,15 @@
     </div>
     <div class="collapse navbar-collapse" id="myNavbar">
       <ul class="navbar-nav mr-auto">
-        <li class="nav-item nav-mi" *ngIf="hasMenuAccess('mdb')">
-          <a class="nav-link" routerLink="/db"><span class="pr-1"><fa-icon [icon]='faHome' size="md"></fa-icon></span>Home</a>
+        <li class="nav-item nav-mi" *ngIf="hasMenuAccess('home')">
+          <a class="nav-link" routerLink="/db" *ngIf="isAdmin()"><span class="pr-1"><fa-icon [icon]='faHome' size="md"></fa-icon></span>Home</a>
+          <a class="nav-link" routerLink="/mdb" *ngIf="!isAdmin()"><span class="pr-1"><fa-icon [icon]='faHome' size="md"></fa-icon></span>Home</a>
         </li>
         <li class="nav-item nav-mi" *ngIf="hasMenuAccess('mdb')">
           <a class="nav-link" routerLink="/mdb"><span class="pr-1"><fa-icon [icon]='faDashboard' size="md"></fa-icon></span>Dashboard</a>
         </li>
         <li class="nav-item nav-mi" *ngIf="hasMenuAccess('merchant')">
-          <a class="nav-link" routerLink="/merchant"><span class="pr-1"><fa-icon [icon]='faMerchant' size="md"></fa-icon></span>Merchants</a>
+          <a class="nav-link" routerLink="/merchant"><span class="pr-1"><fa-icon [icon]='faMerchant' size="md"></fa-icon></span>Merchant</a>
         </li>
         <li class="nav-item nav-mi" *ngIf="hasMenuAccess('location')">
           <a class="nav-link" routerLink="/location"><span class="pr-1"><fa-icon [icon]='faMap' size="md"></fa-icon></span>Location</a>
@@ -39,11 +40,11 @@
             </span>
           </div>
           <div ngbDropdownMenu aria-labelledby="reportDropdown" class="nav-sm">
-            <a ngbDropdownItem class="nav-smi" routerLink="#">Alerts</a>
-            <a ngbDropdownItem class="nav-smi" routerLink="#">Devices</a>
-            <a ngbDropdownItem class="nav-smi" routerLink="#">Downloads</a>
-            <a ngbDropdownItem class="nav-smi" routerLink="#">Merchants</a>
-            <a ngbDropdownItem class="nav-smi" routerLink="#">Users</a>
+            <a ngbDropdownItem class="nav-smi" routerLink="#">Alert</a>
+            <a ngbDropdownItem class="nav-smi" routerLink="#">Device</a>
+            <a ngbDropdownItem class="nav-smi" routerLink="#">Download</a>
+            <a ngbDropdownItem class="nav-smi" routerLink="#">Merchant</a>
+            <a ngbDropdownItem class="nav-smi" routerLink="#">User</a>
           </div>
         </li>
         <li ngbDropdown class="nav-item nav-mi" *ngIf="hasMenuAccess('admin')">
@@ -56,11 +57,11 @@
             <a ngbDropdownItem class="nav-smi" routerLink="/dbrand" *ngIf="hasMenuAccess('device-brand')">Device Brand</a>
             <a ngbDropdownItem class="nav-smi" routerLink="/dmodel" *ngIf="hasMenuAccess('device-model')">Device Model</a>
             <a ngbDropdownItem class="nav-smi" routerLink="/app" *ngIf="hasMenuAccess('app')">Application</a>
-            <a ngbDropdownItem class="nav-smi" routerLink="/library" *ngIf="hasMenuAccess('library')">Application Bundle</a>
+            <a ngbDropdownItem class="nav-smi" routerLink="/library" *ngIf="hasMenuAccess('library')">Application Version</a>
             <a ngbDropdownItem class="nav-smi" routerLink="/param" *ngIf="hasMenuAccess('app-param')">Application Parameter</a>
-            <a ngbDropdownItem class="nav-smi" routerLink="/au" *ngIf="hasMenuAccess('admin-user')">Admin Users</a>
-            <a ngbDropdownItem class="nav-smi" routerLink="/user" *ngIf="hasMenuAccess('user')">Users</a>
-            <a ngbDropdownItem class="nav-smi" routerLink="/role" *ngIf="hasMenuAccess('role')">Roles</a>
+            <a ngbDropdownItem class="nav-smi" routerLink="/au" *ngIf="hasMenuAccess('admin-user')">Admin User</a>
+            <a ngbDropdownItem class="nav-smi" routerLink="/user" *ngIf="hasMenuAccess('user')">User</a>
+            <a ngbDropdownItem class="nav-smi" routerLink="/role" *ngIf="hasMenuAccess('role')">Role</a>
           </div>
         </li>
       </ul>

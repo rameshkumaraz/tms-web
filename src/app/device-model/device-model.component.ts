@@ -53,13 +53,13 @@ export class DeviceModelComponent extends BaseComponent {
       .pipe(first())
       .subscribe(
         (resp: ApiResponse) => {
-          console.log('Brand Response', resp);
+          console.log('Device Model Response', resp);
           this.models = resp.message;
           this.modelCount = this.models.length;
           this.spinner.hide();
         },
         error => {
-          console.log('Location Response', error);
+          console.log('Device Model Response', error);
           this.spinner.hide();
         });
   }

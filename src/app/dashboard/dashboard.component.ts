@@ -44,6 +44,7 @@ export class DashboardComponent extends BaseComponent {
   merchantChangeText: string;
   locationChangeText: string;
   deviceChangeText: string;
+  activeDeviceChangeText: string;
 
 
 
@@ -109,7 +110,7 @@ export class DashboardComponent extends BaseComponent {
           this.merchants = resp.message;
           this.merchantCount = this.merchants.length;
           this.merchants.forEach(m => {
-            console.log("Created date....", m.createdDate);
+            //console.log("Created date....", m.createdDate);
             if (this.checkDate(Date.parse(m.createdDate))) {
               this.merchantChangeCount++;
             }
@@ -119,7 +120,7 @@ export class DashboardComponent extends BaseComponent {
           } else {
             this.merchantChangeText = '' + this.merchantChangeCount;
           }
-          this.spinner.hide();
+          // this.spinner.hide();
         },
         error => {
           this.spinner.hide();
@@ -138,7 +139,7 @@ export class DashboardComponent extends BaseComponent {
           this.locations = resp.message;
           this.locCount = this.locations.length;
           this.locations.forEach(l => {
-            console.log("Created date....", l.createdDate);
+            //console.log("Created date....", l.createdDate);
             if (this.checkDate(Date.parse(l.createdDate))) {
               this.locChangeCount++;
             }
@@ -148,7 +149,7 @@ export class DashboardComponent extends BaseComponent {
           } else {
             this.locationChangeText = '' + this.locChangeCount;
           }
-          this.spinner.hide();
+          // this.spinner.hide();
         },
         error => {
           this.spinner.hide();
@@ -164,22 +165,33 @@ export class DashboardComponent extends BaseComponent {
           this.devices = resp.message;
           this.deviceCount = this.devices.length;
           this.devices.forEach(d => {
-            if (d.status === 1) {
-              this.activeDeviceCount++;
-            } else {
-              if (this.checkDate(Date.parse(d.updatedDate))) {
-                this.activeDeviceChange++;
-              }
-            }
             if (this.checkDate(Date.parse(d.createdDate))) {
               this.deviceChangeCount++;
             }
+            if (d.status === 1) {
+              this.activeDeviceCount++;
+              if (this.checkDate(Date.parse(d.createdDate)) || this.checkDate(Date.parse(d.updatedDate))) {
+                this.activeDeviceChange++;
+              }
+            }
+            // else {
+            //   if (this.checkDate(Date.parse(d.updatedDate))) {
+            //     this.activeDeviceChange++;
+            //   }
+            // }
           });
           if (this.deviceChangeCount > 0) {
             this.deviceChangeText = '+ ' + this.deviceChangeCount;
           } else {
             this.deviceChangeText = '' + this.deviceChangeCount;
           }
+
+          if (this.activeDeviceChange > 0) {
+            this.activeDeviceChangeText = '+ ' + this.activeDeviceChange;
+          } else {
+            this.activeDeviceChangeText = '' + this.activeDeviceChange;
+          }
+
           this.spinner.hide();
         },
         error => {

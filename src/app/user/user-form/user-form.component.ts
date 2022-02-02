@@ -22,7 +22,7 @@ export class UserFormComponent extends BaseComponent {
   @Input() user: any;
   @Input() actionType;
 
-  pageHeader = 'New Brand';
+  pageHeader = 'New User';
   page = 1;
   pageSize = 10;
 

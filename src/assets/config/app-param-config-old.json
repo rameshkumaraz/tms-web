@@ -1,0 +1,371 @@
+[{
+  "type": "multi-step",
+  "steps": [{
+      "name": "merchant",
+      "display_name": "Merchant",
+      "fields": {
+        "rows": [{
+            "cols": [{
+              "name": "merchant_name",
+              "label": "Merchant Name",
+              "desc": "description about this field, should be displayed on popup on clicking info icon",
+              "type": "text",
+              "val": "",
+              "validation": {
+                "min": 5,
+                "max": 50,
+                "mandatory": true,
+                "type": "text"
+              },
+              "editable": true,
+              "width": "60%"
+            }]
+          },
+          {
+            "cols": [{
+                "name": "access_pin",
+                "label": "Access PIN",
+                "desc": "description about this field, should be displayed on popup on clicking info icon",
+                "type": "text",
+                "val": "",
+                "validation": {
+                  "min": 4,
+                  "max": 10,
+                  "mandatory": true,
+                  "type": "number"
+                },
+                "editable": true,
+                "width": "60%"
+              },
+              {
+                "name": "login_pin",
+                "label": "Login PIN",
+                "desc": "description about this field, should be displayed on popup on clicking info icon",
+                "type": "text",
+                "val": "",
+                "validation": {
+                  "min": 4,
+                  "max": 10,
+                  "mandatory": true,
+                  "type": "number"
+                },
+                "editable": true,
+                "width": "60%"
+              }
+            ]
+          },
+          {
+            "cols": [{
+                "name": "primary_ip",
+                "label": "Primary IP",
+                "desc": "description about this field, should be displayed on popup on clicking info icon",
+                "type": "text",
+                "val": "",
+                "validation": {
+                  "min": 8,
+                  "max": 15,
+                  "mandatory": true,
+                  "type": "ip"
+                },
+                "editable": true,
+                "width": "100%"
+              },
+              {
+                "name": "primary_port",
+                "label": "Primary Port",
+                "desc": "description about this field, should be displayed on popup on clicking info icon",
+                "type": "text",
+                "val": "",
+                "validation": {
+                  "min": 4,
+                  "max": 5,
+                  "mandatory": true,
+                  "type": "number"
+                },
+                "editable": true,
+                "width": "60%"
+              }
+            ]
+          },
+          {
+            "cols": [{
+                "name": "secondary_ip",
+                "label": "Secondary IP",
+                "desc": "description about this field, should be displayed on popup on clicking info icon",
+                "type": "text",
+                "val": "",
+                "validation": {
+                  "min": 8,
+                  "max": 15,
+                  "mandatory": true,
+                  "type": "ip"
+                },
+                "editable": true,
+                "width": "100%"
+              },
+              {
+                "name": "secondary_port",
+                "label": "Secondary Port",
+                "desc": "description about this field, should be displayed on popup on clicking info icon",
+                "type": "text",
+                "val": "",
+                "validation": {
+                  "min": 4,
+                  "max": 5,
+                  "mandatory": true,
+                  "type": "number"
+                },
+                "editable": true,
+                "width": "60%"
+              }
+            ]
+          },
+          {
+            "cols": [{
+              "name": "address",
+              "label": "Address",
+              "desc": "description about this field, should be displayed on popup on clicking info icon",
+              "type": "textarea",
+              "val": "",
+              "rows": 3,
+              "cols": 50,
+              "validation": {
+                "min": 50,
+                "max": 250,
+                "mandatory": true,
+                "type": "number"
+              },
+              "editable": true,
+              "width": "100%"
+            }]
+          },
+          {
+            "cols": [{
+                "name": "phone",
+                "label": "Phone",
+                "desc": "description about this field, should be displayed on popup on clicking info icon",
+                "type": "text",
+                "val": "",
+                "validation": {
+                  "mandatory": true,
+                  "type": "phone"
+                },
+                "editable": true,
+                "width": "100%"
+              },
+              {
+                "name": "email",
+                "label": "E-Mail",
+                "desc": "description about this field, should be displayed on popup on clicking info icon",
+                "type": "email",
+                "val": "",
+                "validation": {
+                  "mandatory": true,
+                  "type": "email"
+                },
+                "editable": true,
+                "width": "100%"
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "name": "terminal",
+      "display_name": "Terminal",
+      "fields": {
+
+        "rows": [{
+          "cols": [{
+              "name": "terminal_id",
+              "label": "Terminal Id",
+              "desc": "description about this field, should be displayed on popup on clicking info icon",
+              "type": "text",
+              "val": "",
+              "validation": {
+                "min": 4,
+                "max": 100,
+                "mandatory": true,
+                "type": "string"
+              },
+              "editable": true,
+              "width": "100%"
+            },
+            {
+              "name": "install_date",
+              "label": "Installed Date",
+              "desc": "description about this field, should be displayed on popup on clicking info icon",
+              "type": "date",
+              "val": "",
+              "validation": {
+                "mandatory": true,
+                "type": "date"
+              },
+              "editable": true,
+              "width": "100%"
+            }
+          ]
+        }]
+      }
+    },
+    {
+      "name": "bank",
+      "display_name": "Bank",
+      "fields": {
+        "rows": [{
+            "cols": [{
+                "name": "bank",
+                "label": "Bank",
+                "desc": "description about this field, should be displayed on popup on clicking info icon",
+                "type": "text",
+                "val": "",
+                "validation": {
+                  "mandatory": true,
+                  "min": 4,
+                  "max": 100,
+                  "type": "string"
+                },
+                "editable": false,
+                "width": "100%"
+              },
+              {
+                "name": "b_access_pin",
+                "label": "Access Pin",
+                "desc": "description about this field, should be displayed on popup on clicking info icon",
+                "type": "text",
+                "val": "",
+                "validation": {
+                  "min": 4,
+                  "max": 5,
+                  "mandatory": true,
+                  "type": "number"
+                },
+                "editable": true,
+                "width": "50%"
+              }
+            ]
+          },
+          {
+            "cols": [{
+              "name": "currency",
+              "label": "Currency",
+              "desc": "description about this field, should be displayed on popup on clicking info icon",
+              "type": "currency",
+              "val": "",
+              "validation": {
+                "mandatory": true,
+                "type": "currency"
+              },
+              "editable": true,
+              "width": "100%"
+            }]
+          },
+          {
+            "cols": [{
+                "name": "card_search_timeout",
+                "label": "Card Search Timeout",
+                "desc": "description about this field, should be displayed on popup on clicking info icon",
+                "type": "text",
+                "val": "",
+                "validation": {
+                  "min": 1,
+                  "max": 3,
+                  "mandatory": true,
+                  "type": "number"
+                },
+                "editable": true,
+                "width": "100%"
+              },
+              {
+                "name": "max_search_retry_limit",
+                "label": "Max Search Retry Limit",
+                "desc": "description about this field, should be displayed on popup on clicking info icon",
+                "type": "text",
+                "val": "",
+                "validation": {
+                  "min": 1,
+                  "max": 2,
+                  "mandatory": true,
+                  "type": "number"
+                },
+                "editable": true,
+                "width": "100%"
+              },
+              {
+                "name": "pinpad_timeout",
+                "label": "PinPad Timeout",
+                "desc": "description about this field, should be displayed on popup on clicking info icon",
+                "type": "text",
+                "val": "",
+                "validation": {
+                  "min": 1,
+                  "max": 3,
+                  "mandatory": true,
+                  "type": "number"
+                },
+                "editable": true,
+                "width": "100%"
+              }
+            ]
+          },
+          {
+            "cols": [{
+                "name": "card_entry_min_length",
+                "label": "Card Entry Min. Lenght",
+                "desc": "description about this field, should be displayed on popup on clicking info icon",
+                "type": "text",
+                "val": "",
+                "validation": {
+                  "min": 1,
+                  "max": 2,
+                  "mandatory": true,
+                  "type": "number"
+                },
+                "editable": true,
+                "width": "50%"
+              },
+              {
+                "name": "card_entry_max_length",
+                "label": "Card Entry Max. Lenght",
+                "desc": "description about this field, should be displayed on popup on clicking info icon",
+                "type": "text",
+                "val": "",
+                "validation": {
+                  "min": 1,
+                  "max": 2,
+                  "mandatory": true,
+                  "type": "number"
+                },
+                "editable": true,
+                "width": "50%"
+              }
+              
+            ]
+          },
+          {
+            "cols": [{
+              "name": "debug_mode",
+              "label": "Debug Mode",
+              "type": "radio",
+              "options": [{
+                  "label": "Yes",
+                  "value": 1
+                },
+                {
+                  "label": "No",
+                  "value": 0
+                }
+              ],
+              "validation": {
+                "mandatory": true
+              },
+              "editable": true,
+              "width": "100%"
+            }]
+          }
+        ]
+      }
+    }
+  ]
+}]

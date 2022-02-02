@@ -58,6 +58,8 @@ import { SidebarComponent } from './sidebar/sidebar.component';
 import { DeviceProfileComponent } from './device/device-profile/device-profile.component';
 import { JobDetailComponent } from './job/job-detail/job-detail.component';
 import { AppParamService } from './app-param/app-param.service';
+import { AppParamFormComponent } from './app-param/app-param-form/app-param-form.component';
+import { AppParamImportComponent } from './app-param/app-param-import/app-param-import.component';
 
 @NgModule({
   declarations: [
@@ -102,7 +104,9 @@ import { AppParamService } from './app-param/app-param.service';
     AdminUserFormComponent,
     SidebarComponent,
     DeviceProfileComponent,
-    JobDetailComponent
+    JobDetailComponent,
+    AppParamFormComponent,
+    AppParamImportComponent
   ],
   imports: [
     AppRoutingModule,

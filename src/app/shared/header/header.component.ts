@@ -64,7 +64,7 @@ export class HeaderComponent implements OnInit {
     this.profile = this.authService.getCurrentUser();
 
     this.mSub = this.appService.userMerchant.subscribe(data => {
-      console.log("Merchant data.....", data);
+      // console.log("Merchant data.....", data);
       if (Object.keys(data).length > 0) {
         this.merchant = data;
         this.loadMenuAccess('merchant-menu');
@@ -94,17 +94,22 @@ export class HeaderComponent implements OnInit {
 
       do {
         let mp = mpSource['level-' + (i + 1)][key];
-        // console.log('Action items for ', menu +' : '+mp); 
+        // console.log('Action items for ', key +' : '+mp); 
 
         if (mp) {
-          if (user.roleName == RolesEnum.AZ_ROOT_ADMIN)
-            matching = {};
-          else
+          // if (user.roleName == RolesEnum.AZ_ROOT_ADMIN)
+          //   matching = {};
+          // else
+          // mp.forEach(i => {
+          //   console.log(i+" : "+up.indexOf(i));
+          // });
             matching = mp.filter(item => up.indexOf(item) >= 0);
           break;
         }
         i = i + 1;
       } while (i < 2)
+
+      // console.log("Matching......."+key+" : "+matching);
 
       if (matching)
         menuAccess[key] = true;
@@ -112,7 +117,7 @@ export class HeaderComponent implements OnInit {
         menuAccess[key] = false;
       // console.log(key + ' : ' + menuAccess[key]);
     });
-    console.log('Menu Access......', menuAccess);
+    // console.log('Menu Access......', menuAccess);
   }
 
   // populateAccess() {
@@ -207,6 +212,10 @@ export class HeaderComponent implements OnInit {
     // if (matching)
     //   return true;
     // return false;
+  }
+
+  isAdmin(){
+    return this.authService.isAdmin();
   }
 
   // hasSubMenuAccess(menu: any) {

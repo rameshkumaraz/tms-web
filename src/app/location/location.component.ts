@@ -52,7 +52,7 @@ export class LocationComponent extends BaseComponent {
   }
 
   onPageLoad() {
-    
+    this.spinner.show();
     this.locationService.getByMerchant(this.merchant.id)
       .pipe(first())
       .subscribe(
@@ -64,6 +64,7 @@ export class LocationComponent extends BaseComponent {
         },
         error => {
           console.log('Location Response', error);
+          this.spinner.hide();
         });
   }
 

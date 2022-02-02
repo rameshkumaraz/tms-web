@@ -1,0 +1,30 @@
+@import "../../assets/sass/variables";
+
+.file-button {
+    border: 1px solid $input-border-color;
+    background-color: $form-color;
+    font-size: $font-size-xs !important;
+    font-weight: $font-weight-light;
+    font-family: $font-family-light !important;
+    color: $gray-medium;
+    line-height: 5px;
+    padding: 5px 10px;
+    height: 28px;
+}
+
+.page-select {
+    height: 30px;
+    font-family: $font-family-light;
+    font-size: $font-size-xs;
+    color: $gray-medium;
+    padding-left: 5px;
+    padding-right: 5px;
+    border-color: $header-color;
+    border-radius: 3px;
+  }
+
+  .file-cls{
+    font-size: $font-size-sm;
+    font-weight: $font-weight-lighter;
+    font-family: $font-family-base;
+  }

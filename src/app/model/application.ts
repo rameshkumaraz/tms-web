@@ -11,4 +11,6 @@ export class Application extends BaseModel{
     desc:string;
 
     merchant: number;
+
+    template: string;
 }
