@@ -21,7 +21,8 @@ export class AppSettings {
             'endpoint': 'device',
             'path': {
                 'location': 'l',
-                'merchant': 'm'
+                'merchant': 'm',
+                'details': 'd'
             }
         },
         // 'devicesForLocation': 'device/l',

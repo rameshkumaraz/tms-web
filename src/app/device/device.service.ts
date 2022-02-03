@@ -31,4 +31,12 @@ export class DeviceService extends BaseService {
     return this.getByCustomUrl(apiUrl);
   }
 
+  getDeviceDetails(id: number) {
+    const apiUrl = AppSettings.API_CONTEXT + AppSettings.ENDPOINTS.device.endpoint +
+      '/' + AppSettings.ENDPOINTS.device.path.details +
+      '/' + id;
+    console.log(apiUrl);
+    return this.getByCustomUrl(apiUrl);
+  }
+
 }

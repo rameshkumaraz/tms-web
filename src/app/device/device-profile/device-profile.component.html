@@ -109,7 +109,24 @@
         <ngb-tab id="tab-details" title="Details">
           <ng-template ngbTabContent>
             <div class="tab-content">
-              Raw denim you probably haven't heard of them jean shorts Austin. Nesciunt tofu stumptown aliqua, retro synth master cleanse. Mustache cliche tempor, williamsburg carles vegan helvetica. Reprehenderit butcher retro keffiyeh dreamcatcher synth. Cosby sweater eu banh mi, qui irure terry richardson ex squid. Aliquip placeat salvia cillum iphone. Seitan aliquip quis cardigan american apparel, butcher voluptate nisi qui.
+              <table class="table table-striped">
+                <thead>
+                  <tr>
+                    <th scope="col" style="width: 20%;">Name</th>
+                    <th scope="col" style="width: 50%;">Value</th>
+                    <th scope="col" style="width: 20%;">Last Update By</th>
+                    <th scope="col" style="width: 20%;">Last Update On</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let dd of deviceDetails">
+                    <td>{{ dd.key }}</td>
+                    <td>{{ dd.value }}</td>
+                    <td>{{ dd.lastUpdatedBy }}</td>
+                    <td>{{ dd.updatedDate | date: 'dd/MM/yyyy HH:mm'}}</td>
+                  </tr>
+                </tbody>
+              </table>
             </div>
           </ng-template>
         </ngb-tab>
