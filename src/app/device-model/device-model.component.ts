@@ -21,7 +21,7 @@ export class DeviceModelComponent extends BaseComponent {
 
   pageHeader: string;
   page = 1;
-  pageSize = 5;
+  pageSize = 10;
 
   brands: Array<any>;
 

@@ -60,6 +60,7 @@ import { JobDetailComponent } from './job/job-detail/job-detail.component';
 import { AppParamService } from './app-param/app-param.service';
 import { AppParamFormComponent } from './app-param/app-param-form/app-param-form.component';
 import { AppParamImportComponent } from './app-param/app-param-import/app-param-import.component';
+import { PositivePipe } from './utils/pipes/positive.pope';
 
 @NgModule({
   declarations: [
@@ -106,7 +107,8 @@ import { AppParamImportComponent } from './app-param/app-param-import/app-param-
     DeviceProfileComponent,
     JobDetailComponent,
     AppParamFormComponent,
-    AppParamImportComponent
+    AppParamImportComponent,
+    PositivePipe
   ],
   imports: [
     AppRoutingModule,

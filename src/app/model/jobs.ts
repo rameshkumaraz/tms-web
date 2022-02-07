@@ -18,7 +18,7 @@ export class Job extends BaseModel{
     
     library: number;
 
-    location: number;
+    location: Array<number>;
 
-    device: number;
+    device: Array<number>;
 }

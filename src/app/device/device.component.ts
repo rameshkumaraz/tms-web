@@ -14,6 +14,7 @@ import { ToastrService } from 'ngx-toastr';
 import { ModalDismissReasons, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { Device } from '../model/device';
 import { BaseComponent } from '../shared/core/base.component';
+import { FormBuilder, FormGroup } from '@angular/forms';
 
 @Component({
   selector: 'app-device',
@@ -46,6 +47,7 @@ export class DeviceComponent extends BaseComponent {
   constructor(private appService: AppService,
     private dService: DeviceService,
     private locationService: LocationService,
+    private formBuilder: FormBuilder,
     private spinner: NgxSpinnerService,
     private modal: NgbModal,
     private toastr: ToastrService,
@@ -61,11 +63,21 @@ export class DeviceComponent extends BaseComponent {
     //   this.locId = params.get('locId');
     // });
 
+    this.inFilterMode = false;
+
     this.mSub = this.appService.userMerchant.subscribe(data => {
       if (Object.keys(data).length > 0) {
         this.merchant = data;
         this.onPageLoad();
       }
+    });
+
+    this.searchForm = this.formBuilder.group({
+      name: [''],
+      serial: [''],
+      model: [''],
+      location: [''],
+      status: ['']
     });
   }
 
@@ -142,6 +154,35 @@ export class DeviceComponent extends BaseComponent {
         console.log('Device model delete error....', err);
         this.toastr.success('Unable to delete device, please contact adminstrator', 'Device');
       });
+  }
+
+  get f() { return this.searchForm['controls'] }
+
+  searchDevices() {
+    console.log('Filter', this.searchForm.value);
+    let filter = this.searchForm.value;
+    filter.merchant = this.merchant.id;
+    if (this.f.name.value || this.f.serial.value || this.f.model.value || this.f.location.value  || this.f.status.value) {
+      this.dService.searchDevices(filter).pipe(first())
+        .subscribe(
+          (resp: ApiResponse) => {
+            console.log('Filtered Merchant Response', resp);
+            this.devices = resp.message;
+            this.deviceCount = this.devices.length;
+            this.inFilterMode = true;
+            this.spinner.hide();
+          },
+          error => {
+            this.spinner.hide();
+          });
+    }
+  }
+
+  clearSearchResult() {
+    this.searchForm.reset();
+    this.f.status.setValue("");
+    this.inFilterMode = false;
+    this.onPageLoad();
   }
 
   showProfile(id: number){

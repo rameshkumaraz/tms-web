@@ -34,7 +34,7 @@ body {
   min-height: 50px;
   padding-top: 20px;
   padding-bottom: 20px;
-  line-height: 50px;
+  // line-height: 50px;
   margin: 0px;
   letter-spacing: 2px;
 }
@@ -44,6 +44,7 @@ body {
   font-weight: $font-weight-normal;
   font-family: $font-family-medium;
   padding: 0px;
+  color: $header-color;
 }
 
 .page-title {
@@ -356,7 +357,7 @@ font-size: $font-size-xs;
 font-family: $font-family-bold;
 padding-top: 0;
 min-height: 30px;
-line-height: 30px;
+// line-height: 30px;
 background-color: #ebebeb;
 border: none;
 }
@@ -457,4 +458,35 @@ border-radius: 3px !important;
   line-height: 30px;
   color: $gray-medium !important;
   letter-spacing: 0px;
+}
+
+.status-active{
+  color: $success;
+}
+
+.status-inactive{
+  color: $warning;
+}
+
+.status-deleted{
+  color: $danger;
+}
+
+th, td {
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  max-width: 100px;
+}
+
+.breadcrumb{
+  font-family: $font-family-light;
+  font-size: $font-size-xs;
+  font-weight: $font-weight-bolder;
+  background-color: $body-color;
+  padding-bottom: 10px !important;
+}
+
+.breadcrumb a{
+  text-decoration: underline;
 }

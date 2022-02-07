@@ -9,6 +9,7 @@ import { ActionEnum } from '../shared/enum/action.enum';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ToastrService } from 'ngx-toastr';
 import { BaseComponent } from '../shared/core/base.component';
+import { FormBuilder, FormGroup } from '@angular/forms';
 
 @Component({
   selector: 'app-location',
@@ -34,6 +35,7 @@ export class LocationComponent extends BaseComponent {
 
   constructor(private locationService: LocationService,
     private appService: AppService,
+    private formBuilder: FormBuilder,
     private spinner: NgxSpinnerService,
     private modal: NgbModal,
     private toastr: ToastrService) {
@@ -42,12 +44,20 @@ export class LocationComponent extends BaseComponent {
 
   ngOnInit(): void {
     this.pageHeader = 'Location';
+
+    this.inFilterMode = false;
+
     this.mSub = this.appService.userMerchant.subscribe(data => {
       console.log('Merchant.....', data.id+':'+Object.keys(data).length);
       if(Object.keys(data).length > 0) {
         this.merchant = data;
         this.onPageLoad();
       }
+    });
+
+    this.searchForm = this.formBuilder.group({
+      name: [''],
+      status: ['']
     });
   }
 
@@ -60,6 +70,7 @@ export class LocationComponent extends BaseComponent {
           console.log('Location Response', resp);
           this.locations = resp.message;
           this.locationCount = this.locations.length;
+          this.inFilterMode = false;
           this.spinner.hide();
         },
         error => {
@@ -99,6 +110,33 @@ export class LocationComponent extends BaseComponent {
       console.log('Location delete error....', err);
       this.toastr.error('Unable to delete location, please contact administrator.','Location');
     });
+  }
+
+  get f() { return this.searchForm['controls'] }
+
+  searchLocations() {
+    let filter = this.searchForm.value;
+    filter.merchant = this.merchant.id;
+    if (this.f.name.value || this.f.status.value) {
+      this.locationService.searchLocations(filter).pipe(first())
+        .subscribe(
+          (resp: ApiResponse) => {
+            console.log('Filtered Merchant Response', resp);
+            this.locations = resp.message;
+            this.locationCount = this.locations.length;
+            this.inFilterMode = true;
+            this.spinner.hide();
+          },
+          error => {
+            this.spinner.hide();
+          });
+    }
+  }
+
+  clearSearchResult() {
+    this.searchForm.reset();
+    this.f.status.setValue("");
+    this.onPageLoad();
   }
 
   ngOnDestroy(): void {

@@ -36,12 +36,6 @@ export class MerchantComponent extends BaseComponent {
 
   countries = countries;
 
-  statusKeys: Array<any>;
-
-  inFilterMode: boolean;
-
-  searchForm: FormGroup;
-
   constructor(private merchantService: MerchantService,
     private appService: AppService,
     private formBuilder: FormBuilder,

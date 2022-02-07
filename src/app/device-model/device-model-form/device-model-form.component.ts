@@ -49,6 +49,8 @@ export class DeviceModelFormComponent extends BaseComponent {
       name: ['', [Validators.required, Validators.minLength(2), Validators.max(200)]],
       modelVersion: ['', [Validators.required, Validators.minLength(1), Validators.max(10)]],
       baseVersion: ['', [Validators.required, Validators.minLength(1), Validators.max(10)]],
+      modelImage: [''],
+      modelImageName: ['', Validators.required],
       desc: ['']
     });
 
@@ -89,8 +91,10 @@ export class DeviceModelFormComponent extends BaseComponent {
     this.modelForm.setValue({
       brand: this.model.brand.id,
       name: this.model.name,
+      modelImage: this.model.modelImageName,
       modelVersion: this.model.modelVersion,
       baseVersion: this.model.baseVersion,
+      modelImageName: this.model.modelImageName,
       desc: this.model.desc,
     });
   }
@@ -110,6 +114,18 @@ export class DeviceModelFormComponent extends BaseComponent {
 
   get f() { return this.modelForm['controls'] }
 
+  onFileChange(event) {
+
+    if (event.target.files.length > 0) {
+      const file = event.target.files[0];
+      this.modelForm.patchValue({
+        modelImage: file,
+        modelImageName: file.name
+      });
+    }
+    // console.log("File name", this.f.bundleName.value);
+  }
+
   save() {
     console.log('nextTab');
     this.formSubmitted = true;
@@ -119,9 +135,16 @@ export class DeviceModelFormComponent extends BaseComponent {
       return;
     }
     this.spinner.show();
-    this.model = <DeviceModel>this.modelForm.value;
 
-    this.service.create(this.model).subscribe((resp: ApiResponse) => {
+    const formData = this.getFormData();
+
+    formData.forEach(f => {
+      console.log('Form Data....', f);
+    });
+
+    // this.model = <DeviceModel>this.modelForm.value;
+
+    this.service.createModel(formData).subscribe((resp: ApiResponse) => {
       this.spinner.hide();
       this.toastr.success("Model has been created successfully.", "Device Model");
       this.close(true);
@@ -131,6 +154,20 @@ export class DeviceModelFormComponent extends BaseComponent {
         this.toastr.error('Unable to create model, please contact adminstrator', "Device Model");
         this.spinner.hide();
       });
+  }
+
+  getFormData(): FormData {
+    const formData = new FormData();
+    formData.append('modelImage', this.modelForm.get('modelImage').value);
+    formData.append('name', this.modelForm.get('name').value);
+    formData.append('brand', this.modelForm.get('brand').value);
+    formData.append('modelVersion', this.modelForm.get('modelVersion').value);
+    formData.append('baseVersion', this.modelForm.get('baseVersion').value);
+    formData.append('modelImageName', this.modelForm.get('modelImageName').value);
+    formData.append('desc', this.modelForm.get('desc').value);
+
+    console.log('Form data....', formData.get('modelImageName'));
+    return formData;
   }
 
   update() {

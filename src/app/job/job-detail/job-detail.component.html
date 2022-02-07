@@ -1,10 +1,74 @@
 <div class="main">
-    <div class="container-fluid">
-      <div class="row page-header">
-        <div class="col-sm-3 title"><img src="../../../assets/images/merchant.svg" />
-          <span class="pl-2">{{ pageHeader }}</span>
-        </div>
-        <div class="col-sm-9  tools text-right">
-          
-        </div>
+  <div class="container-fluid">
+    <div class="row page-header">
+      <div class="col-sm-3 title"><img src="../../../assets/images/merchant.svg" />
+        <span class="pl-2">{{ pageHeader }}</span>
+      </div>
+      <div class="col-sm-9  tools text-right">
+        <!-- <nav aria-label="breadcrumb" *ngIf="eventLogCount > 0">
+        <ol class="breadcrumb p-0 m-0">
+          <li class="breadcrumb-item"><a href="#">Events</a></li>
+          <li class="breadcrumb-item active" aria-current="page">{{eventLogs[0].job.name}}</li>
+        </ol>
+        </nav> -->
+      </div>
+    </div>
+    <div class="pt-2" *ngIf="eventLogCount > 0">
+      <nav aria-label="breadcrumb">
+        <ol class="breadcrumb p-0 m-0">
+          <li class="breadcrumb-item"><a routerLink="/event">Events</a></li>
+          <li class="breadcrumb-item active" aria-current="page">{{eventLogs[0].job.name}}</li>
+        </ol>
+      </nav>
+      <table class="table table-striped">
+        <thead>
+          <tr>
+            <th scope="col" style="width: 10%;">Device Name</th>
+            <th scope="col" style="width: 15%;">Message Id</th>
+            <th scope="col" style="width: 10%;">Message Type</th>
+            <th scope="col" style="width: 20%;">Details</th>
+            <th scope="col" style="width: 10%;">Status</th>
+            <th scope="col" style="width: 15%;">Error</th>
+            <th scope="col" style="width: 10%;">Request Date</th>
+            <th scope="col" style="width: 10%;">Response Date</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let event of eventLogs | slice: (page-1) * pageSize : (page-1) * pageSize + pageSize">
+            <td><span ngbTooltip="{{ event.device.name }}" tooltipClass="tool-tip">{{ event.device.name }}
+                ({{event.device.serial}})</span></td>
+            <td><span ngbTooltip="{{ event.messageId }}" tooltipClass="tool-tip">{{ event.messageId }}</span></td>
+            <td>{{ event.messageType }}</td>
+            <td>
+              <span ngbTooltip="{{ event.installMsg }}" tooltipClass="tool-tip"
+                *ngIf="event.messageType == jobEnum.APP_INSTALL">{{ event.installMsg }}</span>
+              <span ngbTooltip="{{ event.paramMsg }}" tooltipClass="tool-tip"
+                *ngIf="event.messageType == jobEnum.APP_PARAM_UPDATE">{{ event.paramMsg }}</span>
+              <span ngbTooltip="{{ event.deviceDetails }}" tooltipClass="tool-tip"
+                *ngIf="event.messageType == jobEnum.DEVICE_DETAILS">{{ event.deviceDetails }}</span>
+            </td>
+            <td>
+              <span *ngIf="event.eventStatus == 'SUCCESS'">{{ event.eventStatus }}</span>
+            </td>
+            <td><span ngbTooltip="{{ event.messageId }}" tooltipClass="tool-tip">{{ event.errMsg }}</span></td>
+            <td>{{ event.createdDate }}</td>
+            <td>
+              <span *ngIf="event.eventStatus == 'SUCCESS'">{{ event.updatedDate }}</span>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+
+      <div class="d-flex justify-content-between px-2">
+        <ngb-pagination [collectionSize]="eventLogCount" [(page)]="page" [pageSize]="pageSize">
+        </ngb-pagination>
+
+        <select [(ngModel)]="pageSize">
+          <option [ngValue]="5">5 items per page</option>
+          <option [ngValue]="10">10 items per page</option>
+          <option [ngValue]="25">25 items per page</option>
+        </select>
+      </div>
+    </div>
   </div>
+</div>

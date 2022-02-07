@@ -9,19 +9,31 @@
 
       </div>
     </div>
-    <div class="row highlights-label">
+    <nav aria-label="breadcrumb" *ngIf="isLoaded">
+      <ol class="breadcrumb p-0 m-0">
+        <li class="breadcrumb-item"><a routerLink="/device">Device</a></li>
+        <li class="breadcrumb-item active" aria-current="page">{{device.name}}</li>
+      </ol>
+    </nav>
+    <div class="row highlights-label pt-1">
       <div class="col-sm-2">Device Name</div>
       <div class="col-sm-1">Serial #</div>
+      <div class="col-sm-1">Brand</div>
       <div class="col-sm-1">Modal</div>
-      <div class="col-sm-8">Status</div>
+      <div class="col-sm-7">Status</div>
     </div>
-    <div class="row">
-      <div class="col-sm-2">D1</div>
-      <div class="col-sm-1">12345678</div>
-      <div class="col-sm-1">X990</div>
-      <div class="col-sm-1">Active</div>
+    <div class="row" *ngIf="isLoaded">
+      <div class="col-sm-2">{{device.name}}</div>
+      <div class="col-sm-1">{{device.serial}}</div>
+      <div class="col-sm-1">{{device.model.brand.name}}</div>
+      <div class="col-sm-1">{{device.model.name}}</div>
+      <div class="col-sm-7">
+        <span *ngIf="device.status == statusEnum.ACTIVE" class="status-active">{{deviceStatus}}</span>
+        <span *ngIf="device.status == statusEnum.INACTIVE" class="status-inactive">{{deviceStatus}}</span>
+        <span *ngIf="device.status == statusEnum.DELETED" class="status-deleted">{{deviceStatus}}</span>
+      </div>
     </div>
-    <div class="row device-details">
+    <div class="row device-details" *ngIf="isLoaded">
       <ngb-tabset #t="ngbTabset" style="width: 100%;">
         <ngb-tab id="tab-dashboard" title="Dashboard">
           <ng-template ngbTabContent>
@@ -30,14 +42,14 @@
                 <div class="col-sm-8">
                   <div class="row dashboard-item">
                     <div class="col-sm-4 image-sec">
-
+                      <img src="{{getDeviceImagePath(device.model.modelImageName)}}" width="100%" height="100%">
                     </div>
                     <div class="col-sm-8">
                       <div class="row pt-4 pb-2 px-4">
                         <div class="col-sm-12 highlights-label">Location</div>
                       </div>
                       <div class="row px-4">
-                        <div class="col-sm-12 address">Level 11, Prestige Khoday Center, No 5 Rajbhavan Road, Bangalore – 560001, Karnataka, INDIA</div>
+                        <div class="col-sm-12 address">{{device.location.name}}, {{device.location.address}}</div>
                       </div>
                       <hr/>
                       <div class="row pb-2 px-4">
@@ -108,22 +120,18 @@
         </ngb-tab>
         <ngb-tab id="tab-details" title="Details">
           <ng-template ngbTabContent>
-            <div class="tab-content">
-              <table class="table table-striped">
+            <div class="tab-content px-5 py-3">
+              <table class="table table-striped"  style="width: 80%">
                 <thead>
                   <tr>
                     <th scope="col" style="width: 20%;">Name</th>
                     <th scope="col" style="width: 50%;">Value</th>
-                    <th scope="col" style="width: 20%;">Last Update By</th>
-                    <th scope="col" style="width: 20%;">Last Update On</th>
                   </tr>
                 </thead>
                 <tbody>
-                  <tr *ngFor="let dd of deviceDetails">
+                  <tr *ngFor="let dd of device.details">
                     <td>{{ dd.key }}</td>
                     <td>{{ dd.value }}</td>
-                    <td>{{ dd.lastUpdatedBy }}</td>
-                    <td>{{ dd.updatedDate | date: 'dd/MM/yyyy HH:mm'}}</td>
                   </tr>
                 </tbody>
               </table>
@@ -132,8 +140,64 @@
         </ngb-tab>
         <ngb-tab id="tab-events" title="Events">
           <ng-template ngbTabContent>
-            <div class="tab-content">
-
+            <div class="tab-content px-3 py-3">
+              <table class="table table-striped"  style="width: 80%">
+                <thead>
+                  <tr>
+                    <th scope="col" style="width: 20%;">Message Id</th>
+                    <th scope="col" style="width: 10%;">Message Type</th>
+                    <th scope="col" style="width: 25%;">Details</th>
+                    <th scope="col" style="width: 10%;">Status</th>
+                    <th scope="col" style="width: 15%;">Error</th>
+                    <th scope="col" style="width: 10%;">Request Date</th>
+                    <th scope="col" style="width: 10%;">Response Date</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let event of device.eventLogs">
+                    <td><span ngbTooltip="{{ event.messageId }}" tooltipClass="tool-tip">{{ event.messageId }}</span></td>
+                    <td>{{ event.messageType }}</td>
+                    <td>
+                      <span ngbTooltip="{{ event.installMsg }}" tooltipClass="tool-tip"*ngIf="event.messageType == jobEnum.APP_INSTALL">{{ event.installMsg }}</span>
+                      <span ngbTooltip="{{ event.paramMsg }}" tooltipClass="tool-tip" *ngIf="event.messageType == jobEnum.APP_PARAM_UPDATE">{{ event.paramMsg }}</span>
+                      <span ngbTooltip="{{ event.deviceDetails }}" tooltipClass="tool-tip" *ngIf="event.messageType == jobEnum.DEVICE_DETAILS">{{ event.deviceDetails }}</span>
+                    </td>
+                    <td>
+                      <span *ngIf="event.eventStatus == 'SUCCESS'">{{ event.eventStatus }}</span>
+                    </td>
+                    <td><span ngbTooltip="{{ event.messageId }}" tooltipClass="tool-tip">{{ event.errMsg }}</span></td>
+                    <td>{{ event.createdDate }}</td>
+                    <td>
+                      <span *ngIf="event.eventStatus == 'SUCCESS'">{{ event.updatedDate }}</span>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </ng-template>
+        </ngb-tab>
+        <ngb-tab id="tab-params" title="Params">
+          <ng-template ngbTabContent>
+            <div class="tab-content px-5 py-3"  *ngIf="isLoaded">
+              <div class="row" *ngFor="let k of getParamKeys()">
+                <div class="col-12 form-group-title">
+                  <h6 >{{k}}</h6>
+                </div>
+                <table class="table table-striped"  style="width: 80%">
+                  <!-- <thead>
+                    <tr>
+                      <th scope="col" style="width: 30%;">Name</th>
+                      <th scope="col" style="width: 70%;">Value</th>
+                    </tr>
+                  </thead> -->
+                  <tbody>
+                    <tr *ngFor="let dd of let v of getParamValueKeys(k)">
+                      <td>{{v}}</td>
+                      <td>{{deviceParams[k][v]}}</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
             </div>
           </ng-template>
         </ngb-tab>

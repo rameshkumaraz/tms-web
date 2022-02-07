@@ -10,3 +10,24 @@
 .btn-outline-secondary:hover {
     background-color: $body-border-color;
 }
+
+.ng-select.custom {
+    background-color: #f2f2f2;
+    color: $form-color !important;
+    font-size: 0.875rem;
+    font-weight: 400;
+    font-family: "Lato-Regular";
+    border-radius: 5px;
+  }
+  
+  .ng-select.custom .ng-select-container {
+    height: 35px;
+    border: solid 1px $input-border-color !important;
+    background-color: $form-color;
+    color: $az-font-color !important;
+    //min-height: auto;
+  }
+  
+  .ng-select .ng-select-container .ng-value-container .ng-placeholder {
+    color: $az-font-color !important;
+  }

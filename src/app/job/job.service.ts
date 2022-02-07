@@ -22,6 +22,13 @@ export class JobService extends BaseService {
     return this.getByCustomUrl(apiUrl);
   }
 
+  getEventLogs(id: number) {
+    const apiUrl = AppSettings.API_CONTEXT + AppSettings.ENDPOINTS.device.endpoint +
+      "/" + AppSettings.ENDPOINTS.device.path.events +
+      "/" + id;
+    return this.getByCustomUrl(apiUrl);
+  }
+
   create(model: Job) {
     console.log("Merchant for create....", JSON.stringify(model));
 

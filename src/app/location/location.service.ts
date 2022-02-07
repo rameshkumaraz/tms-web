@@ -21,11 +21,25 @@ export class LocationService extends BaseService {
   // }
 
   getByMerchant(id: number) {
-    const apiUrl = AppSettings.API_CONTEXT + AppSettings.ENDPOINTS.location.endpoint + 
-      '/' + AppSettings.ENDPOINTS.location.path.merchant + 
+    const apiUrl = AppSettings.API_CONTEXT + AppSettings.ENDPOINTS.location.endpoint +
+      '/' + AppSettings.ENDPOINTS.location.path.merchant +
       '/' + id;
     console.log(apiUrl);
     return this.getByCustomUrl(apiUrl);
+  }
+
+  getAllWithRelations() {
+    const apiUrl = AppSettings.API_CONTEXT + AppSettings.ENDPOINTS.location.endpoint +
+      '/' + AppSettings.ENDPOINTS.location.path.relations;
+    return this.getByCustomUrl(apiUrl);
+  }
+
+  searchLocations(filter: any) {
+    const headers = { 'content-type': 'application/json' }
+
+    let url = this.apiUrl+ '/' + AppSettings.ENDPOINTS.location.path.filter;
+
+    return this.client.post(url, JSON.stringify(filter), { 'headers': headers });
   }
 
   // getLocation(id: number) {

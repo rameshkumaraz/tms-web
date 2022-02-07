@@ -19,9 +19,15 @@ export class DeviceProfileComponent extends BaseComponent {
 
   deviceId: number;
 
-  device: Device;
+  device: any;
+
+  deviceStatus: string;
 
   deviceDetails: Array<any>;
+
+  deviceParams: any;
+
+  isLoaded = false;
 
   constructor(private route: ActivatedRoute,
     private deviceService: DeviceService,
@@ -37,27 +43,43 @@ export class DeviceProfileComponent extends BaseComponent {
         this.deviceId = params.id;
         this.onPageLoad();
       });
+    
+      this.deviceParams = {};
   }
 
   onPageLoad() {
     this.loadDevice();
-    this.loadDeviceDetails();
+    // this.loadDeviceDetails();
   }
 
   loadDevice() {
     this.spinner.show();
-    this.deviceService.get(this.deviceId)
+    this.deviceService.getWithRelations(this.deviceId)
       .pipe(first())
       .subscribe(
         (resp: ApiResponse) => {
           console.log('Device Response', resp);
           this.device = resp.message;
           this.loadDeviceDetails()
+          this.deviceStatus = this.getStatus(this.device.status);
+          if(this.device.param){
+            this.deviceParams = JSON.parse(this.device.param.params);
+          }
+          this.isLoaded = true;
+          this.spinner.hide();
         },
         error => {
           console.log('Device Response', error);
           this.spinner.hide();
         });
+  }
+
+  getParamKeys(){
+      return Object.keys(this.deviceParams);
+  }
+
+  getParamValueKeys(key: string){
+    return Object.keys(this.deviceParams[key]);
   }
 
   loadDeviceDetails() {

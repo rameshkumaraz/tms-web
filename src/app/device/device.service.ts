@@ -39,4 +39,24 @@ export class DeviceService extends BaseService {
     return this.getByCustomUrl(apiUrl);
   }
 
+  getAllWithRelations() {
+    const apiUrl = AppSettings.API_CONTEXT + AppSettings.ENDPOINTS.device.endpoint +
+      '/' + AppSettings.ENDPOINTS.device.path.relations;
+    return this.getByCustomUrl(apiUrl);
+  }
+
+  getWithRelations(id: number) {
+    const apiUrl = AppSettings.API_CONTEXT + AppSettings.ENDPOINTS.device.endpoint +
+      '/' + AppSettings.ENDPOINTS.device.path.relations+'/'+id;
+    return this.getByCustomUrl(apiUrl);
+  }
+
+  searchDevices(filter: any) {
+    const headers = { 'content-type': 'application/json' }
+
+    let url = this.apiUrl+ '/' + AppSettings.ENDPOINTS.device.path.filter;
+
+    return this.client.post(url, JSON.stringify(filter), { 'headers': headers });
+  }
+
 }

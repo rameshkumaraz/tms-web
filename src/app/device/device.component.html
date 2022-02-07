@@ -1,15 +1,52 @@
 <div class="main">
   <div class="container-fluid">
     <div class="row page-header">
-      <div class="col-sm-3 title">
+      <div class="col-sm-2 title">
         <fa-icon [icon]='faMobile'></fa-icon>
         <span class="pl-2">{{ pageHeader }}</span>
         <span class="count pl-2">({{ deviceCount }})</span>
       </div>
-      <!-- <div class="col-sm-7  tools text-right">
-        
-      </div> -->
-      <div class="col-sm-9 tools text-right" *ngIf="locationCount > 0">
+      <div class="col-sm-8 tools text-right">
+        <form [formGroup]="searchForm">
+          <div class="form-row">
+            <div class="form-group col-sm-12">
+              <span class="pr-2">
+                <input id='name' formControlName="name" class="filter-input merchant" placeholder="Device Name"
+                  #merchant>
+              </span>
+              <span class="pr-2">
+                <input id='serial' formControlName="serial" class="filter-input merchant" placeholder="Device Serial"
+                  #merchant>
+              </span>
+              <span class="pr-2">
+                <input id='model' formControlName="model" class="filter-input merchant" placeholder="Device Model"
+                  #merchant>
+              </span>
+              <span class="pr-2">
+                <select id="location" formControlName="location" class="filter-select">
+                  <option value="" disabled selected>All Location</option>
+                  <option *ngFor="let l of locations" [value]="l.id">{{l.name}}</option>
+                </select>
+              </span>
+              <span class="pr-3">
+                <select id="status" formControlName="status" class="filter-select" #status>
+                  <option value="" selected>All Status</option>
+                  <option *ngFor="let s of statusKeys" [value]="statusEnum[s]">{{s}}</option>
+                </select>
+              </span>
+              <span class="pr-2 filter-icon">
+                <a (click)="searchDevices()" *ngIf="!inFilterMode" ngbTooltip="Filter" tooltipClass="tool-tip">
+                  <fa-icon [icon]='faSearch' style="color: #777777" size="md"></fa-icon> Apply Filter
+                </a>
+                <a (click)="clearSearchResult()" *ngIf="inFilterMode" ngbTooltip="Clear Filter" tooltipClass="tool-tip">
+                  <fa-icon [icon]='faTimes' style="color: #777777" size="md"></fa-icon> Clear Filter
+                </a>
+              </span>
+            </div>
+          </div>
+        </form>
+      </div>
+      <div class="col-sm-2 tools text-right">
         <!-- <span class="pl-2">Select location</span>
         <span class="location-select pl-2 pr-2"><select id="location" (change)="onLocationChange($event.target.value)">
             <option *ngFor="let location of locations" [value]="location.id">{{location.name}}</option>

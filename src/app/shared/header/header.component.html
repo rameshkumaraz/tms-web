@@ -69,12 +69,21 @@
 
         <li ngbDropdown class="nav-item">
           <!-- <div ngbDropdown class="nav-link profile"> -->
-          <div class="nav-link profile pl-5">
+          <div class="nav-link profile pl-5"  *ngIf="!merchant">
             <img src="../../../assets/images/user_icon.svg" />
             <span class="pl-2">
               <a ngbDropdownToggle id="userDropdown" *ngIf="profile">{{profile.firstName +' '+profile.lastName}}</a>
               <a ngbDropdownToggle id="userDropdown" *ngIf="!profile">Hi Guest!</a>
             </span>
+          </div>
+          <div class="nav-link profile merchant pl-5" *ngIf="merchant">
+            <span *ngIf="merchant" class="merchant-name">{{merchant.name}}, {{merchant.country}}</span>
+            <img src="../../../assets/images/user_icon.svg"/>
+            <span class="pl-2">
+              <a ngbDropdownToggle id="userDropdown" *ngIf="profile">{{profile.firstName +' '+profile.lastName}}</a>
+              <a ngbDropdownToggle id="userDropdown" *ngIf="!profile">Hi Guest!</a>
+            </span>
+            <br>
           </div>
           <div ngbDropdownMenu aria-labelledby="userDropdown">
             <!-- <button ngbDropdownItem (click)="openLoginModal(logincontent)" *ngIf="!profile">

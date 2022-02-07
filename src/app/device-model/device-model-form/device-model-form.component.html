@@ -51,31 +51,48 @@
           <div *ngIf="f.baseVersion.errors?.minlength">Base Version must be at least 1 characters long.</div>
         </div>
       </div>
-      <div class="form-row">
-        <div class="form-group col-sm-12">
-          <label for="desc">Description</label>
-          <textarea formControlName="desc" id="desc" autocomplete="off" rows="3" cols="80" class="form-control"
-            [ngClass]="{ 'is-invalid': formSubmitted && f.desc.errors }">  </textarea>
-          <div *ngIf="formSubmitted && f.desc.errors" class="invalid-feedback">
-            <div *ngIf="f.desc.errors.minlength">Description must be at least 6 characters long.</div>
-          </div>
+      <div class="form-group col-sm-4 required"></div>
+    </div>
+    <div class="form-row">
+      <div class="form-group col-sm-12" *ngIf="actionType != actionEnum.view">
+        <label for="modelImage" class="asterisk-if-mandatory">Device Model Image</label>
+        <input id="modelImage" type="file" class="form-control-file file-cls" (change)="onFileChange($event)"
+          [ngClass]="{ 'is-invalid': formSubmitted && f.modelImageName.errors }" accept=".png, .gif, .jpeg">
+        <!-- <input id="bundleName" type="file" class="form-control-file file-cls" (change)="onFileChange($event)" hidden> -->
+        <div *ngIf="formSubmitted && f.modelImageName.errors" class="invalid-feedback">
+          <div *ngIf="f.modelImageName.errors.required">Image is required.</div>
+        </div>
+      </div>
+      <div class="form-group col-sm-12" *ngIf="actionType == actionEnum.view">
+        <label for="modelImage" class="asterisk-if-mandatory">Device Model Image</label>
+        <span style="display:block; overflow-y: visible;"><img
+            src='{{getDeviceImagePath(f.modelImage.value)}}' width="40" height="60"></span>
+      </div>
+    </div>
+    <div class="form-row">
+      <div class="form-group col-sm-12">
+        <label for="desc">Description</label>
+        <textarea formControlName="desc" id="desc" autocomplete="off" rows="3" cols="80" class="form-control"
+          [ngClass]="{ 'is-invalid': formSubmitted && f.desc.errors }">  </textarea>
+        <div *ngIf="formSubmitted && f.desc.errors" class="invalid-feedback">
+          <div *ngIf="f.desc.errors.minlength">Description must be at least 6 characters long.</div>
         </div>
       </div>
     </div>
-  </form>
+</form>
 
-  <div class="button-block">
-    <span class="pr-2"><button type="button" class="btn btn-primary form-button-cancel"
-        (click)="close(false)">Cancel</button>
-    </span>
-    <button type="button" class="btn btn-primary form-button-action" (click)="save()"
-      *ngIf="actionType == actionEnum.add">Save</button>
-    <button type="button" class="btn btn-primary form-button-action" (click)="edit()"
-      *ngIf="actionType == actionEnum.view && canEdit(model.status)">Edit</button>
-    <span class="pl-2" *ngIf="actionType == actionEnum.view && canDelete(model.status)"><button type="button"
-        class="btn btn-primary form-button-action" (click)="delete()">Delete</button></span>
-    <button type="button" class="btn btn-primary form-button-action" (click)="update()"
-      *ngIf="actionType == actionEnum.edit && canEdit(model.status)">Update</button>
+<div class="button-block">
+  <span class="pr-2"><button type="button" class="btn btn-primary form-button-cancel"
+      (click)="close(false)">Cancel</button>
+  </span>
+  <button type="button" class="btn btn-primary form-button-action" (click)="save()"
+    *ngIf="actionType == actionEnum.add">Save</button>
+  <button type="button" class="btn btn-primary form-button-action" (click)="edit()"
+    *ngIf="actionType == actionEnum.view && canEdit(model.status)">Edit</button>
+  <span class="pl-2" *ngIf="actionType == actionEnum.view && canDelete(model.status)"><button type="button"
+      class="btn btn-primary form-button-action" (click)="delete()">Delete</button></span>
+  <button type="button" class="btn btn-primary form-button-action" (click)="update()"
+    *ngIf="actionType == actionEnum.edit && canEdit(model.status)">Update</button>
 
-  </div>
+</div>
 </div>

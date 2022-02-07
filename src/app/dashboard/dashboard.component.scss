@@ -1,20 +1,20 @@
 @import "../../assets/sass/variables";
 
-.db-card{
-    padding: 10px 20px;
-    min-height: 150px;
-    font-family: $font-family-base;
-    font-weight: $font-weight-normal;
-    // width: 90%;
-    text-align: center;
+.db-card {
+  padding: 10px 20px;
+  min-height: 150px;
+  font-family: $font-family-base;
+  font-weight: $font-weight-normal;
+  // width: 90%;
+  text-align: center;
 }
 
-.db-card .main{
-    //margin: 0px 12px;
-    border: 1px solid $input-border-color !important;
-    border-radius: 3px;
-    padding: 15px;
-    // width: 90% !important;
+.db-card .main {
+  //margin: 0px 12px;
+  border: 1px solid $input-border-color !important;
+  border-radius: 3px;
+  padding: 15px;
+  // width: 90% !important;
 }
 
 // .db-card:first-child {
@@ -25,138 +25,151 @@
 //     padding-right: 50px;
 // }
 
-.db-card .merchant{
-    padding: 0px;
-    height: 36px;
-    width: 36px;
-    background-color: $az-blue-primary;
-    color: $white;
-    text-align: center;
-    line-height: 33px;
-    border-radius: 5px;
+.db-card .merchant {
+  padding: 0px;
+  height: 36px;
+  width: 36px;
+  background-color: $az-blue-primary;
+  color: $white;
+  text-align: center;
+  line-height: 33px;
+  border-radius: 5px;
 }
 
-.db-card .location{
-    padding: 0px;
-    height: 36px;
-    width: 36px;
-    background-color: $az-blue-secondary;
-    color: $white;
-    text-align: center;
-    line-height: 33px;
-    border-radius: 5px;
+.db-card .location {
+  padding: 0px;
+  height: 36px;
+  width: 36px;
+  background-color: $az-blue-secondary;
+  color: $white;
+  text-align: center;
+  line-height: 33px;
+  border-radius: 5px;
 }
 
-.db-card .device{
-    padding: 0px;
-    height: 36px;
-    width: 36px;
-    background-color: $orange;
-    color: $white;
-    text-align: center;
-    line-height: 33px;
-    border-radius: 5px;
+.db-card .device {
+  padding: 0px;
+  height: 36px;
+  width: 36px;
+  background-color: $orange;
+  color: $white;
+  text-align: center;
+  line-height: 33px;
+  border-radius: 5px;
 }
 
-.db-card .active-device{
-    padding: 0px;
-    height: 36px;
-    width: 36px;
-    background-color: #6fcf97;
-    color: $white;
-    text-align: center;
-    line-height: 33px;
-    border-radius: 5px;
+.db-card .active-device {
+  padding: 0px;
+  height: 36px;
+  width: 36px;
+  background-color: #6fcf97;
+  color: $white;
+  text-align: center;
+  line-height: 33px;
+  border-radius: 5px;
 }
 
-.db-card .title{
-    padding: 12px 0px;
-    font-size: $font-size-sm;
-    font-weight: $font-weight-normal;
-    color: $gray-dark;
-    text-align: left;
+.db-card .title {
+  padding: 12px 0px;
+  font-size: $font-size-sm;
+  font-weight: $font-weight-normal;
+  color: $gray-dark;
+  text-align: left;
 }
 
-.db-card .highlight{
-    // padding: 12px 0px;
-    font-size: small;
-    font-weight: $font-weight-light;
-    line-height: 25px;
-    color: $gray-medium;
+.db-card .highlight {
+  // padding: 12px 0px;
+  font-size: small;
+  font-weight: $font-weight-light;
+  line-height: 25px;
+  color: $gray-medium;
 }
 
-.db-card .text{
-    padding: 0px;
-    font-size: $font-size-lg;
-    font-weight: $font-weight-bold;
-    text-align: left;
-    font-size: x-large;
+.db-card .text {
+  padding: 0px;
+  font-size: $font-size-lg;
+  font-weight: $font-weight-bold;
+  text-align: left;
+  font-size: x-large;
 }
 
-.db-card .text-hl-positive{
-    font-size: $font-size-md;
-    font-weight: $font-weight-bold;
-    line-height: 38px;
-    color: $green;
+.db-card .text-hl-positive {
+  font-size: $font-size-md;
+  font-weight: $font-weight-bold;
+  line-height: 38px;
+  color: $green;
 }
 
-.db-card .text-hl-negative{
-    font-size: $font-size-md;
-    font-weight: $font-weight-bold;
-    line-height: 38px;
-    color: $danger;
+.db-card .text-hl-negative {
+  font-size: $font-size-md;
+  font-weight: $font-weight-bold;
+  line-height: 38px;
+  color: $danger;
 }
 
-.db-card .text-hl-none{
-    font-size: $font-size-md;
-    font-weight: $font-weight-bold;
-    line-height: 38px;
-    color: $az-blue-primary;
+.db-card .text-hl-none {
+  font-size: $font-size-md;
+  font-weight: $font-weight-bold;
+  line-height: 38px;
+  color: $az-blue-primary;
 }
 
-.db-map{
-    padding: 10px 20px 20px 20px;
+.db-map {
+  padding: 10px 20px 20px 20px;
 }
 
-.db-map .title{
-    padding-bottom: 10px;
-    font-weight: $font-weight-normal;
-    color: $gray-dark;
-    text-align: left;
-    line-height: 35px;
+.db-map .title {
+  padding-bottom: 10px;
+  font-weight: $font-weight-normal;
+  color: $header-color;
+  text-align: left;
+  line-height: 35px;
 }
 
-.db-map .title-filter{
-    padding-bottom: 10px;
-    font-weight: $font-weight-normal;
-    color: $gray-dark;
-    text-align: left;
+.db-map .title-filter {
+  padding-bottom: 10px;
+  font-weight: $font-weight-normal;
+  color: $gray-dark;
+  text-align: left;
 }
 
-.db-map .top-title{
-    //padding-bottom: 10px;
-    font-weight: $font-weight-normal;
-    color: $gray-dark;
-    text-align: left;
-    line-height: 35px;
-    background-color: $form-color;
-    border: 1px solid;
-    border-color: $input-border-color;
+.db-map .top-title {
+  //padding-bottom: 10px;
+  font-weight: $font-weight-normal;
+  color: $header-color;
+  text-align: left;
+  line-height: 35px;
+  background-color: $form-color;
+  border: 1px solid;
+  border-color: $input-border-color;
 }
 
-.top-merchants{
-    min-height: 458px;
-    background-color: $white;
-    overflow-y: scroll;
+.top-merchants {
+  min-height: 458px;
+  background-color: $white;
+  overflow-y: scroll;
+  font-family: $font-family-light !important;
+  font-size: $font-size-sm;
+}
+
+.top-merchants a{
+  font-family: $font-family-light !important;
+  font-size: $font-size-xs;
+}
+
+.top-merchants a:hover{
+  color: $gray-light;
+  text-decoration: underline;
+  cursor: pointer;
 }
 
 .table td {
-    font-size: $font-size-xs;
-    color: $gray;
-    background-color: $white;
-    font-family: $font-family-base;
-    // border: 1px solid $az-font-color;
-    }
+  font-size: $font-size-sm;
+  color: $gray;
+  background-color: $white;
+  font-family: $font-family-base;
+  // border: 1px solid $az-font-color;
+}
 
 .table tr td:first-child {
   border-left: 1px solid $white;
@@ -173,21 +186,61 @@
   -moz-box-shadow: 2px 2px 3px $white;
 }
 
-.table th, .table td{
-    padding-top: 3px !important;
-    padding-bottom: 3px !important;
-    background-color: $white;
-    border: 0px;
+.table th,
+.table td {
+  padding-top: 3px !important;
+  padding-bottom: 3px !important;
+  background-color: $white;
+  border: 0px;
 }
 
-.deviceCount {
-    border-radius: 50%;
-    width: 36px;
-    height: 36px;
-    padding: 8px;
-    background: $form-color;
-    color: $az-font-color;
-    text-align: center;
+.count-indicator {
+  background-color: $form-color;
+  // border: 1px solid $input-border-color;
+  min-width: 23px !important;
+  min-height: 23px !important;
+  border-radius: 50%;
+  display: inline-block;
+  text-align: center;
+  line-height: 21px;
+  color: $az-blue-primary;
+  font-size: $font-size-xs;
+}
+
+.count-indicator a:hover{
+  color: $az-font-color;
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+.seemore {
+  color: $az-blue-primary;
+  font-size: $font-size-xs;
+  float: right;
+}
+
+.table .text-hl-positive {
+  font-size: $font-size-xs;
+  font-family: $font-weight-light;
+//   font-weight: $font-weight-bold;
+//   line-height: 38px;
+  color: $green;
+}
+
+.table .text-hl-negative {
+  font-size: $font-size-xs;
+  font-family: $font-weight-light;
+//   font-weight: $font-weight-bold;
+//   line-height: 38px;
+  color: $danger;
+}
+
+.table .text-hl-none {
+  font-size: $font-size-xs;
+  font-family: $font-weight-light;
+//   font-weight: $font-weight-bold;
+//   line-height: 38px;
+  color: $az-blue-primary;
 }
 
 // .table th{

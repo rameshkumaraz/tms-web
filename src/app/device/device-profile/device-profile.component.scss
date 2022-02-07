@@ -12,8 +12,8 @@
   background-color: $form-color;
   border-radius: 2px;
   min-height: 490px;
-  margin: 20px 0px;
-  padding: 20px;
+  margin: 0px;
+  padding: 15px;
 }
 
 .device-details .dashboard-item {
@@ -46,6 +46,11 @@
   min-height: 400px;
 }
 
+.table th, .table td{
+  padding-top: 4px !important;
+  padding-bottom: 4px !important;
+}
+
 // :host {
 //   color: gray;
 // }
@@ -58,3 +63,13 @@
 //   color: $az-blue-primary;
 //   font-weight: bold;
 // }
+
+.form-group-title {
+  background-color: #f2f2f2;
+  border-color: #e0e7ff;
+  border-radius: 8px;
+  text-align: right;
+  padding-top: 8px;
+  margin-bottom: 10px;
+  color: $az-blue-primary;
+}

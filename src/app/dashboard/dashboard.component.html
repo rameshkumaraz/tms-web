@@ -13,7 +13,20 @@
             <img src="../../assets/images/merchant_1.svg" />
           </div>
           <div class="col-12 title">TOTAL MERCHANTS<span class="float-right highlight">Change(Month)</span></div>
-          <div class="col-12 text">{{merchantCount}}<span class="float-right" [ngClass]="{'text-hl-positive': merchantChangeCount > 0, 'text-hl-none' : merchantChangeCount === 0 }">{{merchantChangeText}}</span></div>
+          <div class="col-12 text">{{merchantCount}}
+            <span class="float-right">
+              <span class="text-hl-positive" *ngIf="merchantChangeCount > 0">
+                <fa-icon [icon]='faUpArrow' size="sm"></fa-icon>
+                <span class="pl-1">{{merchantChangeCount}}</span>
+              </span>
+              <span class="text-hl-negative" *ngIf="merchantInactiveChangeCount > 0">
+                <fa-icon [icon]='faDownArrow' size="sm"></fa-icon>
+                <span class="pl-1">{{merchantInactiveChangeCount}}</span>
+              </span>
+              <span class="text-hl-none"
+                *ngIf="merchantChangeCount === 0 && merchantInactiveChangeCount === 0">{{0}}</span>
+            </span>
+          </div>
         </div>
       </div>
       <div class="col-sm-3">
@@ -22,7 +35,19 @@
             <fa-icon [icon]='faMap' size="lg"></fa-icon>
           </div>
           <div class="col-12 title">TOTAL LOCATIONS<span class="float-right highlight">Change(Month)</span></div>
-          <div class="col-12 text">{{locCount}}<span class="float-right" [ngClass]="{'text-hl-positive': locChangeCount > 0, 'text-hl-none' : locChangeCount === 0 }">{{locationChangeText}}</span></div>
+          <div class="col-12 text">{{locCount}}
+            <span class="float-right">
+              <span class="text-hl-positive pl-3" *ngIf="locChangeCount > 0">
+                <fa-icon [icon]='faUpArrow' size="sm"></fa-icon>
+                <span class="pl-1">{{locChangeCount}}</span>
+              </span>
+              <span class="text-hl-negative pl-3" *ngIf="locInactiveChangeCount > 0">
+                <fa-icon [icon]='faDownArrow' size="sm"></fa-icon>
+                <span class="pl-1">{{locInactiveChangeCount}}</span>
+              </span>
+              <span class="text-hl-none" *ngIf="locChangeCount === 0 && locInactiveChangeCount === 0">{{0}}</span>
+            </span>
+          </div>
         </div>
       </div>
       <div class="col-sm-3">
@@ -31,7 +56,20 @@
             <fa-icon [icon]='faMobile' size="lg"></fa-icon>
           </div>
           <div class="col-12 title">TOTAL DEVICES<span class="float-right highlight">Change(Month)</span></div>
-          <div class="col-12 text">{{deviceCount}}<span class="float-right" [ngClass]="{'text-hl-positive': deviceChangeCount > 0, 'text-hl-none' : deviceChangeCount === 0 }">{{deviceChangeText}}</span></div>
+          <div class="col-12 text">{{deviceCount}}
+            <span class="float-right">
+              <span class="text-hl-positive pl-3" *ngIf="deviceChangeCount > 0">
+                <fa-icon [icon]='faUpArrow' size="sm"></fa-icon>
+                {{deviceChangeCount}}
+              </span>
+              <span class="text-hl-negative pl-3" *ngIf="deviceInactiveChangeCount > 0">
+                <fa-icon [icon]='faDownArrow' size="sm"></fa-icon>
+                {{deviceInactiveChangeCount}}
+              </span>
+              <span class="text-hl-none pl-3"
+                *ngIf="deviceChangeCount === 0 && deviceInactiveChangeCount === 0">{{0}}</span>
+            </span>
+          </div>
         </div>
       </div>
       <div class="col-sm-3">
@@ -40,7 +78,18 @@
             <fa-icon [icon]='faMobile' size="lg"></fa-icon>
           </div>
           <div class="col-12 title">TOTAL ACTIVE DEVICES<span class="float-right highlight">Change(Month)</span></div>
-          <div class="col-12 text">{{activeDeviceCount}}<span class="float-right" [ngClass]="{'text-hl-positive': activeDeviceChange > 0, 'text-hl-none' : activeDeviceChange === 0 }">{{activeDeviceChangeText}}</span></div>
+          <div class="col-12 text">{{activeDeviceCount}}
+            <span class="float-right"
+              [ngClass]="{'text-hl-positive': activeDeviceChange > 0, 'text-hl-none' : activeDeviceChange === 0 }">
+              <span class="pr-1" *ngIf="activeDeviceChange >0 ">
+                <fa-icon [icon]='faUpArrow' size="sm"></fa-icon>
+              </span>
+              <span class="pr-1" *ngIf="activeDeviceChange <0 ">
+                <fa-icon [icon]='faDownArrow' size="sm"></fa-icon>
+              </span>
+              {{activeDeviceChange | positive}}
+            </span>
+          </div>
         </div>
       </div>
     </div>
@@ -48,29 +97,33 @@
     <div class="row db-map">
       <div class="col-sm-7">
         <div class="row">
-          <div class="col-sm-4 title">Merchant Overview</div>
-          <div class="col-sm-4 title-filter">
-            <select id="country" class="form-control">
+          <div class="col-sm-6 title">Merchant Overview</div>
+          <div class="col-sm-6 title-filter float-right">
+            <select id="country" class="form-control" (change)="changeCountry($event.target.value)">
               <option value="" disabled selected>All Countries</option>
-              <option value="{{country.code}}" *ngFor="let country of countries">{{country.name}}</option>
+              <option value="{{country.name}}" *ngFor="let country of countries">{{country.name}}</option>
             </select>
           </div>
-          <div class="col-sm-4 title-filter">
-            <select id="merchant" class="form-control">
+          <!-- <div class="col-sm-4 title-filter">
+            <select id="merchant" class="form-control" #worldchart>
               <option value="" disabled selected>All Merchant</option>
               <option value="{{merchant.id}}" *ngFor="let merchant of merchants">{{merchant.name}}</option>
             </select>
-          </div>
+          </div> -->
         </div>
         <div class="col-sm-12 p-0">
-          <google-chart [data]="geoChart"></google-chart>
+          <google-chart [data]="geoChart" *ngIf="isRefreshed"></google-chart>
+          <google-chart [data]="geoChart1" *ngIf="!isRefreshed"></google-chart>
+          <!-- <google-chart [data]="geoChart" *ngIf="isCountryChanged"></google-chart> -->
         </div>
       </div>
       <div class="col-sm-5">
         <div class="row">
           <div class="col-sm-12">
             <div class="row">
-              <div class="col-sm-12 top-title">Top Merchants</div>
+              <div class="col-sm-12 top-title">Top Merchants
+                <!--span class="seemore">See More</span-->
+              </div>
               <div class="col-sm-12 px-0 py-2 top-merchants">
                 <table class="table table-striped">
                   <thead>
@@ -81,10 +134,30 @@
                     </tr>
                   </thead>
                   <tbody>
-                    <tr *ngFor="let merchant of merchants">
-                      <td>{{ merchant.name }}</td>
-                      <td>{{merchant.locationCount}}</td>
-                      <td>{{merchant.deviceCount}}</td>
+                    <tr *ngFor="let merchant of merchants | slice:0:20">
+                      <td><a (click)="openMerchant(merchant.id)">{{ merchant.name }}</a></td>
+                      <td><span class="count-indicator"><a (click)="openLocation(merchant.id)">{{merchant.locationCount}}</a></span>
+                        <!-- <span class="float-right"> -->
+                          <span class="text-hl-positive pl-2" *ngIf="locCountByMerchant[''+merchant.id] > 0">
+                            <fa-icon [icon]='faUpArrow' size="sm"></fa-icon>
+                            {{locCountByMerchant[''+merchant.id]}}
+                          </span>
+                          <span class="text-hl-negative pl-2" *ngIf="inactiveLocCountByMerchant[''+merchant.id] > 0">
+                            <fa-icon [icon]='faDownArrow' size="sm"></fa-icon>
+                            {{inactiveLocCountByMerchant[''+merchant.id]}}
+                          </span>
+                        <!-- </span> -->
+                      </td>
+                      <td><span class="count-indicator"><a (click)="openDevice(merchant.id)">{{merchant.deviceCount}}</a></span>
+                        <span class="text-hl-positive pl-2" *ngIf="dvcCountByMerchant[''+merchant.id] > 0">
+                          <fa-icon [icon]='faUpArrow' size="sm"></fa-icon>
+                          {{dvcCountByMerchant[''+merchant.id]}}
+                        </span>
+                        <span class="text-hl-negative pl-2" *ngIf="inactiveDvcCountByMerchant[''+merchant.id] > 0">
+                          <fa-icon [icon]='faDownArrow' size="sm"></fa-icon>
+                          {{inactiveDvcCountByMerchant[''+merchant.id]}}
+                        </span>
+                      </td>
                     </tr>
                   </tbody>
                 </table>

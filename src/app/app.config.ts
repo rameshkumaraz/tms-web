@@ -1,6 +1,7 @@
 import { environment } from './../environments/environment';
 export class AppSettings {
     public static API_CONTEXT = environment.apiURL;
+    public static DEVICE_IMAGE_CONTEXT = "https://tms-app-libraries.s3.us-east-2.amazonaws.com/model-images/";
 
     public static ENDPOINTS = {
         'login': 'auth/login',
@@ -13,7 +14,9 @@ export class AppSettings {
         'location': {
             'endpoint': 'location',
             'path': {
-                'merchant': 'm'
+                'merchant': 'm',
+                'relations': 'r',
+                'filter': 'f'
             }
         },
         // 'locationsForMerchant': 'location/m',
@@ -22,7 +25,10 @@ export class AppSettings {
             'path': {
                 'location': 'l',
                 'merchant': 'm',
-                'details': 'd'
+                'details': 'd',
+                'relations': 'r',
+                'events': 'el',
+                'filter': 'f'
             }
         },
         // 'devicesForLocation': 'device/l',

@@ -4,8 +4,35 @@
       <div class="col-sm-3 title">
         <fa-icon [icon]='faMap'></fa-icon>
         <span class="pl-2">{{ pageHeader }}</span>
-        <span class="count pl-2">({{ locationCount }})</span></div>
-      <div class="col-sm-9 tools text-right">
+        <span class="count pl-2">({{ locationCount }})</span>
+      </div>
+      <div class="col-sm-7 tools text-right">
+        <form [formGroup]="searchForm">
+          <div class="form-row">
+            <div class="form-group col-sm-12">
+              <span class="pr-2">
+                <input id='name' formControlName="name" class="filter-input merchant" placeholder="Location Name"
+                  #merchant>
+              </span>
+              <span class="pr-3">
+                <select id="status" formControlName="status" class="filter-select" #status>
+                  <option value="" selected>All Status</option>
+                  <option *ngFor="let s of statusKeys" [value]="statusEnum[s]">{{s}}</option>
+                </select>
+              </span>
+              <span class="pr-2 filter-icon">
+                <a (click)="searchLocations()" *ngIf="!inFilterMode" ngbTooltip="Filter" tooltipClass="tool-tip">
+                  <fa-icon [icon]='faSearch' style="color: #777777" size="md"></fa-icon> Apply Filter
+                </a>
+                <a (click)="clearSearchResult()" *ngIf="inFilterMode" ngbTooltip="Clear Filter" tooltipClass="tool-tip">
+                  <fa-icon [icon]='faTimes' style="color: #777777" size="md"></fa-icon> Clear Filter
+                </a>
+              </span>
+            </div>
+          </div>
+        </form>
+      </div>
+      <div class="col-sm-2 tools text-right">
         <button class="button" (click)="create(locModal)">
           <fa-icon [icon]='faPlus' size="lg"></fa-icon><span class="pl-2">Add
             New Location</span>
@@ -15,7 +42,7 @@
     <div *ngIf="locationCount === 0" class="info">
       No locations are created yet.
       <ul>
-        <li>New location can be created by using <span class="info-highlight">Add New Merchant</span> option.</li>
+        <li>New location can be created by using <span class="info-highlight">Add New Location</span> option.</li>
       </ul>
     </div>
     <div class="pt-2" *ngIf="locationCount > 0">

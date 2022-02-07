@@ -57,6 +57,12 @@ export class JobFormComponent extends BaseComponent {
   min: any;
   max: any;
 
+  filteredDevices: Array<any>;
+  filteredLocations: Array<any>;
+
+  selectedDevices = [];
+  selectedLocations = [];
+
   sub;
 
   constructor(private formBuilder: FormBuilder,
@@ -82,8 +88,8 @@ export class JobFormComponent extends BaseComponent {
       targetType: ['', [Validators.required]],
       app: [''],
       library: [''],
-      location: [''],
-      device: ['']
+      // location: [''],
+      // device: ['']
     });
 
     if (this.actionType != ActionEnum.add) {
@@ -93,11 +99,11 @@ export class JobFormComponent extends BaseComponent {
       } 
 
       if (this.job.targetType == 2) {
-        this.loadLocations(false);
+        this.loadLocations();
       }
 
       if (this.job.targetType == 3) {
-        this.loadLocations(true);
+        this.loadDevices();
       }
       this.onPageLoad();
     }
@@ -209,7 +215,7 @@ export class JobFormComponent extends BaseComponent {
   get f() { return this.jobForm['controls'] }
 
   changeJob(type: string) {
-    if (type == JobsEnum.APP_INSTALL) {
+    if (type == JobsEnum.APP_INSTALL || type == JobsEnum.APP_PARAM_UPDATE) {
       this.loadApps(1);
     } 
   }
@@ -251,9 +257,12 @@ export class JobFormComponent extends BaseComponent {
     this.job.library = this.job.library + "";
     this.job.targetType = +this.job.targetType;
     if (this.job.targetType === 2)
-      this.job.location = this.job.location + "";
-    else
-      this.job.location = "";  
+      this.job.location = this.selectedLocations;
+
+    if (this.job.targetType === 3)
+      this.job.device = this.selectedDevices;
+
+    // console.log("Job....", this.job);  
 
     this.service.create(this.job).subscribe((resp: ApiResponse) => {
       this.spinner.hide();
@@ -320,22 +329,22 @@ export class JobFormComponent extends BaseComponent {
   changeTarget(e) {
     console.log(e.target.value);
     if (e.target.value == 2) {
-      this.loadLocations(false);
+      this.loadLocations();
     } else if (e.target.value == 3) {
-      this.loadLocations(true);
+      this.loadDevices();
     }
   }
 
-  loadLocations(loadDevices: boolean) {
+  loadLocations() {
     this.spinner.show();
     this.locService.getByMerchant(this.merchant.id).subscribe((resp: ApiResponse) => {
       this.spinner.hide();
       this.locs = resp.message;
-      this.loc = this.locs[0];
-      this.f.location.setValue(this.loc.id);
-      if(loadDevices){
-        this.loadDevices();
-      }
+      // this.loc = this.locs[0];
+      // this.f.location.setValue(this.loc.id);
+      // if(loadDevices){
+      //   this.loadDevices();
+      // }
     },
       err => {
         console.log('Unable to load locations, please contact adminstrator', err);
@@ -347,7 +356,7 @@ export class JobFormComponent extends BaseComponent {
 
   loadDevices() {
     this.spinner.show();
-    this.deviceService.findByLocation(this.loc.id).subscribe((resp: ApiResponse) => {
+    this.deviceService.findByMerchant(this.merchant.id).subscribe((resp: ApiResponse) => {
       this.spinner.hide();
       this.devices = resp.message;
       // this.f.device.setValue(this.devices[0].id);
@@ -368,6 +377,36 @@ export class JobFormComponent extends BaseComponent {
     this.devices = [];
     if (loadDevices)
       this.loadDevices();
+  }
+
+  onAddLocation(event) {
+    // console.log("Add...", event);
+    this.selectedLocations.push(event.id);
+    console.log("Selected...", this.selectedLocations);
+  }
+
+  onRemoveLocation(event) {
+    console.log("Delete...", event);
+    const index = this.selectedLocations.indexOf(event.value.id, 0);
+    if (index > -1) {
+      this.selectedLocations.splice(index, 1);
+    }
+    console.log("Deleted...", this.selectedLocations);
+  }
+
+  onAddDevice(event) {
+    // console.log("Add...", event);
+    this.selectedDevices.push(event.id);
+    console.log("Selected...", this.selectedDevices);
+  }
+
+  onRemoveDevice(event) {
+    console.log("Delete...", event);
+    const index = this.selectedDevices.indexOf(event.value.id, 0);
+    if (index > -1) {
+      this.selectedDevices.splice(index, 1);
+    }
+    console.log("Deleted...", this.selectedDevices);
   }
 
   public get actionEnum(): typeof ActionEnum {

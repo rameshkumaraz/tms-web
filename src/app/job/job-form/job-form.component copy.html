@@ -94,12 +94,7 @@
       <div class="form-group col-sm-6 required">
         <label for="app" class="asterisk-if-mandatory">Select Application</label>
         <select required class="form-control" formControlName="app" id="app"
-          [ngClass]="{ 'is-invalid': formSubmitted && f.app.errors }" (change)="changeApp($event.target.value)" *ngIf="f.jobType.value == jobsEnum.APP_INSTALL">
-          <option value="" disabled selected>Select Application</option>
-          <option *ngFor="let a of apps" [value]="a.id">{{a.name}}</option>
-        </select>
-        <select required class="form-control" formControlName="app" id="app"
-          [ngClass]="{ 'is-invalid': formSubmitted && f.app.errors }" *ngIf="f.jobType.value == jobsEnum.APP_PARAM_UPDATE">
+          [ngClass]="{ 'is-invalid': formSubmitted && f.app.errors }" (change)="changeApp($event.target.value)">
           <option value="" disabled selected>Select Application</option>
           <option *ngFor="let a of apps" [value]="a.id">{{a.name}}</option>
         </select>
@@ -107,7 +102,7 @@
           <div *ngIf="f.app.errors.required">Appliction is required</div>
         </div>
       </div>
-      <div class="form-group col-sm-6 required" *ngIf="f.jobType.value == jobsEnum.APP_INSTALL">
+      <div class="form-group col-sm-6 required">
         <label for="library" class="asterisk-if-mandatory">Select Version</label>
         <select required class="form-control" formControlName="library" id="library"
           [ngClass]="{ 'is-invalid': formSubmitted && f.library.errors }">
@@ -132,36 +127,45 @@
         </div>
       </div>
     </div> -->
-    <div class="form-row list-container" *ngIf="f.targetType.value == 2">
-      <div class="form-group col-sm-12 mb-0">
-        <label for="search" class="asterisk-if-mandatory">Location</label>
+    <div class="form-row" *ngIf="f.targetType.value == 2 || f.targetType.value == 3">
+      <div class="form-group col-sm-6 required">
+        <label for="location" class="asterisk-if-mandatory">Select Location</label>
+        <select required class="form-control" formControlName="location" id="location" *ngIf="f.targetType.value == 2"
+        [ngClass]="{ 'is-invalid': formSubmitted && f.location.errors }" (change)="changeLoc($event.target.value, false)">
+        <option value="" disabled selected>Select Location</option>
+        <option *ngFor="let l of locs" [value]="l.id">{{l.name}}</option>
+      </select>
+      <select required class="form-control" formControlName="location" id="location" *ngIf="f.targetType.value == 3"
+        [ngClass]="{ 'is-invalid': formSubmitted && f.location.errors }" (change)="changeLoc($event.target.value, true)">
+        <option value="" disabled selected>Select Location</option>
+        <option *ngFor="let l of locs" [value]="l.id">{{l.name}}</option>
+      </select>
+        <div *ngIf="formSubmitted && f.location.errors" class="invalid-feedback">
+          <div *ngIf="f.location.errors.required">Location is required</div>
+        </div>
       </div>
-      <div class="form-group col-sm-12">
-        <ng-select [items]="locs" bindLabel="name" bindValue="id" [multiple]="true" class="custom"
-          placeholder="Select Location" clearAllText="Clear" [closeOnSelect]="false" [searchable]="true"
-          [clearOnBackspace]="true" (add)="onAddLocation($event)" (remove)="onRemoveLocation($event)">
-          <!-- <ng-template ng-option-tmp let-item="item" let-item$="item$" let-index="index">
-            <input id="item-{{index}}" type="checkbox" [ngModel]="item$.selected"/> {{item.name}}
-        </ng-template> -->
-        </ng-select>
+      <div class="form-group col-sm-6 required" *ngIf="f.targetType.value == 3">
+        <label for="device" class="asterisk-if-mandatory">Select Device</label>
+        <select required class="form-control" formControlName="device" id="device"
+        [ngClass]="{ 'is-invalid': formSubmitted && f.device.errors }">
+        <option value="" disabled selected>Select Device</option>
+        <option *ngFor="let d of devices" [value]="d.id">{{d.name}} ({{d.serial}})</option>
+      </select>
+        <div *ngIf="formSubmitted && f.device.errors" class="invalid-feedback">
+          <div *ngIf="f.device.errors.required">Device is required</div>
+        </div>
       </div>
     </div>
-   
-    <div class="form-row list-container" *ngIf="f.targetType.value == 3">
-      <div class="form-group col-sm-12 mb-0">
-        <label for="search" class="asterisk-if-mandatory">Devices</label>
+    <!-- <div class="form-row" *ngIf="f.jobType.value == jobsEnum.SOFTWARE_DOWNLOAD_MSG">
+      <div class="form-group col-sm-6 required">
+        <label for="library" class="asterisk-if-mandatory">Select Library</label>
+        <input required formControlName="library" id="library" type="text" class="form-control" autocomplete="off"
+          [ngClass]="{ 'is-invalid': formSubmitted && f.library.errors }">
+        <div *ngIf="formSubmitted && f.library.errors" class="invalid-feedback">
+          <div *ngIf="f.library.errors.required">Library is required</div>
+        </div>
       </div>
-      <div class="form-group col-sm-12">
-        <ng-select [items]="devices" bindLabel="name" bindValue="id" [multiple]="true" class="custom"
-          placeholder="Select Device" clearAllText="Clear" [closeOnSelect]="false"  [searchable]="true"
-          [clearOnBackspace]="true" (add)="onAddDevice($event)" (remove)="onRemoveDevice($event)">
-          <!-- <ng-template ng-option-tmp let-item="item" let-item$="item$" let-index="index">
-            <input id="item-{{index}}" type="checkbox" [ngModel]="item$.selected"/> {{item.name}}
-        </ng-template> -->
-        </ng-select>
-      </div>
-      
-    </div>
+    </div> -->
     <div class="form-row">
       <div class="form-group col-sm-12">
         <label for="desc">Description</label>

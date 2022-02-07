@@ -1,9 +1,13 @@
 import { Component, EventEmitter, OnDestroy, OnInit, Output } from '@angular/core';
-import { faArchive, faBars, faChartArea, faEdit, faEye, faFileDownload, faFileExport, faFileImport, faFilter, faHome, faIndustry, faMapMarkerAlt, faMobileAlt, faPlus, faSearch, faTachometerAlt, faTh, faTimes, faTimesCircle, faUserCog } from '@fortawesome/free-solid-svg-icons';
+import { faArchive, faBars, faChartArea, faEdit, faEye, faFileDownload, faFileExport, faFileImport, faFilter, faHome, faIndustry, faLongArrowAltDown, faLongArrowAltUp, faMapMarkerAlt, faMobileAlt, faPlus, faSearch, faTachometerAlt, faTh, faTimes, faTimesCircle, faUserCog } from '@fortawesome/free-solid-svg-icons';
 import { ModalDismissReasons, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { Subscription } from 'rxjs';
 import { StatusEnum } from '../enum/status.enum';
 import { ActionEnum } from '../enum/action.enum';
+import { AppSettings } from '../../app.config';
+import { JobsEnum } from '../enum/jobs.enum';
+import { TriggerType } from '../enum/trigger-type.enum';
+import { FormGroup } from '@angular/forms';
 
 @Component({
     template: ''
@@ -23,7 +27,9 @@ export abstract class BaseComponent implements OnInit, OnDestroy {
     faTimes = faTimes;
     faDownload = faFileDownload;
     faImport = faFileImport;
-    faExport = faFileExport
+    faExport = faFileExport;
+    faUpArrow = faLongArrowAltUp;
+    faDownArrow = faLongArrowAltDown;
 
     faHome = faHome;
     faUserCog = faUserCog;
@@ -33,12 +39,20 @@ export abstract class BaseComponent implements OnInit, OnDestroy {
     faMerchant = faIndustry;
     faDashboard = faTachometerAlt;
 
+    statusKeys: Array<any>;
 
     mSub: Subscription;
+
+    inFilterMode: boolean;
+
+    searchForm: FormGroup;
 
     closeResult: string;
 
     constructor(private modalService: NgbModal) {
+        this.statusKeys = Object.keys(this.statusEnum).filter((element) => {
+            return isNaN(Number(element));
+        });
     }
 
     abstract ngOnInit(): void;
@@ -113,5 +127,25 @@ export abstract class BaseComponent implements OnInit, OnDestroy {
 
     get actionEnum(): typeof ActionEnum {
         return ActionEnum;
+    }
+
+    get jobEnum(): typeof JobsEnum {
+        return JobsEnum;
+    }
+
+    getDeviceImagePath(fileName: string) {
+        return AppSettings.DEVICE_IMAGE_CONTEXT + fileName;
+    }
+
+    getEventTypeText(type: any) {
+        if (type == this.jobEnum.APP_INSTALL)
+            return 'Install';
+        else if (type == this.jobEnum.APP_PARAM_UPDATE)
+            return 'Parameter Update';
+        else if (type == this.jobEnum.DEVICE_DETAILS)
+            return 'Device Details';
+        else if (type == this.jobEnum.DEVICE_REBOOT)
+            return 'Reboot';
+
     }
 }

@@ -280,6 +280,10 @@ export class MerchantDashboardComponent extends BaseComponent {
         });
   }
 
+  loadEventLogs(){
+    
+  }
+
   ngOnDestroy(): void {
     this.mSub.remove;
   }

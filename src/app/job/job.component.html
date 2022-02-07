@@ -40,8 +40,8 @@
               <td>{{ job.jobType }}</td>
               <td>{{ job.jobDate | date: 'dd/MM/yyyy HH:mm'}}</td>
               <td *ngIf="job.targetType == 1">All Locations</td>
-              <td *ngIf="job.targetType == 2">{{ job.location.name }}</td>
-              <td *ngIf="job.targetType == 3">{{ job.device.name }}</td>
+              <td *ngIf="job.targetType == 2">{{ job.locationNames }}</td>
+              <td *ngIf="job.targetType == 3">{{ job.deviceNames }}</td>
               <td></td>
               <td>{{ getStatus(job.status) }}</td>
               <td>{{ job.lastUpdatedBy }}</td>
