@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { faPlus, faBars, faTh, faEye, faEdit, faArchive } from '@fortawesome/free-solid-svg-icons';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { Merchant } from '../model/merchant';
@@ -45,7 +45,7 @@ export class JobComponent extends BaseComponent  {
   }
 
   ngOnInit(): void {
-    this.pageHeader = 'Schedule Events';
+    this.pageHeader = 'Scheduled Events';
     this.mSub = this.appService.userMerchant.subscribe(data => {
       // console.log('User Merchant.....', data.id+':'+Object.keys(data).length);
       if(Object.keys(data).length > 0) {

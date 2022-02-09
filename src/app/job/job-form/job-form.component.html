@@ -55,8 +55,9 @@
             </button>
           </div>
         </div> -->
-        <input required formControlName="jobDate" id="jobDate" type="datetime-local" class="form-control" autocomplete="off"
-          [ngClass]="{ 'is-invalid': formSubmitted && f.jobDate.errors }" min="{{min}}" max="{{max}}">
+        <input required formControlName="jobDate" id="jobDate" type="datetime-local" class="form-control"
+          autocomplete="off" [ngClass]="{ 'is-invalid': formSubmitted && f.jobDate.errors }" min="{{min}}"
+          max="{{max}}">
         <div *ngIf="formSubmitted && f.jobDate.errors" class="invalid-feedback">
           <div *ngIf="f.jobDate.errors.required">Event Date is required</div>
           <div *ngIf="f.jobDate.errors?.minlength">Event Date must be a valid date.</div>
@@ -90,16 +91,19 @@
         </div>
       </div>
     </div>
-    <div class="form-row" *ngIf="f.jobType.value == jobsEnum.APP_INSTALL || f.jobType.value == jobsEnum.APP_PARAM_UPDATE">
+    <div class="form-row"
+      *ngIf="f.jobType.value == jobsEnum.APP_INSTALL || f.jobType.value == jobsEnum.APP_PARAM_UPDATE">
       <div class="form-group col-sm-6 required">
         <label for="app" class="asterisk-if-mandatory">Select Application</label>
         <select required class="form-control" formControlName="app" id="app"
-          [ngClass]="{ 'is-invalid': formSubmitted && f.app.errors }" (change)="changeApp($event.target.value)" *ngIf="f.jobType.value == jobsEnum.APP_INSTALL">
+          [ngClass]="{ 'is-invalid': formSubmitted && f.app.errors }" (change)="changeApp($event.target.value)"
+          *ngIf="f.jobType.value == jobsEnum.APP_INSTALL">
           <option value="" disabled selected>Select Application</option>
           <option *ngFor="let a of apps" [value]="a.id">{{a.name}}</option>
         </select>
         <select required class="form-control" formControlName="app" id="app"
-          [ngClass]="{ 'is-invalid': formSubmitted && f.app.errors }" *ngIf="f.jobType.value == jobsEnum.APP_PARAM_UPDATE">
+          [ngClass]="{ 'is-invalid': formSubmitted && f.app.errors }"
+          *ngIf="f.jobType.value == jobsEnum.APP_PARAM_UPDATE">
           <option value="" disabled selected>Select Application</option>
           <option *ngFor="let a of apps" [value]="a.id">{{a.name}}</option>
         </select>
@@ -137,30 +141,36 @@
         <label for="search" class="asterisk-if-mandatory">Location</label>
       </div>
       <div class="form-group col-sm-12">
-        <ng-select [items]="locs" bindLabel="name" bindValue="id" [multiple]="true" class="custom"
-          placeholder="Select Location" clearAllText="Clear" [closeOnSelect]="false" [searchable]="true"
-          [clearOnBackspace]="true" (add)="onAddLocation($event)" (remove)="onRemoveLocation($event)">
-          <!-- <ng-template ng-option-tmp let-item="item" let-item$="item$" let-index="index">
-            <input id="item-{{index}}" type="checkbox" [ngModel]="item$.selected"/> {{item.name}}
-        </ng-template> -->
+        <ng-select [multiple]="true" class="custom" placeholder="Select Location" clearAllText="Clear"
+          [closeOnSelect]="false" [searchable]="true" [clearOnBackspace]="true" [(ngModel)]="selectedLocs"
+          [ngModelOptions]="{standalone: true}" [disabled]="actionType == actionEnum.view">
+          <ng-option [value]="l.id" *ngFor="let l of locs">
+            {{l.name}}
+          </ng-option>
         </ng-select>
       </div>
     </div>
-   
+
     <div class="form-row list-container" *ngIf="f.targetType.value == 3">
       <div class="form-group col-sm-12 mb-0">
         <label for="search" class="asterisk-if-mandatory">Devices</label>
       </div>
-      <div class="form-group col-sm-12">
+      <!-- <div class="form-group col-sm-12" *ngIf="actionType == actionType.view">
         <ng-select [items]="devices" bindLabel="name" bindValue="id" [multiple]="true" class="custom"
           placeholder="Select Device" clearAllText="Clear" [closeOnSelect]="false"  [searchable]="true"
-          [clearOnBackspace]="true" (add)="onAddDevice($event)" (remove)="onRemoveDevice($event)">
-          <!-- <ng-template ng-option-tmp let-item="item" let-item$="item$" let-index="index">
-            <input id="item-{{index}}" type="checkbox" [ngModel]="item$.selected"/> {{item.name}}
-        </ng-template> -->
+          [clearOnBackspace]="true" (add)="onAddDevice($event)" (remove)="onRemoveDevice($event)" [(ngModel)]="selectedDvcs" disabled>
+        </ng-select>
+      </div> -->
+      <div class="form-group col-sm-12" *ngIf="actionType != actionType.view">
+        <ng-select [multiple]="true" class="custom" placeholder="Select Device" clearAllText="Clear"
+          [closeOnSelect]="false" [searchable]="true" [clearOnBackspace]="true" [(ngModel)]="selectedDvcs"
+          [ngModelOptions]="{standalone: true}" [disabled]="actionType == actionEnum.view">
+          <ng-option [value]="d.id" *ngFor="let d of devices">
+            {{d.name}}
+          </ng-option>
         </ng-select>
       </div>
-      
+
     </div>
     <div class="form-row">
       <div class="form-group col-sm-12">

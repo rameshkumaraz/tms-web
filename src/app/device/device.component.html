@@ -11,16 +11,18 @@
           <div class="form-row">
             <div class="form-group col-sm-12">
               <span class="pr-2">
-                <input id='name' formControlName="name" class="filter-input merchant" placeholder="Device Name"
-                  #merchant>
+                <input id='name' formControlName="name" class="filter-input merchant" placeholder="Device Name">
               </span>
               <span class="pr-2">
-                <input id='serial' formControlName="serial" class="filter-input merchant" placeholder="Device Serial"
-                  #merchant>
+                <input id='serial' formControlName="serial" class="filter-input merchant" placeholder="Device Serial">
               </span>
               <span class="pr-2">
-                <input id='model' formControlName="model" class="filter-input merchant" placeholder="Device Model"
-                  #merchant>
+                <span class="pr-2">
+                  <select id="model" formControlName="model" class="filter-select">
+                    <option value="" disabled selected>All Model</option>
+                    <option *ngFor="let dm of deviceModels" [value]="dm.id">{{dm.name}}</option>
+                  </select>
+                </span>
               </span>
               <span class="pr-2">
                 <select id="location" formControlName="location" class="filter-select">
@@ -51,26 +53,26 @@
         <span class="location-select pl-2 pr-2"><select id="location" (change)="onLocationChange($event.target.value)">
             <option *ngFor="let location of locations" [value]="location.id">{{location.name}}</option>
           </select></span> -->
-          <!-- <div *ngIf="locationCount > 0" class="text-right select-loc"> -->
-            <!-- <span class="pr-2">Select Location</span>
+        <!-- <div *ngIf="locationCount > 0" class="text-right select-loc"> -->
+        <!-- <span class="pr-2">Select Location</span>
             <span class="location-select pr-4">
             <select id="app" (change)="onLocationChange($event.target.value)" class="select-loc-select">
               <option value="" disabled selected>Select Application</option>
               <option *ngFor="let l of locations" [value]="l.id" [selected]="location.id == l.id" >{{l.name}}</option>
             </select>
           </span> -->
-          <!-- </div>   -->
+        <!-- </div>   -->
         <button class="button" (click)="create(deviceModal)">
           <fa-icon [icon]='faPlus' size="lg"></fa-icon><span class="pl-2">Add
             New Device</span>
         </button>
       </div>
     </div>
-    
+
     <!-- <div *ngIf="locationCount === 0" class="info">
       No locations are cofigured yet.
     </div> -->
-    
+
     <div *ngIf="deviceCount === 0" class="pt-4 info">
       No devices are created yet for the selected location.
       <ul>
@@ -97,7 +99,8 @@
         </thead>
         <tbody>
           <tr *ngFor="let device of devices | slice: (page-1) * pageSize : (page-1) * pageSize + pageSize">
-            <td><a [routerLink]="['/dProfile']" [queryParams]="{ id: device.id}" > <span class="table-col-name">{{ device.name }}</span></a></td>
+            <td><a [routerLink]="['/dProfile']" [queryParams]="{ id: device.id}"> <span
+                  class="table-col-name">{{ device.name }}</span></a></td>
             <td>{{ device.serial }}</td>
             <td>{{ device.model.name }}</td>
             <td>{{ device.location.name }}</td>
@@ -134,5 +137,6 @@
   </div>
 </div>
 <ng-template #deviceModal let-modal>
-  <app-device-form [actionType]="actionType" [merchant]="merchant" [device]="device" [locations]="locations" (modelClosed)='closeModal($event)'></app-device-form>
+  <app-device-form [actionType]="actionType" [merchant]="merchant" [device]="device" [locations]="locations"
+    (modelClosed)='closeModal($event)'></app-device-form>
 </ng-template>

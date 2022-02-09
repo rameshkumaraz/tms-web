@@ -15,6 +15,7 @@ import { ModalDismissReasons, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { Device } from '../model/device';
 import { BaseComponent } from '../shared/core/base.component';
 import { FormBuilder, FormGroup } from '@angular/forms';
+import { DeviceModelService } from '../device-model/device-model.service';
 
 @Component({
   selector: 'app-device',
@@ -29,6 +30,8 @@ export class DeviceComponent extends BaseComponent {
 
   deviceCount = 0;
   devices: Array<any>;
+
+  deviceModels: Array<any>;
 
   locations: Array<any>;
   locationCount = 0;
@@ -47,6 +50,7 @@ export class DeviceComponent extends BaseComponent {
   constructor(private appService: AppService,
     private dService: DeviceService,
     private locationService: LocationService,
+    private dmService: DeviceModelService,
     private formBuilder: FormBuilder,
     private spinner: NgxSpinnerService,
     private modal: NgbModal,
@@ -91,7 +95,7 @@ export class DeviceComponent extends BaseComponent {
           this.locations = resp.message;
           this.locationCount = this.locations.length;
 
-          if(this.locationCount > 0)
+          if (this.locationCount > 0)
             this.loadDevices();
         },
         error => {
@@ -99,6 +103,21 @@ export class DeviceComponent extends BaseComponent {
           this.spinner.hide();
         });
 
+    this.loadModels();
+
+  }
+
+  loadModels() {
+    this.dmService.getAll()
+      .pipe(first())
+      .subscribe(
+        (resp: ApiResponse) => {
+          console.log('Device Models Response', resp);
+          this.deviceModels = resp.message;
+        },
+        error => {
+          console.log('Device Models Response', error);
+        });
   }
 
   loadDevices() {
@@ -106,13 +125,13 @@ export class DeviceComponent extends BaseComponent {
       .pipe(first())
       .subscribe(
         (resp: ApiResponse) => {
-          console.log('Location Response', resp);
+          console.log('Device Response', resp);
           this.devices = resp.message;
           this.deviceCount = this.devices.length;
           this.spinner.hide();
         },
         error => {
-          console.log('Location Response', error);
+          console.log('Device Response', error);
           this.spinner.hide();
         });
   }
@@ -162,7 +181,9 @@ export class DeviceComponent extends BaseComponent {
     console.log('Filter', this.searchForm.value);
     let filter = this.searchForm.value;
     filter.merchant = this.merchant.id;
-    if (this.f.name.value || this.f.serial.value || this.f.model.value || this.f.location.value  || this.f.status.value) {
+    console.log('Filter', filter);
+    if (this.f.name.value || this.f.serial.value || this.f.model.value || this.f.location.value || this.f.status.value) {
+      this.spinner.show();
       this.dService.searchDevices(filter).pipe(first())
         .subscribe(
           (resp: ApiResponse) => {
@@ -181,11 +202,13 @@ export class DeviceComponent extends BaseComponent {
   clearSearchResult() {
     this.searchForm.reset();
     this.f.status.setValue("");
+    this.f.model.setValue("");
+    this.f.location.setValue("");
     this.inFilterMode = false;
     this.onPageLoad();
   }
 
-  showProfile(id: number){
+  showProfile(id: number) {
     //this.router.navigate[]
   }
 

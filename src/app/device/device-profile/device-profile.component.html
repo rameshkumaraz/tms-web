@@ -121,6 +121,7 @@
         <ngb-tab id="tab-details" title="Details">
           <ng-template ngbTabContent>
             <div class="tab-content px-5 py-3">
+              <div class="details-update-date float-right">Last updated on {{deviceDetails[0].updatedDate | date: 'dd/MM/yyyy HH:mm:ss'}}</div>
               <table class="table table-striped"  style="width: 80%">
                 <thead>
                   <tr>
@@ -129,7 +130,7 @@
                   </tr>
                 </thead>
                 <tbody>
-                  <tr *ngFor="let dd of device.details">
+                  <tr *ngFor="let dd of deviceDetails">
                     <td>{{ dd.key }}</td>
                     <td>{{ dd.value }}</td>
                   </tr>
@@ -192,8 +193,8 @@
                   </thead> -->
                   <tbody>
                     <tr *ngFor="let dd of let v of getParamValueKeys(k)">
-                      <td>{{v}}</td>
-                      <td>{{deviceParams[k][v]}}</td>
+                      <td style="width: 40%;">{{v}}</td>
+                      <td style="width: 60%;">{{deviceParams[k][v]}}</td>
                     </tr>
                   </tbody>
                 </table>

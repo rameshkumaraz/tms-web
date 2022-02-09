@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { ToastrService } from 'ngx-toastr';
@@ -57,11 +57,14 @@ export class JobFormComponent extends BaseComponent {
   min: any;
   max: any;
 
-  filteredDevices: Array<any>;
-  filteredLocations: Array<any>;
+  selectedDvcs = [];
+  selectedLocs = [];
 
   selectedDevices = [];
   selectedLocations = [];
+
+  @ViewChild('location') location;
+  @ViewChild('device') device;
 
   sub;
 
@@ -157,10 +160,11 @@ export class JobFormComponent extends BaseComponent {
       // jobTime: this.job.jobTime,
       desc: this.job.desc,
       library: this.job.library ? this.job.library.id : '',
-      location: this.job.location ? this.job.location.id : '',
+      // location: this.job.location,
       app: this.job.app ? this.job.app.id : '',
-      device: this.job.device ? this.job.device.id : ''
+      // device: this.job.device
     });
+    
   }
 
   loadApps(libType) {
@@ -174,6 +178,7 @@ export class JobFormComponent extends BaseComponent {
         this.loadLibraries();
       else if(libType === 2)
         this.loadLatestLibrary();  
+        
     },
       err => {
         console.log('Unable to load applicationss, please contact adminstrator', err);
@@ -213,6 +218,14 @@ export class JobFormComponent extends BaseComponent {
   }
 
   get f() { return this.jobForm['controls'] }
+
+  filterLocation(id: number){
+    return this.locs.find(l => l.id == id);
+  }
+
+  filterDevice(id: number){
+    return this.devices.find(d => d.id == id);
+  }
 
   changeJob(type: string) {
     if (type == JobsEnum.APP_INSTALL || type == JobsEnum.APP_PARAM_UPDATE) {
@@ -257,12 +270,12 @@ export class JobFormComponent extends BaseComponent {
     this.job.library = this.job.library + "";
     this.job.targetType = +this.job.targetType;
     if (this.job.targetType === 2)
-      this.job.location = this.selectedLocations;
+      this.job.location = this.selectedLocs;
 
     if (this.job.targetType === 3)
-      this.job.device = this.selectedDevices;
+      this.job.device = this.selectedDvcs;
 
-    // console.log("Job....", this.job);  
+    console.log("Job....", this.job);  
 
     this.service.create(this.job).subscribe((resp: ApiResponse) => {
       this.spinner.hide();
@@ -345,6 +358,11 @@ export class JobFormComponent extends BaseComponent {
       // if(loadDevices){
       //   this.loadDevices();
       // }
+
+      if(this.actionType != this.actionEnum.add && this.job.location){
+        let ls = this.job.location.split(',').map(x=>+x);
+        this.selectedLocs = ls;
+      }  
     },
       err => {
         console.log('Unable to load locations, please contact adminstrator', err);
@@ -360,6 +378,12 @@ export class JobFormComponent extends BaseComponent {
       this.spinner.hide();
       this.devices = resp.message;
       // this.f.device.setValue(this.devices[0].id);
+
+      if(this.actionType != this.actionEnum.add && this.job.device){
+        let ds = this.job.device.split(',').map(x=>+x);
+  
+        this.selectedDvcs = ds;
+      }  
     },
       err => {
         console.log('Unable to load devices, please contact adminstrator', err);
@@ -397,6 +421,7 @@ export class JobFormComponent extends BaseComponent {
   onAddDevice(event) {
     // console.log("Add...", event);
     this.selectedDevices.push(event.id);
+    // this.selectedDvcs.push(this.filterDevice(event.id));
     console.log("Selected...", this.selectedDevices);
   }
 
