@@ -35,7 +35,7 @@ export class AppComponent {
       console.log('User subscription....', data);
       if (data) {
         this.uActivity = this.userInactive.subscribe(() => {
-          console.log('user has been inactive for 30s');
+          console.log('user has been inactive for 60 mins');
           this.closeInactiveModel();
           //   if (!this.modalRef) {
           //     this.modalRef = this.modalService.open(UserInactiveComponent, 'md', "User Inactive Alert");
@@ -69,7 +69,7 @@ export class AppComponent {
   }
 
   setTimeout() {
-    this.userActivity = setTimeout(() => this.userInactive.next(undefined), 30000);
+    this.userActivity = setTimeout(() => this.userInactive.next(undefined), (60 * 60 * 1000));
   }
 
   @HostListener('window:mousemove')
@@ -81,9 +81,9 @@ export class AppComponent {
 
   closeInactiveModel() {
     this.authService.logout();
-    this.router.navigate(['/logout'])
-      .then(() => {
-        window.location.reload();
-      });
+    this.router.navigate(['/logout']);
+      // .then(() => {
+      //   window.location.reload();
+      // });
   }
 }
