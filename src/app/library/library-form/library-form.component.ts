@@ -1,17 +1,12 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { ActivatedRoute, Router } from '@angular/router';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { ToastrService } from 'ngx-toastr';
 import { distinctUntilChanged } from 'rxjs/operators';
-import { ApplicationService } from 'src/app/application/application.service';
-import { Library } from 'src/app/model/library';
-import { Merchant } from 'src/app/model/merchant';
 import { ActionEnum } from 'src/app/shared/enum/action.enum';
 import { PostActionEnum } from 'src/app/shared/enum/post-action.enum';
 import { LibTypeEnum } from 'src/app/shared/enum/lib-type.enum';
 import { ApiResponse } from 'src/app/shared/model/api.response';
-import { AppService } from 'src/app/shared/service/app.service';
 import { LibraryService } from '../library.service';
 import { BaseComponent } from 'src/app/shared/core/base.component';
 
@@ -39,14 +34,10 @@ export class LibraryFormComponent extends BaseComponent {
   // apps: Array<any>;
 
   constructor(private formBuilder: FormBuilder,
-    private router: Router,
-    private activatedroute: ActivatedRoute,
-    private appService: AppService,
-    private aplnService: ApplicationService,
     private service: LibraryService,
     private spinner: NgxSpinnerService,
     private toastr: ToastrService) {
-    super(null);
+    super();
   }
 
   ngOnInit(): void {

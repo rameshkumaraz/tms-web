@@ -17,7 +17,7 @@ export class LoginFormComponent implements OnInit {
 
   @Input() showHeader: boolean;
 
-  // @Output() modelClosed = new EventEmitter();
+  // @Output() modalClosed = new EventEmitter();
 
   faTimes = faTimes;
 
@@ -96,6 +96,6 @@ export class LoginFormComponent implements OnInit {
 
   // close() {
   //   // /console.log('close invoked');
-  //   this.modelClosed.emit(true);
+  //   this.modalClosed.emit(true);
   // }
 }

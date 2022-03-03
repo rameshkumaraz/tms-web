@@ -1,5 +1,4 @@
-import { Component, OnInit } from '@angular/core';
-import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { Component } from '@angular/core';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { ToastrService } from 'ngx-toastr';
 import { first } from 'rxjs/operators';
@@ -27,10 +26,9 @@ export class AdminUserComponent extends BaseComponent {
   actionType;
 
   constructor(private service: AdminUserService,
-    private modal: NgbModal,
     private spinner: NgxSpinnerService,
     private toastr: ToastrService) {
-    super(modal);
+    super();
   }
 
   ngOnInit(): void {

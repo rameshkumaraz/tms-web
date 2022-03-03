@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { ToastrService } from 'ngx-toastr';
 import { first } from 'rxjs/operators';
@@ -7,7 +6,6 @@ import { Merchant } from '../model/merchant';
 import { ActionEnum } from '../shared/enum/action.enum';
 import { ApiResponse } from '../shared/model/api.response';
 import { AppService } from '../shared/service/app.service';
-import { AuthenticationService } from '../auth/services/authentication.service';
 import { UserService } from './user.service';
 import { BaseComponent } from '../shared/core/base.component';
 
@@ -35,12 +33,10 @@ export class UserComponent extends BaseComponent {
 
   constructor(private userService: UserService,
     private appService: AppService,
-    private authService: AuthenticationService,
     private service: UserService,
     private spinner: NgxSpinnerService,
-    private modal: NgbModal,
     private toastr: ToastrService) {
-    super(modal);
+    super();
   }
 
   ngOnInit(): void {

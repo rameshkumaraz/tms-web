@@ -112,7 +112,7 @@
 </div>
 <ng-template #paramform let-c="close" let-d="dismiss">
   <app-app-param-form [actionType]="actionType" [merchant]="merchant" [selectedParam]="appParam"
-    (modelClosed)='closeModal($event)'></app-app-param-form>
+    (modalClosed)='closeModal($event)'></app-app-param-form>
 </ng-template>
 <ng-template #importTemplateForm let-c="close" let-d="dismiss">
   <div class="modal-header">
@@ -164,5 +164,5 @@
   </div>
 </ng-template>
 <ng-template #importConfigForm let-c="close" let-d="dismiss">
-  <app-app-param-import [merchant]="merchant" (modelClosed)='closeModal($event)'></app-app-param-import>
+  <app-app-param-import [merchant]="merchant" (modalClosed)='closeModal($event)'></app-app-param-import>
 </ng-template>

@@ -44,7 +44,7 @@ export class AdminUserFormComponent extends BaseComponent {
     private spinner: NgxSpinnerService,
     private toastr: ToastrService,
     private datePipe: DatePipe) {
-    super(null);
+    super();
   }
 
   ngOnInit(): void {

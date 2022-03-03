@@ -1,5 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
-
+import { faTimesCircle } from '@fortawesome/free-solid-svg-icons';
 @Component({
   selector: 'app-error',
   templateUrl: './error.component.html',
@@ -8,6 +8,8 @@ import { Component, Input, OnInit } from '@angular/core';
 export class ErrorComponent implements OnInit {
 
   @Input() showHeader: boolean;
+
+  faTimesCircle = faTimesCircle;
 
   constructor() { }
 

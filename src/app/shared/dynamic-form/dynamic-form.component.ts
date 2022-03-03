@@ -57,7 +57,7 @@ export class DynamicFormComponent extends BaseComponent {
 
   constructor(private spinner: NgxSpinnerService,
     private toastr: ToastrService) {
-    super(null);
+    super();
   }
 
   ngOnInit(): void {
@@ -193,7 +193,7 @@ export class DynamicFormComponent extends BaseComponent {
 
   // close(reload: boolean) {
   //   console.log('close invoked');
-  //   this.modelClosed.emit({ reload: reload });
+  //   this.modalClosed.emit({ reload: reload });
   // }
 
   prevTab(idx: number) {

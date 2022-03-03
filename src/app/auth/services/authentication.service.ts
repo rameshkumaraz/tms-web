@@ -4,14 +4,14 @@ import { BehaviorSubject, Observable } from 'rxjs';
 
 import { AppSettings } from '../../app.config';
 import { RolesEnum } from '../guards/roles.enum';
-import { User } from 'src/app/model/user';
+import { ModalService } from 'src/app/shared/modal/modal.service';
 
 @Injectable({ providedIn: 'root' })
 export class AuthenticationService {
     private currentUserSubject: BehaviorSubject<any>;
     public currentUser: Observable<any>;
 
-    constructor(private http: HttpClient) {
+    constructor(private http: HttpClient, private modalService: ModalService) {
         this.currentUserSubject = new BehaviorSubject<any>(JSON.parse(sessionStorage.getItem('user_profile')));
         this.currentUser = this.currentUserSubject.asObservable();
     }
@@ -76,8 +76,9 @@ export class AuthenticationService {
 
     loadUserProfile() {
         console.log('Loading user profile subject.....');
-        this.currentUserSubject = new BehaviorSubject<User>(JSON.parse(sessionStorage.getItem('user_profile')));
-        this.currentUser = this.currentUserSubject.asObservable();
+        // this.currentUserSubject = new BehaviorSubject<User>(JSON.parse(sessionStorage.getItem('user_profile')));
+        // this.currentUser = this.currentUserSubject.asObservable();
+        this.currentUserSubject.next(JSON.parse(sessionStorage.getItem('user_profile')));
         console.log('Loading user profile subject.....', this.currentUserSubject.value);
     }
 
@@ -85,6 +86,7 @@ export class AuthenticationService {
         // remove user from local storage to log user out
         sessionStorage.clear();
         localStorage.clear();
+        this.modalService.closeAll();
         this.currentUserSubject.next(null);
     }
 }

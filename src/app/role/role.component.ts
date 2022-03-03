@@ -3,12 +3,10 @@ import { NgxSpinnerService } from 'ngx-spinner';
 import { ToastrService } from 'ngx-toastr';
 import { first } from 'rxjs/operators';
 import { ApiResponse } from '../shared/model/api.response';
-import { RolesEnum } from '../auth/guards/roles.enum';
 import { AuthenticationService } from '../auth/services/authentication.service';
 import { RoleService } from './role.service';
 import { BaseComponent } from '../shared/core/base.component';
 import { ActionEnum } from '../shared/enum/action.enum';
-import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   selector: 'app-role',
@@ -29,11 +27,10 @@ export class RoleComponent extends BaseComponent {
   actionType;
 
   constructor(private roleService: RoleService,
-    private modal: NgbModal,
     private spinner: NgxSpinnerService,
     private authService: AuthenticationService,
     private toastr: ToastrService) {
-    super(modal);
+    super();
   }
 
   ngOnInit(): void {

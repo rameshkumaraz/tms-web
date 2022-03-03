@@ -20,7 +20,7 @@ import { DeviceService } from '../device.service';
 })
 export class DeviceFormComponent implements OnInit {
 
-  @Output() modelClosed = new EventEmitter();
+  @Output() modalClosed = new EventEmitter();
 
   @Input() merchant;
   @Input() locations: Array<any>;
@@ -202,7 +202,7 @@ export class DeviceFormComponent implements OnInit {
 
   close(reload: boolean) {
     console.log('close invoked');
-    this.modelClosed.emit({ reload: reload });
+    this.modalClosed.emit({ reload: reload });
   }
 
 }

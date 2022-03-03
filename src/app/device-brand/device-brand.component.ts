@@ -1,5 +1,4 @@
-import { Component, OnInit } from '@angular/core';
-import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { Component } from '@angular/core';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { ToastrService } from 'ngx-toastr';
 import { first } from 'rxjs/operators';
@@ -31,9 +30,8 @@ export class DeviceBrandComponent extends BaseComponent {
   constructor(
     private service: DeviceBrandService,
     private spinner: NgxSpinnerService,
-    private modal: NgbModal,
     private toastr: ToastrService) {
-    super(modal);
+    super();
   }
 
   ngOnInit(): void {

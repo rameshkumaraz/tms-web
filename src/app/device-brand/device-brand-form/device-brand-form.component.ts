@@ -35,7 +35,7 @@ export class DeviceBrandFormComponent extends BaseComponent {
     private service: DeviceBrandService,
     private spinner: NgxSpinnerService,
     private toastr: ToastrService) {
-    super(null);
+    super();
   }
 
   ngOnInit(): void {

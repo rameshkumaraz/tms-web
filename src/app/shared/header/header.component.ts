@@ -70,7 +70,8 @@ export class HeaderComponent implements OnInit {
         this.loadMenuAccess('merchant-menu');
       } else {
         this.merchant = null;
-        this.loadMenuAccess('admin-menu');
+        if(this.profile)
+          this.loadMenuAccess('admin-menu');
       }
     });
   }
@@ -215,7 +216,10 @@ export class HeaderComponent implements OnInit {
   }
 
   isAdmin(){
-    return this.authService.isAdmin();
+    if(this.authService.isAuthorized())
+      return this.authService.isAdmin();
+    else
+      return false;  
   }
 
   // hasSubMenuAccess(menu: any) {
@@ -243,7 +247,18 @@ export class HeaderComponent implements OnInit {
     this.modalService.dismissAll();
   }
 
-  logout() {
+  logout(content) {
+    this.modalService.open(content, { size: 'md' });
+    // this.authService.logout();
+    // this.profile = null;
+    // this.router.navigate(['/login']);
+  }
+
+  cancelLogout() {
+    this.modalService.dismissAll();
+  }
+
+  confirmLogout() {
     this.authService.logout();
     this.profile = null;
     this.router.navigate(['/login']);

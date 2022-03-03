@@ -113,6 +113,22 @@ button {
   font-weight: $font-weight-lighter;
 }
 
+.modal-title .warning {
+  color: $light;
+}
+
+.modal-header-warning {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  padding: 1rem 1rem;
+  border-bottom: 1px solid #dee2e6;
+  border-top-left-radius: calc(0.3rem - 1px);
+  border-top-right-radius: calc(0.3rem - 1px);
+  background-color: $warning;
+  color: $danger;
+}
+
 .modal-title {
   font-size: $font-size-md !important;
   font-weight: $font-weight-lighter !important;
@@ -250,6 +266,25 @@ button {
   border-color: $header-color;
   color: $gray-medium;
   line-height: 10px;
+}
+
+.form-button-warning {
+  height: 30px;
+  width: 100px;
+  background-color: $form-color;
+  font-size: $font-size-sm;
+  font-weight: $font-weight-lighter;
+  font-family: $font-family-light;
+  box-shadow: lightness($color: #000000);
+  border-color: $orange;
+  color: $orange;
+  line-height: 10px;
+}
+
+.form-button-warning:hover{
+  background-color: $orange !important;
+  color: $light;
+  border-color: $orange;
 }
 
 .form-control:focus {
@@ -489,4 +524,11 @@ th, td {
 
 .breadcrumb a{
   text-decoration: underline;
+}
+
+.perfect-centering {
+  position: absolute;
+  top: 50%;
+  left:50%;
+  transform: translate(-50%,-50%);
 }

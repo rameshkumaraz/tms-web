@@ -40,7 +40,7 @@ export class RoleFormComponent extends BaseComponent {
     private pService: PolicyService,
     private spinner: NgxSpinnerService,
     private toastr: ToastrService) {
-    super(null);
+    super();
   }
 
   ngOnInit(): void {

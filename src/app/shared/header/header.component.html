@@ -1,7 +1,10 @@
 <nav class="navbar navbar-expand-lg navbar-dark header">
   <div class="container-fluid">
-    <div class="navbar-header">
-      <a class="navbar-brand" style='cursor: pointer;' (click)='showDashboard()'><img src="../../../assets/images/az_pay_config_logo.svg"></a>
+    <div class="navbar-header" style="text-align: left;">
+      <!-- <a class="navbar-brand" style='cursor: pointer;' (click)='showDashboard()'><img
+          src="../../../assets/images/az_pay_config_logo.svg"></a> -->
+      <a class="navbar-brand" style='cursor: pointer;' (click)='showDashboard()'><img
+          src="../../../assets/images/azpay_cc_logo.svg" class="logo"></a>    
       <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#myNavbar"
         aria-controls="myNavbar" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
@@ -10,22 +13,34 @@
     <div class="collapse navbar-collapse" id="myNavbar">
       <ul class="navbar-nav mr-auto">
         <li class="nav-item nav-mi" *ngIf="hasMenuAccess('home')">
-          <a class="nav-link" routerLink="/db" *ngIf="isAdmin()"><span class="pr-1"><fa-icon [icon]='faHome' size="md"></fa-icon></span>Home</a>
-          <a class="nav-link" routerLink="/mdb" *ngIf="!isAdmin()"><span class="pr-1"><fa-icon [icon]='faHome' size="md"></fa-icon></span>Home</a>
+          <a class="nav-link" routerLink="/db" *ngIf="isAdmin()"><span class="pr-1">
+              <fa-icon [icon]='faHome' size="md"></fa-icon>
+            </span>Home</a>
+          <a class="nav-link" routerLink="/mdb" *ngIf="!isAdmin()"><span class="pr-1">
+              <fa-icon [icon]='faHome' size="md"></fa-icon>
+            </span>Home</a>
         </li>
         <li class="nav-item nav-mi" *ngIf="hasMenuAccess('mdb')">
-          <a class="nav-link" routerLink="/mdb"><span class="pr-1"><fa-icon [icon]='faDashboard' size="md"></fa-icon></span>Dashboard</a>
+          <a class="nav-link" routerLink="/mdb"><span class="pr-1">
+              <fa-icon [icon]='faDashboard' size="md"></fa-icon>
+            </span>Dashboard</a>
         </li>
         <li class="nav-item nav-mi" *ngIf="hasMenuAccess('merchant')">
-          <a class="nav-link" routerLink="/merchant"><span class="pr-1"><fa-icon [icon]='faMerchant' size="md"></fa-icon></span>Merchant</a>
+          <a class="nav-link" routerLink="/merchant"><span class="pr-1">
+              <fa-icon [icon]='faMerchant' size="md"></fa-icon>
+            </span>Merchant</a>
         </li>
         <li class="nav-item nav-mi" *ngIf="hasMenuAccess('location')">
-          <a class="nav-link" routerLink="/location"><span class="pr-1"><fa-icon [icon]='faMap' size="md"></fa-icon></span>Location</a>
+          <a class="nav-link" routerLink="/location"><span class="pr-1">
+              <fa-icon [icon]='faMap' size="md"></fa-icon>
+            </span>Location</a>
         </li>
         <li ngbDropdown class="nav-item nav-mi" *ngIf="hasMenuAccess('device')">
           <div class="nav-link">
             <span class="pl-2">
-              <a ngbDropdownToggle id="deviceDropdown"><span class="pr-1"><fa-icon [icon]='faMobile' size="md"></fa-icon></span>Deivce</a>
+              <a ngbDropdownToggle id="deviceDropdown"><span class="pr-1">
+                  <fa-icon [icon]='faMobile' size="md"></fa-icon>
+                </span>Deivce</a>
             </span>
           </div>
           <div ngbDropdownMenu aria-labelledby="deviceDropdown" class="nav-sm">
@@ -36,7 +51,9 @@
         <li ngbDropdown class="nav-item nav-mi" *ngIf="hasMenuAccess('report')">
           <div class="nav-link">
             <span class="pl-2">
-              <a ngbDropdownToggle id="reportDropdown"><span class="pr-1"><fa-icon [icon]='faReport' size="md"></fa-icon></span>Reports</a>
+              <a ngbDropdownToggle id="reportDropdown"><span class="pr-1">
+                  <fa-icon [icon]='faReport' size="md"></fa-icon>
+                </span>Reports</a>
             </span>
           </div>
           <div ngbDropdownMenu aria-labelledby="reportDropdown" class="nav-sm">
@@ -50,15 +67,21 @@
         <li ngbDropdown class="nav-item nav-mi" *ngIf="hasMenuAccess('admin')">
           <div class="nav-link">
             <span class="pl-2">
-              <a ngbDropdownToggle id="adminDropdown"><span class="pr-1"><fa-icon [icon]='faUserCog' size="md"></fa-icon></span>Administration</a>
+              <a ngbDropdownToggle id="adminDropdown"><span class="pr-1">
+                  <fa-icon [icon]='faUserCog' size="md"></fa-icon>
+                </span>Administration</a>
             </span>
           </div>
           <div ngbDropdownMenu aria-labelledby="adminDropdown" class="nav-sm">
-            <a ngbDropdownItem class="nav-smi" routerLink="/dbrand" *ngIf="hasMenuAccess('device-brand')">Device Brand</a>
-            <a ngbDropdownItem class="nav-smi" routerLink="/dmodel" *ngIf="hasMenuAccess('device-model')">Device Model</a>
+            <a ngbDropdownItem class="nav-smi" routerLink="/dbrand" *ngIf="hasMenuAccess('device-brand')">Device
+              Brand</a>
+            <a ngbDropdownItem class="nav-smi" routerLink="/dmodel" *ngIf="hasMenuAccess('device-model')">Device
+              Model</a>
             <a ngbDropdownItem class="nav-smi" routerLink="/app" *ngIf="hasMenuAccess('app')">Application</a>
-            <a ngbDropdownItem class="nav-smi" routerLink="/library" *ngIf="hasMenuAccess('library')">Application Version</a>
-            <a ngbDropdownItem class="nav-smi" routerLink="/param" *ngIf="hasMenuAccess('app-param')">Application Parameter</a>
+            <a ngbDropdownItem class="nav-smi" routerLink="/library" *ngIf="hasMenuAccess('library')">Application
+              Version</a>
+            <a ngbDropdownItem class="nav-smi" routerLink="/param" *ngIf="hasMenuAccess('app-param')">Application
+              Parameter</a>
             <a ngbDropdownItem class="nav-smi" routerLink="/au" *ngIf="hasMenuAccess('admin-user')">Admin User</a>
             <a ngbDropdownItem class="nav-smi" routerLink="/user" *ngIf="hasMenuAccess('user')">User</a>
             <a ngbDropdownItem class="nav-smi" routerLink="/role" *ngIf="hasMenuAccess('role')">Role</a>
@@ -69,19 +92,19 @@
 
         <li ngbDropdown class="nav-item">
           <!-- <div ngbDropdown class="nav-link profile"> -->
-          <div class="nav-link profile pl-5"  *ngIf="!merchant">
-            <img src="../../../assets/images/user_icon.svg" />
+          <div class="nav-link profile pl-5" *ngIf="!merchant">
+            <img src="../../../assets/images/user_icon.svg" *ngIf="profile"/>
             <span class="pl-2">
               <a ngbDropdownToggle id="userDropdown" *ngIf="profile">{{profile.firstName +' '+profile.lastName}}</a>
-              <a ngbDropdownToggle id="userDropdown" *ngIf="!profile">Hi Guest!</a>
+              <!-- <a ngbDropdownToggle id="userDropdown" *ngIf="!profile">Hi Guest!</a> -->
             </span>
           </div>
           <div class="nav-link profile merchant pl-5" *ngIf="merchant">
             <span *ngIf="merchant" class="merchant-name">{{merchant.name}}, {{merchant.country}}</span>
-            <img src="../../../assets/images/user_icon.svg"/>
+            <img src="../../../assets/images/user_icon.svg" />
             <span class="pl-2">
               <a ngbDropdownToggle id="userDropdown" *ngIf="profile">{{profile.firstName +' '+profile.lastName}}</a>
-              <a ngbDropdownToggle id="userDropdown" *ngIf="!profile">Hi Guest!</a>
+              <!-- <a ngbDropdownToggle id="userDropdown" *ngIf="!profile">Hi Guest!</a> -->
             </span>
             <br>
           </div>
@@ -89,7 +112,7 @@
             <!-- <button ngbDropdownItem (click)="openLoginModal(logincontent)" *ngIf="!profile">
               <fa-icon [icon]='faSignIn' class="pr-1"></fa-icon>Login as Admin
             </button> -->
-            <button ngbDropdownItem (click)="logout()" *ngIf="profile">
+            <button ngbDropdownItem (click)="logout(logoutConfirm)" *ngIf="profile">
               <fa-icon [icon]='faSignOut' class="pr-1"></fa-icon>Logout
             </button>
           </div>
@@ -119,6 +142,20 @@
     </button>
   </div>
 </ng-template>
-<!-- <ng-template #logincontent let-c="close" let-d="dismiss">
-  <app-login-form [showHeader]="true" [isPopup]="true" (modelClosed)='closeModal($event, "login")'></app-login-form>
-</ng-template> -->
+<ng-template #logoutConfirm let-c="close" let-d="dismiss">
+
+  <div class="modal-body">
+    <div class="logout-text">
+      <span class="highlight">Logout Confirmation</span>
+      <br>
+      Are you sure, you want to logout from the system?
+    </div>
+    <div class="button-block pt-3 pl-0">
+      <button type="button" class="btn btn-primary form-button-action" (click)="confirmLogout()"
+        autofocus>Logout</button>
+      <span class="pl-2"><button type="button" class="btn btn-primary form-button-cancel"
+          (click)="cancelLogout()">Cancel</button>
+      </span>
+    </div>
+  </div>
+</ng-template>

@@ -40,7 +40,7 @@ export class ApplicationFormComponent extends BaseComponent {
     private appService: AppService,
     private spinner: NgxSpinnerService,
     private toastr: ToastrService) {
-    super(null);
+    super();
   }
 
   ngOnInit(): void {

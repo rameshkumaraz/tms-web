@@ -74,6 +74,11 @@
   background-color: $header-color;
 }
 
+.logo {
+  width: 80%;
+  height: 80%;
+}
+
 .profile {
   font-size: $font-size-xs !important;
   font-weight: $font-weight-lighter !important;
@@ -151,20 +156,34 @@
   -webkit-text-stroke-color: #fff;
 }
 
-.profile.merchant{
-    line-height: 30px !important;
-    text-align: right;
+.profile.merchant {
+  line-height: 30px !important;
+  text-align: right;
 }
 
-.merchant-name{
-    font-size: $font-size-sm !important;
-    font-weight: $font-weight-bold !important;
-    font-family: $font-family-light !important;
-    color: $white;
-    display:block;
+.merchant-name {
+  font-size: $font-size-sm !important;
+  font-weight: $font-weight-bold !important;
+  font-family: $font-family-light !important;
+  color: $white;
+  display: block;
 }
 
-.user-icon{
-    width: 17px;
-    height: 17px;
+.user-icon {
+  width: 17px;
+  height: 17px;
+}
+
+.logout-text {
+  font-size: $font-size-sm;
+  display: inline-block;
+  padding-bottom: 10px;
+}
+
+.logout-text .highlight{
+  font-size: $font-size-md;
+  font-weight: $font-weight-bold;
+  display: inline-block;
+  padding-bottom: 20px;
+  color: $danger;
 }

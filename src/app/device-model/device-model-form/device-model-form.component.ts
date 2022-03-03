@@ -18,7 +18,7 @@ import { DeviceModelService } from '../device-model.service';
 })
 export class DeviceModelFormComponent extends BaseComponent {
 
-  @Output() modelClosed = new EventEmitter();
+  @Output() modalClosed = new EventEmitter();
 
   @Input() actionType;
   @Input() model: any;
@@ -40,7 +40,7 @@ export class DeviceModelFormComponent extends BaseComponent {
     private service: DeviceModelService,
     private spinner: NgxSpinnerService,
     private toastr: ToastrService) {
-    super(null);
+    super();
   }
 
   ngOnInit(): void {

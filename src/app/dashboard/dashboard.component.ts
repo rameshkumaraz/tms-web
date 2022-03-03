@@ -116,7 +116,7 @@ export class DashboardComponent extends BaseComponent {
     private deviceService: DeviceService,
     private spinner: NgxSpinnerService,
     private router: Router) {
-    super(null);
+    super();
   }
 
   ngOnInit(): void {

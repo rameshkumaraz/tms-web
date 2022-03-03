@@ -1,5 +1,4 @@
 import { Component} from '@angular/core';
-import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { ToastrService } from 'ngx-toastr';
 import { Subscription } from 'rxjs';
@@ -61,9 +60,8 @@ export class AppParamComponent extends BaseComponent {
     private appService: AppService,
     private formBuilder: FormBuilder,
     private spinner: NgxSpinnerService,
-    private modal: NgbModal,
     private toastr: ToastrService) {
-    super(modal);
+    super();
   }
 
   private setting = {

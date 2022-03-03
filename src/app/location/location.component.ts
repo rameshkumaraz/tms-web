@@ -1,4 +1,4 @@
-import { Component, Input, OnDestroy, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { first } from 'rxjs/operators';
 import { Merchant } from '../model/merchant';
@@ -6,10 +6,9 @@ import { ApiResponse } from '../shared/model/api.response';
 import { AppService } from '../shared/service/app.service';
 import { LocationService } from './location.service';
 import { ActionEnum } from '../shared/enum/action.enum';
-import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ToastrService } from 'ngx-toastr';
 import { BaseComponent } from '../shared/core/base.component';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import { FormBuilder } from '@angular/forms';
 
 @Component({
   selector: 'app-location',
@@ -37,9 +36,8 @@ export class LocationComponent extends BaseComponent {
     private appService: AppService,
     private formBuilder: FormBuilder,
     private spinner: NgxSpinnerService,
-    private modal: NgbModal,
     private toastr: ToastrService) {
-      super(modal);
+      super();
   }
 
   ngOnInit(): void {

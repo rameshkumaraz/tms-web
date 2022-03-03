@@ -1,11 +1,9 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
-import { faPlus, faBars, faTh, faEye, faEdit, faArchive } from '@fortawesome/free-solid-svg-icons';
+import { Component } from '@angular/core';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { Merchant } from '../model/merchant';
 import { AppService } from '../shared/service/app.service';
 import { JobService } from './job.service';
 import { ActionEnum } from '../shared/enum/action.enum';
-import { ModalDismissReasons, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ToastrService } from 'ngx-toastr';
 import { TriggerType } from '../shared/enum/trigger-type.enum';
 import { BaseComponent } from '../shared/core/base.component';
@@ -39,9 +37,8 @@ export class JobComponent extends BaseComponent  {
   constructor(private service: JobService,
     private appService: AppService,
     private spinner: NgxSpinnerService,
-    private modal: NgbModal,
     private toastr: ToastrService) {
-      super(modal);
+      super();
   }
 
   ngOnInit(): void {

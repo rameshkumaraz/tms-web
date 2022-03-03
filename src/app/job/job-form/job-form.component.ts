@@ -28,7 +28,7 @@ import { BaseComponent } from 'src/app/shared/core/base.component';
 })
 export class JobFormComponent extends BaseComponent {
 
-  @Output() modelClosed = new EventEmitter();
+  @Output() modalClosed = new EventEmitter();
 
   @Input() actionType;
   @Input() merchant: Merchant;
@@ -77,7 +77,7 @@ export class JobFormComponent extends BaseComponent {
     private spinner: NgxSpinnerService,
     private toastr: ToastrService,
     private datePipe: DatePipe) {
-    super(null);
+    super();
   }
 
   ngOnInit(): void {

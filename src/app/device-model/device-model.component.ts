@@ -1,11 +1,7 @@
-import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
-import { faPlus, faBars, faTh, faEye, faEdit, faArchive } from '@fortawesome/free-solid-svg-icons';
-import { ModalDismissReasons, NgbModal, NgbModalConfig } from '@ng-bootstrap/ng-bootstrap';
+import { Component } from '@angular/core';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { ToastrService } from 'ngx-toastr';
 import { first } from 'rxjs/operators';
-import { ModuleBody } from 'typescript';
 import { DeviceModel } from '../model/device-model';
 import { BaseComponent } from '../shared/core/base.component';
 import { ActionEnum } from '../shared/enum/action.enum';
@@ -37,9 +33,8 @@ export class DeviceModelComponent extends BaseComponent {
   constructor(
     private service: DeviceModelService,
     private spinner: NgxSpinnerService,
-    private toastr: ToastrService,
-    private modal: NgbModal) {
-    super(modal);
+    private toastr: ToastrService) {
+    super();
   }
 
   ngOnInit(): void {

@@ -26,7 +26,7 @@ export class JobDetailComponent extends BaseComponent {
     private jobService: JobService,
     private spinner: NgxSpinnerService
   ) {
-    super(null);
+    super();
   }
 
   ngOnInit(): void {

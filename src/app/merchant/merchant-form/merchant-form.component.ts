@@ -1,6 +1,5 @@
-import { Component, Input, OnInit, ViewEncapsulation } from '@angular/core';
+import { Component, Input, ViewEncapsulation } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { Router, ActivatedRoute } from '@angular/router';
 import { countries } from '../../shared/model/country-data-store'
 import { Merchant } from '../../model/merchant';
 import { MerchantContact } from '../../model/merchant-contact';
@@ -51,7 +50,7 @@ export class MerchantFormComponent extends BaseComponent {
     private merchantService: MerchantService,
     private spinner: NgxSpinnerService,
     private toastr: ToastrService) {
-    super(null);
+    super();
   }
 
   ngOnInit(): void {

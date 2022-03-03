@@ -61,6 +61,8 @@ import { AppParamService } from './app-param/app-param.service';
 import { AppParamFormComponent } from './app-param/app-param-form/app-param-form.component';
 import { AppParamImportComponent } from './app-param/app-param-import/app-param-import.component';
 import { PositivePipe } from './utils/pipes/positive.pope';
+import { UserInactiveComponent } from './shared/modal/user-inactive/user-inactive.component';
+import { LogoutComponent } from './logout/logout.component';
 
 @NgModule({
   declarations: [
@@ -108,7 +110,9 @@ import { PositivePipe } from './utils/pipes/positive.pope';
     JobDetailComponent,
     AppParamFormComponent,
     AppParamImportComponent,
-    PositivePipe
+    PositivePipe,
+    UserInactiveComponent,
+    LogoutComponent
   ],
   imports: [
     AppRoutingModule,

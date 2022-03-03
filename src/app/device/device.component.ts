@@ -1,6 +1,4 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
-import { faPlus, faBars, faTh, faEye, faEdit, faArchive } from '@fortawesome/free-solid-svg-icons';
+import { Component } from '@angular/core';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { first } from 'rxjs/operators';
 import { LocationService } from '../location/location.service';
@@ -11,10 +9,9 @@ import { AppService } from '../shared/service/app.service';
 import { DeviceService } from './device.service';
 import { ActionEnum } from '../shared/enum/action.enum';
 import { ToastrService } from 'ngx-toastr';
-import { ModalDismissReasons, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { Device } from '../model/device';
 import { BaseComponent } from '../shared/core/base.component';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import { FormBuilder } from '@angular/forms';
 import { DeviceModelService } from '../device-model/device-model.service';
 
 @Component({
@@ -53,10 +50,8 @@ export class DeviceComponent extends BaseComponent {
     private dmService: DeviceModelService,
     private formBuilder: FormBuilder,
     private spinner: NgxSpinnerService,
-    private modal: NgbModal,
-    private toastr: ToastrService,
-    private router: Router) {
-    super(modal);
+    private toastr: ToastrService) {
+    super();
   }
 
   ngOnInit(): void {

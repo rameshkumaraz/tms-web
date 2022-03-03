@@ -63,7 +63,7 @@ export class AppParamImportComponent extends BaseComponent {
     private locService: LocationService,
     private spinner: NgxSpinnerService,
     private toastr: ToastrService) {
-    super(null);
+    super();
   };
 
   ngOnInit(): void {

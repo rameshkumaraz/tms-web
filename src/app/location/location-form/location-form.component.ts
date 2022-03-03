@@ -1,13 +1,11 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { ActivatedRoute, Router } from '@angular/router';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { ToastrService } from 'ngx-toastr';
 import { distinctUntilChanged, first } from 'rxjs/operators';
 import { ApiResponse } from '../../shared/model/api.response';
 import { LocationService } from './../location.service';
 import { Location } from '../../model/location';
-import { AppService } from 'src/app/shared/service/app.service';
 import { ActionEnum } from 'src/app/shared/enum/action.enum';
 import { BaseComponent } from 'src/app/shared/core/base.component';
 
@@ -32,13 +30,10 @@ export class LocationFormComponent extends BaseComponent {
   errMsg: string;
 
   constructor(private formBuilder: FormBuilder,
-    private router: Router,
-    private appService: AppService,
-    private activatedroute: ActivatedRoute,
     private locationService: LocationService,
     private spinner: NgxSpinnerService,
     private toastr: ToastrService) {
-    super(null);
+    super();
   }
 
   ngOnInit(): void {

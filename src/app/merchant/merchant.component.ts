@@ -1,20 +1,15 @@
-import { Component, ElementRef, OnInit, Output, ViewChild } from '@angular/core';
-import { faPlus, faBars, faTh, faEye, faEyeSlash, faEdit, faArchive } from '@fortawesome/free-solid-svg-icons';
+import { Component} from '@angular/core';
 import { MerchantService } from './merchant.service';
-import { User } from '../model/user';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { first } from 'rxjs/operators';
-import { LoginNotificationService } from '../shared/service/login-notification.service';
 import { Router } from '@angular/router';
 import { ApiResponse } from '../shared/model/api.response';
 import { ActionEnum } from 'src/app/shared/enum/action.enum';
 import { BaseComponent } from '../shared/core/base.component';
-import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ToastrService } from 'ngx-toastr';
 import { AppService } from '../shared/service/app.service';
 import { countries } from '../shared/model/country-data-store'
 import { FormBuilder, FormGroup } from '@angular/forms';
-import { fromEvent } from 'rxjs';
 
 @Component({
   selector: 'app-merchant',
@@ -39,11 +34,10 @@ export class MerchantComponent extends BaseComponent {
   constructor(private merchantService: MerchantService,
     private appService: AppService,
     private formBuilder: FormBuilder,
-    private modal: NgbModal,
     private spinner: NgxSpinnerService,
     private toastr: ToastrService,
     public router: Router) {
-    super(modal);
+    super();
   }
 
   ngOnInit(): void {

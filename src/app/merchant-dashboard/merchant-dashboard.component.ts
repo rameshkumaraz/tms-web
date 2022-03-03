@@ -1,9 +1,7 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
+import { Component} from '@angular/core';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { first } from 'rxjs/operators';
 import { DeviceBrandService } from '../device-brand/device-brand.service';
-import { DeviceModelService } from '../device-model/device-model.service';
 import { DeviceService } from '../device/device.service';
 import { JobService } from '../job/job.service';
 import { LocationService } from '../location/location.service';
@@ -13,8 +11,6 @@ import { ApiResponse } from '../shared/model/api.response';
 import { AppService } from '../shared/service/app.service';
 
 import { GoogleChartInterface, GoogleChartType } from 'ng2-google-charts';
-import { NONE_TYPE } from '@angular/compiler';
-
 
 @Component({
   selector: 'app-merchant-dashboard',
@@ -60,11 +56,9 @@ export class MerchantDashboardComponent extends BaseComponent {
     private locationService: LocationService,
     private deviceService: DeviceService,
     private brandService: DeviceBrandService,
-    private modelService: DeviceModelService,
     private jobservice: JobService,
-    private spinner: NgxSpinnerService,
-    private router: Router) {
-    super(null);
+    private spinner: NgxSpinnerService) {
+    super();
   }
 
 

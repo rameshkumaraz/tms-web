@@ -1,10 +1,11 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
-import {AuthGuard} from './auth/guards';
+import { AuthGuard } from './auth/guards';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { MerchantDashboardComponent } from './merchant-dashboard/merchant-dashboard.component';
 import { MerchantComponent } from './merchant/merchant.component';
 import { LoginComponent } from './login/login.component';
+import { LogoutComponent } from './logout/logout.component';
 import { MerchantFormComponent } from './merchant/merchant-form/merchant-form.component';
 import { LocationComponent } from './location/location.component';
 import { DeviceBrandComponent } from './device-brand/device-brand.component';
@@ -58,6 +59,7 @@ const routes: Routes = [
   { path: 'user', component: UserComponent, canLoad: [AuthGuard], canActivate: [AuthGuard], data: {roles: ['AZ_ROOT_ADMIN', 'AZ_ADMIN', 'MERCHANT_ADMIN', 'MERCHANT_SUPERVISOR']} },
   { path: 'uf', component: UserFormComponent, canLoad: [AuthGuard], canActivate: [AuthGuard], data: {roles: ['AZ_ROOT_ADMIN', 'AZ_ADMIN', 'MERCHANT_ADMIN', 'MERCHANT_SUPERVISOR']} },
   { path: 'role', component: RoleComponent, canLoad: [AuthGuard], canActivate: [AuthGuard], data: {roles: ['AZ_ROOT_ADMIN', 'AZ_ADMIN', 'MERCHANT_ADMIN']} },
+  { path: 'logout', component: LogoutComponent },
   { path: 'error', component: ErrorComponent },
   { path: '**', redirectTo: 'login' }
 ];

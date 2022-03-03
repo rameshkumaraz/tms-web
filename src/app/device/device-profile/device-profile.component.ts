@@ -33,7 +33,7 @@ export class DeviceProfileComponent extends BaseComponent {
     private deviceService: DeviceService,
     private spinner: NgxSpinnerService,
     private toastr: ToastrService) {
-    super(null);
+    super();
   }
 
   ngOnInit(): void {

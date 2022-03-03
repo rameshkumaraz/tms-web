@@ -1,20 +1,22 @@
-import { Component, EventEmitter, OnDestroy, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Inject, OnDestroy, OnInit, Output } from '@angular/core';
 import { faArchive, faBars, faChartArea, faEdit, faEye, faFileDownload, faFileExport, faFileImport, faFilter, faHome, faIndustry, faLongArrowAltDown, faLongArrowAltUp, faMapMarkerAlt, faMobileAlt, faPlus, faSearch, faTachometerAlt, faTh, faTimes, faTimesCircle, faUserCog } from '@fortawesome/free-solid-svg-icons';
-import { ModalDismissReasons, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { Subscription } from 'rxjs';
 import { StatusEnum } from '../enum/status.enum';
 import { ActionEnum } from '../enum/action.enum';
 import { AppSettings } from '../../app.config';
 import { JobsEnum } from '../enum/jobs.enum';
-import { TriggerType } from '../enum/trigger-type.enum';
 import { FormGroup } from '@angular/forms';
+import { ModalService } from '../../shared/modal/modal.service';
+import { AppInjector } from './app-injector';
 
 @Component({
     template: ''
 })
 export abstract class BaseComponent implements OnInit, OnDestroy {
 
-    @Output() modelClosed = new EventEmitter();
+    @Output() modalClosed = new EventEmitter();
+
+    modalService : ModalService;
 
     faBars = faBars;
     faPlus = faPlus;
@@ -49,7 +51,10 @@ export abstract class BaseComponent implements OnInit, OnDestroy {
 
     closeResult: string;
 
-    constructor(private modalService: NgbModal) {
+    constructor() {
+        const injector = AppInjector.getInjector();
+        this.modalService =  injector.get(ModalService);
+        
         this.statusKeys = Object.keys(this.statusEnum).filter((element) => {
             return isNaN(Number(element));
         });
@@ -65,21 +70,7 @@ export abstract class BaseComponent implements OnInit, OnDestroy {
 
     openModal(content, size, title) {
         if (this.modalService) {
-            this.modalService.open(content, { size: size, ariaLabelledBy: title }).result.then((result) => {
-                this.closeResult = `Closed with: ${result}`;
-            }, (reason) => {
-                this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
-            });
-        }
-    }
-
-    private getDismissReason(reason: any): string {
-        if (reason === ModalDismissReasons.ESC) {
-            return 'by pressing ESC';
-        } else if (reason === ModalDismissReasons.BACKDROP_CLICK) {
-            return 'by clicking on a backdrop';
-        } else {
-            return `with: ${reason}`;
+            this.modalService.open(content, size, title);
         }
     }
 
@@ -88,12 +79,12 @@ export abstract class BaseComponent implements OnInit, OnDestroy {
         if (event.reload)
             this.onPageLoad();
 
-        this.modalService.dismissAll();
+        this.modalService.closeAll();
     }
 
     close(reload: boolean) {
         console.log('close invoked');
-        this.modelClosed.emit({ reload: reload });
+        this.modalClosed.emit({ reload: reload });
     }
 
     cancel() {
