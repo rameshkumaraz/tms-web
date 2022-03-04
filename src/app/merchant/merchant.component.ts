@@ -1,7 +1,7 @@
-import { Component} from '@angular/core';
+import { Component, ElementRef, ViewChild } from '@angular/core';
 import { MerchantService } from './merchant.service';
 import { NgxSpinnerService } from 'ngx-spinner';
-import { first } from 'rxjs/operators';
+import { debounceTime, first } from 'rxjs/operators';
 import { Router } from '@angular/router';
 import { ApiResponse } from '../shared/model/api.response';
 import { ActionEnum } from 'src/app/shared/enum/action.enum';
@@ -10,6 +10,7 @@ import { ToastrService } from 'ngx-toastr';
 import { AppService } from '../shared/service/app.service';
 import { countries } from '../shared/model/country-data-store'
 import { FormBuilder, FormGroup } from '@angular/forms';
+import { fromEvent } from 'rxjs';
 
 @Component({
   selector: 'app-merchant',
@@ -30,6 +31,8 @@ export class MerchantComponent extends BaseComponent {
   actionType;
 
   countries = countries;
+
+  @ViewChild("merchantName") merchantName: ElementRef;
 
   constructor(private merchantService: MerchantService,
     private appService: AppService,
@@ -55,7 +58,19 @@ export class MerchantComponent extends BaseComponent {
       status: [''],
     });
 
+    this.adSearchForm = this.formBuilder.group({
+      name: [''],
+      country: [''],
+      status: [''],
+    });
+
     this.onPageLoad();
+  }
+
+  ngAfterViewInit(): void {
+    fromEvent(this.merchantName.nativeElement, 'keyup').pipe(debounceTime(this.debounceTime)).subscribe(data => {
+      this.searchMerchants('name');
+    });
   }
 
   onPageLoad() {
@@ -85,10 +100,28 @@ export class MerchantComponent extends BaseComponent {
   }
 
   get f() { return this.searchForm['controls'] }
+  get af() { return this.adSearchForm['controls'] }
 
-  searchMerchants() {
+  searchMerchants(type: string) {
+    
+    console.log('Target Id....', type);
+    if(type == 'name' && this.f.name.value.length < 3) {
+      return;
+    }
+    this.spinner.show();
+    if(type == 'name') {
+      this.f.country.setValue('');
+      this.f.status.setValue('');
+    } else if (type == 'country'){
+      this.f.name.setValue('');
+      this.f.status.setValue('');
+    } else if (type == 'status'){
+      this.f.name.setValue('');
+      this.f.country.setValue('');
+    }
+    
     // console.log(this.f.name.value +"||"+ this.f.country.value +"||"+ this.f.status.value);
-    if (this.f.name.value || this.f.country.value || this.f.status.value) {
+    // if (this.f.name.value || this.f.country.value || this.f.status.value) {
       this.merchantService.searchMerchants(this.searchForm.value).pipe(first())
         .subscribe(
           (resp: ApiResponse) => {
@@ -101,13 +134,45 @@ export class MerchantComponent extends BaseComponent {
           error => {
             this.spinner.hide();
           });
-    }
+    // }
+  }
+
+  openAdSearch(content: any){
+    this.openModal(content, 'sm', 'Advanced Search');
+  }
+
+  closeAdSearch(){
+    this.closeModal(false);
+  }
+
+  advancedSearch(){
+    console.log(this.adSearchForm.value);
+    if (this.af.name.value|| this.af.country.value || this.af.status.value) {
+      this.spinner.show();
+      this.merchantService.searchMerchants(this.adSearchForm.value).pipe(first())
+        .subscribe(
+          (resp: ApiResponse) => {
+            console.log('Filtered Merchant Response', resp);
+            this.merchants = resp.message;
+            this.merchantCount = this.merchants.length;
+            this.inFilterMode = true;
+            this.closeModal(false);
+            this.spinner.hide();
+          },
+          error => {
+            this.spinner.hide();
+          });
+    } 
   }
 
   clearSearchResult() {
     this.searchForm.reset();
     this.f.country.setValue("");
     this.f.status.setValue("");
+    
+    this.adSearchForm.reset();
+    this.af.country.setValue("");
+    this.af.status.setValue("");
     this.onPageLoad();
   }
 

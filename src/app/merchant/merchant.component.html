@@ -10,23 +10,26 @@
             <div class="form-group col-sm-12">
               <span class="pr-2">
                 <input id='name' formControlName="name" class="filter-input merchant" placeholder="Merchant Name"
-                  #merchant>
+                  #merchantName>
               </span>
               <span class="pr-2">
-                <select id="country" formControlName="country" class="filter-select country" #country>
+                <select id="country" formControlName="country" class="filter-select country" #country
+                  (change)="searchMerchants('country')">
                   <option value="" selected>All Country</option>
                   <option *ngFor="let c of countries" [value]="c.name">{{c.name}}</option>
                 </select>
               </span>
               <span class="pr-3">
-                <select id="status" formControlName="status" class="filter-select" #status>
+                <select id="status" formControlName="status" class="filter-select" #status
+                  (change)="searchMerchants('status')">
                   <option value="" selected>All Status</option>
                   <option *ngFor="let s of statusKeys" [value]="statusEnum[s]">{{s}}</option>
                 </select>
               </span>
               <span class="pr-2 filter-icon">
-                <a (click)="searchMerchants()" *ngIf="!inFilterMode" ngbTooltip="Filter" tooltipClass="tool-tip">
-                  <fa-icon [icon]='faSearch' style="color: #777777" size="md"></fa-icon> Apply Filter
+                <a *ngIf="!inFilterMode" (click)="openAdSearch(searchModal)" ngbTooltip="Filter"
+                  tooltipClass="tool-tip">
+                  <fa-icon [icon]='faSearchPlus' style="color: #777777" size="md"></fa-icon> Advanced Search
                 </a>
                 <a (click)="clearSearchResult()" *ngIf="inFilterMode" ngbTooltip="Clear Filter" tooltipClass="tool-tip">
                   <fa-icon [icon]='faTimes' style="color: #777777" size="md"></fa-icon> Clear Filter
@@ -109,7 +112,7 @@
         <ngb-pagination [collectionSize]="merchantCount" [(page)]="page" [pageSize]="pageSize">
         </ngb-pagination>
 
-        <select [(ngModel)]="pageSize">
+        <select [(ngModel)]="pageSize" class="page-select">
           <option [ngValue]="5">5 items per page</option>
           <option [ngValue]="10">10 items per page</option>
           <option [ngValue]="25">25 items per page</option>
@@ -121,4 +124,44 @@
 <ng-template #merchantModal let-modal>
   <app-merchant-form [actionType]="actionType" [merchant]="merchant" (modalClosed)='closeModal($event)'>
   </app-merchant-form>
+</ng-template>
+
+<ng-template #searchModal let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title" id="modal-basic-title">Advanced Search</h4>
+    <button type="button" class="close" aria-label="Close" (click)="closeAdSearch()">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <form [formGroup]="adSearchForm">
+      <div class="form-row">
+        <div class="form-group col-sm-12">
+          <label for="name">Name</label>
+          <input id='name' formControlName="name" class="form-control"  placeholder="Merchant Name">
+        </div>
+        <div class="form-group col-sm-12">
+          <label for="country">Country</label>
+          <select id="country" formControlName="country" class="form-control" style="border-color: #e0e7ff;">
+            <option value="" selected>All Country</option>
+            <option *ngFor="let c of countries" [value]="c.name">{{c.name}}</option>
+          </select>
+        </div>
+        <div class="form-group col-sm-12">
+          <label for="status">Status</label>
+          <select id="status" formControlName="status" class="form-control" style="border-color: #e0e7ff;">
+            <option value="" selected>All Status</option>
+            <option *ngFor="let s of statusKeys" [value]="statusEnum[s]">{{s}}</option>
+          </select>
+        </div>
+      </div>
+    </form>
+  
+  <div class="button-block">
+    <span class="pr-3"><button type="button" class="btn btn-primary form-button-cancel"
+        (click)="closeAdSearch()">Cancel</button>
+    </span>
+    <button type="button" class="btn btn-primary form-button-action" (click)="advancedSearch()">Search</button>
+  </div>
+</div>
 </ng-template>

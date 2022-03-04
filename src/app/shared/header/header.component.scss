@@ -156,8 +156,13 @@
   -webkit-text-stroke-color: #fff;
 }
 
+.profile.admin {
+  line-height: 20px !important;
+  text-align: right;
+}
+
 .profile.merchant {
-  line-height: 30px !important;
+  line-height: 20px !important;
   text-align: right;
 }
 
@@ -165,7 +170,13 @@
   font-size: $font-size-sm !important;
   font-weight: $font-weight-bold !important;
   font-family: $font-family-light !important;
-  color: $white;
+  color: $warning;
+  display: block;
+}
+
+.last-login {
+  font-size: $font-size-xsm !important;
+  font-family: $font-family-base !important;
   display: block;
 }
 

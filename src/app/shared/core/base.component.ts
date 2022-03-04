@@ -1,5 +1,5 @@
-import { Component, EventEmitter, Inject, OnDestroy, OnInit, Output } from '@angular/core';
-import { faArchive, faBars, faChartArea, faEdit, faEye, faFileDownload, faFileExport, faFileImport, faFilter, faHome, faIndustry, faLongArrowAltDown, faLongArrowAltUp, faMapMarkerAlt, faMobileAlt, faPlus, faSearch, faTachometerAlt, faTh, faTimes, faTimesCircle, faUserCog } from '@fortawesome/free-solid-svg-icons';
+import { AfterViewInit, Component, EventEmitter, OnDestroy, OnInit, Output } from '@angular/core';
+import { faArchive, faBars, faChartArea, faEdit, faEye, faFileDownload, faFileExport, faFileImport, faFilter, faHome, faIndustry, faLongArrowAltDown, faLongArrowAltUp, faMapMarkerAlt, faMobileAlt, faPlus, faSearch, faTachometerAlt, faTh, faTimes, faTimesCircle, faUserCog, faSearchPlus } from '@fortawesome/free-solid-svg-icons';
 import { Subscription } from 'rxjs';
 import { StatusEnum } from '../enum/status.enum';
 import { ActionEnum } from '../enum/action.enum';
@@ -12,11 +12,11 @@ import { AppInjector } from './app-injector';
 @Component({
     template: ''
 })
-export abstract class BaseComponent implements OnInit, OnDestroy {
+export abstract class BaseComponent implements OnInit, AfterViewInit, OnDestroy {
 
     @Output() modalClosed = new EventEmitter();
 
-    modalService : ModalService;
+    modalService: ModalService;
 
     faBars = faBars;
     faPlus = faPlus;
@@ -32,6 +32,8 @@ export abstract class BaseComponent implements OnInit, OnDestroy {
     faExport = faFileExport;
     faUpArrow = faLongArrowAltUp;
     faDownArrow = faLongArrowAltDown;
+    faSearchPlus = faSearchPlus;
+    faTimesCircle = faTimesCircle;
 
     faHome = faHome;
     faUserCog = faUserCog;
@@ -48,19 +50,28 @@ export abstract class BaseComponent implements OnInit, OnDestroy {
     inFilterMode: boolean;
 
     searchForm: FormGroup;
+    adSearchForm: FormGroup;
 
     closeResult: string;
 
+    debounceTime = 750;
+
     constructor() {
         const injector = AppInjector.getInjector();
-        this.modalService =  injector.get(ModalService);
-        
+        this.modalService = injector.get(ModalService);
+    }
+
+    ngAfterViewInit(): void {
+        throw new Error('Method not implemented.');
+    }
+
+    ngOnInit(): void {
         this.statusKeys = Object.keys(this.statusEnum).filter((element) => {
             return isNaN(Number(element));
         });
-    }
 
-    abstract ngOnInit(): void;
+    };
+
     ngOnDestroy(): void {
         if (this.mSub)
             this.mSub.remove;
