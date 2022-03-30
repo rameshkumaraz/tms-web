@@ -36,7 +36,7 @@
 
 .navbar-nav .nav-link {
   font-size: $font-size-sm;
-  font-family: $font-family-bold;
+  font-family: $font-family-base;
   color: $white;
   // line-height: 50px;
 }
@@ -53,7 +53,7 @@
 }
 
 .nav-mi {
-  line-height: 90px !important;
+  line-height: 60px !important;
 }
 
 .nav-sm {
@@ -86,6 +86,7 @@
   color: $white;
   vertical-align: bottom;
   line-height: 60px !important;
+  background-color: #4952A9;
 }
 
 .user-name {
@@ -159,25 +160,42 @@
 .profile.admin {
   line-height: 20px !important;
   text-align: right;
+  min-height: 76px;
 }
 
 .profile.merchant {
   line-height: 20px !important;
   text-align: right;
+  max-height: 76px;
 }
 
 .merchant-name {
   font-size: $font-size-sm !important;
   font-weight: $font-weight-bold !important;
-  font-family: $font-family-light !important;
+  font-family: $font-family-base !important;
   color: $warning;
+}
+
+.user-name {
+  font-size: $font-size-xs !important;
+  font-weight: $font-weight-bold !important;
+  font-family: $font-family-base !important;
+  color: $white;
   display: block;
+}
+
+.profile-image {
+  width: 37px;
+  height: 37px;
+  background-color: #45A1F4;
+  border-color: $body-border-color;
+  border-radius: 50px;
+  line-height: 30px;
 }
 
 .last-login {
   font-size: $font-size-xsm !important;
   font-family: $font-family-base !important;
-  display: block;
 }
 
 .user-icon {

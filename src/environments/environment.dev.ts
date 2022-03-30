@@ -5,7 +5,7 @@
 export const environment = {
   production: false,
   title: 'azPayCcDev',
-  apiURL: 'http://localhost:3000/'
+  apiURL: 'http://localhost:8080/'
 };
 
 /*

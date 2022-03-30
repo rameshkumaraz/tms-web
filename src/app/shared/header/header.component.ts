@@ -1,12 +1,11 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { faUser, faSignInAlt, faSignOutAlt,faMapMarker, faHome, faMobile, faChartArea,faUserCog, faLandmark, faIndustry, faMobileAlt, faMapMarkerAlt, faFilePowerpoint, faTachometerAlt } from '@fortawesome/free-solid-svg-icons';
+import { faUser, faSignInAlt, faSignOutAlt, faHome, faChartArea,faUserCog, faIndustry, faMobileAlt, faMapMarkerAlt, faTachometerAlt, faUserCircle } from '@fortawesome/free-solid-svg-icons';
 import { NgbModalConfig, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { Router } from '@angular/router';
 import { AuthenticationService } from 'src/app/auth/services/authentication.service';
 import { PolicyEnum } from '../enum/policy.enum';
 import menuMapping from '../../../assets/config/menu-mapping.json';
 import menuAccess from '../../../assets/config/menu-access.json';
-import { RolesEnum } from 'src/app/auth/guards/roles.enum';
 import { Subscription } from 'rxjs';
 import { AppService } from '../service/app.service';
 import { HeaderService } from './header.service';
@@ -32,6 +31,7 @@ export class HeaderComponent implements OnInit {
   faMobile = faMobileAlt;
   faMerchant = faIndustry;
   faDashboard = faTachometerAlt;
+  faUserCircle = faUserCircle;
 
 
   mSub: Subscription;

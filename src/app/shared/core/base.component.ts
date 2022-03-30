@@ -1,5 +1,5 @@
 import { AfterViewInit, Component, EventEmitter, OnDestroy, OnInit, Output } from '@angular/core';
-import { faArchive, faBars, faChartArea, faEdit, faEye, faFileDownload, faFileExport, faFileImport, faFilter, faHome, faIndustry, faLongArrowAltDown, faLongArrowAltUp, faMapMarkerAlt, faMobileAlt, faPlus, faSearch, faTachometerAlt, faTh, faTimes, faTimesCircle, faUserCog, faSearchPlus } from '@fortawesome/free-solid-svg-icons';
+import { faArchive, faBars, faChartArea, faEdit, faEye, faFileDownload, faFileExport, faFileImport, faFilter, faHome, faIndustry, faLongArrowAltDown, faLongArrowAltUp, faMapMarkerAlt, faMobileAlt, faPlus, faSearch, faTachometerAlt, faTh, faTimes, faTimesCircle, faUserCog, faSearchPlus, faUserCircle } from '@fortawesome/free-solid-svg-icons';
 import { Subscription } from 'rxjs';
 import { StatusEnum } from '../enum/status.enum';
 import { ActionEnum } from '../enum/action.enum';
@@ -34,6 +34,7 @@ export abstract class BaseComponent implements OnInit, AfterViewInit, OnDestroy 
     faDownArrow = faLongArrowAltDown;
     faSearchPlus = faSearchPlus;
     faTimesCircle = faTimesCircle;
+    faUserCircle = faUserCircle;
 
     faHome = faHome;
     faUserCog = faUserCog;
@@ -62,7 +63,6 @@ export abstract class BaseComponent implements OnInit, AfterViewInit, OnDestroy 
     }
 
     ngAfterViewInit(): void {
-        throw new Error('Method not implemented.');
     }
 
     ngOnInit(): void {

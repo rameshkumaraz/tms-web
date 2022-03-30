@@ -199,11 +199,13 @@ export class MerchantDashboardComponent extends BaseComponent {
   loadDeviceModels() {
     this.chartData.push(['Model', 'Device Count']);
     let chartDeviceData = {};
+    let name;
     this.devices.forEach(d => {
-      if (chartDeviceData[d.model.name])
-        chartDeviceData[d.model.name] = chartDeviceData[d.model.name] + 1;
+      name = d.model.name;
+      if (chartDeviceData[name])
+        chartDeviceData[name] = chartDeviceData[name] + 1;
       else
-        chartDeviceData[d.model.name] = 1;
+        chartDeviceData[name] = 1;
     });
 
     Object.keys(chartDeviceData).forEach(d => {

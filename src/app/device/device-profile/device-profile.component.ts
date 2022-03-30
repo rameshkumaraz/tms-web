@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+import { isThisSecond } from 'date-fns';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { ToastrService } from 'ngx-toastr';
 import { first } from 'rxjs/operators';
@@ -89,6 +90,9 @@ export class DeviceProfileComponent extends BaseComponent {
         (resp: ApiResponse) => {
           console.log('DeviceDetails Response', resp);
           this.deviceDetails = resp.message;
+          this.deviceDetails.sort((one, two) => (one > two ? 1 : -1));
+          this.deviceDetails = this.deviceDetails.slice(0,3);
+          console.log('Filtered DeviceDetails Response', this.deviceDetails);
           this.spinner.hide();
         },
         error => {

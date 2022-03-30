@@ -17,17 +17,17 @@
     </nav>
     <div class="row highlights-label pt-1">
       <div class="col-sm-2">Device Name</div>
-      <div class="col-sm-1">Serial #</div>
+      <div class="col-sm-2">Serial #</div>
       <div class="col-sm-1">Brand</div>
-      <div class="col-sm-1">Modal</div>
-      <div class="col-sm-7">Status</div>
+      <div class="col-sm-2">Modal</div>
+      <div class="col-sm-5">Status</div>
     </div>
     <div class="row" *ngIf="isLoaded">
       <div class="col-sm-2">{{device.name}}</div>
-      <div class="col-sm-1">{{device.serial}}</div>
+      <div class="col-sm-2">{{device.serial}}</div>
       <div class="col-sm-1">{{device.model.brand.name}}</div>
-      <div class="col-sm-1">{{device.model.name}}</div>
-      <div class="col-sm-7">
+      <div class="col-sm-2">{{device.model.name}}</div>
+      <div class="col-sm-5">
         <span *ngIf="device.status == statusEnum.ACTIVE" class="status-active">{{deviceStatus}}</span>
         <span *ngIf="device.status == statusEnum.INACTIVE" class="status-inactive">{{deviceStatus}}</span>
         <span *ngIf="device.status == statusEnum.DELETED" class="status-deleted">{{deviceStatus}}</span>
@@ -58,17 +58,17 @@
                         <div class="col-sm-4 highlights-label">Software Status</div>
                       </div>
                       <div class="row py-2 px-4">
-                        <div class="col-sm-4">N/A</div>
-                        <div class="col-sm-4">N/A</div>
-                        <div class="col-sm-4">N/A</div>
+                        <div class="col-sm-4">Active</div>
+                        <div class="col-sm-4">Good</div>
+                        <div class="col-sm-4">Installed</div>
                       </div>
                       <div class="row py2 px-4">
                         <div class="col-sm-4 highlights-label">Device Version</div>
                         <div class="col-sm-4 highlights-label">Baseline Version</div>
                       </div>
                       <div class="row px-4">
-                        <div class="col-sm-4">N/A</div>
-                        <div class="col-sm-4">N/A</div>
+                        <div class="col-sm-4">7.1</div>
+                        <div class="col-sm-4">1.0</div>
                       </div>
                       <hr/>
                       <div class="row pb-2 px-4">

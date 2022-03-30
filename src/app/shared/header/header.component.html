@@ -1,10 +1,10 @@
-<nav class="navbar navbar-expand-lg navbar-dark header">
-  <div class="container-fluid">
+<nav class="navbar navbar-expand-lg navbar-dark header pr-0">
+  <div class="container-fluid pr-0">
     <div class="navbar-header" style="text-align: left;">
       <!-- <a class="navbar-brand" style='cursor: pointer;' (click)='showDashboard()'><img
           src="../../../assets/images/az_pay_config_logo.svg"></a> -->
       <a class="navbar-brand" style='cursor: pointer;' (click)='showDashboard()'><img
-          src="../../../assets/images/azpay_cc_logo.svg" class="logo"></a>    
+          src="../../../assets/images/azpay_cc_logo.svg" class="logo"></a>
       <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#myNavbar"
         aria-controls="myNavbar" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
@@ -48,7 +48,7 @@
             <a ngbDropdownItem class="nav-smi" routerLink="/event" *ngIf="hasMenuAccess('event')">Schedule Event</a>
           </div>
         </li>
-        <li ngbDropdown class="nav-item nav-mi" *ngIf="hasMenuAccess('report')">
+        <!-- <li ngbDropdown class="nav-item nav-mi" *ngIf="hasMenuAccess('report')">
           <div class="nav-link">
             <span class="pl-2">
               <a ngbDropdownToggle id="reportDropdown"><span class="pr-1">
@@ -63,7 +63,7 @@
             <a ngbDropdownItem class="nav-smi" routerLink="#">Merchant</a>
             <a ngbDropdownItem class="nav-smi" routerLink="#">User</a>
           </div>
-        </li>
+        </li> -->
         <li ngbDropdown class="nav-item nav-mi" *ngIf="hasMenuAccess('admin')">
           <div class="nav-link">
             <span class="pl-2">
@@ -92,22 +92,60 @@
 
         <li ngbDropdown class="nav-item">
           <!-- <div ngbDropdown class="nav-link profile"> -->
-          <div class="nav-link profile admin pl-5 pt-4" *ngIf="!merchant">
-            <img src="../../../assets/images/user_icon.svg" *ngIf="profile"/>
+          <div class="nav-link profile admin pl-4 pr-4 pt-4" *ngIf="!merchant">
+            <div class="row" style="text-align:center">
+              <div class="col-sm-3">
+                <fa-icon [icon]='faUserCircle' size="3x"></fa-icon>
+                <!-- <div class="profile-image"><img src="../../../assets/images/user_icon.svg" /></div> -->
+              </div>
+              <div class="col-sm-9 pl-0" style="text-align:left">
+                <span class="user-name"><a ngbDropdownToggle id="userDropdown"
+                  *ngIf="profile">{{profile.firstName +' '+profile.lastName}}</a></span>
+                <span class="last-login">Last login : {{profile.lastLogin | date: 'dd/MM/yyyy HH:mm'}}</span>
+              </div>
+            </div>
+            <!-- <img src="../../../assets/images/user_icon.svg" *ngIf="profile" />
             <span class="pl-2">
               <a ngbDropdownToggle id="userDropdown" *ngIf="profile">{{profile.firstName +' '+profile.lastName}}</a>
-              <!-- <a ngbDropdownToggle id="userDropdown" *ngIf="!profile">Hi Guest!</a> -->
-            </span>
-            <span class="last-login">Last login : {{profile.lastLogin | date: 'dd/MM/yyyy HH:mm'}}</span>
+            </span><br>
+            <span class="last-login">Last login : {{profile.lastLogin | date: 'dd/MM/yyyy HH:mm'}}</span> -->
           </div>
-          <div class="nav-link profile merchant pl-5" *ngIf="merchant">
-            <span *ngIf="merchant" class="merchant-name pb-1">{{merchant.name}}, {{merchant.country}}</span>
-            <img src="../../../assets/images/user_icon.svg" />
+          <div class="nav-link profile merchant pl-4 pr-4" *ngIf="merchant">
+            <div class="row pb-1">
+              <div *ngIf="merchant" class="col-sm-12 merchant-name">{{merchant.name}}, {{merchant.country}}</div>
+              <!-- <div class="col-sm-12">
+                <div class="row"> -->
+                  <!-- <div class="col-sm-2">
+                    <img src="../../../assets/images/user_icon.svg" />
+                  </div> -->
+                  <!-- <div class="col-sm-10  p-0" style="text-align: left;">
+                    <span class="user-name"><a ngbDropdownToggle id="userDropdown"
+                      *ngIf="profile">{{profile.firstName +' '+profile.lastName}}</a></span><br>
+                    <span class="last-login">Last login : {{profile.lastLogin | date: 'dd/MM/yyyy HH:mm'}}</span>
+                  </div> -->
+                <!-- </div>
+              </div> -->
+             
+            </div>
+            <div class="row" style="text-align:center">
+              <div class="col-sm-3">
+                <fa-icon [icon]='faUserCircle' size="3x"></fa-icon>
+                <!-- <div class="profile-image"><img src="../../../assets/images/user_icon.svg" /></div> -->
+              </div>
+              <div class="col-sm-9 pl-0" style="text-align:left">
+                <span class="user-name"><a ngbDropdownToggle id="userDropdown"
+                  *ngIf="profile">{{profile.firstName +' '+profile.lastName}}</a></span>
+                <span class="last-login">Last login : {{profile.lastLogin | date: 'dd/MM/yyyy HH:mm'}}</span>
+              </div>
+            </div>
+
+            <!-- <span *ngIf="merchant" class="merchant-name pb-1">{{merchant.name}}, {{merchant.country}}</span>
+            <img src="../../../assets/images/user_icon.svg"/>
             <span class="pl-2">
-              <a ngbDropdownToggle id="userDropdown" *ngIf="profile">{{profile.firstName +' '+profile.lastName}}</a>
-              <!-- <a ngbDropdownToggle id="userDropdown" *ngIf="!profile">Hi Guest!</a> -->
-            </span>
-            <span class="last-login">Last login : {{profile.lastLogin | date: 'dd/MM/yyyy HH:mm'}}</span>
+              <a ngbDropdownToggle id="userDropdown" *ngIf="profile">{{profile.firstName +' '+profile.lastName}}</a><br>
+              <span class="last-login">Last login : {{profile.lastLogin | date: 'dd/MM/yyyy HH:mm'}}</span>
+            </span> -->
+
           </div>
           <div ngbDropdownMenu aria-labelledby="userDropdown">
             <!-- <button ngbDropdownItem (click)="openLoginModal(logincontent)" *ngIf="!profile">

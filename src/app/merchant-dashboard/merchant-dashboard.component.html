@@ -111,13 +111,13 @@
               <thead>
                 <th scope="col">Name</th>
                 <th scope="col">Event Type</th>
-                <th scope="col">Status</th>
+                <!-- <th scope="col">Status</th> -->
               </thead>
               <tbody>
                 <tr *ngFor="let event of events | slice:0:10">
                   <td style="width: 40%;">{{ event.name }}</td>
                   <td style="width: 30%;">{{ getEventTypeText(event.jobType) }}</td>
-                  <td style="width: 30%;"></td>
+                  <!-- <td style="width: 30%;"></td> -->
                 </tr>
               </tbody>
             </table>
