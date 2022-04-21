@@ -44,13 +44,15 @@ export class MerchantComponent extends BaseComponent {
   }
 
   ngOnInit(): void {
+    super.ngOnInit();
+
     this.pageHeader = 'Merchant';
 
     this.inFilterMode = false;
 
-    this.statusKeys = Object.keys(this.statusEnum).filter((element) => {
-      return isNaN(Number(element));
-    });
+    // this.statusKeys = Object.keys(this.statusEnum).filter((element) => {
+    //   return isNaN(Number(element));
+    // });
 
     this.searchForm = this.formBuilder.group({
       name: [''],
@@ -103,51 +105,51 @@ export class MerchantComponent extends BaseComponent {
   get af() { return this.adSearchForm['controls'] }
 
   searchMerchants(type: string) {
-    
+
     console.log('Target Id....', type);
-    if(type == 'name' && this.f.name.value.length < 3) {
+    if (type == 'name' && this.f.name.value.length < 3) {
       return;
     }
     this.spinner.show();
-    if(type == 'name') {
+    if (type == 'name') {
       this.f.country.setValue('');
       this.f.status.setValue('');
-    } else if (type == 'country'){
+    } else if (type == 'country') {
       this.f.name.setValue('');
       this.f.status.setValue('');
-    } else if (type == 'status'){
+    } else if (type == 'status') {
       this.f.name.setValue('');
       this.f.country.setValue('');
     }
-    
+
     // console.log(this.f.name.value +"||"+ this.f.country.value +"||"+ this.f.status.value);
     // if (this.f.name.value || this.f.country.value || this.f.status.value) {
-      this.merchantService.searchMerchants(this.searchForm.value).pipe(first())
-        .subscribe(
-          (resp: ApiResponse) => {
-            console.log('Filtered Merchant Response', resp);
-            this.merchants = resp.message;
-            this.merchantCount = this.merchants.length;
-            this.inFilterMode = true;
-            this.spinner.hide();
-          },
-          error => {
-            this.spinner.hide();
-          });
+    this.merchantService.searchMerchants(this.searchForm.value).pipe(first())
+      .subscribe(
+        (resp: ApiResponse) => {
+          console.log('Filtered Merchant Response', resp);
+          this.merchants = resp.message;
+          this.merchantCount = this.merchants.length;
+          this.inFilterMode = true;
+          this.spinner.hide();
+        },
+        error => {
+          this.spinner.hide();
+        });
     // }
   }
 
-  openAdSearch(content: any){
+  openAdSearch(content: any) {
     this.openModal(content, 'sm', 'Advanced Search');
   }
 
-  closeAdSearch(){
+  closeAdSearch() {
     this.closeModal(false);
   }
 
-  advancedSearch(){
+  advancedSearch() {
     console.log(this.adSearchForm.value);
-    if (this.af.name.value|| this.af.country.value || this.af.status.value) {
+    if (this.af.name.value || this.af.country.value || this.af.status.value) {
       this.spinner.show();
       this.merchantService.searchMerchants(this.adSearchForm.value).pipe(first())
         .subscribe(
@@ -162,17 +164,21 @@ export class MerchantComponent extends BaseComponent {
           error => {
             this.spinner.hide();
           });
-    } 
+    }
   }
 
-  clearSearchResult() {
+  resetSearchForm() {
     this.searchForm.reset();
     this.f.country.setValue("");
     this.f.status.setValue("");
-    
+
     this.adSearchForm.reset();
     this.af.country.setValue("");
     this.af.status.setValue("");
+  }
+
+  clearSearchResult() {
+    this.resetSearchForm();
     this.onPageLoad();
   }
 

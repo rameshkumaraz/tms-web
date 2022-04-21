@@ -1,0 +1,53 @@
+<div class="modal-header">
+  <h4 class="modal-title" id="modal-basic-title">Reset Password</h4>
+  <button type="button" class="close" aria-label="Close" (click)="closeModal()">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+<div class="modal-body">
+  <div *ngIf="isFailed"><label class="apperr">{{errMsg}}</label></div>
+  <form [formGroup]="passForm">
+    <div class="form-row">
+      <div class="form-group col-sm-12 required">
+        <label for="oldPass" class="asterisk-if-mandatory">Old Password</label>
+        <input required formControlName="oldPass" id="oldPass" type="password" class="form-control" autocomplete="off"
+          [ngClass]="{ 'is-invalid': formSubmitted && f.oldPass.errors }">
+        <div *ngIf="formSubmitted && f.oldPass.errors" class="invalid-feedback">
+          <div *ngIf="f.oldPass.errors.required">Old password is required</div>
+          <div *ngIf="f.oldPass.errors?.minlength">Old password must be at least 8 characters long.</div>
+        </div>
+      </div>
+    </div>
+    <div class="form-row">
+      <div class="form-group col-sm-12 required">
+        <label for="newPass" class="asterisk-if-mandatory">New Password</label>
+        <input required formControlName="newPass" id="newPass" type="password" class="form-control" autocomplete="off"
+          [ngClass]="{ 'is-invalid': formSubmitted && f.newPass.errors }">
+        <div *ngIf="formSubmitted && f.newPass.errors" class="invalid-feedback">
+          <div *ngIf="f.newPass.errors.required">New password is required</div>
+          <div *ngIf="f.newPass.errors?.minlength">New password be at least 5 characters long.</div>
+          <div *ngIf="f.newPass.errors.inValid">New password should not be same us old password</div>
+        </div>
+      </div>
+    </div>
+    <div class="form-row">
+      <div class="form-group col-sm-12 required">
+        <label for="confirmPass" class="asterisk-if-mandatory">Confirm Password</label>
+        <input required formControlName="confirmPass" id="confirmPass" type="password" class="form-control"
+          autocomplete="off" [ngClass]="{ 'is-invalid': formSubmitted && f.confirmPass.errors }">
+        <div *ngIf="formSubmitted && f.confirmPass.errors" class="invalid-feedback">
+            <div *ngIf="f.confirmPass.errors.required">Confirm password is required</div>
+            <div *ngIf="f.confirmPass.errors?.minlength">New password be at least 5 characters long.</div>
+            <div *ngIf="f.confirmPass.errors.inValid">Password doesn't match</div>
+        </div>
+      </div>
+    </div>
+  </form>
+  <div class="button-block">
+    <span class="pr-3"><button type="button" class="btn btn-primary form-button-cancel"
+        (click)="closeModal()">Cancel</button>
+    </span>
+    <button type="button" class="btn btn-primary form-button-action" (click)="update()">Update</button>
+
+  </div>
+</div>

@@ -48,7 +48,7 @@
             <a ngbDropdownItem class="nav-smi" routerLink="/event" *ngIf="hasMenuAccess('event')">Schedule Event</a>
           </div>
         </li>
-        <!-- <li ngbDropdown class="nav-item nav-mi" *ngIf="hasMenuAccess('report')">
+        <li ngbDropdown class="nav-item nav-mi" *ngIf="hasMenuAccess('report')">
           <div class="nav-link">
             <span class="pl-2">
               <a ngbDropdownToggle id="reportDropdown"><span class="pr-1">
@@ -63,7 +63,7 @@
             <a ngbDropdownItem class="nav-smi" routerLink="#">Merchant</a>
             <a ngbDropdownItem class="nav-smi" routerLink="#">User</a>
           </div>
-        </li> -->
+        </li>
         <li ngbDropdown class="nav-item nav-mi" *ngIf="hasMenuAccess('admin')">
           <div class="nav-link">
             <span class="pl-2">
@@ -151,6 +151,12 @@
             <!-- <button ngbDropdownItem (click)="openLoginModal(logincontent)" *ngIf="!profile">
               <fa-icon [icon]='faSignIn' class="pr-1"></fa-icon>Login as Admin
             </button> -->
+            <button ngbDropdownItem *ngIf="profile">
+              <fa-icon [icon]='faEye' class="pr-1"></fa-icon>View Profile
+            </button>
+            <button ngbDropdownItem (click)="openModal(resetPassword, 'sm')" *ngIf="profile">
+              <fa-icon [icon]='faSignOut' class="pr-1"></fa-icon>Reset Password
+            </button>
             <button ngbDropdownItem (click)="logout(logoutConfirm)" *ngIf="profile">
               <fa-icon [icon]='faSignOut' class="pr-1"></fa-icon>Logout
             </button>
@@ -160,10 +166,10 @@
     </div>
   </div>
 </nav>
-<ng-template #importcontent let-c="close" let-d="dismiss">
+<!-- <ng-template #importcontent let-c="close" let-d="dismiss">
   <div class="modal-header">
     <h4 class="modal-title" id="modal-basic-title">Import Configuration</h4>
-    <button type="button" class="close" aria-label="Close" (click)="closeModal($event, 'import')">
+    <button type="button" class="close" aria-label="Close" (click)="closeModal()">
       <span aria-hidden="true">&times;</span>
     </button>
   </div>
@@ -176,11 +182,11 @@
       Import
     </button>
     <span class="pl-1"></span>
-    <button class="button-cancel modal-button" (click)="closeModal($event, 'import')">
+    <button class="button-cancel modal-button" (click)="closeModal()">
       Cancel
     </button>
   </div>
-</ng-template>
+</ng-template> -->
 <ng-template #logoutConfirm let-c="close" let-d="dismiss">
 
   <div class="modal-body">
@@ -197,4 +203,8 @@
       </span>
     </div>
   </div>
+</ng-template>
+
+<ng-template #resetPassword let-c="close" let-d="dismiss">
+  <app-reset-pass [user]="profile" (modalClosed)='closePasswordModal()'></app-reset-pass>
 </ng-template>

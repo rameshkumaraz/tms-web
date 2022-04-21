@@ -1,6 +1,6 @@
-import { Component } from '@angular/core';
+import { Component, ElementRef, ViewChild } from '@angular/core';
 import { NgxSpinnerService } from 'ngx-spinner';
-import { first } from 'rxjs/operators';
+import { debounceTime, first } from 'rxjs/operators';
 import { Merchant } from '../model/merchant';
 import { ApiResponse } from '../shared/model/api.response';
 import { AppService } from '../shared/service/app.service';
@@ -9,6 +9,7 @@ import { ActionEnum } from '../shared/enum/action.enum';
 import { ToastrService } from 'ngx-toastr';
 import { BaseComponent } from '../shared/core/base.component';
 import { FormBuilder } from '@angular/forms';
+import { fromEvent } from 'rxjs';
 
 @Component({
   selector: 'app-location',
@@ -16,6 +17,8 @@ import { FormBuilder } from '@angular/forms';
   styleUrls: ['./location.component.scss']
 })
 export class LocationComponent extends BaseComponent {
+
+  @ViewChild("locationName") locationName: ElementRef;
 
   pageHeader: string;
   page = 1;
@@ -41,6 +44,9 @@ export class LocationComponent extends BaseComponent {
   }
 
   ngOnInit(): void {
+
+    super.ngOnInit();
+
     this.pageHeader = 'Location';
 
     this.inFilterMode = false;
@@ -56,6 +62,17 @@ export class LocationComponent extends BaseComponent {
     this.searchForm = this.formBuilder.group({
       name: [''],
       status: ['']
+    });
+
+    this.adSearchForm = this.formBuilder.group({
+      name: [''],
+      status: [''],
+    });
+  }
+
+  ngAfterViewInit(): void {
+    fromEvent(this.locationName.nativeElement, 'keyup').pipe(debounceTime(this.debounceTime)).subscribe(data => {
+      this.searchLocations('name');
     });
   }
 
@@ -111,8 +128,21 @@ export class LocationComponent extends BaseComponent {
   }
 
   get f() { return this.searchForm['controls'] }
+  get af() { return this.adSearchForm['controls'] }
 
-  searchLocations() {
+  searchLocations(type: string) {
+
+    console.log('Target Id....', type);
+    if(type == 'name' && this.f.name.value.length < 3) {
+      return;
+    }
+    this.spinner.show();
+    if(type == 'name') {
+      this.f.status.setValue('');
+    } else if (type == 'status'){
+      this.f.name.setValue('');
+    }
+
     let filter = this.searchForm.value;
     filter.merchant = this.merchant.id;
     if (this.f.name.value || this.f.status.value) {
@@ -131,9 +161,60 @@ export class LocationComponent extends BaseComponent {
     }
   }
 
-  clearSearchResult() {
+  advancedSearch(){
+    console.log(this.adSearchForm.value);
+    if (this.af.name.value|| this.af.country.value || this.af.status.value) {
+      this.spinner.show();
+      this.locationService.searchLocations(this.adSearchForm.value).pipe(first())
+        .subscribe(
+          (resp: ApiResponse) => {
+            console.log('Filtered Merchant Response', resp);
+            this.locations = resp.message;
+            this.locationCount = this.locations.length;
+            this.inFilterMode = true;
+            this.closeModal(false);
+            this.spinner.hide();
+          },
+          error => {
+            this.spinner.hide();
+          });
+    } 
+  }
+
+  // searchLocations() {
+  //   let filter = this.searchForm.value;
+  //   filter.merchant = this.merchant.id;
+  //   if (this.f.name.value || this.f.status.value) {
+  //     this.locationService.searchLocations(filter).pipe(first())
+  //       .subscribe(
+  //         (resp: ApiResponse) => {
+  //           console.log('Filtered Merchant Response', resp);
+  //           this.locations = resp.message;
+  //           this.locationCount = this.locations.length;
+  //           this.inFilterMode = true;
+  //           this.spinner.hide();
+  //         },
+  //         error => {
+  //           this.spinner.hide();
+  //         });
+  //   }
+  // }
+
+  openAdSearch(content: any){
+    this.openModal(content, 'sm', 'Advanced Search');
+  }
+
+  closeAdSearch(){
+    this.closeModal(false);
+  }
+
+  resetSearchForm(){
     this.searchForm.reset();
     this.f.status.setValue("");
+  }
+
+  clearSearchResult() {
+    this.resetSearchForm();
     this.onPageLoad();
   }
 

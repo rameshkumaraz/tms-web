@@ -29,7 +29,7 @@ export class ResponseHandlerService {
       if(this.apiResponse.code === 401 )
         this.apiResponse.message = "Invalid User name/Password.";
       else {
-        this.apiResponse.message = error.message;
+        this.apiResponse.message = error.statusText;
       }  
     } else {
       console.log("AppHttpInterceptor - ", error);

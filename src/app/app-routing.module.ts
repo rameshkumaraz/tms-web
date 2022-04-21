@@ -30,6 +30,7 @@ import { LibraryFormComponent } from './library/library-form/library-form.compon
 import { JobComponent } from './job/job.component';
 import { JobDetailComponent } from './job/job-detail/job-detail.component';
 import { AppParamComponent } from './app-param/app-param.component';
+import { ForgotPassComponent } from './password/forgot/forgot-pass/forgot-pass.component';
 
 const routes: Routes = [
   { path: 'login', component: LoginComponent },
@@ -61,6 +62,7 @@ const routes: Routes = [
   { path: 'role', component: RoleComponent, canLoad: [AuthGuard], canActivate: [AuthGuard], data: {roles: ['AZ_ROOT_ADMIN', 'AZ_ADMIN', 'MERCHANT_ADMIN']} },
   { path: 'logout', component: LogoutComponent },
   { path: 'error', component: ErrorComponent },
+  { path: 'forgot', component: ForgotPassComponent },
   { path: '**', redirectTo: 'login' }
 ];
 

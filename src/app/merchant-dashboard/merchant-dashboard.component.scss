@@ -114,6 +114,20 @@
   color: $az-blue-primary;
 }
 
+.table-striped .text-hl-positive {
+  font-size: $font-size-xs;
+  font-weight: $font-weight-bold;
+  font-family: $font-family-base;
+  color: $green;
+}
+
+.table-striped .text-hl-negative {
+  font-size: $font-size-xs;
+  font-weight: $font-weight-bold;
+  font-family: $font-family-base;
+  color: $danger;
+}
+
 .db-map {
   padding: 10px 20px 20px 20px;
 }

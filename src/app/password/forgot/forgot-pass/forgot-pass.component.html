@@ -1,0 +1,96 @@
+<div class="container-fluid login">
+  <div class="row login-container p-0">
+    <div class="col-sm-4 form p-0 m-0">
+      <div class="px-4 pb-2 pt-5 text-center">
+        <img src="../../assets/images/azpay_cc_logo.svg" class="logo" />
+        <!-- <img src="../../assets/images/login-logo.svg" class="logo" /> -->
+      </div>
+      <div class="px-4 pt-2 pb-3">
+        <div class="form-container">
+          <div *ngIf="isFailed" class="pb-2"><label class="apperr">{{errMsg}}</label></div>
+          <div *ngIf="user" class="pb-2"><label class="user-info">Hi {{user.firstName}}, confirm your new password</label></div>
+          <div *ngIf="!passTab">
+            <form [formGroup]="infoForm">
+              <div class="form-row">
+                <div class="form-group col-sm-12 required">
+                  <label for="username" class="asterisk-if-mandatory">User Name</label>
+                  <input required formControlName="username" id="username" type="email" class="form-control"
+                    autocomplete="off" [ngClass]="{ 'is-invalid': formSubmitted && f.username.errors }">
+                  <div *ngIf="formSubmitted && f.username.errors" class="invalid-feedback">
+                    <div *ngIf="f.username.errors.required">User name is required</div>
+                    <div *ngIf="f.username.errors?.email">User name must be a valid email address</div>
+                  </div>
+                </div>
+              </div>
+              <div class="form-row">
+                <div class="form-group col-sm-12 required">
+                  <label for="dob" class="asterisk-if-mandatory">DOB</label>
+                  <input required formControlName="dob" id="dob" type="date" class="form-control" autocomplete="off"
+                    [ngClass]="{ 'is-invalid': formSubmitted && f.dob.errors }">
+                  <div *ngIf="formSubmitted && f.dob.errors" class="invalid-feedback">
+                    <div *ngIf="f.dob.errors.required">DOB is required</div>
+                  </div>
+                </div>
+              </div>
+            </form>
+            <div class="pt-3">
+              <button type="button" class="btn btn-primary form-button-cancel" (click)="cancel()">Cancel</button>
+              <span class="pl-2"><button type="submit" class="btn btn-primary form-button-action"
+                  (click)="next()">Next</button></span>
+            </div>
+          </div>
+          <div *ngIf="passTab">
+            <form [formGroup]="passForm">
+              <div class="form-row">
+                <div class="form-group col-sm-12 required">
+                  <label for="newPass" class="asterisk-if-mandatory">New Password</label>
+                  <input required formControlName="newPass" id="newPass" type="text" class="form-control"
+                    autocomplete="off" [ngClass]="{ 'is-invalid': formSubmitted && p.newPass.errors }">
+                  <div *ngIf="formSubmitted && p.newPass.errors" class="invalid-feedback">
+                    <div *ngIf="p.newPass.errors.required">New password is required</div>
+                    <div *ngIf="p.newPass.errors?.minlength">New password be at least 5 characters long.</div>
+                  </div>
+                </div>
+              </div>
+              <div class="form-row">
+                <div class="form-group col-sm-12 required">
+                  <label for="confirmPass" class="asterisk-if-mandatory">Confirm Password</label>
+                  <input required formControlName="confirmPass" id="confirmPass" type="text" class="form-control"
+                    autocomplete="off" [ngClass]="{ 'is-invalid': formSubmitted && p.confirmPass.errors }">
+                  <div *ngIf="formSubmitted && p.confirmPass.errors" class="invalid-feedback">
+                    <div *ngIf="p.confirmPass.errors.required">Confirm password is required</div>
+                    <div *ngIf="p.confirmPass.errors?.minlength">Confirm password be at least 5 characters long.</div>
+                    <div *ngIf="p.confirmPass.errors.inValid">Password doesn't match</div>
+                  </div>
+                </div>
+              </div>
+            </form>
+            <div class="pt-3">
+              <button type="button" class="btn btn-primary form-button-cancel" (click)="cancel()">Cancel</button>
+              <span class="pl-2"><button type="submit" class="btn btn-primary form-button-action"
+                  (click)="update()">Update</button></span>
+            </div>
+
+          </div>
+        </div>
+      </div>
+      <div class="poweredby text-center" *ngIf="!isFailed && !user">
+        Powered By
+        <p><img src="../../assets/images/logo.svg" /></p>
+      </div>
+      <div class="poweredby err text-center" *ngIf="isFailed && !user">
+        Powered By
+        <p><img src="../../assets/images/logo.svg" /></p>
+      </div>
+      <div class="poweredby info text-center" *ngIf="!isFailed && user">
+        Powered By
+        <p><img src="../../assets/images/logo.svg" /></p>
+      </div>
+      <div class="poweredby err text-center" *ngIf="isFailed && user">
+        Powered By
+        <p><img src="../../assets/images/logo.svg" /></p>
+      </div>
+    </div>
+    <div class="col-sm-8 p-0"><img src="../../assets/images/login_bg.jpg" class="bg-img" /></div>
+  </div>
+</div>

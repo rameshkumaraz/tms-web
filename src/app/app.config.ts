@@ -1,10 +1,12 @@
 import { environment } from './../environments/environment';
 export class AppSettings {
     public static API_CONTEXT = environment.apiURL;
+    public static API_KEY = environment.apiKey;
     public static DEVICE_IMAGE_CONTEXT = "https://tms-app-libraries.s3.us-east-2.amazonaws.com/model-images/";
 
     public static ENDPOINTS = {
         'login': 'auth/login',
+        'refresh': 'auth/refresh',
         'merchant': {
             'endpoint': 'merchant',
             'path': {
@@ -89,6 +91,32 @@ export class AppSettings {
                 'template': 't'
             }
         },
-        'adminUser' : {'endpoint': 'admin/user'}
+        'adminUser' : {'endpoint': 'admin/user'},
+        'dashboard' : {
+            'endpoint' : 'dashboard',
+            'path': {
+                'merchant': 'm',
+                'location': 'l',
+                'device': 'd'
+            }
+        },
+        'mdashboard' : {
+            'endpoint' : 'mdashboard',
+            'path': {
+                'location': 'l',
+                'device': 'd',
+                'job' : 'j',
+                'model' : 'dm',
+                'category' : 'c'
+            }
+        },
+        'password' : {
+            'endpoint' : 'password',
+            'path': {
+                'reset': 'r',
+                'verify': 'v',
+                'forgot': 'f'
+            }
+        }
     };
 }

@@ -17,8 +17,6 @@ export class LoginFormComponent implements OnInit {
 
   @Input() showHeader: boolean;
 
-  // @Output() modalClosed = new EventEmitter();
-
   faTimes = faTimes;
 
   loginForm: FormGroup;
@@ -36,8 +34,11 @@ export class LoginFormComponent implements OnInit {
     this.authService.logout();
     this.loginForm = this.formBuilder.group({
       username: ['', [Validators.required, Validators.email]],
-      password: ['', [Validators.required, Validators.minLength(8)]]
+      password: ['', [Validators.required, Validators.minLength(8)]],
+      remember: ['']
     });
+
+    this.loginForm.controls['username'].setValue(localStorage.getItem('remember'));
 
     this.resetMenuAccess();
   }
@@ -50,12 +51,6 @@ export class LoginFormComponent implements OnInit {
     });
   }
 
-  // asGuest(){
-  //   sessionStorage.setItem('currentUser', JSON.stringify({'Guest'}));
-  //   this.spinner.hide();
-  //   this.router.navigate(['/merchant']);
-  // }
-
   onSubmit() {
     this.submitted = true;
     // stop here if form is invalid
@@ -64,12 +59,11 @@ export class LoginFormComponent implements OnInit {
     }
 
     const bodyJSON = this.loginForm.value;
+    if(bodyJSON.remember)
+      localStorage.setItem('remember', bodyJSON.username);
+
     this.spinner.show();
     this.authService.login(bodyJSON).subscribe((resp: ApiResponse) => {
-      console.log(resp);
-      sessionStorage.setItem('access_token', resp.message.access_token);
-      sessionStorage.setItem('user_profile', resp.message.user_profile);
-      this.authService.loadUserProfile();
       this.spinner.hide();
 
       let profile = JSON.parse(resp.message.user_profile);
@@ -93,9 +87,4 @@ export class LoginFormComponent implements OnInit {
         this.spinner.hide();
       });
   }
-
-  // close() {
-  //   // /console.log('close invoked');
-  //   this.modalClosed.emit(true);
-  // }
 }

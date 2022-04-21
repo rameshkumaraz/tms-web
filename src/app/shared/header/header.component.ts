@@ -1,5 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { faUser, faSignInAlt, faSignOutAlt, faHome, faChartArea,faUserCog, faIndustry, faMobileAlt, faMapMarkerAlt, faTachometerAlt, faUserCircle } from '@fortawesome/free-solid-svg-icons';
+import { faUser, faEye, faSignInAlt, faSignOutAlt, faHome, faChartArea,faUserCog, faIndustry, faMobileAlt, faMapMarkerAlt, faTachometerAlt, faUserCircle } from '@fortawesome/free-solid-svg-icons';
 import { NgbModalConfig, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { Router } from '@angular/router';
 import { AuthenticationService } from 'src/app/auth/services/authentication.service';
@@ -9,6 +9,7 @@ import menuAccess from '../../../assets/config/menu-access.json';
 import { Subscription } from 'rxjs';
 import { AppService } from '../service/app.service';
 import { HeaderService } from './header.service';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-header',
@@ -22,6 +23,7 @@ export class HeaderComponent implements OnInit {
   profile: any;
 
   faUser = faUser;
+  faEye = faEye;
   faSignIn = faSignInAlt;
   faSignOut = faSignOutAlt;
   faHome = faHome;
@@ -33,6 +35,7 @@ export class HeaderComponent implements OnInit {
   faDashboard = faTachometerAlt;
   faUserCircle = faUserCircle;
 
+  passForm: FormGroup;
 
   mSub: Subscription;
 
@@ -51,6 +54,7 @@ export class HeaderComponent implements OnInit {
   // hasDeviceModelAccess = false;
 
   constructor(config: NgbModalConfig, private modalService: NgbModal,
+    private formBuilder: FormBuilder,
     private headerService: HeaderService,
     private authService: AuthenticationService,
     private appService: AppService,
@@ -234,17 +238,30 @@ export class HeaderComponent implements OnInit {
       this.router.navigate(['/mdb']);
   }
 
-  openModal(content) {
-    this.modalService.open(content, { size: 'md' });
+  openModal(content, size?) {
+    if(size)
+      this.modalService.open(content, { size: size });
+    else
+      this.modalService.open(content, { size: 'md' });
   }
 
   openLoginModal(content) {
     this.modalService.open(content, { size: 'sm' });
   }
 
-  closeModal(content, type) {
-    console.log('closeModel invoked', content);
+  // closeModal(content, type) {
+  //   console.log('closeModel invoked', content);
+  //   this.modalService.dismissAll();
+  // }
+
+  closeModal() {
+    console.log('closeModel invoked');
     this.modalService.dismissAll();
+  }
+
+  closePasswordModal() {
+    this.modalService.dismissAll();
+    this.confirmLogout();
   }
 
   logout(content) {

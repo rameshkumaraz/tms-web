@@ -23,6 +23,39 @@
           },
           {
             "cols": [{
+                "name": "mcc_code",
+                "label": "Category Code",
+                "desc": "MCC ccode",
+                "type": "text",
+                "val": "",
+                "validation": {
+                  "min": 2,
+                  "max": 4,
+                  "mandatory": true,
+                  "type": "number"
+                },
+                "editable": true,
+                "width": "60%"
+              },
+              {
+                "name": "category_name",
+                "label": "Category Name",
+                "desc": "Category Name",
+                "type": "text",
+                "val": "",
+                "validation": {
+                  "min": 4,
+                  "max": 50,
+                  "mandatory": true,
+                  "type": "string"
+                },
+                "editable": true,
+                "width": "100%"
+              }
+            ]
+          },
+          {
+            "cols": [{
                 "name": "access_pin",
                 "label": "Access PIN",
                 "desc": "Access PIN to manage the settings",

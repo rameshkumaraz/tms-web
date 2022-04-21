@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { Component, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { AppService } from '../shared/service/app.service';
@@ -8,11 +8,8 @@ import { BaseComponent } from '../shared/core/base.component';
 import { GoogleChartInterface, GoogleChartType } from 'ng2-google-charts';
 
 import { countries } from '../shared/model/country-data-store'
-import { MerchantService } from '../merchant/merchant.service';
-import { first } from 'rxjs/operators';
-import { ApiResponse } from '../shared/model/api.response';
-import { LocationService } from '../location/location.service';
-import { DeviceService } from '../device/device.service';
+import { DashboardService } from './dashboard.service';
+import { forkJoin } from 'rxjs';
 
 @Component({
   selector: 'app-dashboard',
@@ -28,37 +25,12 @@ export class DashboardComponent extends BaseComponent {
   countries: any = countries;
 
   merchants: Array<any>;
-  locations: Array<any>;
-  devices: Array<any>;
-
-  activeDeviceCount: number;
-  inactiveDeviceCount: number;
-
-  merchantCount: number;
-  locCount: number;
-  deviceCount: number;
-
-  merchantChangeCount: number;
-  merchantInactiveChangeCount: number;
-  locChangeCount: number;
-  locInactiveChangeCount: number;
-  deviceChangeCount: number;
-  deviceInactiveChangeCount: number;
-  activeDeviceChange: number;
-
-  merchantChangeText: string;
-  locationChangeText: string;
-  deviceChangeText: string;
-  activeDeviceChangeText: string;
 
   merchantCountByCountry = {};
 
-
-  locCountByMerchant = {};
-  dvcCountByMerchant = {};
-
-  inactiveLocCountByMerchant = {};
-  inactiveDvcCountByMerchant = {};
+  mStats: any;
+  lStats: any;
+  dStats: any;
 
   isRefreshed = false;
 
@@ -111,9 +83,7 @@ export class DashboardComponent extends BaseComponent {
   };
 
   constructor(private appService: AppService,
-    private merchantService: MerchantService,
-    private locationService: LocationService,
-    private deviceService: DeviceService,
+    private dashboardService: DashboardService,
     private spinner: NgxSpinnerService,
     private router: Router) {
     super();
@@ -122,22 +92,6 @@ export class DashboardComponent extends BaseComponent {
   ngOnInit(): void {
     this.pageHeader = 'Dashboard';
 
-    this.merchantCount = 0;
-    this.locCount = 0;
-    this.deviceCount = 0;
-
-    this.merchantChangeCount = 0;
-    this.locChangeCount = 0;
-    this.deviceChangeCount = 0;
-    this.activeDeviceChange = 0;
-
-    this.merchantInactiveChangeCount = 0;
-    this.locInactiveChangeCount = 0;
-    this.deviceInactiveChangeCount = 0;
-
-    this.activeDeviceCount = 0;
-    this.inactiveDeviceCount = 0
-
     this.appService.clearMerchant();
     // this.resetMenuAccess();
     this.onPageLoad();
@@ -145,133 +99,45 @@ export class DashboardComponent extends BaseComponent {
 
   onPageLoad() {
     this.spinner.show();
-    this.merchantService.getAll()
-      .pipe(first())
-      .subscribe(
-        (resp: ApiResponse) => {
-          console.log('Merchant Response', resp);
-          this.merchants = resp.message;
-          this.merchantCount = this.merchants.length;
-          this.handleMerchantCounts();
-          // this.spinner.hide();
-          this.loadLocations();
-          this.loadDevices();
+    forkJoin([
+        this.dashboardService.loadMerchantStats(),
+        this.dashboardService.loadLocationStats(),
+        this.dashboardService.loadDeviceStats()
+      ]).subscribe(([resp1 , resp2, resp3]) => {
+        let mStats = resp1 as any;
+        let lStats = resp2 as any;
+        let dStats = resp3 as any;
+        this.mStats = mStats.message;
+        this.lStats = lStats.message;
+        this.dStats = dStats.message;
+        this.merchants = this.mStats.merchants;
 
-          this.merchants.sort(function (a, b) {
-            return b.locationCount - a.locationCount || b.deviceCount - a.deviceCount;
-          })
-        },
-        error => {
-          this.spinner.hide();
+        this.mStats.mLocChange.forEach(l => {
+          this.merchants.forEach(m => {
+            if(m.id == l.id)
+              m.locActiveCount = l.activeCount;
+              m.locInActiveCount = l.inActiveCount;
+          });
         });
-  }
 
-  loadLocations() {
-    this.locationService.getAllWithRelations()
-      .pipe(first())
-      .subscribe(
-        (resp: ApiResponse) => {
-          console.log('Location Response', resp);
-          this.locations = resp.message;
-          this.locCount = this.locations.length;
-          this.handleLocationCounts();
-          // this.spinner.hide();
-        },
-        error => {
-          this.spinner.hide();
+        this.mStats.mDvscChange.forEach(d => {
+          this.merchants.forEach(m => {
+            if(m.id == d.id)
+              m.dvscActiveCount = d.activeCount;
+              m.dvscInActiveCount = d.inActiveCount;
+          });
         });
-  }
 
-  loadDevices() {
-    this.deviceService.getAllWithRelations()
-      .pipe(first())
-      .subscribe(
-        (resp: ApiResponse) => {
-          console.log('Device Response', resp);
-          this.devices = resp.message;
-          this.deviceCount = this.devices.length;
-          this.handleDeviceCounts();
+        this.populateChartData();
 
-          this.populateChartData();
-          this.spinner.hide();
-        },
-        error => {
-          this.spinner.hide();
-        });
-  }
-
-  handleMerchantCounts() {
-    this.merchants.forEach(m => {
-      if (m.status == this.statusEnum.ACTIVE) {
-        if (this.checkDate(Date.parse(m.createdDate)) || this.checkDate(Date.parse(m.updatedDate))) {
-          this.merchantChangeCount++;
-        }
-      } else {
-        if (this.checkDate(Date.parse(m.updatedDate))) {
-          this.merchantInactiveChangeCount++;
-        }
-      }
-    });
-
-    console.log('Merchant counts', this.merchantChangeCount + ' : ' + this.merchantInactiveChangeCount);
-  }
-
-  handleLocationCounts() {
-    this.locations.forEach(l => {
-      let mId = '' + l.merchant.id;
-      if (l.status == this.statusEnum.ACTIVE) {
-        if (this.checkDate(Date.parse(l.createdDate)) || this.checkDate(Date.parse(l.updatedDate))) {
-          this.locChangeCount++;
-          if (!this.locCountByMerchant[mId])
-            this.locCountByMerchant[mId] = 1;
-          else
-            this.locCountByMerchant[mId] = +this.locCountByMerchant[mId] + 1;
-        }
-      } else {
-        if (this.checkDate(Date.parse(l.updatedDate))) {
-          this.locInactiveChangeCount++;
-          if (!this.inactiveLocCountByMerchant[mId])
-            this.inactiveLocCountByMerchant[mId] = 1;
-          else
-            this.inactiveLocCountByMerchant[mId] = +this.inactiveLocCountByMerchant[mId] + 1;
-        }
-      }
-    });
-
-    console.log('Location count by merchant', this.locCountByMerchant);
-    console.log('Inactive Location count by merchant', this.inactiveLocCountByMerchant);
-
-  }
-
-  handleDeviceCounts() {
-
-    this.devices.forEach(d => {
-
-      let mId = '' + d.merchant.id;
-
-      if (d.status == this.statusEnum.ACTIVE) {
-        if (this.checkDate(Date.parse(d.createdDate)) || this.checkDate(Date.parse(d.updatedDate))) {
-          this.deviceChangeCount++;
-          this.activeDeviceCount++;
-          if (!this.dvcCountByMerchant[mId])
-            this.dvcCountByMerchant[mId] = 1;
-          else
-            this.dvcCountByMerchant[mId] = this.dvcCountByMerchant[mId] + 1;
-        }
-      } else {
-        if (this.checkDate(Date.parse(d.updatedDate))) {
-          this.deviceInactiveChangeCount++;
-          if (!this.inactiveDvcCountByMerchant[mId])
-            this.inactiveDvcCountByMerchant[mId] = 1;
-          else
-            this.inactiveDvcCountByMerchant[mId] = this.inactiveDvcCountByMerchant[mId] + 1;
-        }
-      }
-
-    });
-
-    console.log('Device count by merchant', this.dvcCountByMerchant);
-    console.log('Inactive Device count by merchant', this.inactiveDeviceCount);
+        this.spinner.hide();
+        // console.log('Merchant.....', this.mStats);
+        // console.log('Location.....', this.lStats);
+        // console.log('Device.....', this.dStats);
+        // console.log('Merchants.....', this.merchants);
+      },error => {
+        this.spinner.hide();
+      });
   }
 
   populateChartData() {
@@ -287,28 +153,8 @@ export class DashboardComponent extends BaseComponent {
       this.chartData.push([k, this.merchantCountByCountry[k]]);
     });
 
-    // let deviceByMerchant =[];
-
-    // this.merchants.forEach(m => {
-    //   let data = {
-    //     merchant : m.name,
-    //     country: m.country,
-    //     deviceCount: 0
-    //   }
-    //   this.devices.forEach(d => {
-    //       console.log(m.id+'==='+d.merchant.id);
-    //       if(m.id === d.merchant.id){
-    //         data.deviceCount = data.deviceCount +1;
-    //       }
-    //   });
-    //   this.chartData.push([data.country, data.deviceCount]);
-
-    //   deviceByMerchant.push(data);
-    // });
-
     this.isRefreshed = true;
 
-    // console.log('Device by merchant: ', this.chartData);
   }
 
   changeMerchant() {
@@ -338,11 +184,6 @@ export class DashboardComponent extends BaseComponent {
       this.isRefreshed = true;
       this.geoChart['dataTable'] = this.chartData;
     }
-
-    // console.log(this.chartData);  
-    // this.chartData = Object.assign([], this.chartData);
-    // console.log(this.chart);
-    // this.chart.redraw();
   }
 
   drawChart() {
@@ -353,7 +194,7 @@ export class DashboardComponent extends BaseComponent {
   }
 
   filterMerchant(id: number) {
-    return this.merchants.find(m => m.id == id);
+    return this.mStats.merchants.find(m => m.id == id);
   }
 
   openMerchant(id: number) {

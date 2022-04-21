@@ -22,23 +22,26 @@ export class AppHttpInterceptor implements HttpInterceptor {
 
         return next.handle(request).pipe(
             map(resp => {
-                console.log('Http Response....', resp);
+                //console.log('Http Response....', resp);
                 if (resp instanceof HttpResponse) {
                     resp = resp.clone<any>({ body: this.responseHandler.handleResponse(resp) });
+                    sessionStorage.setItem('lastHttpRequestAt', new Date().toISOString());
                 }
                 return resp;
             }),
             catchError(err => {
                 console.log('Http error Response....', err);
 
+                //console.log('Http error Response....', request.url);
+
                 if (err instanceof HttpErrorResponse) {
                     if (err.status === HttpStatusCode.Unauthorized) {
                         this.authService.logout();
                         this.router.navigate(['/login']);
-                    } 
+                    }
                 }
 
                 return throwError(this.responseHandler.handleErrorResponse(err));
-            }))
+            }));
     }
 }

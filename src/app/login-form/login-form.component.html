@@ -30,11 +30,12 @@
     </div>
     <p class="pt-1"></p>
     <button type="submit" class="btn btn-primary form-button-action">Login</button>
-  </form>
+  <!-- </form> -->
   <div class="bottom d-flex mb-1">
     <label class="form-check-label">
-      <input class="form-check-input" type="checkbox" name="remember"> Remember me
+      <input class="form-check-input" formControlName="remember" type="checkbox" name="remember"> Remember me
     </label>
-    <label class="ml-auto"><a class="a-bold">Forgot Password?</a></label>
+    <label class="ml-auto"><a class="a-bold" [routerLink]="['/forgot']" routerLinkActive="router-link-active" >Forgot Password?</a></label>
   </div>
+</form>
 </div>

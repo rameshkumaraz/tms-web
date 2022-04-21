@@ -46,7 +46,7 @@ export class AppComponent {
           //   }
         });
 
-        this.setRefreshInterval();
+        // this.setRefreshInterval();
       } else {
         // if(this.userInactive) this.userInactive.unsubscribe();
         // if(this.refreshTokenSub) this.refreshTokenSub.unsubscribe();
@@ -63,7 +63,7 @@ export class AppComponent {
         router.url === '/login' ||
         router.url.indexOf('/login') === 0 ||
         router.url === '/reset-password' ||
-        router.url === '/forgotPass' ||
+        router.url === '/forgot' ||
         router.url === '/error' ||
         router.url === '/logout'
       ) {
@@ -79,15 +79,15 @@ export class AppComponent {
   }
 
   setTimeout() {
-    this.userActivity = setTimeout(() => this.userInactiveSub.next(undefined), (15 * 60 * 1000)); 
+    this.userActivity = setTimeout(() => this.userInactiveSub.next(undefined), (60 * 60 * 1000)); 
   }
 
-  setRefreshInterval() {
-    this.refreshToken = setInterval(() => {
-      this.refreshUserToken(); 
-    }, (15 * 60 * 1000));
-    console.log('Interval id ', this.refreshToken);
-  }
+  // setRefreshInterval() {
+  //   this.refreshToken = setInterval(() => {
+  //     this.refreshUserToken(); 
+  //   }, (15 * 60 * 1000));
+  //   console.log('Interval id ', this.refreshToken);
+  // }
 
   @HostListener('window:mousemove')
   @HostListener('window:keydown')

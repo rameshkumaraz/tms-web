@@ -63,6 +63,8 @@ import { AppParamImportComponent } from './app-param/app-param-import/app-param-
 import { PositivePipe } from './utils/pipes/positive.pope';
 import { UserInactiveComponent } from './shared/modal/user-inactive/user-inactive.component';
 import { LogoutComponent } from './logout/logout.component';
+import { ResetPassComponent } from './password/reset/reset-pass/reset-pass.component';
+import { ForgotPassComponent } from './password/forgot/forgot-pass/forgot-pass.component';
 
 @NgModule({
   declarations: [
@@ -112,7 +114,9 @@ import { LogoutComponent } from './logout/logout.component';
     AppParamImportComponent,
     PositivePipe,
     UserInactiveComponent,
-    LogoutComponent
+    LogoutComponent,
+    ResetPassComponent,
+    ForgotPassComponent
   ],
   imports: [
     AppRoutingModule,
