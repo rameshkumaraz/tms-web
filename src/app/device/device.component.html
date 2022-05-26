@@ -11,34 +11,21 @@
           <div class="form-row">
             <div class="form-group col-sm-12">
               <span class="pr-2">
-                <input id='name' formControlName="name" class="filter-input merchant" placeholder="Device Name">
+                <input id='serial' formControlName="serial" class="filter-input merchant" placeholder="Device Serial" #dvscSerial>
               </span>
               <span class="pr-2">
-                <input id='serial' formControlName="serial" class="filter-input merchant" placeholder="Device Serial">
-              </span>
-              <span class="pr-2">
-                <span class="pr-2">
-                  <select id="model" formControlName="model" class="filter-select">
-                    <option value="" disabled selected>All Model</option>
-                    <option *ngFor="let dm of deviceModels" [value]="dm.id">{{dm.name}}</option>
-                  </select>
-                </span>
-              </span>
-              <span class="pr-2">
-                <select id="location" formControlName="location" class="filter-select">
-                  <option value="" disabled selected>All Location</option>
-                  <option *ngFor="let l of locations" [value]="l.id">{{l.name}}</option>
-                </select>
+                <input id='name' formControlName="name" class="filter-input merchant" placeholder="Device Name" #dvscName>
               </span>
               <span class="pr-3">
-                <select id="status" formControlName="status" class="filter-select" #status>
+                <select id="status" formControlName="status" class="filter-select" #status  (change)="searchDevices('status')">
                   <option value="" selected>All Status</option>
                   <option *ngFor="let s of statusKeys" [value]="statusEnum[s]">{{s}}</option>
                 </select>
               </span>
               <span class="pr-2 filter-icon">
-                <a (click)="searchDevices()" *ngIf="!inFilterMode" ngbTooltip="Filter" tooltipClass="tool-tip">
-                  <fa-icon [icon]='faSearch' style="color: #777777" size="md"></fa-icon> Apply Filter
+                <a *ngIf="!inFilterMode" (click)="openAdSearch(searchModal)" ngbTooltip="Filter"
+                  tooltipClass="tool-tip">
+                  <fa-icon [icon]='faSearchPlus' style="color: #777777" size="md"></fa-icon> Advanced Search
                 </a>
                 <a (click)="clearSearchResult()" *ngIf="inFilterMode" ngbTooltip="Clear Filter" tooltipClass="tool-tip">
                   <fa-icon [icon]='faTimes' style="color: #777777" size="md"></fa-icon> Clear Filter
@@ -74,7 +61,7 @@
     </div> -->
 
     <div *ngIf="deviceCount === 0" class="pt-4 info">
-      No devices are created yet for the selected location.
+      No devices found.
       <ul>
         <li>New device can be created by using <span class="info-highlight">Add New Device</span> option.</li>
       </ul>
@@ -127,7 +114,7 @@
         <ngb-pagination [collectionSize]="deviceCount" [(page)]="page" [pageSize]="pageSize">
         </ngb-pagination>
 
-        <select [(ngModel)]="pageSize">
+        <select [(ngModel)]="pageSize" class="page-select">
           <option [ngValue]="5">5 items per page</option>
           <option [ngValue]="10">10 items per page</option>
           <option [ngValue]="25">25 items per page</option>
@@ -139,4 +126,54 @@
 <ng-template #deviceModal let-modal>
   <app-device-form [actionType]="actionType" [merchant]="merchant" [device]="device" [locations]="locations"
     (modalClosed)='closeModal($event)'></app-device-form>
+</ng-template>
+<ng-template #searchModal let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title" id="modal-basic-title">Advanced Search</h4>
+    <button type="button" class="close" aria-label="Close" (click)="closeAdSearch()">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <form [formGroup]="adSearchForm">
+      <div class="form-row">     
+        <div class="form-group col-sm-12">
+          <label for="serial">Serial #</label>
+          <input id='serial' formControlName="serial" class="form-control" placeholder="Serial #">
+        </div>
+        <div class="form-group col-sm-12">
+          <label for="name">Name</label>
+          <input id='name' formControlName="name" class="form-control" placeholder="Device Name">
+        </div>
+        <div class="form-group col-sm-12">
+          <label for="model">Device Model</label>
+          <select id="model" formControlName="model" class="form-control" style="border-color: #e0e7ff;">
+            <option value="" selected>All Model</option>
+            <option *ngFor="let dm of deviceModels" [value]="dm.id">{{dm.name}}</option>
+          </select>
+        </div>   
+        <div class="form-group col-sm-12">
+          <label for="location">Location</label>
+          <select id="location" formControlName="location" class="form-control" style="border-color: #e0e7ff;">
+            <option value="" selected>All Location</option>
+            <option *ngFor="let l of locations" [value]="l.id">{{l.name}}</option>
+          </select>
+        </div>   
+        <div class="form-group col-sm-12">
+          <label for="status">Status</label>
+          <select id="status" formControlName="status" class="form-control" style="border-color: #e0e7ff;">
+            <option value="" selected>All Status</option>
+            <option *ngFor="let s of statusKeys" [value]="statusEnum[s]">{{s}}</option>
+          </select>
+        </div>
+      </div>
+    </form>
+
+    <div class="button-block pt-2">
+      <span class="pr-2"><button type="button" class="btn btn-primary form-button-cancel"
+          (click)="closeAdSearch()">Cancel</button>
+      </span>
+      <button type="button" class="btn btn-primary form-button-action" (click)="advancedSearch()">Search</button>
+    </div>
+  </div>
 </ng-template>

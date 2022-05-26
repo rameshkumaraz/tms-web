@@ -102,6 +102,13 @@ export class RoleFormComponent extends BaseComponent {
       const term = event.target.value.toLowerCase();
       return policy.name.toLowerCase().includes(term);
     });
+    // console.log('Selected policies.....', this.selectedPolicies);
+    this.filteredPolicies.forEach(p => {
+      // console.log('Policy...', p);
+      // console.log('Policy already slected...', this.selectedPolicies.indexOf(p.id, 0));
+      if(this.selectedPolicies.indexOf(p.id, 0) > -1)
+        p.checked = true;
+    });
   }
 
   onPageLoad() {
@@ -133,15 +140,21 @@ export class RoleFormComponent extends BaseComponent {
       });
   };
 
+  filterPolicy(id: number){
+    return this.policies.find(r => r.id == id);
+  }
+
   selectPolicy(event: any) {
-    console.log(event.target.checked);
-    if (event.target.checked)
+    // console.log(event.target.checked);
+    // console.log('Selected policies ');
+    if (event.target.checked) {
       this.selectedPolicies.push(+event.target.value);
-    else {
+    } else {
       const index = this.selectedPolicies.indexOf(+event.target.value, 0);
       if (index > -1) {
         this.selectedPolicies.splice(index, 1);
       }
+      this.filterPolicy(+event.target.value).checked = false;
     }
     // console.log('Selected policies.....', this.selectedPolicies);
   }

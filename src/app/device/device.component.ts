@@ -1,6 +1,6 @@
-import { Component } from '@angular/core';
+import { Component, ElementRef, ViewChild } from '@angular/core';
 import { NgxSpinnerService } from 'ngx-spinner';
-import { first } from 'rxjs/operators';
+import { debounceTime, first } from 'rxjs/operators';
 import { LocationService } from '../location/location.service';
 import { Merchant } from '../model/merchant';
 import { Location } from '../model/location';
@@ -13,6 +13,7 @@ import { Device } from '../model/device';
 import { BaseComponent } from '../shared/core/base.component';
 import { FormBuilder } from '@angular/forms';
 import { DeviceModelService } from '../device-model/device-model.service';
+import { fromEvent } from 'rxjs';
 
 @Component({
   selector: 'app-device',
@@ -20,6 +21,9 @@ import { DeviceModelService } from '../device-model/device-model.service';
   styleUrls: ['./device.component.scss']
 })
 export class DeviceComponent extends BaseComponent {
+
+  @ViewChild("dvscName") dvscName: ElementRef;
+  @ViewChild("dvscSerial") dvscSerial: ElementRef;
 
   pageHeader: string;
   page = 1;
@@ -42,6 +46,8 @@ export class DeviceComponent extends BaseComponent {
 
   actionType;
 
+  debounceTime = 750;
+
   closeResult: string;
 
   constructor(private appService: AppService,
@@ -55,12 +61,17 @@ export class DeviceComponent extends BaseComponent {
   }
 
   ngOnInit(): void {
+
+    super.ngOnInit();
+
     this.pageHeader = 'Devices';
 
     // this.sub = this.activatedroute.paramMap.subscribe(params => {
     //   console.log(params);
     //   this.locId = params.get('locId');
     // });
+
+    console.log('status keys', this.statusKeys);
 
     this.inFilterMode = false;
 
@@ -74,9 +85,25 @@ export class DeviceComponent extends BaseComponent {
     this.searchForm = this.formBuilder.group({
       name: [''],
       serial: [''],
+      status: ['']
+    });
+
+    this.adSearchForm = this.formBuilder.group({
+      name: [''],
+      serial: [''],
       model: [''],
       location: [''],
       status: ['']
+    });
+  }
+
+  ngAfterViewInit(): void {
+    fromEvent(this.dvscName.nativeElement, 'keyup').pipe(debounceTime(this.debounceTime)).subscribe(data => {
+      this.searchDevices('name');
+    });
+
+    fromEvent(this.dvscSerial.nativeElement, 'keyup').pipe(debounceTime(this.debounceTime)).subscribe(data => {
+      this.searchDevices('serial');
     });
   }
 
@@ -171,14 +198,32 @@ export class DeviceComponent extends BaseComponent {
   }
 
   get f() { return this.searchForm['controls'] }
+  get af() { return this.adSearchForm['controls'] }
 
-  searchDevices() {
-    console.log('Filter', this.searchForm.value);
+  searchDevices(type: string) {
+
+    console.log('Target Id....', type);
+    if(type == 'name' && this.f.name.value.length < 3) {
+      return;
+    }
+    if(type == 'serial' && this.f.serial.value.length < 3) {
+      return;
+    }
+    this.spinner.show();
+    if(type == 'name') {
+      this.f.serial.setValue('');
+      this.f.status.setValue('');
+    } else if (type == 'serial'){
+      this.f.name.setValue('');
+      this.f.status.setValue('');
+    } else if (type == 'status'){
+      this.f.name.setValue('');
+      this.f.serial.setValue('');
+    }
+
     let filter = this.searchForm.value;
     filter.merchant = this.merchant.id;
-    console.log('Filter', filter);
-    if (this.f.name.value || this.f.serial.value || this.f.model.value || this.f.location.value || this.f.status.value) {
-      this.spinner.show();
+    if (this.f.name.value || this.f.serial.value || this.f.status.value) {
       this.dService.searchDevices(filter).pipe(first())
         .subscribe(
           (resp: ApiResponse) => {
@@ -194,13 +239,67 @@ export class DeviceComponent extends BaseComponent {
     }
   }
 
+  // searchDevices() {
+  //   console.log('Filter', this.searchForm.value);
+  //   let filter = this.searchForm.value;
+  //   filter.merchant = this.merchant.id;
+  //   console.log('Filter', filter);
+  //   if (this.f.name.value || this.f.serial.value || this.f.model.value || this.f.location.value || this.f.status.value) {
+  //     this.spinner.show();
+  //     this.dService.searchDevices(filter).pipe(first())
+  //       .subscribe(
+  //         (resp: ApiResponse) => {
+  //           console.log('Filtered Merchant Response', resp);
+  //           this.devices = resp.message;
+  //           this.deviceCount = this.devices.length;
+  //           this.inFilterMode = true;
+  //           this.spinner.hide();
+  //         },
+  //         error => {
+  //           this.spinner.hide();
+  //         });
+  //   }
+  // }
+
   clearSearchResult() {
     this.searchForm.reset();
     this.f.status.setValue("");
-    this.f.model.setValue("");
-    this.f.location.setValue("");
     this.inFilterMode = false;
     this.onPageLoad();
+  }
+
+  openAdSearch(content: any){
+    this.adSearchForm.reset();
+    this.adSearchForm.controls['model'].setValue('');
+    this.adSearchForm.controls['location'].setValue('');
+    this.adSearchForm.controls['status'].setValue('');
+    this.openModal(content, 'sm', 'Advanced Search');
+  }
+
+  closeAdSearch(){
+    this.closeModal(false);
+  }
+
+  advancedSearch(){
+    console.log(this.adSearchForm.value);
+    if (this.af.serial.value || this.af.name.value || this.af.model.value || this.af.location.value || this.af.status.value) {
+      this.spinner.show();
+      let formValue = this.adSearchForm.value;
+      formValue.merchant = this.merchant.id;
+      this.dService.searchDevices(formValue).pipe(first())
+        .subscribe(
+          (resp: ApiResponse) => {
+            console.log('Filtered Merchant Response', resp);
+            this.devices = resp.message;
+            this.deviceCount = this.devices.length;
+            this.inFilterMode = true;
+            this.spinner.hide();
+            this.closeModal(false);
+          },
+          error => {
+            this.spinner.hide();
+          });
+    } 
   }
 
   showProfile(id: number) {

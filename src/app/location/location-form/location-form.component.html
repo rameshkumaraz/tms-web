@@ -41,7 +41,7 @@
           class="form-control" [ngClass]="{ 'is-invalid': formSubmitted && f.address.errors }">  </textarea>
         <div *ngIf="formSubmitted && f.address.errors" class="invalid-feedback">
           <div *ngIf="f.address.errors.required">Address is required</div>
-          <div *ngIf="f.address.errors.minlength">Address must be at least 5 characters long.</div>
+          <div *ngIf="f.address.errors.minlength">Address must be at least 25 characters long.</div>
         </div>
       </div>
     </div>

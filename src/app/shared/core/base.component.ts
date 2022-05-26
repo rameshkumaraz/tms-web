@@ -1,5 +1,5 @@
 import { AfterViewInit, Component, EventEmitter, OnDestroy, OnInit, Output } from '@angular/core';
-import { faArchive, faBars, faChartArea, faEdit, faEye, faFileDownload, faFileExport, faFileImport, faFilter, faHome, faIndustry, faLongArrowAltDown, faLongArrowAltUp, faMapMarkerAlt, faMobileAlt, faPlus, faSearch, faTachometerAlt, faTh, faTimes, faTimesCircle, faUserCog, faSearchPlus, faUserCircle } from '@fortawesome/free-solid-svg-icons';
+import { faArchive, faBars, faChartArea, faEdit, faEye, faFileDownload, faFileExport, faFileImport, faFilter, faHome, faIndustry, faLongArrowAltDown, faLongArrowAltUp, faMapMarkerAlt, faMobileAlt, faPlus, faSearch, faTachometerAlt, faTh, faTimes, faTimesCircle, faUserCog, faSearchPlus, faUserCircle, faCheckCircle, faBan } from '@fortawesome/free-solid-svg-icons';
 import { Subscription } from 'rxjs';
 import { StatusEnum } from '../enum/status.enum';
 import { ActionEnum } from '../enum/action.enum';
@@ -43,6 +43,8 @@ export abstract class BaseComponent implements OnInit, AfterViewInit, OnDestroy 
     faMobile = faMobileAlt;
     faMerchant = faIndustry;
     faDashboard = faTachometerAlt;
+    faCheckCircle = faCheckCircle;
+    faBan = faBan;
 
     statusKeys: Array<any>;
 

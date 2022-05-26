@@ -163,9 +163,11 @@ export class LocationComponent extends BaseComponent {
 
   advancedSearch(){
     console.log(this.adSearchForm.value);
-    if (this.af.name.value|| this.af.country.value || this.af.status.value) {
+    if (this.af.name.value|| this.af.status.value) {
       this.spinner.show();
-      this.locationService.searchLocations(this.adSearchForm.value).pipe(first())
+      let formValue = this.adSearchForm.value;
+      formValue.merchant = this.merchant.id;
+      this.locationService.searchLocations(formValue).pipe(first())
         .subscribe(
           (resp: ApiResponse) => {
             console.log('Filtered Merchant Response', resp);
@@ -201,6 +203,8 @@ export class LocationComponent extends BaseComponent {
   // }
 
   openAdSearch(content: any){
+    this.adSearchForm.reset();
+    this.adSearchForm.controls['status'].setValue('');
     this.openModal(content, 'sm', 'Advanced Search');
   }
 

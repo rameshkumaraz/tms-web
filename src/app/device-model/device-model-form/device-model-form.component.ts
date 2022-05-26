@@ -31,7 +31,11 @@ export class DeviceModelFormComponent extends BaseComponent {
   formSubmitted = false;
   isFailed = false;
 
+  filePath;
+
   brands: Array<any>;
+
+  namePattern = /^[a-z0-9]+(?:[_-][a-z0-9]+)*$/;
 
   sub;
 
@@ -46,7 +50,7 @@ export class DeviceModelFormComponent extends BaseComponent {
   ngOnInit(): void {
     this.modelForm = this.formBuilder.group({
       brand: ['', [Validators.required, Validators.minLength(1)]],
-      name: ['', [Validators.required, Validators.minLength(2), Validators.max(200)]],
+      name: ['', [Validators.required, Validators.minLength(2), Validators.max(200), Validators.pattern(this.namePattern)]],
       modelVersion: ['', [Validators.required, Validators.minLength(1), Validators.max(10)]],
       baseVersion: ['', [Validators.required, Validators.minLength(1), Validators.max(10)]],
       modelImage: [''],
@@ -96,7 +100,9 @@ export class DeviceModelFormComponent extends BaseComponent {
       baseVersion: this.model.baseVersion,
       modelImageName: this.model.modelImageName,
       desc: this.model.desc,
-    });
+    });   
+
+    this.filePath = this.getDeviceImagePath(this.f.modelImage.value);
   }
 
   loadBrands() {
@@ -122,6 +128,11 @@ export class DeviceModelFormComponent extends BaseComponent {
         modelImage: file,
         modelImageName: file.name
       });
+
+      const reader = new FileReader();
+      reader.onload = e => this.filePath = reader.result;
+
+      reader.readAsDataURL(file);
     }
     // console.log("File name", this.f.bundleName.value);
   }
@@ -172,19 +183,32 @@ export class DeviceModelFormComponent extends BaseComponent {
 
   update() {
     this.formSubmitted = true;
+
+    console.log(this.modelForm);
+
     // stop here if form is invalid
     if (this.modelForm.invalid) {
       console.log('From invalid', this.modelForm);
       return;
     }
     this.spinner.show();
-    let brandToUpdate = <DeviceModel>this.modelForm.value;
-    Object.assign(this.model, brandToUpdate);
 
-    this.model.canEdit = !!this.model.canEdit;
-    this.model.canView = !!this.model.canEdit;
+    const formData = this.getFormData();
+    // formData.append('canEdit', this.model.canEdit+'');
+    // formData.append('canView', this.model.canEdit+'');
+    formData.append('id', this.model.id+'');
 
-    this.service.update(this.model).subscribe((resp: ApiResponse) => {
+    formData.forEach((f, k) => {
+      console.log('Form Data....', k+': '+f);
+    });
+
+    // let brandToUpdate = <DeviceModel>this.modelForm.value;
+    // Object.assign(this.model, brandToUpdate);
+
+    // this.model.canEdit = !!this.model.canEdit;
+    // this.model.canView = !!this.model.canEdit;
+
+    this.service.updateModel(formData).subscribe((resp: ApiResponse) => {
       this.spinner.hide();
       this.toastr.success("Model has been updated successfully.", "Device Model");
       this.close(true);

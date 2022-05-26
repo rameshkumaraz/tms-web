@@ -1,10 +1,10 @@
 @import "../../assets/sass/variables";
 
-select {
+.page-select {
   height: 30px;
   font-family: $font-family-light;
   font-size: $font-size-xs;
-  color: $gray-medium !important;
+  color: $gray-medium;
   padding-left: 5px;
   padding-right: 5px;
   border-color: $header-color;

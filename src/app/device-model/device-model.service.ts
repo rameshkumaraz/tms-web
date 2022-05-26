@@ -16,6 +16,9 @@ export class DeviceModelService extends BaseService{
 
   createModel(formData: FormData) {
     console.log("Devicemodel for create....", formData);
+    formData.forEach(f => {
+      console.log('Form Data in service....', f);
+    });
     const apiUrl = AppSettings.API_CONTEXT + AppSettings.ENDPOINTS.deviceModel.endpoint;
 
     console.log('API URL:', apiUrl);
@@ -24,5 +27,28 @@ export class DeviceModelService extends BaseService{
     //     headers.append('Accept', 'application/json');
 
     return this.client.post(apiUrl, formData);
+  }
+
+  updateModel(formData: FormData) {
+    console.log("Devicemodel for create....", formData);
+    formData.forEach(f => {
+      console.log('Form Data in service....', f);
+    });
+    const apiUrl = AppSettings.API_CONTEXT + AppSettings.ENDPOINTS.deviceModel.endpoint;
+
+    console.log('API URL:', apiUrl);
+    // const headers = { 'Content-Type': 'multipart/form-data',  'Accept': 'application/json'}
+    // headers.append('Content-Type', 'multipart/form-data');
+    //     headers.append('Accept', 'application/json');
+
+    return this.client.put(apiUrl, formData);
+  }
+
+  searchModels(filter: any) {
+    const headers = { 'content-type': 'application/json' }
+
+    let url = this.apiUrl+ '/' + AppSettings.ENDPOINTS.deviceModel.path.filter;
+
+    return this.client.post(url, JSON.stringify(filter), { 'headers': headers });
   }
 }

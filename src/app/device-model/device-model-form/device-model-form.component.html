@@ -29,6 +29,7 @@
         <div *ngIf="formSubmitted && f.name.errors" class="invalid-feedback">
           <div *ngIf="f.name.errors.required">Name is required</div>
           <div *ngIf="f.name.errors?.minlength">Name must be at least 5 characters long.</div>
+          <div *ngIf="f.name.errors?.pattern">Name accepts combination of alphanumeric, - and _. Should start and end with alphanumeric.</div>
         </div>
       </div>
     </div>
@@ -53,8 +54,8 @@
       </div>
       <div class="form-group col-sm-4 required"></div>
     </div>
-    <div class="form-row">
-      <div class="form-group col-sm-12" *ngIf="actionType != actionEnum.view">
+    <div class="form-row" *ngIf="actionType == actionEnum.add">
+      <div class="form-group col-sm-8">
         <label for="modelImage" class="asterisk-if-mandatory">Device Model Image</label>
         <input id="modelImage" type="file" class="form-control-file file-cls" (change)="onFileChange($event)"
           [ngClass]="{ 'is-invalid': formSubmitted && f.modelImageName.errors }" accept=".png, .gif, .jpeg">
@@ -63,10 +64,28 @@
           <div *ngIf="f.modelImageName.errors.required">Image is required.</div>
         </div>
       </div>
-      <div class="form-group col-sm-12" *ngIf="actionType == actionEnum.view">
+      <div class="form-group col-sm-4" style="padding-top: 15px;">
+        <img [src]='filePath' width="40" height="60" *ngIf="filePath">
+      </div>
+    </div>
+    <div class="form-row" *ngIf="actionType == actionEnum.edit">
+      <div class="form-group col-sm-4">
+        <label for="modelImage" class="asterisk-if-mandatory">Device Model Image</label>
+        <img [src]='filePath' width="40" height="60">
+      </div>
+      <div class="form-group col-sm-8" style="padding-top: 40px;">
+        <input id="modelImage" type="file" class="form-control-file file-cls" (change)="onFileChange($event)"
+          [ngClass]="{ 'is-invalid': formSubmitted && f.modelImageName.errors }" accept=".png, .gif, .jpeg">
+        <div *ngIf="formSubmitted && f.modelImageName.errors" class="invalid-feedback">
+          <div *ngIf="f.modelImageName.errors.required">Image is required.</div>
+        </div>
+      </div>
+    </div>
+    <div class="form-row" *ngIf="actionType == actionEnum.view">
+      <div class="form-group col-sm-12">
         <label for="modelImage" class="asterisk-if-mandatory">Device Model Image</label>
         <span style="display:block; overflow-y: visible;"><img
-            src='{{getDeviceImagePath(f.modelImage.value)}}' width="40" height="60"></span>
+            [src]='filePath' width="40" height="60"></span>
       </div>
     </div>
     <div class="form-row">

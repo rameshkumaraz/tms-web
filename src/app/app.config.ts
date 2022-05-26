@@ -35,7 +35,12 @@ export class AppSettings {
         },
         // 'devicesForLocation': 'device/l',
         'deviceBrand': {'endpoint': 'db'},
-        'deviceModel': {'endpoint': 'dm'},
+        'deviceModel': {
+            'endpoint': 'dm',
+            'path': {
+                'filter': 'f'
+            }
+        },
         'user': {
             'endpoint': 'users',
             'path': {

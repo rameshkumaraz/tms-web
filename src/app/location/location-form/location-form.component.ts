@@ -39,7 +39,7 @@ export class LocationFormComponent extends BaseComponent {
   ngOnInit(): void {
     this.locationForm = this.formBuilder.group({
       name: ['', [Validators.required, Validators.minLength(5), Validators.max(200)]],
-      address: ['', [Validators.required, Validators.minLength(5), Validators.max(500)]],
+      address: ['', [Validators.required, Validators.minLength(25), Validators.max(500)]],
       desc: ['']
     });
 
