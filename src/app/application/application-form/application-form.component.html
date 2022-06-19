@@ -62,16 +62,32 @@
 
   </form>
   <div class="button-block">
-    <span class="pr-3"><button type="button" class="btn btn-primary form-button-cancel"
+    <button type="button" class="btn btn-primary form-button-cancel"
         (click)="cancel()">Cancel</button>
+    <span class="pl-2" *ngIf="actionType == actionEnum.add">
+      <button type="button" class="btn btn-primary form-button-action" (click)="save()">Save</button>
     </span>
-    <button type="button" class="btn btn-primary form-button-action" (click)="save()"
-      *ngIf="actionType == actionEnum.add">Save</button>
-    <button type="button" class="btn btn-primary form-button-action" (click)="edit()"
-      *ngIf="actionType == actionEnum.view">Edit</button>
-    <span class="pl-3" *ngIf="actionType == actionEnum.view"><button type="button"
-        class="btn btn-primary form-button-action" (click)="delete()">Delete</button></span>
-    <button type="button" class="btn btn-primary form-button-action" (click)="update()"
-      *ngIf="actionType == actionEnum.edit">Update</button>
+    <span class="pl-2" *ngIf="actionType == actionEnum.edit">
+      <button type="button" class="btn btn-primary form-button-action" (click)="update()">Update</button>
+    </span>
+    <span class="pl-2" *ngIf="actionType == actionEnum.view && hasAccess(actionEnum.edit) && app.status !== 2">
+      <button type="button" class="btn btn-primary form-button-action" (click)="edit()"
+        *ngIf="actionType == actionEnum.view">Edit</button>
+    </span>
+    <span class="pl-2" *ngIf="actionType == actionEnum.view && hasAccess(actionEnum.delete) && app.status !== 2">
+      <button type="button" class="btn btn-primary form-button-action"
+        (click)="openConfirmation(actionConfirm, 'app', actionEnum.delete, app.id, app.name)">Delete</button>
+    </span>
+    <span class="pl-2" *ngIf="actionType == actionEnum.view && hasAccess(actionEnum.activate) && app.status === 0">
+      <button type="button" class="btn btn-primary form-button-action"
+        (click)="openConfirmation(actionConfirm, 'app', actionEnum.activate, app.id, app.name)">Activate</button>
+    </span>
+    <span class="pl-2" *ngIf="actionType == actionEnum.view && hasAccess(actionEnum.inActivate) && app.status === 1">
+      <button type="button" class="btn btn-primary form-button-action"
+        (click)="openConfirmation(actionConfirm, 'app', actionEnum.inActivate, app.id, app.name)">In-Activate</button>
+    </span>    
   </div>
 </div>
+<ng-template #actionConfirm let-modal>
+  <app-confirm-dialog [resource]='confirmResource' (modalClosed)='closeConfirmation($event)'></app-confirm-dialog>
+</ng-template>

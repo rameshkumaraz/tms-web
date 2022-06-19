@@ -7,14 +7,14 @@ import { ApiResponse } from '../../shared/model/api.response';
 import { LocationService } from './../location.service';
 import { Location } from '../../model/location';
 import { ActionEnum } from 'src/app/shared/enum/action.enum';
-import { BaseComponent } from 'src/app/shared/core/base.component';
+import { BaseFormComponent } from 'src/app/shared/core/base-form.component';
 
 @Component({
   selector: 'app-loation-form',
   templateUrl: './location-form.component.html',
   styleUrls: ['./location-form.component.scss']
 })
-export class LocationFormComponent extends BaseComponent {
+export class LocationFormComponent extends BaseFormComponent {
 
   @Input() merchant;
   @Input() location;
@@ -37,6 +37,9 @@ export class LocationFormComponent extends BaseComponent {
   }
 
   ngOnInit(): void {
+
+    this.loadActionAccess(this.componentEnum.merchant.toString());
+
     this.locationForm = this.formBuilder.group({
       name: ['', [Validators.required, Validators.minLength(5), Validators.max(200)]],
       address: ['', [Validators.required, Validators.minLength(25), Validators.max(500)]],
@@ -164,6 +167,22 @@ export class LocationFormComponent extends BaseComponent {
       err => {
         console.log('Unable to delete location, please contact administrator.', 'Location');
         this.toastr.error('Unable to delete location, please contact administrator.');
+      });
+  }
+
+  updateStatus(id: number, status: number): void {
+    this.spinner.show();
+    let model = Object.assign({}, this.location);
+    model.status = status;  
+    this.locationService.updateStatus(id, model).subscribe(data => {
+      this.close(true);
+      console.log('Location status has been updated successfully');
+      this.toastr.success('Location status has been updated successfully', 'Location');
+    },
+      err => {
+        console.log('Unable to update location status....', err);
+        this.toastr.error('Unable to update locationn status, please contact adminstrator', 'Location');
+        this.spinner.hide();
       });
   }
 }

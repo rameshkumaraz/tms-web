@@ -1,0 +1,18 @@
+<div class="modal-header highlight">
+  {{resource.title}} Confirmation
+</div>
+<div class="modal-body pt-3 pb-3">
+  <div class="confirm-text">
+    <!-- <span class="highlight">{{resource.title}} Confirmation</span>
+    <br> -->
+    Are you sure, you want to {{resource.action}} {{resource.resource}} <span class='highlight-name'>{{resource.name}}</span>?
+  </div>
+</div>
+<div class="modal-footer">
+  <!-- <div class="button-block pl-0"> -->
+    <button type="button" class="btn btn-primary form-button-action" (click)="confirmAction()" autofocus>Confirm</button>
+    <span class="pl-2"><button type="button" class="btn btn-primary form-button-cancel"
+        (click)="cancelAction()">Cancel</button>
+    </span>
+  <!-- </div> -->
+</div>

@@ -1,6 +1,8 @@
 export enum ActionEnum {
-    add = 'ACTION_ADD',
-    view = 'ACTION_VIEW',
-    edit = 'ACTION_EDIT',
-    delete = 'ACTION_DELETE'
+    add = 'add',
+    view = 'view',
+    edit = 'edit',
+    delete = 'delete',
+    activate = 'activate',
+    inActivate = 'in-activate'
 }

@@ -1,7 +1,7 @@
 import { Component} from '@angular/core';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { Merchant } from '../model/merchant';
-import { BaseComponent } from '../shared/core/base.component';
+import { BaseDashboardComponent } from '../shared/core/base-dashboard.component';
 import { AppService } from '../shared/service/app.service';
 import { MerchantDashboardService } from './merchant-dashboard.service';
 
@@ -13,7 +13,7 @@ import { forkJoin } from 'rxjs';
   templateUrl: './merchant-dashboard.component.html',
   styleUrls: ['./merchant-dashboard.component.scss']
 })
-export class MerchantDashboardComponent extends BaseComponent {
+export class MerchantDashboardComponent extends BaseDashboardComponent {
 
   pageHeader: string;
 

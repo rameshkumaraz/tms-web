@@ -43,6 +43,9 @@ export class JobComponent extends BaseComponent  {
 
   ngOnInit(): void {
     this.pageHeader = 'Scheduled Events';
+
+    this.loadActionAccess(this.componentEnum.event.toString());
+
     this.mSub = this.appService.userMerchant.subscribe(data => {
       // console.log('User Merchant.....', data.id+':'+Object.keys(data).length);
       if(Object.keys(data).length > 0) {
@@ -100,6 +103,10 @@ export class JobComponent extends BaseComponent  {
       console.log('Job delete error....', err);
       this.toastr.error('Unable to delete user, please contact administrator.', 'Event');
     });
+  }
+
+  updateStatus(id: number, status: number) {
+      
   }
 
   ngOnDestroy(): void {

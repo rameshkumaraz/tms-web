@@ -1,0 +1,114 @@
+{
+  "ADMIN_USER": {
+    "all": "ADMIN_USER_ALL",
+    "add": "ADMIN_USER_ADD",
+    "view": "ADMIN_USER_VIEW",
+    "edit": "ADMIN_USER_UPDATE",
+    "delete": "ADMIN_USER_DELETE",
+    "activate": "ADMIN_USER_ACTIVATE"
+  },
+  "APP": {
+    "all": "APP_ALL",
+    "add": "APP_ADD",
+    "view": "APP_VIEW",
+    "edit": "APP_UPDATE",
+    "delete": "APP_DELETE",
+    "activate": "APP_ACTIVATE"
+  },
+  "APP_BUILD": {
+    "all": "APP_BUILD_ALL",
+    "add": "APP_BUILD_ADD",
+    "view": "APP_BUILD_VIEW",
+    "edit": "APP_BUILD_UPDATE",
+    "delete": "APP_BUILD_DELETE",
+    "activate": "APP_BUILD_ACTIVATE"
+  },
+  "APP_PARAM": {
+    "all": "APP_PARAM_ALL",
+    "add": "APP_PARAM_ADD",
+    "view": "APP_PARAM_VIEW",
+    "edit": "APP_PARAM_UPDATE",
+    "delete": "APP_PARAM_DELETE",
+    "activate": "APP_PARAM_ACTIVATE"
+  },
+  "DEVICE": {
+    "all": "DEVICE_ALL",
+    "add": "DEVICE_ADD",
+    "view": "DEVICE_VIEW",
+    "edit": "DEVICE_UPDATE",
+    "delete": "DEVICE_DELETE",
+    "activate": "DEVICE_ACTIVATE"
+  },
+  "DEVICE_BRAND": {
+    "all": "DEVICE_BRAND_ALL",
+    "add": "DEVICE_BRAND_ADD",
+    "view": "DEVICE_BRAND_VIEW",
+    "edit": "DEVICE_BRAND_UPDATE",
+    "delete": "DEVICE_BRAND_DELETE",
+    "activate": "DEVICE_BRAND_ACTIVATE"
+  },
+  "DEVICE_MODEL": {
+    "all": "DEVICE_MODEL_ALL",
+    "add": "DEVICE_MODEL_ADD",
+    "view": "DEVICE_MODEL_VIEW",
+    "edit": "DEVICE_MODEL_UPDATE",
+    "delete": "DEVICE_MODEL_DELETE",
+    "activate": "DEVICE_MODEL_ACTIVATE"
+  },
+  "EVENT": {
+    "all": "EVENT_ALL",
+    "add": "EVENT_ADD",
+    "view": "EVENT_VIEW",
+    "edit": "EVENT_UPDATE",
+    "delete": "EVENT_DELETE",
+    "activate": "EVENT_ACTIVATE"
+  },
+  "LOCATION": {
+    "all": "LOCATION_ALL",
+    "add": "LOCATION_ADD",
+    "view": "LOCATION_VIEW",
+    "edit": "LOCATION_UPDATE",
+    "delete": "LOCATION_DELETE",
+    "activate": "LOCATION_ACTIVATE"
+  },
+  "MERCHANT": {
+    "all": "MERCHANT_ALL",
+    "add": "MERCHANT_ADD",
+    "view": "MERCHANT_VIEW",
+    "edit": "MERCHANT_UPDATE",
+    "delete": "MERCHANT_DELETE",
+    "activate": "MERCHANT_ACTIVATE"
+  },
+  "POLICY": {
+    "all": "POLICY_ALL",
+    "add": "POLICY_ADD",
+    "view": "POLICY_VIEW",
+    "edit": "POLICY_UPDATE",
+    "delete": "POLICY_DELETE",
+    "activate": "POLICY_ACTIVATE"
+  },
+  "ROLE": {
+    "all": "ROLE_ALL",
+    "add": "ROLE_ADD",
+    "view": "ROLE_VIEW",
+    "edit": "ROLE_UPDATE",
+    "delete": "ROLE_DELETE",
+    "activate": "ROLE_ACTIVATE"
+  },
+  "USER": {
+    "all": "USER_ALL",
+    "add": "USER_ADD",
+    "view": "USER_VIEW",
+    "edit": "USER_UPDATE",
+    "delete": "USER_DELETE",
+    "activate": "USER_ACTIVATE"
+  },
+  "M_SETTING": {
+    "all": "M_SETTING_ALL",
+    "add": "M_SETTING_ADD",
+    "view": "M_SETTING_VIEW",
+    "edit": "M_SETTING_UPDATE",
+    "delete": "M_SETTING_DELETE",
+    "activate": "M_SETTING_ACTIVATE"
+  }
+}

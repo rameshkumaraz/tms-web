@@ -7,6 +7,8 @@ import { RolesEnum } from '../guards/roles.enum';
 import { ModalService } from 'src/app/shared/modal/modal.service';
 import { ApiResponse } from 'src/app/shared/model/api.response';
 import { map } from 'rxjs/operators';
+import compActionAccess from '../../../assets/config/component-action-access.json';
+import compActionMapping from '../../../assets/config/component-action-mapping.json';
 
 @Injectable({ providedIn: 'root' })
 export class AuthenticationService {
@@ -14,8 +16,10 @@ export class AuthenticationService {
     public currentUser: Observable<any>;
 
     constructor(private http: HttpClient, private modalService: ModalService) {
-        this.currentUserSubject = new BehaviorSubject<any>(JSON.parse(sessionStorage.getItem('user_profile')));
+        this.currentUserSubject = new BehaviorSubject<any>(null);
         this.currentUser = this.currentUserSubject.asObservable();
+
+        this.loadUserProfile();
     }
 
     public getCurrentUser(): any {
@@ -46,6 +50,27 @@ export class AuthenticationService {
 
         if (this.getCurrentUser().policies.find(p => p.name.indexOf(policy) >= 0))
             return true;
+
+        return false;
+    }
+
+    hasAccesses(policies: Array<string>) {
+        // console.log(this.getCurrentUser().roleName+"=="+role);
+        if (!this.isAuthorized())
+            return false;
+
+        if (this.getCurrentUser().roleName == RolesEnum.AZ_ROOT_ADMIN)
+            return true;
+
+        policies.forEach(policy => {
+            console.log('Filtered policy..... ', this.getCurrentUser().policies.find(p => p.name == policy));
+
+            if (this.getCurrentUser().policies.find(p => p.name == policy))
+                return true;
+
+            if (this.getCurrentUser().policies.find(p => p.name.indexOf(policy) >= 0))
+                return true;
+        });
 
         return false;
     }
@@ -111,28 +136,61 @@ export class AuthenticationService {
         const headers = { 'content-type': 'application/json' }
 
         this.http.post(apiUrl, JSON.stringify(req), { 'headers': headers }).subscribe((resp: ApiResponse) => {
-            console.log('Existing Token.....',sessionStorage.getItem('access_token'));
+            console.log('Existing Token.....', sessionStorage.getItem('access_token'));
             console.log('Existing Profile', JSON.parse(sessionStorage.getItem('user_profile')));
             console.log(resp);
             sessionStorage.setItem('access_token', resp.message.access_token);
             sessionStorage.setItem('user_profile', resp.message.user_profile);
-            console.log('New Token.....',sessionStorage.getItem('access_token'));
+            console.log('New Token.....', sessionStorage.getItem('access_token'));
             console.log('New Profile', JSON.parse(sessionStorage.getItem('user_profile')));
             this.loadUserProfile();
         },
-        err => {
-            console.log('Refresh token error', err);
-        });
+            err => {
+                console.log('Refresh token error', err);
+            });
     }
 
     loadUserProfile() {
         console.log('Loading user profile subject.....', sessionStorage.getItem('user_profile'));
         // this.currentUserSubject = new BehaviorSubject<User>(JSON.parse(sessionStorage.getItem('user_profile')));
         // this.currentUser = this.currentUserSubject.asObservable();
-        if (sessionStorage.getItem('user_profile'))
+        if (sessionStorage.getItem('user_profile')) {
             this.startRefreshTokenTimer();
-        this.currentUserSubject.next(JSON.parse(sessionStorage.getItem('user_profile')));
-        console.log('Loading user profile subject.....', this.currentUserSubject.value);
+            this.currentUserSubject.next(JSON.parse(sessionStorage.getItem('user_profile')));
+            console.log('Loading user profile subject.....', this.currentUserSubject.value);
+            this.loadUserCompActionAccess();
+        } else {
+            this.currentUserSubject.next(null);
+        }
+        
+    }
+
+    loadUserCompActionAccess() {
+
+        for (let key in compActionAccess) {
+            for (let aKey in compActionAccess[key]) {
+                compActionAccess[key][aKey] = false;
+            }
+        }
+
+        if (this.getCurrentUser().roleName == RolesEnum.AZ_ROOT_ADMIN) {
+            for (let key in compActionAccess) {
+                for (let aKey in compActionAccess[key]) {
+                    compActionAccess[key][aKey] = true;
+                }
+            }
+        } else {
+            console.log('User Policies.....', this.getCurrentUser().policies);
+            for (let key in compActionMapping) {
+                for (let aKey in compActionMapping[key]) {
+                    if (this.getCurrentUser().policies.find(p => p.policyName == compActionMapping[key][aKey]) ||
+                        this.getCurrentUser().policies.find(p => p.policyName.indexOf(compActionMapping[key][aKey]) >= 0)) {
+                        compActionAccess[key][aKey] = true;
+                    }
+                }
+            }
+        }
+        console.log('User Policies.....', JSON.stringify(compActionAccess));
     }
 
     logout() {

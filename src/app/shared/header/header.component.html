@@ -85,6 +85,7 @@
             <a ngbDropdownItem class="nav-smi" routerLink="/au" *ngIf="hasMenuAccess('admin-user')">Admin User</a>
             <a ngbDropdownItem class="nav-smi" routerLink="/user" *ngIf="hasMenuAccess('user')">User</a>
             <a ngbDropdownItem class="nav-smi" routerLink="/role" *ngIf="hasMenuAccess('role')">Role</a>
+            <a ngbDropdownItem class="nav-smi" routerLink="/msetting" *ngIf="hasMenuAccess('msetting')">Settings</a>
           </div>
         </li>
       </ul>
@@ -188,7 +189,6 @@
   </div>
 </ng-template> -->
 <ng-template #logoutConfirm let-c="close" let-d="dismiss">
-
   <div class="modal-body">
     <div class="logout-text">
       <span class="highlight">Logout Confirmation</span>

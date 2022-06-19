@@ -45,6 +45,8 @@ export class ApplicationComponent extends BaseComponent {
   ngOnInit(): void {
     this.pageHeader = 'Application';
 
+    this.loadActionAccess(this.componentEnum.app.toString());
+
     this.mSub = this.appService.userMerchant.subscribe(data => {
       this.merchant = data;
       this.onPageLoad();
@@ -100,6 +102,23 @@ export class ApplicationComponent extends BaseComponent {
       err => {
         console.log('Unable to delete application....', err);
         this.toastr.success('Unable to delete application, please contact adminstrator', 'Application');
+      });
+  }
+
+  updateStatus(id: number, status: number) {
+    this.spinner.show();
+    let model = Object.assign({}, this.filterApp(id));
+    model.status = status;
+    this.service.updateStatus(id, model).subscribe(data => {
+      console.log('Application status has been updated successfully');
+      this.toastr.success('Application status has been updated successfully', 'Application');
+      this.onPageLoad();
+      this.spinner.hide();
+    },
+      err => {
+        console.log('Unable to update application status....', err);
+        this.toastr.error('Unable to update application status, please contact adminstrator', 'Application');
+        this.spinner.hide();
       });
   }
 

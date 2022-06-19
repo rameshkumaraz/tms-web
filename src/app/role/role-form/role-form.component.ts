@@ -4,7 +4,7 @@ import { NgxSpinnerService } from 'ngx-spinner';
 import { ToastrService } from 'ngx-toastr';
 import { distinctUntilChanged} from 'rxjs/operators';
 import { Role } from 'src/app/model/role';
-import { BaseComponent } from 'src/app/shared/core/base.component';
+import { BaseFormComponent } from 'src/app/shared/core/base-form.component';
 import { ActionEnum } from 'src/app/shared/enum/action.enum';
 import { ApiResponse } from 'src/app/shared/model/api.response';
 import { RoleService } from '../role.service';
@@ -17,7 +17,7 @@ import { DecimalPipe } from '@angular/common';
   styleUrls: ['./role-form.component.scss'],
   providers: [DecimalPipe]
 })
-export class RoleFormComponent extends BaseComponent {
+export class RoleFormComponent extends BaseFormComponent {
 
   @Input() role;
   @Input() actionType;
@@ -44,6 +44,8 @@ export class RoleFormComponent extends BaseComponent {
   }
 
   ngOnInit(): void {
+
+    this.loadActionAccess(this.componentEnum.role.toString());
 
     this.roleForm = this.formBuilder.group({
       name: ['', [Validators.required, Validators.minLength(5), Validators.maxLength(100)]],
@@ -231,6 +233,24 @@ export class RoleFormComponent extends BaseComponent {
       err => {
         console.log('Unable to delete role, please contact administrator.', 'Roles');
         this.toastr.error('Unable to delete role, please contact administrator.', 'Roles');
+      });
+  }
+
+  updateStatus(id: number, status: number) {
+    this.spinner.show();
+    let model = Object.assign({}, this.role);
+    model.status = status;
+    this.service.updateStatus(id, model).subscribe(data => {
+      this.close(true);
+      console.log('Role status has been updated successfully');
+      this.toastr.success('Role status has been updated successfully', 'Role');
+      this.onPageLoad();
+      this.spinner.hide();
+    },
+      err => {
+        console.log('Unable to update role status....', err);
+        this.toastr.error('Unable to update role status, please contact adminstrator', 'Role');
+        this.spinner.hide();
       });
   }
 

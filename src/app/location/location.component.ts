@@ -51,6 +51,8 @@ export class LocationComponent extends BaseComponent {
 
     this.inFilterMode = false;
 
+    this.loadActionAccess(this.componentEnum.location.toString());
+
     this.mSub = this.appService.userMerchant.subscribe(data => {
       console.log('Merchant.....', data.id+':'+Object.keys(data).length);
       if(Object.keys(data).length > 0) {
@@ -125,6 +127,23 @@ export class LocationComponent extends BaseComponent {
       console.log('Location delete error....', err);
       this.toastr.error('Unable to delete location, please contact administrator.','Location');
     });
+  }
+
+  updateStatus(id: number, status: number) {
+    this.spinner.show();
+    let model = Object.assign({}, this.filterLocation(id));
+    model.status = status;
+    this.locationService.updateStatus(id, model).subscribe(data => {
+      console.log('Location status has been updated successfully');
+      this.toastr.success('Location status has been updated successfully', 'Location');
+      this.onPageLoad();
+      this.spinner.hide();
+    },
+      err => {
+        console.log('Unable to update location status....', err);
+        this.toastr.error('Unable to update location status, please contact adminstrator', 'location');
+        this.spinner.hide();
+      });
   }
 
   get f() { return this.searchForm['controls'] }

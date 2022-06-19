@@ -1,16 +1,13 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { ActivatedRoute, Router } from '@angular/router';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { ToastrService } from 'ngx-toastr';
 import { distinctUntilChanged } from 'rxjs/operators';
 import { DeviceModelService } from 'src/app/device-model/device-model.service';
-import { LocationService } from 'src/app/location/location.service';
 import { Device } from 'src/app/model/device';
-import { Merchant } from 'src/app/model/merchant';
+import { BaseFormComponent } from 'src/app/shared/core/base-form.component';
 import { ActionEnum } from 'src/app/shared/enum/action.enum';
 import { ApiResponse } from 'src/app/shared/model/api.response';
-import { AppService } from 'src/app/shared/service/app.service';
 import { DeviceService } from '../device.service';
 
 @Component({
@@ -18,7 +15,7 @@ import { DeviceService } from '../device.service';
   templateUrl: './device-form.component.html',
   styleUrls: ['./device-form.component.scss']
 })
-export class DeviceFormComponent implements OnInit {
+export class DeviceFormComponent extends BaseFormComponent {
 
   @Output() modalClosed = new EventEmitter();
 
@@ -48,17 +45,27 @@ export class DeviceFormComponent implements OnInit {
 
   sub;
 
-  constructor(private formBuilder: FormBuilder,
-    private router: Router,
-    private activatedroute: ActivatedRoute,
-    private service: DeviceService,
-    private appService: AppService,
-    private locService: LocationService,
-    private modelService: DeviceModelService,
-    private spinner: NgxSpinnerService,
-    private toastr: ToastrService) { }
+  // constructor(private formBuilder: FormBuilder,
+  //   private router: Router,
+  //   private activatedroute: ActivatedRoute,
+  //   private service: DeviceService,
+  //   private appService: AppService,
+  //   private locService: LocationService,
+  //   private modelService: DeviceModelService,
+  //   private spinner: NgxSpinnerService,
+  //   private toastr: ToastrService) { }
+
+    constructor(private formBuilder: FormBuilder,
+      private service: DeviceService,
+      private modelService: DeviceModelService,
+      private spinner: NgxSpinnerService,
+      private toastr: ToastrService) {
+      super();
+    }  
 
   ngOnInit(): void {
+
+    this.loadActionAccess(this.componentEnum.device.toString());
 
     this.loadModels();
 
@@ -188,6 +195,22 @@ export class DeviceFormComponent implements OnInit {
       err => {
         console.log('Unable to delete device, please contact administrator.', 'Device');
         this.toastr.error('Unable to delete device, please contact administrator.', 'Device');
+      });
+  }
+
+  updateStatus(id: number, status: number): void {
+    this.spinner.show();
+    let model = Object.assign({}, this.device);
+    model.status = status;  
+    this.service.updateStatus(id, model).subscribe(data => {
+      this.close(true);
+      console.log('Device status has been updated successfully');
+      this.toastr.success('Device status has been updated successfully', 'Device');
+    },
+      err => {
+        console.log('Unable to update device status....', err);
+        this.toastr.error('Unable to update device status, please contact adminstrator', 'Device');
+        this.spinner.hide();
       });
   }
 

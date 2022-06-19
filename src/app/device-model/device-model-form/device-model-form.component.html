@@ -29,7 +29,8 @@
         <div *ngIf="formSubmitted && f.name.errors" class="invalid-feedback">
           <div *ngIf="f.name.errors.required">Name is required</div>
           <div *ngIf="f.name.errors?.minlength">Name must be at least 5 characters long.</div>
-          <div *ngIf="f.name.errors?.pattern">Name accepts combination of alphanumeric, - and _. Should start and end with alphanumeric.</div>
+          <div *ngIf="f.name.errors?.pattern">Name accepts combination of alphanumeric, - and _. Should start and end
+            with alphanumeric.</div>
         </div>
       </div>
     </div>
@@ -84,8 +85,7 @@
     <div class="form-row" *ngIf="actionType == actionEnum.view">
       <div class="form-group col-sm-12">
         <label for="modelImage" class="asterisk-if-mandatory">Device Model Image</label>
-        <span style="display:block; overflow-y: visible;"><img
-            [src]='filePath' width="40" height="60"></span>
+        <span style="display:block; overflow-y: visible;"><img [src]='filePath' width="40" height="60"></span>
       </div>
     </div>
     <div class="form-row">
@@ -98,20 +98,35 @@
         </div>
       </div>
     </div>
-</form>
+  </form>
 
-<div class="button-block">
-  <span class="pr-2"><button type="button" class="btn btn-primary form-button-cancel"
-      (click)="close(false)">Cancel</button>
-  </span>
-  <button type="button" class="btn btn-primary form-button-action" (click)="save()"
-    *ngIf="actionType == actionEnum.add">Save</button>
-  <button type="button" class="btn btn-primary form-button-action" (click)="edit()"
-    *ngIf="actionType == actionEnum.view && canEdit(model.status)">Edit</button>
-  <span class="pl-2" *ngIf="actionType == actionEnum.view && canDelete(model.status)"><button type="button"
-      class="btn btn-primary form-button-action" (click)="delete()">Delete</button></span>
-  <button type="button" class="btn btn-primary form-button-action" (click)="update()"
-    *ngIf="actionType == actionEnum.edit && canEdit(model.status)">Update</button>
-
+  <div class="button-block">
+    <button type="button" class="btn btn-primary form-button-cancel"
+        (click)="cancel()">Cancel</button>
+    <span class="pl-2" *ngIf="actionType == actionEnum.add">
+      <button type="button" class="btn btn-primary form-button-action" (click)="save()">Save</button>
+    </span>
+    <span class="pl-2" *ngIf="actionType == actionEnum.edit">
+      <button type="button" class="btn btn-primary form-button-action" (click)="update()">Update</button>
+    </span>
+    <span class="pl-2" *ngIf="actionType == actionEnum.view && hasAccess(actionEnum.edit) && model.status !== 2">
+      <button type="button" class="btn btn-primary form-button-action" (click)="edit()"
+        *ngIf="actionType == actionEnum.view">Edit</button>
+    </span>
+    <span class="pl-2" *ngIf="actionType == actionEnum.view && hasAccess(actionEnum.delete) && model.status !== 2">
+      <button type="button" class="btn btn-primary form-button-action"
+        (click)="openConfirmation(actionConfirm, 'model', actionEnum.delete, model.id, model.name)">Delete</button>
+    </span>
+    <span class="pl-2" *ngIf="actionType == actionEnum.view && hasAccess(actionEnum.activate) && model.status === 0">
+      <button type="button" class="btn btn-primary form-button-action"
+        (click)="openConfirmation(actionConfirm, 'model', actionEnum.activate, model.id, model.name)">Activate</button>
+    </span>
+    <span class="pl-2" *ngIf="actionType == actionEnum.view && hasAccess(actionEnum.inActivate) && model.status === 1">
+      <button type="button" class="btn btn-primary form-button-action"
+        (click)="openConfirmation(actionConfirm, 'model', actionEnum.inActivate, model.id, model.name)">In-Activate</button>
+    </span>    
+  </div>
 </div>
-</div>
+<ng-template #actionConfirm let-modal>
+  <app-confirm-dialog [resource]='confirmResource' (modalClosed)='closeConfirmation($event)'></app-confirm-dialog>
+</ng-template>

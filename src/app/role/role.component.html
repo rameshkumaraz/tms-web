@@ -6,7 +6,7 @@
         <span class="count pl-2">({{ roleCount }})</span>
       </div>
       <div class="col-sm-9 tools text-right">
-        <button class="button" (click)="create(roleModal)">
+        <button class="button" (click)="create(roleModal)" *ngIf="hasAccess(actionEnum.add)">
           <fa-icon [icon]='faPlus' size="lg"></fa-icon><span class="pl-2">Add
             New Role</span>
         </button>
@@ -37,21 +37,33 @@
             <td>{{ getStatus(role.status)}}</td>
             <td>{{ role.lastUpdatedBy }}</td>
             <td>{{ role.updatedDate | date: 'dd/MM/yyyy HH:mm'}}</td>
-            <td><span class="pr-3"><a (click)="view(role.id, roleModal)" routerLinkActive="active"
-                  *ngIf="role.canView && canView(role.status)" placement="top" ngbTooltip="View"
-                  tooltipClass="tool-tip">
+            <td *ngIf="hasActionAccess()">
+              <span class="pr-3" *ngIf="hasAccess(actionEnum.view)">
+                <a (click)="view(role.id, roleModal)" routerLinkActive="active" ngbTooltip="View" tooltipClass="tool-tip">
                   <fa-icon [icon]='faEye' style="color:#1653da"></fa-icon>
-                </a></span>
-              <span class="pr-3"><a (click)="edit(role.id, roleModal)" routerLinkActive="active"
-                  *ngIf="role.canEdit && canEdit(role.status)" placement="top" ngbTooltip="Update"
-                  tooltipClass="tool-tip">
+                </a>
+              </span>
+              <span class="pr-3" *ngIf="hasAccess(actionEnum.edit) && role.status !== 2">
+                <a (click)="edit(role.id, roleModal)" routerLinkActive="active" ngbTooltip="Edit" tooltipClass="tool-tip">
                   <fa-icon [icon]='faEdit' style="color:#ffc107;"></fa-icon>
-                </a></span>
-              <span class="pr-3"><a (click)="delete(role.id)" routerLinkActive="active"
-                  *ngIf="role.canEdit && canDelete(role.status)" placement="top" ngbTooltip="Delete"
-                  tooltipClass="tool-tip">
+                </a>
+              </span>
+              <span class="pr-3" *ngIf="hasAccess(actionEnum.delete) && role.status !== 2">
+                <a (click)="openConfirmation(actionConfirm, 'role', actionEnum.delete, role.id, role.name)" routerLinkActive="active" ngbTooltip="Delete" tooltipClass="tool-tip">
                   <fa-icon [icon]='faArchive' style="color: #dc3545;"></fa-icon>
-                </a></span></td>
+                </a>
+              </span>
+              <span *ngIf="hasAccess(actionEnum.activate) && role.status === 0">
+                <a (click)="openConfirmation(actionConfirm, 'role', actionEnum.activate, role.id, role.name)" routerLinkActive="active" ngbTooltip="Activate" tooltipClass="tool-tip">
+                  <fa-icon [icon]='faCheckCircle' style="color: #20c997;"></fa-icon>
+                </a>
+              </span>
+              <span *ngIf="hasAccess(actionEnum.activate) && role.status === 1">
+                <a (click)="openConfirmation(actionConfirm, 'role', actionEnum.inActivate, role.id, role.name)" routerLinkActive="active" ngbTooltip="In-Activate" tooltipClass="tool-tip">
+                  <fa-icon [icon]='faBan' style="color: #fd7e14;"></fa-icon>
+                </a>
+              </span>
+            </td>
           </tr>
         </tbody>
       </table>
@@ -70,4 +82,7 @@
 </div>
 <ng-template #roleModal let-modal>
   <app-role-form [actionType]="actionType" [role]="role" (modalClosed)='closeModal($event)'></app-role-form>
+</ng-template>
+<ng-template #actionConfirm let-modal>
+  <app-confirm-dialog [resource]='confirmResource' (modalClosed)='closeConfirmation($event)'></app-confirm-dialog>
 </ng-template>

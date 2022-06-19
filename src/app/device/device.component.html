@@ -36,35 +36,20 @@
         </form>
       </div>
       <div class="col-sm-2 tools text-right">
-        <!-- <span class="pl-2">Select location</span>
-        <span class="location-select pl-2 pr-2"><select id="location" (change)="onLocationChange($event.target.value)">
-            <option *ngFor="let location of locations" [value]="location.id">{{location.name}}</option>
-          </select></span> -->
-        <!-- <div *ngIf="locationCount > 0" class="text-right select-loc"> -->
-        <!-- <span class="pr-2">Select Location</span>
-            <span class="location-select pr-4">
-            <select id="app" (change)="onLocationChange($event.target.value)" class="select-loc-select">
-              <option value="" disabled selected>Select Application</option>
-              <option *ngFor="let l of locations" [value]="l.id" [selected]="location.id == l.id" >{{l.name}}</option>
-            </select>
-          </span> -->
-        <!-- </div>   -->
-        <button class="button" (click)="create(deviceModal)">
+        <button class="button" (click)="create(deviceModal)" *ngIf="hasAccess(actionEnum.add)">
           <fa-icon [icon]='faPlus' size="lg"></fa-icon><span class="pl-2">Add
             New Device</span>
         </button>
       </div>
     </div>
-
-    <!-- <div *ngIf="locationCount === 0" class="info">
-      No locations are cofigured yet.
-    </div> -->
-
-    <div *ngIf="deviceCount === 0" class="pt-4 info">
-      No devices found.
+    <div *ngIf="deviceCount === 0 && !inFilterMode" class="info">
+      No devices are created yet.
       <ul>
         <li>New device can be created by using <span class="info-highlight">Add New Device</span> option.</li>
       </ul>
+    </div>
+    <div *ngIf="deviceCount === 0 && inFilterMode" class="info">
+      No devices found, please refine your filter.
     </div>
     <div class="pt-2" *ngIf="deviceCount > 0">
 
@@ -97,15 +82,29 @@
             <td>{{ getStatus(device.status) }}</td>
             <td>{{ device.lastUpdatedBy }}</td>
             <td>{{ device.updatedDate | date: 'dd/MM/yyyy HH:mm'}}</td>
-            <td><span class="pr-3"><a (click)="view(device.id, deviceModal)" routerLinkActive="active">
+            <td *ngIf="hasActionAccess()">
+              <span class="pr-3" *ngIf="hasAccess(actionEnum.view)">
+                <a (click)="view(device.id, deviceModal)" routerLinkActive="active" ngbTooltip="View" tooltipClass="tool-tip">
                   <fa-icon [icon]='faEye' style="color:#1653da"></fa-icon>
-                </a></span>
-              <!-- <span class="pr-3"><a (click)="edit(device.id)" routerLinkActive="active">
-                  <fa-icon [icon]='faEdit' style="color:#ffc107;"></fa-icon>
-                </a></span> -->
-              <span class="pr-3"><a (click)="delete(device.id)" routerLinkActive="active">
+                </a>
+              </span>
+              <span class="pr-3" *ngIf="hasAccess(actionEnum.delete) && device.status !== 2">
+                <a (click)="openConfirmation(actionConfirm, 'device', actionEnum.delete, device.id, device.name)" routerLinkActive="active" ngbTooltip="Delete" tooltipClass="tool-tip">
+                  <!-- <a (click)="delete(device.id)" routerLinkActive="active"> -->
                   <fa-icon [icon]='faArchive' style="color: #dc3545;"></fa-icon>
-                </a></span></td>
+                </a>
+              </span>
+              <span *ngIf="hasAccess(actionEnum.activate) && device.status === 0">
+                <a (click)="openConfirmation(actionConfirm, 'device', actionEnum.activate, device.id, device.name)" routerLinkActive="active" ngbTooltip="Activate" tooltipClass="tool-tip">
+                  <fa-icon [icon]='faCheckCircle' style="color: #20c997;"></fa-icon>
+                </a>
+              </span>
+              <span *ngIf="hasAccess(actionEnum.activate) && device.status === 1">
+                <a (click)="openConfirmation(actionConfirm, 'device', actionEnum.inActivate, device.id, device.name)" routerLinkActive="active" ngbTooltip="In-Activate" tooltipClass="tool-tip">
+                  <fa-icon [icon]='faBan' style="color: #fd7e14;"></fa-icon>
+                </a>
+              </span>
+            </td>
           </tr>
         </tbody>
       </table>
@@ -176,4 +175,7 @@
       <button type="button" class="btn btn-primary form-button-action" (click)="advancedSearch()">Search</button>
     </div>
   </div>
+</ng-template>
+<ng-template #actionConfirm let-modal>
+  <app-confirm-dialog [resource]='confirmResource' (modalClosed)='closeConfirmation($event)'></app-confirm-dialog>
 </ng-template>

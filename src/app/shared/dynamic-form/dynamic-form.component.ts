@@ -1,13 +1,8 @@
-import { Component, OnInit, Input, Output, EventEmitter, ViewEncapsulation } from '@angular/core';
-import { FormField } from '../model/form.field';
+import { Component, Input, ViewEncapsulation } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { faCheck, faTimes } from '@fortawesome/free-solid-svg-icons';
-import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { Merchant } from 'src/app/model/merchant';
 import { currencies } from '../../shared/model/currency-data-store'
-import { BaseComponent } from '../core/base.component';
-import { DynamicFormService } from './dynamic-form.service';
-import { BaseService } from '../core/base.service';
+import { BaseFormComponent } from '../core/base-form.component';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { ToastrService } from 'ngx-toastr';
 import { ApiResponse } from '../model/api.response';
@@ -21,7 +16,7 @@ import { ApiResponse } from '../model/api.response';
   ],
   encapsulation: ViewEncapsulation.None
 })
-export class DynamicFormComponent extends BaseComponent {
+export class DynamicFormComponent extends BaseFormComponent {
 
   //@Input() merchant: Merchant;
   @Input() formTitle: string;

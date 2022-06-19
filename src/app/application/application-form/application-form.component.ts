@@ -5,7 +5,7 @@ import { NgxSpinnerService } from 'ngx-spinner';
 import { ToastrService } from 'ngx-toastr';
 import { distinctUntilChanged } from 'rxjs/operators';
 import { Application } from 'src/app/model/application';
-import { BaseComponent } from 'src/app/shared/core/base.component';
+import { BaseFormComponent } from 'src/app/shared/core/base-form.component';
 import { ActionEnum } from 'src/app/shared/enum/action.enum';
 import { ApiResponse } from 'src/app/shared/model/api.response';
 import { AppService } from 'src/app/shared/service/app.service';
@@ -16,7 +16,7 @@ import { ApplicationService } from '../application.service';
   templateUrl: 'application-form.component.html',
   styleUrls: ['application-form.component.scss']
 })
-export class ApplicationFormComponent extends BaseComponent {
+export class ApplicationFormComponent extends BaseFormComponent {
 
   @Input() merchant;
   @Input() app;
@@ -44,6 +44,9 @@ export class ApplicationFormComponent extends BaseComponent {
   }
 
   ngOnInit(): void {
+
+    this.loadActionAccess(this.componentEnum.app.toString());
+
     // console.log(this.authService.getCurrentUser());
     this.appForm = this.formBuilder.group({
       name: ['', [Validators.required, Validators.minLength(5), Validators.max(100)]],
@@ -161,5 +164,21 @@ export class ApplicationFormComponent extends BaseComponent {
       console.log('Unable to delete application, please contact administrator.', 'Application');
       this.toastr.error('Unable to delete application, please contact administrator.', 'Application');
     });
+  }
+
+  updateStatus(id: number, status: number): void {
+    this.spinner.show();
+    let model = Object.assign({}, this.app);
+    model.status = status;  
+    this.service.updateStatus(id, model).subscribe(data => {
+      this.close(true);
+      console.log('Application status has been updated successfully');
+      this.toastr.success('Application status has been updated successfully', 'Application');
+    },
+      err => {
+        console.log('Unable to update application status....', err);
+        this.toastr.error('Unable to update application status, please contact adminstrator', 'Application');
+        this.spinner.hide();
+      });
   }
 }

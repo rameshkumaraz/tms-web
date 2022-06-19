@@ -6,175 +6,199 @@
 </div>
 <div class="modal-body">
   <form [formGroup]="merchantForm">
-      <div formGroupName="merchant">
-        <h6 style="color: #353d9f !important;">Merchant Information</h6>
-        <div class="form-row">
-          <div class="form-group col-sm-6 required">
-            <label for="name" class="asterisk-if-mandatory">Name</label>
-            <input required formControlName="name" id="name" type="text" class="form-control"
-              autocomplete="off" [ngClass]="{ 'is-invalid': formSubmitted && mf.name.errors }">
-            <div *ngIf="formSubmitted && mf.name.errors" class="invalid-feedback">
-              <div *ngIf="mf.name.errors.required">Name is required</div>
-              <div *ngIf="mf.name.errors?.minlength">Name must be at least 5 characters long.</div>
-            </div>
-          </div>
-        </div>
-        <div class="form-row">
-          <div class="form-group col-sm-12 required">
-            <label for="address1" class="asterisk-if-mandatory">Address 1</label>
-            <input required formControlName="address1" id="address1" type="text" class="form-control"
-              autocomplete="off" [ngClass]="{ 'is-invalid': formSubmitted && mf.address1.errors }">
-            <div *ngIf="formSubmitted && mf.address1.errors" class="invalid-feedback">
-              <div *ngIf="mf.address1.errors.required">Address1 is required</div>
-              <div *ngIf="mf.address1.errors.minlength">Address1 must be at least 5 characters long.</div>
-            </div>
-          </div>
-        </div>
-        <div class="form-row">
-          <div class="form-group col-sm-12">
-            <label for="address2">Address 2</label>
-            <input formControlName="address2" id="address2" type="text" class="form-control"
-              autocomplete="off" [ngClass]="{ 'is-invalid': formSubmitted && mf.address2.errors }">
-            <div *ngIf="formSubmitted && mf.address2.errors" class="invalid-feedback">
-              <div *ngIf="mf.address2.errors.minlength">Address2 must be at least 5 characters long.</div>
-            </div>
-          </div>
-        </div>
-        <div class="form-row">
-          <div class="form-group col-sm-6 required">
-            <label for="city" class="asterisk-if-mandatory">City</label>
-            <input required formControlName="city" id="city" type="text" class="form-control"
-              autocomplete="off" [ngClass]="{ 'is-invalid': formSubmitted && mf.city.errors }">
-            <div *ngIf="formSubmitted && mf.city.errors" class="invalid-feedback">
-              <div *ngIf="mf.city.errors.required">City is required</div>
-              <div *ngIf="mf.city.errors.minLength">City must be at least 3 characters long.</div>
-            </div>
-          </div>
-          <div class="form-group col-sm-4 required">
-            <label for="state" class="asterisk-if-mandatory">State</label>
-            <input required formControlName="state" id="state" type="text" class="form-control"
-              autocomplete="off" [ngClass]="{ 'is-invalid': formSubmitted && mf.state.errors }">
-            <div *ngIf="formSubmitted && mf.state.errors" class="invalid-feedback">
-              <div *ngIf="mf.state.errors.required">State is required</div>
-            </div>
-          </div>
-        </div>
-        <div class="form-row"><div class="form-group col-sm-6"></div></div>
-        <div class="form-row">
-          <div class="form-group col-sm-6 required">
-            <label for="country" class="asterisk-if-mandatory">Country </label>
-            <select required class="form-control" formControlName="country" id="country"  [ngClass]="{ 'is-invalid': formSubmitted && mf.country.errors }">
-              <option value="" disabled selected>Select Country</option>
-              <option *ngFor="let country of countries" [value]="country.name">{{country.name}}</option>
-            </select>
-            <div *ngIf="formSubmitted && mf.country.errors" class="invalid-feedback">
-              <div *ngIf="mf.country.errors.required">Country is required</div>
-            </div>
-          </div>
-          <div class="form-group col-sm-4 required">
-            <label for="areaCode" class="asterisk-if-mandatory">Area Code</label>
-            <input required formControlName="areaCode" id="areaCode" type="text" class="form-control"
-              autocomplete="off"  [ngClass]="{ 'is-invalid': formSubmitted && mf.areaCode.errors }">
-            <div *ngIf="formSubmitted && mf.areaCode.errors" class="invalid-feedback">
-              <div *ngIf="mf.areaCode.errors.required">Area Code is required</div>
-              <div *ngIf="mf.areaCode.errors.minLength">Area Code must be at least 5 characters long.</div>
-            </div>
-          </div>
-        </div>
-        <div class="form-row">
-          <div class="form-group col-sm-6 required">
-            <label for="email" class="asterisk-if-mandatory">Email</label>
-            <input required formControlName="email" id="email" type="text" class="form-control"
-              autocomplete="off" [ngClass]="{ 'is-invalid': formSubmitted && mf.email.errors }">
-            <div *ngIf="formSubmitted && mf.email.errors" class="invalid-feedback">
-              <div *ngIf="mf.email.errors.required">Email is required</div>
-              <div *ngIf="mf.email.errors.email">Email must be a valid email address</div>
-            </div>
-          </div>
-          <div class="form-group col-sm-4 required">
-            <label for="phone" class="asterisk-if-mandatory">Phone</label>
-            <input required formControlName="phone" id="phone" type="text" class="form-control"
-              autocomplete="off" [ngClass]="{ 'is-invalid': formSubmitted && mf.phone.errors }">
-            <div *ngIf="formSubmitted && mf.phone.errors" class="invalid-feedback">
-              <div *ngIf="mf.phone.errors.required">Phone is required</div>
-              <div *ngIf="mf.phone.errors.pattern">Phone must be a valid phone number</div>
-            </div>
-          </div>
-        </div>
-        <div class="form-row">
-          <div class="form-group col-sm-6 required">
-            <label for="website" class="asterisk-if-mandatory">Website</label>
-            <input required formControlName="website" id="website" type="text" class="form-control"
-              autocomplete="off" [ngClass]="{ 'is-invalid': formSubmitted && mf.website.errors }">
-            <div *ngIf="formSubmitted && mf.website.errors" class="invalid-feedback">
-              <div *ngIf="mf.website.errors.required">Website is required</div>
-            </div>
+    <div formGroupName="merchant">
+      <h6 style="color: #353d9f !important;">Merchant Information</h6>
+      <div class="form-row">
+        <div class="form-group col-sm-6 required">
+          <label for="name" class="asterisk-if-mandatory">Name</label>
+          <input required formControlName="name" id="name" type="text" class="form-control" autocomplete="off"
+            [ngClass]="{ 'is-invalid': formSubmitted && mf.name.errors }">
+          <div *ngIf="formSubmitted && mf.name.errors" class="invalid-feedback">
+            <div *ngIf="mf.name.errors.required">Name is required</div>
+            <div *ngIf="mf.name.errors?.minlength">Name must be at least 5 characters long.</div>
           </div>
         </div>
       </div>
-      <div class="form-row"><div class="form-group col-sm-6"></div></div>
-      <div formGroupName="contact">
-        <h6 style="color: #353d9f !important;">Contact Details</h6>
-        <div class="form-row">
-          <div class="form-group col-sm-6 required">
-            <label for="name" class="asterisk-if-mandatory">Name</label>
-            <input required formControlName="name" id="name" type="text" class="form-control"
-              autocomplete="off" [ngClass]="{ 'is-invalid': formSubmitted && cf.name.errors }">
-            <div *ngIf="formSubmitted && cf.name.errors" class="invalid-feedback">
-              <div *ngIf="cf.name.errors.required">Name is required</div>
-              <div *ngIf="cf.name.errors.minlength">Name must be at least 5 characters long.</div>
-            </div>
-          </div>
-          <div class="form-group col-sm-6 required">
-            <label for="email" class="asterisk-if-mandatory">Email</label>
-            <input required formControlName="email" id="email" type="text" class="form-control"
-              autocomplete="off" [ngClass]="{ 'is-invalid': formSubmitted && cf.email.errors }">
-            <div *ngIf="formSubmitted && cf.email.errors" class="invalid-feedback">
-              <div *ngIf="cf.email.errors.required">Email is required</div>
-              <div *ngIf="cf.email.errors.email">Email must be a valid email address</div>
-            </div>
+      <div class="form-row">
+        <div class="form-group col-sm-12 required">
+          <label for="address1" class="asterisk-if-mandatory">Address 1</label>
+          <input required formControlName="address1" id="address1" type="text" class="form-control" autocomplete="off"
+            [ngClass]="{ 'is-invalid': formSubmitted && mf.address1.errors }">
+          <div *ngIf="formSubmitted && mf.address1.errors" class="invalid-feedback">
+            <div *ngIf="mf.address1.errors.required">Address1 is required</div>
+            <div *ngIf="mf.address1.errors.minlength">Address1 must be at least 5 characters long.</div>
           </div>
         </div>
-        <div class="form-row">
-          <div class="form-group col-sm-4">
-            <label for="phone">Phone</label>
-            <input formControlName="phone" id="phone" type="text" class="form-control"
-              autocomplete="off" [ngClass]="{ 'is-invalid': formSubmitted && cf.phone.errors }">
-            <div *ngIf="formSubmitted && cf.phone.errors" class="invalid-feedback">
-              <div *ngIf="cf.phone.errors.pattern">Phone must be a valid phone number</div>
-            </div>
-          </div>
-          <div class="form-group col-sm-2 required"></div>
-          <div class="form-group col-sm-4 required">
-            <label for="mobile" class="asterisk-if-mandatory">Mobile</label>
-            <input required formControlName="mobile" id="mobile" type="text" class="form-control"
-              autocomplete="off" [ngClass]="{ 'is-invalid': formSubmitted && cf.mobile.errors }">
-            <div *ngIf="formSubmitted && cf.mobile.errors" class="invalid-feedback">
-              <div *ngIf="cf.mobile.errors.required">Mobile is required</div>
-              <div *ngIf="cf.mobile.errors.pattern">Mobile must be a valid mobile number</div>
-            </div>
+      </div>
+      <div class="form-row">
+        <div class="form-group col-sm-12">
+          <label for="address2">Address 2</label>
+          <input formControlName="address2" id="address2" type="text" class="form-control" autocomplete="off"
+            [ngClass]="{ 'is-invalid': formSubmitted && mf.address2.errors }">
+          <div *ngIf="formSubmitted && mf.address2.errors" class="invalid-feedback">
+            <div *ngIf="mf.address2.errors.minlength">Address2 must be at least 5 characters long.</div>
           </div>
         </div>
-        <div class="form-row">
-          <div class="form-group col-sm-6 required">
-            <label for="designation" class="asterisk-if-mandatory">Designation</label>
-            <input required formControlName="designation" id="designation" type="text" class="form-control"
-              autocomplete="off" [ngClass]="{ 'is-invalid': formSubmitted && cf.designation.errors }">
-            <div *ngIf="formSubmitted && cf.designation.errors" class="invalid-feedback">
-              <div *ngIf="cf.designation.errors.required">Designation is required</div>
-            </div>
+      </div>
+      <div class="form-row">
+        <div class="form-group col-sm-6 required">
+          <label for="city" class="asterisk-if-mandatory">City</label>
+          <input required formControlName="city" id="city" type="text" class="form-control" autocomplete="off"
+            [ngClass]="{ 'is-invalid': formSubmitted && mf.city.errors }">
+          <div *ngIf="formSubmitted && mf.city.errors" class="invalid-feedback">
+            <div *ngIf="mf.city.errors.required">City is required</div>
+            <div *ngIf="mf.city.errors.minLength">City must be at least 3 characters long.</div>
           </div>
         </div>
+        <div class="form-group col-sm-4 required">
+          <label for="state" class="asterisk-if-mandatory">State</label>
+          <input required formControlName="state" id="state" type="text" class="form-control" autocomplete="off"
+            [ngClass]="{ 'is-invalid': formSubmitted && mf.state.errors }">
+          <div *ngIf="formSubmitted && mf.state.errors" class="invalid-feedback">
+            <div *ngIf="mf.state.errors.required">State is required</div>
+          </div>
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="form-group col-sm-6"></div>
+      </div>
+      <div class="form-row">
+        <div class="form-group col-sm-6 required">
+          <label for="country" class="asterisk-if-mandatory">Country </label>
+          <select required class="form-control" formControlName="country" id="country"
+            [ngClass]="{ 'is-invalid': formSubmitted && mf.country.errors }">
+            <option value="" disabled selected>Select Country</option>
+            <option *ngFor="let country of countries" [value]="country.name">{{country.name}}</option>
+          </select>
+          <div *ngIf="formSubmitted && mf.country.errors" class="invalid-feedback">
+            <div *ngIf="mf.country.errors.required">Country is required</div>
+          </div>
+        </div>
+        <div class="form-group col-sm-4 required">
+          <label for="areaCode" class="asterisk-if-mandatory">Area Code</label>
+          <input required formControlName="areaCode" id="areaCode" type="text" class="form-control" autocomplete="off"
+            [ngClass]="{ 'is-invalid': formSubmitted && mf.areaCode.errors }">
+          <div *ngIf="formSubmitted && mf.areaCode.errors" class="invalid-feedback">
+            <div *ngIf="mf.areaCode.errors.required">Area Code is required</div>
+            <div *ngIf="mf.areaCode.errors.minLength">Area Code must be at least 5 characters long.</div>
+          </div>
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="form-group col-sm-6 required">
+          <label for="email" class="asterisk-if-mandatory">Email</label>
+          <input required formControlName="email" id="email" type="text" class="form-control" autocomplete="off"
+            [ngClass]="{ 'is-invalid': formSubmitted && mf.email.errors }">
+          <div *ngIf="formSubmitted && mf.email.errors" class="invalid-feedback">
+            <div *ngIf="mf.email.errors.required">Email is required</div>
+            <div *ngIf="mf.email.errors.email">Email must be a valid email address</div>
+          </div>
+        </div>
+        <div class="form-group col-sm-4 required">
+          <label for="phone" class="asterisk-if-mandatory">Phone</label>
+          <input required formControlName="phone" id="phone" type="text" class="form-control" autocomplete="off"
+            [ngClass]="{ 'is-invalid': formSubmitted && mf.phone.errors }">
+          <div *ngIf="formSubmitted && mf.phone.errors" class="invalid-feedback">
+            <div *ngIf="mf.phone.errors.required">Phone is required</div>
+            <div *ngIf="mf.phone.errors.pattern">Phone must be a valid phone number</div>
+          </div>
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="form-group col-sm-6 required">
+          <label for="website" class="asterisk-if-mandatory">Website</label>
+          <input required formControlName="website" id="website" type="text" class="form-control" autocomplete="off"
+            [ngClass]="{ 'is-invalid': formSubmitted && mf.website.errors }">
+          <div *ngIf="formSubmitted && mf.website.errors" class="invalid-feedback">
+            <div *ngIf="mf.website.errors.required">Website is required</div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="form-row">
+      <div class="form-group col-sm-6"></div>
+    </div>
+    <div formGroupName="contact">
+      <h6 style="color: #353d9f !important;">Contact Details</h6>
+      <div class="form-row">
+        <div class="form-group col-sm-6 required">
+          <label for="name" class="asterisk-if-mandatory">Name</label>
+          <input required formControlName="name" id="name" type="text" class="form-control" autocomplete="off"
+            [ngClass]="{ 'is-invalid': formSubmitted && cf.name.errors }">
+          <div *ngIf="formSubmitted && cf.name.errors" class="invalid-feedback">
+            <div *ngIf="cf.name.errors.required">Name is required</div>
+            <div *ngIf="cf.name.errors.minlength">Name must be at least 5 characters long.</div>
+          </div>
+        </div>
+        <div class="form-group col-sm-6 required">
+          <label for="email" class="asterisk-if-mandatory">Email</label>
+          <input required formControlName="email" id="email" type="text" class="form-control" autocomplete="off"
+            [ngClass]="{ 'is-invalid': formSubmitted && cf.email.errors }">
+          <div *ngIf="formSubmitted && cf.email.errors" class="invalid-feedback">
+            <div *ngIf="cf.email.errors.required">Email is required</div>
+            <div *ngIf="cf.email.errors.email">Email must be a valid email address</div>
+          </div>
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="form-group col-sm-4">
+          <label for="phone">Phone</label>
+          <input formControlName="phone" id="phone" type="text" class="form-control" autocomplete="off"
+            [ngClass]="{ 'is-invalid': formSubmitted && cf.phone.errors }">
+          <div *ngIf="formSubmitted && cf.phone.errors" class="invalid-feedback">
+            <div *ngIf="cf.phone.errors.pattern">Phone must be a valid phone number</div>
+          </div>
+        </div>
+        <div class="form-group col-sm-2 required"></div>
+        <div class="form-group col-sm-4 required">
+          <label for="mobile" class="asterisk-if-mandatory">Mobile</label>
+          <input required formControlName="mobile" id="mobile" type="text" class="form-control" autocomplete="off"
+            [ngClass]="{ 'is-invalid': formSubmitted && cf.mobile.errors }">
+          <div *ngIf="formSubmitted && cf.mobile.errors" class="invalid-feedback">
+            <div *ngIf="cf.mobile.errors.required">Mobile is required</div>
+            <div *ngIf="cf.mobile.errors.pattern">Mobile must be a valid mobile number</div>
+          </div>
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="form-group col-sm-6 required">
+          <label for="designation" class="asterisk-if-mandatory">Designation</label>
+          <input required formControlName="designation" id="designation" type="text" class="form-control"
+            autocomplete="off" [ngClass]="{ 'is-invalid': formSubmitted && cf.designation.errors }">
+          <div *ngIf="formSubmitted && cf.designation.errors" class="invalid-feedback">
+            <div *ngIf="cf.designation.errors.required">Designation is required</div>
+          </div>
+        </div>
+      </div>
     </div>
   </form>
   <div class="button-block">
-    <span class="pr-3"><button type="button" class="btn btn-primary form-button-cancel"
+    <button type="button" class="btn btn-primary form-button-cancel"
         (click)="cancel()">Cancel</button>
+    <span class="pl-2" *ngIf="actionType == actionEnum.add">
+      <button type="button" class="btn btn-primary form-button-action" (click)="save()">Save</button>
     </span>
-    <button type="button" class="btn btn-primary form-button-action" (click)="save()" *ngIf="actionType == actionEnum.add">Save</button>
-    <button type="button" class="btn btn-primary form-button-action" (click)="edit()" *ngIf="actionType == actionEnum.view">Edit</button>
-    <span class="pl-3" *ngIf="actionType == actionEnum.view"><button type="button" class="btn btn-primary form-button-action" (click)="delete()">Delete</button></span>
-    <button type="button" class="btn btn-primary form-button-action" (click)="update()" *ngIf="actionType == actionEnum.edit">Update</button>
-    
+    <span class="pl-2" *ngIf="actionType == actionEnum.edit">
+      <button type="button" class="btn btn-primary form-button-action" (click)="update()">Update</button>
+    </span>
+    <span class="pl-2" *ngIf="actionType == actionEnum.view && hasAccess(actionEnum.edit) && merchant.status !== 2">
+      <button type="button" class="btn btn-primary form-button-action" (click)="edit()"
+        *ngIf="actionType == actionEnum.view">Edit</button>
+    </span>
+    <span class="pl-2" *ngIf="actionType == actionEnum.view && hasAccess(actionEnum.delete) && merchant.status !== 2">
+      <button type="button" class="btn btn-primary form-button-action"
+        (click)="openConfirmation(actionConfirm, 'merchant', actionEnum.delete, merchant.id, merchant.name)">Delete</button>
+    </span>
+    <span class="pl-2" *ngIf="actionType == actionEnum.view && hasAccess(actionEnum.activate) && merchant.status === 0">
+      <button type="button" class="btn btn-primary form-button-action"
+        (click)="openConfirmation(actionConfirm, 'merchant', actionEnum.activate, merchant.id, merchant.name)">Activate</button>
+    </span>
+    <span class="pl-2" *ngIf="actionType == actionEnum.view && hasAccess(actionEnum.inActivate) && merchant.status === 1">
+      <button type="button" class="btn btn-primary form-button-action"
+        (click)="openConfirmation(actionConfirm, 'merchant', actionEnum.inActivate, merchant.id, merchant.name)">In-Activate</button>
+    </span>    
   </div>
 </div>
+<ng-template #actionConfirm let-modal>
+  <app-confirm-dialog [resource]='confirmResource' (modalClosed)='closeConfirmation($event)'></app-confirm-dialog>
+</ng-template>

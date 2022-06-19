@@ -1,12 +1,12 @@
 <div class="main">
   <div class="container-fluid">
     <div class="row page-header">
-      <div class="col-sm-3 title"><img src="../../../assets/images/merchant.svg" />
+      <div class="col-sm-3 title"><img src="../../../assets/images/user.svg" />
         <span class="pl-2">{{ pageHeader }}</span>
         <span class="count pl-2">({{ userCount }})</span>
       </div>
       <div class="col-sm-9 tools text-right">
-        <button class="button" (click)="create(userModal)">
+        <button class="button" (click)="create(userModal)" *ngIf="hasAccess(actionEnum.add)">
           <fa-icon [icon]='faPlus' size="lg"></fa-icon><span class="pl-2">Add
             New User</span>
         </button>
@@ -39,18 +39,34 @@
             <td>{{ getStatus(user.status)}}</td>
             <td>{{ user.lastUpdatedBy }}</td>
             <td>{{ user.updatedDate | date: 'dd/MM/yyyy HH:mm'}}</td>
-            <td><span class="pr-3"><a (click)="view(user.id, userModal)" routerLinkActive="active"
-                  *ngIf="user.canView && canView(user.status)">
+            <td *ngIf="hasActionAccess()">
+              <span class="pr-3" *ngIf="hasAccess(actionEnum.view)">
+                <a (click)="view(user.id, userModal)" routerLinkActive="active" ngbTooltip="View" tooltipClass="tool-tip">
                   <fa-icon [icon]='faEye' style="color:#1653da"></fa-icon>
-                </a></span>
-              <span class="pr-3"><a (click)="edit(user.id, userModal)" routerLinkActive="active"
-                  *ngIf="user.canEdit && canEdit(user.status)">
+                </a>
+              </span>
+              <span class="pr-3" *ngIf="hasAccess(actionEnum.edit) && user.status !== 2">
+                <a (click)="edit(user.id, userModal)" routerLinkActive="active" ngbTooltip="Edit" tooltipClass="tool-tip">
                   <fa-icon [icon]='faEdit' style="color:#ffc107;"></fa-icon>
-                </a></span>
-              <span class="pr-3"><a (click)="delete(user.id)" routerLinkActive="active"
-                  *ngIf="user.canEdit && canDelete(user.status)">
+                </a>
+              </span>
+              <span class="pr-3" *ngIf="hasAccess(actionEnum.delete) && user.status !== 2">
+                <a (click)="openConfirmation(actionConfirm, 'user', actionEnum.delete, user.id, user.firstName+' '+user.lastName)" routerLinkActive="active" ngbTooltip="Delete" tooltipClass="tool-tip">
+                  <!-- <a (click)="delete(user.id)" routerLinkActive="active"> -->
                   <fa-icon [icon]='faArchive' style="color: #dc3545;"></fa-icon>
-                </a></span></td>
+                </a>
+              </span>
+              <span *ngIf="hasAccess(actionEnum.activate) && user.status === 0">
+                <a (click)="openConfirmation(actionConfirm, 'user', actionEnum.activate, user.id, user.firstName+' '+user.lastName)" routerLinkActive="active" ngbTooltip="Activate" tooltipClass="tool-tip">
+                  <fa-icon [icon]='faCheckCircle' style="color: #20c997;"></fa-icon>
+                </a>
+              </span>
+              <span *ngIf="hasAccess(actionEnum.activate) && user.status === 1">
+                <a (click)="openConfirmation(actionConfirm, 'user', actionEnum.inActivate, user.id, user.firstName+' '+user.lastName)" routerLinkActive="active" ngbTooltip="In-Activate" tooltipClass="tool-tip">
+                  <fa-icon [icon]='faBan' style="color: #fd7e14;"></fa-icon>
+                </a>
+              </span>
+            </td>
           </tr>
         </tbody>
       </table>
@@ -69,4 +85,7 @@
 </div>
 <ng-template #userModal let-modal>
   <app-admin-user-form [actionType]="actionType" [user]="user" (modalClosed)='closeModal($event)'></app-admin-user-form>
+</ng-template>
+<ng-template #actionConfirm let-modal>
+  <app-confirm-dialog [resource]='confirmResource' (modalClosed)='closeConfirmation($event)'></app-confirm-dialog>
 </ng-template>

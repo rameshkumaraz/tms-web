@@ -14,5 +14,6 @@
   "event": false,
   "app": false,
   "library": false,
-  "user": false
+  "user": false,
+  "msetting": false
 }

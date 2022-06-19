@@ -4,7 +4,7 @@ import { NgxSpinnerService } from 'ngx-spinner';
 import { ToastrService } from 'ngx-toastr';
 import { distinctUntilChanged } from 'rxjs/operators';
 import { DeviceBrand } from 'src/app/model/device-brand';
-import { BaseComponent } from 'src/app/shared/core/base.component';
+import { BaseFormComponent } from 'src/app/shared/core/base-form.component';
 import { ActionEnum } from 'src/app/shared/enum/action.enum';
 import { ApiResponse } from 'src/app/shared/model/api.response';
 import { DeviceBrandService } from '../device-brand.service';
@@ -14,7 +14,7 @@ import { DeviceBrandService } from '../device-brand.service';
   templateUrl: './device-brand-form.component.html',
   styleUrls: ['./device-brand-form.component.scss']
 })
-export class DeviceBrandFormComponent extends BaseComponent {
+export class DeviceBrandFormComponent extends BaseFormComponent {
 
   @Input() brand: any;
   @Input() actionType;
@@ -39,6 +39,9 @@ export class DeviceBrandFormComponent extends BaseComponent {
   }
 
   ngOnInit(): void {
+
+    this.loadActionAccess(this.componentEnum.deviceBrand.toString());
+
     this.brandForm = this.formBuilder.group({
       name: ['', [Validators.required, Validators.minLength(5), Validators.max(200)]],
       desc: ['']
@@ -151,6 +154,22 @@ export class DeviceBrandFormComponent extends BaseComponent {
       err => {
         console.log('Unable to delete brand, please contact administrator.', 'Device Brand');
         this.toastr.error('Unable to delete brand, please contact administrator.', 'Device Brand');
+      });
+  }
+
+  updateStatus(id: number, status: number): void {
+    this.spinner.show();
+    let model = Object.assign({}, this.brand);
+    model.status = status;  
+    this.service.updateStatus(id, model).subscribe(data => {
+      this.close(true);
+      console.log('Brand status has been updated successfully');
+      this.toastr.success('Brand status has been updated successfully', 'Device Brand');
+    },
+      err => {
+        console.log('Unable to update brand status....', err);
+        this.toastr.error('Unable to update brand status, please contact adminstrator', 'Device Brand');
+        this.spinner.hide();
       });
   }
 }

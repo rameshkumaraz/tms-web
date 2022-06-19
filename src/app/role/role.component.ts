@@ -28,14 +28,13 @@ export class RoleComponent extends BaseComponent {
 
   constructor(private roleService: RoleService,
     private spinner: NgxSpinnerService,
-    private authService: AuthenticationService,
     private toastr: ToastrService) {
     super();
   }
 
   ngOnInit(): void {
     this.pageHeader = 'Roles';
-
+    this.loadActionAccess(this.componentEnum.role.toString());
     this.onPageLoad();
   }
 
@@ -93,4 +92,22 @@ export class RoleComponent extends BaseComponent {
       this.toastr.error('Unable to delete role, please contact adminstrator', 'Roles');
     });
   }
+
+  updateStatus(id: number, status: number) {
+    this.spinner.show();
+    let model = Object.assign({}, this.filterRole(id));
+    model.status = status;
+    this.roleService.updateStatus(id, model).subscribe(data => {
+      console.log('Role status has been updated successfully');
+      this.toastr.success('Role status has been updated successfully', 'Role');
+      this.onPageLoad();
+      this.spinner.hide();
+    },
+      err => {
+        console.log('Unable to update role status....', err);
+        this.toastr.error('Unable to update role status, please contact adminstrator', 'Role');
+        this.spinner.hide();
+      });
+  }
+
 }

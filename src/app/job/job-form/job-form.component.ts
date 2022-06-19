@@ -18,7 +18,7 @@ import { ApplicationService } from 'src/app/application/application.service';
 import { DatePipe } from '@angular/common';
 import { LocationService } from 'src/app/location/location.service';
 import { DeviceService } from 'src/app/device/device.service';
-import { BaseComponent } from 'src/app/shared/core/base.component';
+import { BaseFormComponent } from 'src/app/shared/core/base-form.component';
 
 @Component({
   selector: 'app-job-form',
@@ -26,7 +26,7 @@ import { BaseComponent } from 'src/app/shared/core/base.component';
   styleUrls: ['./job-form.component.scss'],
   providers: [DatePipe]
 })
-export class JobFormComponent extends BaseComponent {
+export class JobFormComponent extends BaseFormComponent {
 
   @Output() modalClosed = new EventEmitter();
 
@@ -81,6 +81,9 @@ export class JobFormComponent extends BaseComponent {
   }
 
   ngOnInit(): void {
+
+    this.loadActionAccess(this.componentEnum.event.toString());
+
     this.jobForm = this.formBuilder.group({
       name: ['', [Validators.required, Validators.minLength(2), Validators.max(200)]],
       triggerType: ['', [Validators.required]],

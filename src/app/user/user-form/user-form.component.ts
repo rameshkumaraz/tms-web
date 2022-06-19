@@ -7,7 +7,7 @@ import { User } from '../../model/user';
 import { ApiResponse } from 'src/app/shared/model/api.response';
 import { RoleService } from 'src/app/role/role.service';
 import { Merchant } from 'src/app/model/merchant';
-import { BaseComponent } from 'src/app/shared/core/base.component';
+import { BaseFormComponent } from 'src/app/shared/core/base-form.component';
 import { DatePipe } from '@angular/common';
 
 @Component({
@@ -16,7 +16,7 @@ import { DatePipe } from '@angular/common';
   styleUrls: ['./user-form.component.scss'],
   providers: [DatePipe]
 })
-export class UserFormComponent extends BaseComponent {
+export class UserFormComponent extends BaseFormComponent {
 
   @Input() merchant: Merchant;
   @Input() user: any;
@@ -49,6 +49,8 @@ export class UserFormComponent extends BaseComponent {
   ngOnInit(): void {
 
     console.log('Merchant.....', this.merchant);
+
+    this.loadActionAccess(this.componentEnum.user.toString());
 
     this.userForm = this.formBuilder.group({
       firstName: ['', [Validators.required, Validators.minLength(5), Validators.max(100)]],
@@ -202,6 +204,22 @@ export class UserFormComponent extends BaseComponent {
       err => {
         console.log('Unable to delete user, please contact administrator.', 'User');
         this.toastr.error('Unable to delete user, please contact administrator.', 'User');
+      });
+  }
+
+  updateStatus(id: number, status: number): void {
+    this.spinner.show();
+    let model = Object.assign({}, this.user);
+    model.status = status;  
+    this.service.updateStatus(id, model).subscribe(data => {
+      this.close(true);
+      console.log('User status has been updated successfully');
+      this.toastr.success('User status has been updated successfully', 'User');
+    },
+      err => {
+        console.log('Unable to update user status....', err);
+        this.toastr.error('Unable to update user status, please contact adminstrator', 'User');
+        this.spinner.hide();
       });
   }
 

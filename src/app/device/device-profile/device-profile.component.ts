@@ -5,7 +5,7 @@ import { NgxSpinnerService } from 'ngx-spinner';
 import { ToastrService } from 'ngx-toastr';
 import { first } from 'rxjs/operators';
 import { Device } from 'src/app/model/device';
-import { BaseComponent } from 'src/app/shared/core/base.component';
+import { BaseFormComponent } from 'src/app/shared/core/base-form.component';
 import { ApiResponse } from 'src/app/shared/model/api.response';
 import { DeviceService } from '../device.service';
 
@@ -14,7 +14,7 @@ import { DeviceService } from '../device.service';
   templateUrl: './device-profile.component.html',
   styleUrls: ['./device-profile.component.scss']
 })
-export class DeviceProfileComponent extends BaseComponent {
+export class DeviceProfileComponent extends BaseFormComponent {
 
   pageHeader = 'Device Profile';
 

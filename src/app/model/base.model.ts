@@ -5,5 +5,5 @@ export class BaseModel {
     lastUpdatedBy: string;
     updatedDate: string;
     version: number;
-    status: boolean;
+    status: number;
 }

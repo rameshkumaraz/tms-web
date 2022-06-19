@@ -1,3 +1,4 @@
+import { ConsoleLogger } from '@angular/compiler-cli/private/localize';
 import { Component, ElementRef, ViewChild } from '@angular/core';
 import { FormBuilder } from '@angular/forms';
 import { NgxSpinnerService } from 'ngx-spinner';
@@ -50,6 +51,8 @@ export class DeviceModelComponent extends BaseComponent {
 
     super.ngOnInit();
 
+    this.loadActionAccess(this.componentEnum.deviceModel.toString());
+
     this.searchForm = this.formBuilder.group({
       name: [''],
       brand: [''],
@@ -70,19 +73,21 @@ export class DeviceModelComponent extends BaseComponent {
     this.spinner.show();
     forkJoin([
       this.service.getAll(),
-        this.dbService.getAll(),
-      ]).subscribe(([resp1 , resp2]) => {
-        let models = resp1 as any;
-        let brands = resp2 as any;
-        this.models = models.message;
-        this.brands = brands.message;
+      this.dbService.getAll(),
+    ]).subscribe(([resp1, resp2]) => {
+      let models = resp1 as any;
+      let brands = resp2 as any;
+      this.models = models.message;
+      this.brands = brands.message;
 
-        this.modelCount = this.models.length;
+      this.modelCount = this.models.length;
 
-        this.spinner.hide();
-      },error => {
-        this.spinner.hide();
-      });
+      console.log('Device Model Response....', this.models)
+
+      this.spinner.hide();
+    }, error => {
+      this.spinner.hide();
+    });
 
 
     // this.spinner.show();
@@ -123,13 +128,13 @@ export class DeviceModelComponent extends BaseComponent {
 
   view(id: number, content: any) {
     this.actionType = ActionEnum.view;
-    this.model = this.filterModel(id)
+    this.model = this.filterModel(id);
     this.openModal(content, 'md', 'Device Model');
   }
 
   edit(id: number, content: any) {
     this.actionType = ActionEnum.edit;
-    this.model = this.filterModel(id)
+    this.model = this.filterModel(id);
     this.openModal(content, 'md', 'Device Model');
   }
 
@@ -139,22 +144,22 @@ export class DeviceModelComponent extends BaseComponent {
 
   searchModels(type: string) {
 
-    if(this.inFilterMode) {
+    if (this.inFilterMode) {
       return;
     }
 
     console.log('Target Id....', type);
-    if(type == 'name' && this.f.name.value.length < 3) {
+    if (type == 'name' && this.f.name.value.length < 3) {
       return;
     }
     this.spinner.show();
-    if(type == 'name') {
+    if (type == 'name') {
       this.f.brand.setValue('');
       this.f.status.setValue('');
-    } else if (type == 'brand'){
+    } else if (type == 'brand') {
       this.f.name.setValue('');
       this.f.status.setValue('');
-    } else if (type == 'status'){
+    } else if (type == 'status') {
       this.f.name.setValue('');
       this.f.brand.setValue('');
     }
@@ -185,14 +190,35 @@ export class DeviceModelComponent extends BaseComponent {
   }
 
   delete(id: number) {
+    this.spinner.show();
     this.service.delete(id).subscribe(data => {
       console.log('Model has been deleted successfully');
       this.toastr.success('Model has been deleted successfully', 'Device Model');
       this.onPageLoad();
+      this.spinner.hide();
     },
       err => {
         console.log('Device model delete error....', err);
         this.toastr.error('Unable to delete model, please contact adminstrator', 'Device Model');
+        this.spinner.hide();
       });
   }
+
+  updateStatus(id: number, status: number) {
+    this.spinner.show();
+    let dmodel = Object.assign({}, this.filterModel(id));
+    dmodel.status = status;
+    this.service.updateStatus(id, dmodel).subscribe(data => {
+      console.log('Model status has been updated successfully', data);
+      this.toastr.success('Model status has been updated successfully', 'Device Model');
+      this.onPageLoad();
+      this.spinner.hide();
+    },
+      err => {
+        console.log('Unable to update model status....', err);
+        this.toastr.error('Unable to update model status, please contact adminstrator', 'Device Model');
+        this.spinner.hide();
+      });
+  }
+
 }

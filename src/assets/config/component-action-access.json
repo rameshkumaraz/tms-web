@@ -1,0 +1,114 @@
+{
+  "ADMIN_USER": {
+    "all": false,
+    "add": false,
+    "view": false,
+    "edit": false,
+    "delete": false,
+    "activate": false
+  },
+  "APP": {
+    "all": false,
+    "add": false,
+    "view": false,
+    "edit": false,
+    "delete": false,
+    "activate": false
+  },
+  "APP_BUILD": {
+    "all": false,
+    "add": false,
+    "view": false,
+    "edit": false,
+    "delete": false,
+    "activate": false
+  },
+  "APP_PARAM": {
+    "all": false,
+    "add": false,
+    "view": false,
+    "edit": false,
+    "delete": false,
+    "activate": false
+  },
+  "DEVICE": {
+    "all": false,
+    "add": false,
+    "view": false,
+    "edit": false,
+    "delete": false,
+    "activate": false
+  },
+  "DEVICE_BRAND": {
+    "all": false,
+    "add": false,
+    "view": false,
+    "edit": false,
+    "delete": false,
+    "activate": false
+  },
+  "DEVICE_MODEL": {
+    "all": false,
+    "add": false,
+    "view": false,
+    "edit": false,
+    "delete": false,
+    "activate": false
+  },
+  "EVENT": {
+    "all": false,
+    "add": false,
+    "view": false,
+    "edit": false,
+    "delete": false,
+    "activate": false
+  },
+  "LOCATION": {
+    "all": false,
+    "add": false,
+    "view": false,
+    "edit": false,
+    "delete": false,
+    "activate": false
+  },
+  "MERCHANT": {
+    "all": false,
+    "add": false,
+    "view": false,
+    "edit": false,
+    "delete": false,
+    "activate": false
+  },
+  "POLICY": {
+    "all": false,
+    "add": false,
+    "view": false,
+    "edit": false,
+    "delete": false,
+    "activate": false
+  },
+  "ROLE": {
+    "all": false,
+    "add": false,
+    "view": false,
+    "edit": false,
+    "delete": false,
+    "activate": false
+  },
+  "USER": {
+    "all": false,
+    "add": false,
+    "view": false,
+    "edit": false,
+    "delete": false,
+    "activate": false
+  },
+  "M_SETTING": {
+    "all": false,
+    "add": false,
+    "view": false,
+    "edit": false,
+    "delete": false,
+    "activate": false
+  }
+}

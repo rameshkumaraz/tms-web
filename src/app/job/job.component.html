@@ -5,7 +5,7 @@
           <span class="pl-2">{{ pageHeader }}</span>
           <span class="count pl-2">({{ jobCount }})</span></div>
         <div class="col-sm-9 tools text-right">
-          <button class="button" (click)="create(jobModal)">
+          <button class="button" (click)="create(jobModal)" *ngIf="hasAccess(actionEnum.add)">
             <fa-icon [icon]='faPlus' size="lg"></fa-icon><span class="pl-2">Add
               New Event</span>
           </button>
@@ -46,15 +46,18 @@
               <td>{{ getStatus(job.status) }}</td>
               <td>{{ job.lastUpdatedBy }}</td>
               <td>{{ job.updatedDate | date: 'dd/MM/yyyy HH:mm'}}</td>
-              <td><span class="pr-3"><a (click)="view(job.id, jobModal)" routerLinkActive="active">
+              <td *ngIf="hasActionAccess()">
+                <span class="pr-3" *ngIf="hasAccess(actionEnum.view)">
+                  <a (click)="view(job.id, jobModal)" routerLinkActive="active" ngbTooltip="View" tooltipClass="tool-tip">
                     <fa-icon [icon]='faEye' style="color:#1653da"></fa-icon>
-                  </a></span>
-                <!-- <span class="pr-3" *ngIf="job.triggerType == triggerEnum.LATER"><a (click)="edit(job.id, jobModal)" routerLinkActive="active">
-                    <fa-icon [icon]='faEdit' style="color:#ffc107;"></fa-icon>
-                  </a></span> -->
-                <span class="pr-3"><a (click)="delete(job.id)" routerLinkActive="active">
+                  </a>
+                </span>
+                <span class="pr-3" *ngIf="hasAccess(actionEnum.delete) && job.status !== 2 && job.triggerType == triggerEnum.LATER && job.status == statusEnum.ACTIVE">
+                  <a (click)="openConfirmation(actionConfirm, 'job', actionEnum.delete, job.id, job.name)" routerLinkActive="active" ngbTooltip="Delete" tooltipClass="tool-tip">
                     <fa-icon [icon]='faArchive' style="color: #dc3545;"></fa-icon>
-                  </a></span></td>
+                  </a>
+                </span>
+              </td>
             </tr>
           </tbody>
         </table>
@@ -74,4 +77,7 @@
   </div>
   <ng-template #jobModal let-modal>
     <app-job-form [actionType]="actionType" [merchant]="merchant" [job]="job" (modalClosed)='closeModal($event)'></app-job-form>
+  </ng-template>
+  <ng-template #actionConfirm let-modal>
+    <app-confirm-dialog [resource]='confirmResource' (modalClosed)='closeConfirmation($event)'></app-confirm-dialog>
   </ng-template>

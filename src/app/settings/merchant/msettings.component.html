@@ -1,0 +1,55 @@
+<div class="main">
+    <div class="container-fluid">
+      <div class="row page-header">
+        <div class="col-sm-3 title"><img src="../../../assets/images/merchant.svg" />
+          <span class="pl-2">{{ pageHeader }}</span>
+        </div>
+        <div class="col-sm-9 tools text-right">
+          <button class="button" (click)="create(modal)" *ngIf="hasAccess(actionEnum.add)">
+            <fa-icon [icon]='faPlus' size="lg"></fa-icon><span class="pl-2">Add
+              Configuration Item(s)</span>
+          </button>
+        </div>
+      </div>
+      <div class="pt-2" *ngIf="settings.length > 0">
+        <table class="table table-striped">
+          <thead>
+            <tr>
+              <th scope="col" style="width: 20%;">Name</th>
+              <th scope="col" style="width: 35%;">Value</th>
+              <th scope="col" style="width: 15%;">Last Update By</th>
+              <th scope="col" style="width: 10%;">Last Updated On</th>
+              <th scope="col" style="width: 10%;">Action</th>
+            </tr>
+          </thead>
+          <tbody>
+            <!-- <tr *ngFor="let setting of settings | slice: (page-1) * pageSize : (page-1) * pageSize + pageSize"> -->
+            <tr *ngFor="let setting of settings">
+              <td><span class="table-col-name">{{ setting.name }}</span></td>
+              <td>{{ setting.value }}</td>
+              <td *ngIf="hasActionAccess()">
+                <span class="pr-3" *ngIf="hasAccess(actionEnum.edit)">
+                  <a (click)="edit(setting.id, modal)" routerLinkActive="active" ngbTooltip="Edit" tooltipClass="tool-tip">
+                    <fa-icon [icon]='faEdit' style="color:#ffc107;"></fa-icon>
+                  </a>
+                </span>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <!-- <div class="d-flex justify-content-between px-2">
+        <ngb-pagination [collectionSize]="roleCount" [(page)]="page" [pageSize]="pageSize">
+        </ngb-pagination>
+  
+        <select [(ngModel)]="pageSize">
+          <option [ngValue]="5">5 items per page</option>
+          <option [ngValue]="10">10 items per page</option>
+          <option [ngValue]="25">25 items per page</option>
+        </select>
+      </div> -->
+    </div>
+  </div>
+  <ng-template #modal let-modal>
+    <app-msettings-form [actionType]="actionType" [item]="configItem" (modalClosed)='closeModal($event)'></app-msettings-form>
+  </ng-template>

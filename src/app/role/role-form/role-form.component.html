@@ -51,34 +51,33 @@
       </div>
     </div>
   </form>
-  <!-- <form [formGroup]="policyForm">
-    <div class="form-row">
-      <div class="form-group col-sm-12 mb-0">
-        <label for="search">Policies</label>
-        <input type="text" id="searchInput" (keyup)="search($event)" placeholder="Search for policy...">
-      </div>
-      <div class="form-group col-sm-12" style="height:218px; overflow-y: scroll;">
-        <table class="table table-striped">
-          <tbody>
-            <tr *ngFor="let p of filteredPolicies">
-              <td><input id="p-{{p.id}}" type="checkbox" [value]="p.id" onclick=""><span class="pl-4">{{p.name}}</span></td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-    </div>
-  </form> -->
   <div class="button-block">
-    <span class="pr-3"><button type="button" class="btn btn-primary form-button-cancel"
+    <button type="button" class="btn btn-primary form-button-cancel"
         (click)="cancel()">Cancel</button>
+    <span class="pl-2" *ngIf="actionType == actionEnum.add">
+      <button type="button" class="btn btn-primary form-button-action" (click)="save()">Save</button>
     </span>
-    <button type="button" class="btn btn-primary form-button-action" (click)="save()"
-      *ngIf="actionType == actionEnum.add">Save</button>
-    <button type="button" class="btn btn-primary form-button-action" (click)="edit()"
-      *ngIf="actionType == actionEnum.view && canEdit(role.status)">Edit</button>
-    <span class="pl-3" *ngIf="actionType == actionEnum.view && canDelete(role.status)"><button type="button"
-        class="btn btn-primary form-button-action" (click)="delete()">Delete</button></span>
-    <button type="button" class="btn btn-primary form-button-action" (click)="update()"
-      *ngIf="actionType == actionEnum.edit && canEdit(role.status)">Update</button>
+    <span class="pl-2" *ngIf="actionType == actionEnum.edit">
+      <button type="button" class="btn btn-primary form-button-action" (click)="update()">Update</button>
+    </span>
+    <span class="pl-2" *ngIf="actionType == actionEnum.view && hasAccess(actionEnum.edit) && role.status !== 2">
+      <button type="button" class="btn btn-primary form-button-action" (click)="edit()"
+        *ngIf="actionType == actionEnum.view">Edit</button>
+    </span>
+    <span class="pl-2" *ngIf="actionType == actionEnum.view && hasAccess(actionEnum.delete) && role.status !== 2">
+      <button type="button" class="btn btn-primary form-button-action"
+        (click)="openConfirmation(actionConfirm, 'role', actionEnum.delete, role.id, role.name)">Delete</button>
+    </span>
+    <span class="pl-2" *ngIf="actionType == actionEnum.view && hasAccess(actionEnum.activate) && role.status === 0">
+      <button type="button" class="btn btn-primary form-button-action"
+        (click)="openConfirmation(actionConfirm, 'role', actionEnum.activate, role.id, role.name)">Activate</button>
+    </span>
+    <span class="pl-2" *ngIf="actionType == actionEnum.view && hasAccess(actionEnum.inActivate) && role.status === 1">
+      <button type="button" class="btn btn-primary form-button-action"
+        (click)="openConfirmation(actionConfirm, 'role', actionEnum.inActivate, role.id, role.name)">In-Activate</button>
+    </span>    
   </div>
 </div>
+<ng-template #actionConfirm let-modal>
+  <app-confirm-dialog [resource]='confirmResource' (modalClosed)='closeConfirmation($event)'></app-confirm-dialog>
+</ng-template>

@@ -6,7 +6,7 @@ import { ToastrService } from 'ngx-toastr';
 import { ApplicationService } from 'src/app/application/application.service';
 import { DeviceService } from 'src/app/device/device.service';
 import { LocationService } from 'src/app/location/location.service';
-import { BaseComponent } from 'src/app/shared/core/base.component';
+import { BaseFormComponent } from 'src/app/shared/core/base-form.component';
 import { ApiResponse } from 'src/app/shared/model/api.response';
 import { AppParamService } from '../app-param.service';
 import { currencies } from '../../shared/model/currency-data-store'
@@ -18,7 +18,7 @@ import { Parameter } from 'src/app/model/parameter';
   styleUrls: ['./app-param-import.component.scss'],
   encapsulation: ViewEncapsulation.None
 })
-export class AppParamImportComponent extends BaseComponent {
+export class AppParamImportComponent extends BaseFormComponent {
 
   @Input() merchant: any;
 

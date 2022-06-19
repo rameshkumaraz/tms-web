@@ -1,7 +1,7 @@
 <div class="main">
   <div class="container-fluid">
     <div class="row page-header">
-      <div class="col-sm-3 title"><img src="../../../assets/images/merchant.svg" />
+      <div class="col-sm-3 title"><img src="../../../assets/images/brand.svg" />
         <span class="pl-2">{{ pageHeader }}</span>
         <span class="count pl-2">({{ brandCount }})</span>
       </div>
@@ -9,7 +9,7 @@
           
         </div> -->
       <div class="col-sm-9 tools text-right">
-        <button class="button" (click)="create(dbModal)">
+        <button class="button" (click)="create(dbModal)" *ngIf="hasAccess(actionEnum.add)">
           <fa-icon [icon]='faPlus' size="lg"></fa-icon><span class="pl-2">Add
             New Brand</span>
         </button>
@@ -44,18 +44,34 @@
             <td>{{ getStatus(brand.status)}}</td>
             <td>{{ brand.lastUpdatedBy }}</td>
             <td>{{ brand.updatedDate | date: 'dd/MM/yyyy HH:mm'}}</td>
-            <td><span class="pr-3"><a (click)="view(brand.id, dbModal)" routerLinkActive="active"
-                  *ngIf="canView(brand.status)">
+            <td *ngIf="hasActionAccess()">
+              <span class="pr-3" *ngIf="hasAccess(actionEnum.view)">
+                <a (click)="view(brand.id, dbModal)" routerLinkActive="active" ngbTooltip="View" tooltipClass="tool-tip">
                   <fa-icon [icon]='faEye' style="color:#1653da"></fa-icon>
-                </a></span>
-              <span class="pr-3"><a (click)="edit(brand.id, dbModal)" routerLinkActive="active"
-                  *ngIf="canEdit(brand.status)">
+                </a>
+              </span>
+              <span class="pr-3" *ngIf="hasAccess(actionEnum.edit) && brand.status !== 2">
+                <a (click)="edit(brand.id, dbModal)" routerLinkActive="active" ngbTooltip="Edit" tooltipClass="tool-tip">
                   <fa-icon [icon]='faEdit' style="color:#ffc107;"></fa-icon>
-                </a></span>
-              <span class="pr-3"><a (click)="delete(brand.id)" routerLinkActive="active"
-                  *ngIf="canDelete(brand.status)">
+                </a>
+              </span>
+              <span class="pr-3" *ngIf="hasAccess(actionEnum.delete) && brand.status !== 2">
+                <a (click)="openConfirmation(actionConfirm, 'brand', actionEnum.delete, brand.id, brand.name)" routerLinkActive="active" ngbTooltip="Delete" tooltipClass="tool-tip">
+                  <!-- <a (click)="delete(brand.id)" routerLinkActive="active"> -->
                   <fa-icon [icon]='faArchive' style="color: #dc3545;"></fa-icon>
-                </a></span></td>
+                </a>
+              </span>
+              <span *ngIf="hasAccess(actionEnum.activate) && brand.status === 0">
+                <a (click)="openConfirmation(actionConfirm, 'brand', actionEnum.activate, brand.id, brand.name)" routerLinkActive="active" ngbTooltip="Activate" tooltipClass="tool-tip">
+                  <fa-icon [icon]='faCheckCircle' style="color: #20c997;"></fa-icon>
+                </a>
+              </span>
+              <span *ngIf="hasAccess(actionEnum.activate) && brand.status === 1">
+                <a (click)="openConfirmation(actionConfirm, 'brand', actionEnum.inActivate, brand.id, brand.name)" routerLinkActive="active" ngbTooltip="In-Activate" tooltipClass="tool-tip">
+                  <fa-icon [icon]='faBan' style="color: #fd7e14;"></fa-icon>
+                </a>
+              </span>
+            </td>
           </tr>
         </tbody>
       </table>
@@ -76,4 +92,7 @@
 <ng-template #dbModal let-modal>
   <app-device-brand-form [actionType]="actionType" [brand]="brand" (modalClosed)='closeModal($event)'>
   </app-device-brand-form>
+</ng-template>
+<ng-template #actionConfirm let-modal>
+  <app-confirm-dialog [resource]='confirmResource' (modalClosed)='closeConfirmation($event)'></app-confirm-dialog>
 </ng-template>

@@ -3,7 +3,7 @@ import { Router } from '@angular/router';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { AppService } from '../shared/service/app.service';
 import menuAccess from '../../assets/config/menu-access.json';
-import { BaseComponent } from '../shared/core/base.component';
+import { BaseDashboardComponent } from '../shared/core/base-dashboard.component';
 
 import { GoogleChartInterface, GoogleChartType } from 'ng2-google-charts';
 
@@ -16,7 +16,7 @@ import { forkJoin } from 'rxjs';
   templateUrl: './dashboard.component.html',
   styleUrls: ['./dashboard.component.scss']
 })
-export class DashboardComponent extends BaseComponent {
+export class DashboardComponent extends BaseDashboardComponent {
 
   pageHeader: string;
 

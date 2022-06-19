@@ -2,7 +2,7 @@ import { Component, Input, ViewEncapsulation } from '@angular/core';
 import { FormGroup, FormControl, Validators, FormBuilder } from '@angular/forms';
 import { faCheck, faTimes } from '@fortawesome/free-solid-svg-icons';
 import { currencies } from '../../shared/model/currency-data-store'
-import { BaseComponent } from '../../shared/core/base.component';
+import { BaseFormComponent } from '../../shared/core/base-form.component';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { ToastrService } from 'ngx-toastr';
 import { ApiResponse } from '../../shared/model/api.response';
@@ -21,7 +21,7 @@ import { AppParamService } from 'src/app/app-param/app-param.service';
   styleUrls: ['./app-param-form.component.scss'],
   encapsulation: ViewEncapsulation.None
 })
-export class AppParamFormComponent extends BaseComponent {
+export class AppParamFormComponent extends BaseFormComponent {
 
   // @Input() formTitle: string;
   // @Input() formConfig: any;
@@ -96,6 +96,8 @@ export class AppParamFormComponent extends BaseComponent {
   }
 
   ngOnInit(): void {
+
+    this.loadActionAccess(this.componentEnum.appParam.toString());
 
     this.appForm = this.formBuilder.group({
       app: ['', [Validators.required]],

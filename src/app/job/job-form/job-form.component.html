@@ -192,9 +192,12 @@
     <!-- <button type="button" class="btn btn-primary form-button-action" (click)="edit()"
       *ngIf="actionType == actionEnum.view">Edit</button> -->
     <span class="pl-2" *ngIf="actionType == actionEnum.view"><button type="button"
-        class="btn btn-primary form-button-action" (click)="delete()">Delete</button></span>
+        class="btn btn-primary form-button-action" (click)="delete()" *ngIf="job.triggerType == triggerEnum.LATER && job.status == statusEnum.ACTIVE">Delete</button></span>
     <!-- <button type="button" class="btn btn-primary form-button-action" (click)="update()"
       *ngIf="actionType == actionEnum.edit">Update</button> -->
 
   </div>
 </div>
+<ng-template #actionConfirm let-modal>
+  <app-confirm-dialog [resource]='confirmResource' (modalClosed)='closeConfirmation($event)'></app-confirm-dialog>
+</ng-template>

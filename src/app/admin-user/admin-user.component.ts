@@ -34,6 +34,8 @@ export class AdminUserComponent extends BaseComponent {
   ngOnInit(): void {
     this.pageHeader = 'Admin Users';
 
+    this.loadActionAccess(this.componentEnum.adminUser.toString());
+
     this.onPageLoad();
   }
 
@@ -87,6 +89,23 @@ export class AdminUserComponent extends BaseComponent {
       console.log('Unable to delete user....', err);
       this.toastr.error('Unable to delete user, please contact adminstrator', 'Admin Users');
     });
+  }
+
+  updateStatus(id: number, status: number) {
+    this.spinner.show();
+    let model = Object.assign({}, this.filterUser(id));
+    model.status = status;
+    this.service.updateStatus(id, model).subscribe(data => {
+      console.log('User status has been updated successfully');
+      this.toastr.success('User status has been updated successfully', 'Admin Users');
+      this.onPageLoad();
+      this.spinner.hide();
+    },
+      err => {
+        console.log('Unable to update user status....', err);
+        this.toastr.error('Unable to update user status, please contact adminstrator', 'Admin Users');
+        this.spinner.hide();
+      });
   }
 
 }

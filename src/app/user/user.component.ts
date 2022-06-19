@@ -41,6 +41,9 @@ export class UserComponent extends BaseComponent {
 
   ngOnInit(): void {
     this.pageHeader = 'Users';
+
+    this.loadActionAccess(this.componentEnum.user.toString());
+
     this.mSub = this.appService.userMerchant.subscribe(data => {
       console.log('User Merchant.....', data.id + ':' + Object.keys(data).length);
       if (Object.keys(data).length > 0) {
@@ -91,6 +94,7 @@ export class UserComponent extends BaseComponent {
   }
 
   delete(id: number) {
+    this.spinner.show();
     this.service.delete(id).subscribe(data => {
       console.log('User delete success....', data);
       this.toastr.success('User has been deleted successfully', 'User');
@@ -99,6 +103,24 @@ export class UserComponent extends BaseComponent {
       err => {
         console.log('User delete error....', err);
         this.toastr.error('Unable to delete user, please contact administrator.', 'User');
+        this.spinner.hide();
+      });
+  }
+
+  updateStatus(id: number, status: number) {
+    this.spinner.show();
+    let model = Object.assign({}, this.filterUser(id));
+    model.status = status;
+    this.service.updateStatus(id, model).subscribe(data => {
+      console.log('User status has been updated successfully');
+      this.toastr.success('User status has been updated successfully', 'User');
+      this.onPageLoad();
+      this.spinner.hide();
+    },
+      err => {
+        console.log('Unable to update user status....', err);
+        this.toastr.error('Unable to update user status, please contact adminstrator', 'User');
+        this.spinner.hide();
       });
   }
 

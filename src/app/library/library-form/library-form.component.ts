@@ -8,14 +8,14 @@ import { PostActionEnum } from 'src/app/shared/enum/post-action.enum';
 import { LibTypeEnum } from 'src/app/shared/enum/lib-type.enum';
 import { ApiResponse } from 'src/app/shared/model/api.response';
 import { LibraryService } from '../library.service';
-import { BaseComponent } from 'src/app/shared/core/base.component';
+import { BaseFormComponent } from 'src/app/shared/core/base-form.component';
 
 @Component({
   selector: 'app-library-form',
   templateUrl: './library-form.component.html',
   styleUrls: ['./library-form.component.scss']
 })
-export class LibraryFormComponent extends BaseComponent {
+export class LibraryFormComponent extends BaseFormComponent {
 
   @Input() merchant;
   @Input() apps;
@@ -41,6 +41,9 @@ export class LibraryFormComponent extends BaseComponent {
   }
 
   ngOnInit(): void {
+
+    this.loadActionAccess(this.componentEnum.appBuild.toString());
+
     this.libForm = this.formBuilder.group({
       app: ['', [Validators.required, Validators.minLength(1)]],
       name: ['', [Validators.required, Validators.minLength(5), Validators.maxLength(100)]],
@@ -141,13 +144,13 @@ export class LibraryFormComponent extends BaseComponent {
 
     this.service.createLib(formData).subscribe((resp: ApiResponse) => {
       this.spinner.hide();
-      this.toastr.success("Bundle has been created successfully.", "Application Bundle");
+      this.toastr.success("Bundle has been created successfully.", "Application Version");
       this.close(true);
     },
       err => {
         console.log('Unable to create bundle, please contact adminstrator', err);
         this.errMsg = err.message;
-        this.toastr.error('Unable to create bundle, please contact adminstrator', "Application Bundle");
+        this.toastr.error('Unable to create bundle, please contact adminstrator', "Application Version");
         this.spinner.hide();
       });
   }
@@ -200,13 +203,29 @@ export class LibraryFormComponent extends BaseComponent {
 
   delete() {
     this.service.delete(this.lib.id).subscribe(data => {
-      this.toastr.success('Bundle has been deleted successfully', 'Application Bundle')
+      this.toastr.success('Application version has been deleted successfully', 'Application Version')
       this.close(true);
     },
     err => {
-      console.log('Unable to delete bundle, please contact administrator.', 'Application Bundle');
-      this.toastr.error('Unable to delete bundle, please contact administrator.', 'Application Bundle');
+      console.log('Unable to delete application version, please contact administrator.', 'Application Version');
+      this.toastr.error('Unable to delete application version, please contact administrator.', 'Application Version');
     });
+  }
+
+  updateStatus(id: number, status: number): void {
+    this.spinner.show();
+    let model = Object.assign({}, this.lib);
+    model.status = status;  
+    this.service.updateStatus(id, model).subscribe(data => {
+      this.close(true);
+      console.log('Application version status has been updated successfully');
+      this.toastr.success('Application version status has been updated successfully', 'Application Version');
+    },
+      err => {
+        console.log('Unable to update application version status....', err);
+        this.toastr.error('Unable to update application version status, please contact adminstrator', 'Application Version');
+        this.spinner.hide();
+      });
   }
 
   cancel() {

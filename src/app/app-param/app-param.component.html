@@ -9,7 +9,7 @@
           
         </div> -->
       <div class="col-sm-7 tools text-right">
-        <button class="button" (click)="create(paramform)">
+        <button class="button" (click)="create(paramform)" *ngIf="hasAccess(actionEnum.add)">
           <fa-icon [icon]='faPlus' size="lg"></fa-icon><span class="pl-2">Add
             Configuration</span>
         </button>
@@ -74,7 +74,7 @@
             <th scope="col" style="width: 25%;">Application</th>
             <th scope="col" style="width: 20%;">Last Update By</th>
             <th scope="col" style="width: 20%;">Last Updated On</th>
-            <th scope="col" style="width: 10%;">Action</th>
+            <th scope="col" style="width: 10%;" *ngIf="hasActionAccess()">Action</th>
           </tr>
         </thead>
         <tbody>
@@ -84,15 +84,18 @@
             <td>{{ param.app.name }}</td>
             <td>{{ param.lastUpdatedBy }}</td>
             <td>{{ param.updatedDate | date: 'dd/MM/yyyy HH:mm'}}</td>
-            <td><span class="pr-3"><a (click)="view(param.id, paramform)" routerLinkActive="active">
+            <td *ngIf="hasActionAccess()">
+              <span class="pr-3" *ngIf="hasAccess(actionEnum.view)">
+                <a (click)="view(param.id, paramform)" routerLinkActive="active" ngbTooltip="View" tooltipClass="tool-tip">
                   <fa-icon [icon]='faEye' style="color:#1653da"></fa-icon>
-                </a></span>
-              <span class="pr-3"><a (click)="edit(param.id, paramform)" routerLinkActive="active">
+                </a>
+              </span>
+              <span class="pr-3" *ngIf="hasAccess(actionEnum.edit)">
+                <a (click)="edit(param.id, paramform)" routerLinkActive="active" ngbTooltip="Edit" tooltipClass="tool-tip">
                   <fa-icon [icon]='faEdit' style="color:#ffc107;"></fa-icon>
-                </a></span>
-              <!-- <span class="pr-3"><a (click)="delete(param.id)" routerLinkActive="active">
-                  <fa-icon [icon]='faArchive' style="color: #dc3545;"></fa-icon>
-                </a></span></td> -->
+                </a>
+              </span>
+            </td>
           </tr>
         </tbody>
       </table>

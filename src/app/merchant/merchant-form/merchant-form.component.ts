@@ -9,7 +9,7 @@ import { NgxSpinnerService } from 'ngx-spinner';
 import { ToastrService } from 'ngx-toastr';
 import { distinctUntilChanged, first } from 'rxjs/operators';
 import { ActionEnum } from 'src/app/shared/enum/action.enum';
-import { BaseComponent } from 'src/app/shared/core/base.component';
+import { BaseFormComponent } from 'src/app/shared/core/base-form.component';
 
 @Component({
   selector: 'app-merchant-form',
@@ -17,7 +17,7 @@ import { BaseComponent } from 'src/app/shared/core/base.component';
   styleUrls: ['./merchant-form.component.scss'],
   encapsulation: ViewEncapsulation.None
 })
-export class MerchantFormComponent extends BaseComponent {
+export class MerchantFormComponent extends BaseFormComponent {
 
   @Input() merchant;
   @Input() actionType;
@@ -61,6 +61,8 @@ export class MerchantFormComponent extends BaseComponent {
     // });
     // console.log(this.actionType);
 
+    this.loadActionAccess(this.componentEnum.merchant.toString());
+
     this.merchantForm = this.formBuilder.group({
       merchant: this.formBuilder.group({
         name: ['', [Validators.required, Validators.minLength(5), Validators.max(200)]],
@@ -94,9 +96,10 @@ export class MerchantFormComponent extends BaseComponent {
 
     if (this.actionType == ActionEnum.edit) {
       this.pageHeader = 'Update Merchant';
-      this.merchantForm['controls'].name.disable();
-      this.merchantForm['controls'].email.disable();
-      this.merchantForm['controls'].website.disable();
+      // console.log('Controls....', this.merchantForm['controls'].merchant['controls']);
+      this.merchantForm['controls'].merchant['controls'].name.disable();
+      this.merchantForm['controls'].merchant['controls'].email.disable();
+      this.merchantForm['controls'].merchant['controls'].website.disable();
     }
 
     if (this.actionType != ActionEnum.add) {
@@ -200,6 +203,11 @@ export class MerchantFormComponent extends BaseComponent {
     Object.assign(this.merchant, merchantToUpdate);
     let contactToUpdate = <MerchantContact>this.merchantForm['controls'].contact.value;
     Object.assign(this.merchant.contacts[0], contactToUpdate);
+    this.merchant.canEdit = !!this.merchant.canEdit;
+    this.merchant.canView = !!this.merchant.canEdit;
+    this.merchant.contacts[0].canEdit = !!this.merchant.contacts[0].canEdit;
+    this.merchant.contacts[0].canView = !!this.merchant.contacts[0].canView;
+
     this.merchantService.update(this.merchant).subscribe((resp: ApiResponse) => {
       this.spinner.hide();
       this.toastr.success("Merchant has been updated successfully.", "Merchant");
@@ -225,7 +233,7 @@ export class MerchantFormComponent extends BaseComponent {
     this.mf.address2.valueChanges.
       pipe(distinctUntilChanged()).
       subscribe(val => {
-        console.log('address2 value', val + ':' + val.length);
+        //console.log('address2 value', val + ':' + val.length);
         if (val.length > 0 && val.length < 6) {
           this.mf.address2.setValidators([Validators.minLength(6)]);
           this.mf.address2.setValidators([Validators.minLength(200)]);
@@ -250,6 +258,7 @@ export class MerchantFormComponent extends BaseComponent {
   }
 
   delete() {
+    this.spinner.show();
     this.merchantService.delete(this.merchant.id).subscribe(data => {
       this.close(true);
       this.toastr.success('Merchant has been deleted successfully.', 'Merchants');
@@ -257,6 +266,23 @@ export class MerchantFormComponent extends BaseComponent {
       err => {
         console.log('Unable to delete merchant, please contact administrator.', 'Merchants');
         this.toastr.error('Unable to delete merchant, please contact administrator.', 'Merchants');
+        this.spinner.hide();
+      });
+  }
+
+  updateStatus(id: number, status: number): void {
+    this.spinner.show();
+    let model = Object.assign({}, this.merchant);
+    model.status = status;  
+    this.merchantService.updateStatus(id, model).subscribe(data => {
+      this.close(true);
+      console.log('Merchant status has been updated successfully');
+      this.toastr.success('Merchant status has been updated successfully', 'Merchant');
+    },
+      err => {
+        console.log('Unable to update merchant status....', err);
+        this.toastr.error('Unable to update merchant status, please contact adminstrator', 'Merchant');
+        this.spinner.hide();
       });
   }
 }

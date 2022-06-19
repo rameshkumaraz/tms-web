@@ -6,7 +6,7 @@ import { ToastrService } from 'ngx-toastr';
 import { distinctUntilChanged } from 'rxjs/operators';
 import { DeviceBrandService } from 'src/app/device-brand/device-brand.service';
 import { DeviceModel } from 'src/app/model/device-model';
-import { BaseComponent } from 'src/app/shared/core/base.component';
+import { BaseFormComponent } from 'src/app/shared/core/base-form.component';
 import { ActionEnum } from 'src/app/shared/enum/action.enum';
 import { ApiResponse } from 'src/app/shared/model/api.response';
 import { DeviceModelService } from '../device-model.service';
@@ -16,7 +16,7 @@ import { DeviceModelService } from '../device-model.service';
   templateUrl: './device-model-form.component.html',
   styleUrls: ['./device-model-form.component.scss']
 })
-export class DeviceModelFormComponent extends BaseComponent {
+export class DeviceModelFormComponent extends BaseFormComponent {
 
   @Output() modalClosed = new EventEmitter();
 
@@ -48,6 +48,9 @@ export class DeviceModelFormComponent extends BaseComponent {
   }
 
   ngOnInit(): void {
+
+    this.loadActionAccess(this.componentEnum.deviceModel.toString());
+
     this.modelForm = this.formBuilder.group({
       brand: ['', [Validators.required, Validators.minLength(1)]],
       name: ['', [Validators.required, Validators.minLength(2), Validators.max(200), Validators.pattern(this.namePattern)]],
@@ -237,6 +240,22 @@ export class DeviceModelFormComponent extends BaseComponent {
       err => {
         console.log('Unable to delete model, please contact administrator.');
         this.toastr.error('Unable to delete model, please contact administrator.', 'Device Model');
+      });
+  }
+
+  updateStatus(id: number, status: number): void {
+    this.spinner.show();
+    let dmodel = Object.assign({}, this.model);
+    dmodel.status = status;  
+    this.service.updateStatus(id, dmodel).subscribe(data => {
+      this.close(true);
+      console.log('Model status has been updated successfully');
+      this.toastr.success('Model status has been updated successfully', 'Device Model');
+    },
+      err => {
+        console.log('Unable to update model status....', err);
+        this.toastr.error('Unable to update model status, please contact adminstrator', 'Device Model');
+        this.spinner.hide();
       });
   }
 }

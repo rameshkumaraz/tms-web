@@ -73,6 +73,8 @@ export class AppParamComponent extends BaseComponent {
   ngOnInit(): void {
     this.pageHeader = 'Parameter Configuration';
 
+    this.loadActionAccess(this.componentEnum.appParam.toString());
+
     // this.formConfig = paramConfig;
 
     this.mSub = this.appService.userMerchant.subscribe(data => {
@@ -171,6 +173,15 @@ export class AppParamComponent extends BaseComponent {
     //   this.toastr.error('Unable to delete application, please contact adminstrator', 'Application');
     // });
   }
+
+  activate(id: number) {
+    
+  }
+
+  inActivate(id: number, ) {
+    
+  }
+
 
   cancel() {
     console.log('Cancel invoked....');
@@ -297,8 +308,6 @@ export class AppParamComponent extends BaseComponent {
     
   }
 
-  
-
   private dyanmicDownloadByHtmlTag(arg: {
     fileName: string,
     text: string
@@ -313,6 +322,10 @@ export class AppParamComponent extends BaseComponent {
 
     var event = new MouseEvent("click");
     element.dispatchEvent(event);
+  }
+
+  updateStatus(id: number, status: number) {
+    throw new Error('Method not implemented.');
   }
 
   ngOnDestroy(): void {

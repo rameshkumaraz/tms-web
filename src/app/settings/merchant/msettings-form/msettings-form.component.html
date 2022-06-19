@@ -1,0 +1,106 @@
+<div class="modal-header">
+  <h4 class="modal-title" id="modal-basic-title">{{ pageHeader }}</h4>
+  <button type="button" class="close" aria-label="Close" (click)="cancel()">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+
+<div class="modal-body">
+  <form [formGroup]="form">
+    <div class="form-row">
+      <div class="form-group col-sm-6 required">
+        <label for="name" class="asterisk-if-mandatory">Name</label>
+        <select required class="form-control" formControlName="name" id="name" style="min-width: 300px"
+          [ngClass]="{ 'is-invalid': formSubmitted && f.name.errors }" (change)="onNameChange($event.target.value)">
+          <option value="" disabled selected>Select Type</option>
+          <option *ngFor="let ct of configTypes" [value]="ct" selected>{{merchantConfigTypes[ct]}}</option>
+        </select>
+        <div *ngIf="formSubmitted && f.name.errors" class="invalid-feedback">
+          <div *ngIf="f.name.errors.required">Name is required</div>
+        </div>
+      </div>
+    </div>
+    <div class="form-row">
+      <div class="form-group col-sm-12" *ngIf="!isLicense">
+        <label for="name" class="asterisk-if-mandatory">Value</label>
+        <input type="text" formControlName="value" id="value" autocomplete="off" class="form-control"
+          [ngClass]="{ 'is-invalid': formSubmitted && f.value.errors }">
+        <div *ngIf="formSubmitted && f.value.errors" class="invalid-feedback">
+          <div *ngIf="f.name.errors.required">Value is required</div>
+          <div *ngIf="f.value.errors.minlength">Value must be at least 5 characters long.</div>
+        </div>
+      </div>
+       <div class="form-group col-sm-12" *ngIf="isLicense">
+        <label for="value" class="asterisk-if-mandatory">Value</label>
+        <select required class="form-control" formControlName="value" id="value"
+          [ngClass]="{ 'is-invalid': formSubmitted && f.value.errors }">
+          <option value="" disabled selected>Select Type</option>
+          <option *ngFor="let lt of licenseTypes" [value]="lt" selected>{{lt}}</option>
+        </select>
+        <div *ngIf="formSubmitted && f.value.errors" class="invalid-feedback">
+          <div *ngIf="f.value.errors.required">Value is required</div>
+          <div *ngIf="f.value.errors.minlength">Value must be at least 5 characters long.</div>
+        </div>
+      </div>
+    </div>
+    <!-- <table class="table table-striped" formArrayName="items">
+      <thead>
+        <tr>
+          <th width="45%">Name</th>
+          <th width="45%">Value</th>
+          <th width="10%" align="center">Action</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let quantity of configItems.controls; let i=index" [formGroupName]="i" class="form-group">
+          <td>
+            <input required formControlName="name" id="name" type="text" class="form-control" autocomplete="off">
+            [ngClass]="{ 'is-invalid': formSubmitted && f.name.errors }">
+            <div *ngIf="formSubmitted && f.name.errors" class="invalid-feedback">
+              <div *ngIf="f.name.errors.required">Name is required</div>
+              <div *ngIf="f.name.errors?.minlength">Name must be at least 5 characters long.</div>
+            </div>
+          </td>
+          <td>
+            <input required formControlName="value" id="value" type="text" class="form-control" autocomplete="off">
+            [ngClass]="{ 'is-invalid': formSubmitted && f.value.errors }">
+            <div *ngIf="formSubmitted && f.value.errors" class="invalid-feedback">
+              <div *ngIf="f.value.errors.required">Value is required</div>
+              <div *ngIf="f.value.errors?.minlength">Value must be at least 5 characters long.</div>
+            </div>
+          </td>
+          <td vertical-align="middle" align="center">
+            <a (click)="removeItem(i)" routerLinkActive="active" ngbTooltip="Delete" tooltipClass="tool-tip">
+              <fa-icon [icon]='faArchive' style="color: #dc3545;" size="lg"></fa-icon>
+            </a>
+          </td>
+        </tr>
+      </tbody>
+    </table> -->
+  </form>
+  <div class="button-block">
+    <button type="button" class="btn btn-primary form-button-cancel" (click)="cancel()">Cancel</button>
+    <span class="pl-2" *ngIf="actionType == actionEnum.add">
+      <button type="button" class="btn btn-primary form-button-action" (click)="save()">Save</button>
+    </span>
+    <span class="pl-2" *ngIf="actionType == actionEnum.edit">
+      <button type="button" class="btn btn-primary form-button-action" (click)="update()">Update</button>
+    </span>
+    <span class="pl-2" *ngIf="actionType == actionEnum.view && hasAccess(actionEnum.edit) && item.status !== 2">
+      <button type="button" class="btn btn-primary form-button-action" (click)="edit()"
+        *ngIf="actionType == actionEnum.view">Edit</button>
+    </span>
+    <!-- <span class="pl-2" *ngIf="actionType == actionEnum.view && hasAccess(actionEnum.delete) && role.status !== 2">
+      <button type="button" class="btn btn-primary form-button-action"
+        (click)="openConfirmation(actionConfirm, 'role', actionEnum.delete, role.id, role.name)">Delete</button>
+    </span>
+    <span class="pl-2" *ngIf="actionType == actionEnum.view && hasAccess(actionEnum.activate) && role.status === 0">
+      <button type="button" class="btn btn-primary form-button-action"
+        (click)="openConfirmation(actionConfirm, 'role', actionEnum.activate, role.id, role.name)">Activate</button>
+    </span>
+    <span class="pl-2" *ngIf="actionType == actionEnum.view && hasAccess(actionEnum.inActivate) && role.status === 1">
+      <button type="button" class="btn btn-primary form-button-action"
+        (click)="openConfirmation(actionConfirm, 'role', actionEnum.inActivate, role.id, role.name)">In-Activate</button>
+    </span> -->
+  </div>
+</div>

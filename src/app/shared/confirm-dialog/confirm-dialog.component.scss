@@ -1,0 +1,18 @@
+@import "../../../assets/sass/variables";
+
+.confirm-text {
+    font-size: $font-size-sm;
+    display: inline-block;
+    padding-bottom: 10px;
+}
+
+.highlight {
+    background-color: $warning;
+    color: $danger;
+}
+
+.confirm-text .highlight-name {
+    font-size: $font-size-sm;
+    font-weight: $font-weight-bold;
+    color: $az-blue-primary;
+}

@@ -1,15 +1,14 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { ToastrService } from 'ngx-toastr';
 import { distinctUntilChanged, first } from 'rxjs/operators';
-import { BaseComponent } from 'src/app/shared/core/base.component';
+import { BaseFormComponent } from 'src/app/shared/core/base-form.component';
 import { ActionEnum } from 'src/app/shared/enum/action.enum';
 import { ApiResponse } from 'src/app/shared/model/api.response';
 import { AdminUserService } from '../admin-user.service';
 import { AdminUser } from '../../model/admin-user';
 import { RoleService } from 'src/app/role/role.service';
-import { AuthenticationService } from 'src/app/auth/services';
 import { DatePipe } from '@angular/common';
 
 @Component({
@@ -18,7 +17,7 @@ import { DatePipe } from '@angular/common';
   styleUrls: ['./admin-user-form.component.scss'],
   providers: [DatePipe]
 })
-export class AdminUserFormComponent extends BaseComponent {
+export class AdminUserFormComponent extends BaseFormComponent {
 
   @Input() user;
   @Input() actionType;
@@ -38,7 +37,6 @@ export class AdminUserFormComponent extends BaseComponent {
   max: any;
 
   constructor(private formBuilder: FormBuilder,
-    private authService: AuthenticationService,
     private service: AdminUserService,
     private roleService: RoleService,
     private spinner: NgxSpinnerService,
@@ -48,6 +46,8 @@ export class AdminUserFormComponent extends BaseComponent {
   }
 
   ngOnInit(): void {
+
+    this.loadActionAccess(this.componentEnum.adminUser.toString());
 
     this.userForm = this.formBuilder.group({
       firstName: ['', [Validators.required, Validators.minLength(5), Validators.max(100)]],
@@ -226,6 +226,22 @@ export class AdminUserFormComponent extends BaseComponent {
       err => {
         console.log('Unable to delete user, please contact administrator.', 'Admin Users');
         this.toastr.error('Unable to delete user, please contact administrator.', 'Admin Users');
+      });
+  }
+
+  updateStatus(id: number, status: number): void {
+    this.spinner.show();
+    let model = Object.assign({}, this.user);
+    model.status = status;  
+    this.service.updateStatus(id, model).subscribe(data => {
+      this.close(true);
+      console.log('User status has been updated successfully');
+      this.toastr.success('User status has been updated successfully', 'Admin Users');
+    },
+      err => {
+        console.log('Unable to update user status....', err);
+        this.toastr.error('Unable to update user status, please contact adminstrator', 'Admin Users');
+        this.spinner.hide();
       });
   }
 }

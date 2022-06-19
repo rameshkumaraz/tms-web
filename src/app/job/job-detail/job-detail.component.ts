@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { first } from 'rxjs/operators';
-import { BaseComponent } from 'src/app/shared/core/base.component';
+import { BaseFormComponent } from 'src/app/shared/core/base-form.component';
 import { ApiResponse } from 'src/app/shared/model/api.response';
 import { JobService } from '../job.service';
 
@@ -11,7 +11,7 @@ import { JobService } from '../job.service';
   templateUrl: './job-detail.component.html',
   styleUrls: ['./job-detail.component.scss']
 })
-export class JobDetailComponent extends BaseComponent {
+export class JobDetailComponent extends BaseFormComponent {
 
   pageHeader = 'Event Details';
   page = 1;

@@ -66,6 +66,8 @@ export class DeviceComponent extends BaseComponent {
 
     this.pageHeader = 'Devices';
 
+    this.loadActionAccess(this.componentEnum.device.toString());
+
     // this.sub = this.activatedroute.paramMap.subscribe(params => {
     //   console.log(params);
     //   this.locId = params.get('locId');
@@ -194,6 +196,23 @@ export class DeviceComponent extends BaseComponent {
       err => {
         console.log('Device model delete error....', err);
         this.toastr.success('Unable to delete device, please contact adminstrator', 'Device');
+      });
+  }
+
+  updateStatus(id: number, status: number) {
+    this.spinner.show();
+    let model = Object.assign({}, this.filterDevice(id));
+    model.status = status;
+    this.dService.updateStatus(id, model).subscribe(data => {
+      console.log('Device status has been updated successfully');
+      this.toastr.success('Device status has been updated successfully', 'Device');
+      this.onPageLoad();
+      this.spinner.hide();
+    },
+      err => {
+        console.log('Unable to update device status....', err);
+        this.toastr.error('Unable to update device status, please contact adminstrator', 'Device');
+        this.spinner.hide();
       });
   }
 

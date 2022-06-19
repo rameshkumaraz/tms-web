@@ -20,7 +20,6 @@ export class AppService {
   }
 
   loadMerchantFromUser() {
-
     this.authService.currentUser.subscribe(data => {
       console.log("Subscription log user....", data);
       if (!data) {
@@ -28,7 +27,7 @@ export class AppService {
         if (sessionStorage.getItem('merchant')) {
           this.userMerchantSubject.next(JSON.parse(sessionStorage.getItem('merchant')));
         } else {
-        if (data.merchantId) {
+          if (data.merchantId) {
             console.log("Merchant getting loaded....");
             return this.merchantService.get(data.merchantId).pipe(first()).subscribe((resp: ApiResponse) => {
               console.log('Loaded Merchant.....', resp);
@@ -39,7 +38,7 @@ export class AppService {
                 this.userMerchantSubject.next({});
               });
           }
-        } 
+        }
       }
     });
   }

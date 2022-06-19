@@ -27,14 +27,14 @@ export abstract class BaseService {
     }
 
     create(model: BaseModel) {
-        const headers = { 'content-type': 'application/json' }
+        const headers = { 'content-type': 'application/json' };
 
         return this.http.post(this.apiUrl, JSON.stringify(model), { 'headers': headers });
     }
 
     update(model: BaseModel) {
 
-        const headers = { 'content-type': 'application/json' }
+        const headers = { 'content-type': 'application/json' };
 
         return this.http.put(this.apiUrl, JSON.stringify(model), { 'headers': headers });
     }
@@ -43,4 +43,9 @@ export abstract class BaseService {
         return this.http.delete(this.apiUrl + "/" + id);
     }
 
+    updateStatus(id: number, model: BaseModel){
+        console.log('Model.....', model);
+        const headers = { 'content-type': 'application/json' };
+        return this.http.patch(this.apiUrl, JSON.stringify(model), { 'headers': headers });
+    }
 }

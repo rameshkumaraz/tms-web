@@ -66,6 +66,8 @@ export class MerchantComponent extends BaseComponent {
       status: [''],
     });
 
+    this.loadActionAccess(this.componentEnum.merchant.toString());
+
     this.onPageLoad();
   }
 
@@ -200,6 +202,7 @@ export class MerchantComponent extends BaseComponent {
   }
 
   delete(id: number) {
+    this.spinner.show();
     this.merchantService.delete(id).subscribe(data => {
       console.log('Merchant has been deleted successfully');
       this.toastr.success('Merchant has been deleted successfully', 'Merchant');
@@ -208,6 +211,24 @@ export class MerchantComponent extends BaseComponent {
       err => {
         console.log('Unable to delete merchant....', err);
         this.toastr.error('Unable to delete merchant, please contact adminstrator', 'Merchant');
+        this.spinner.hide();
+      });
+  }
+
+  updateStatus(id: number, status: number) {
+    this.spinner.show();
+    let model = Object.assign({}, this.filterMerchant(id));
+    model.status = status;
+    this.merchantService.updateStatus(id, model).subscribe(data => {
+      console.log('Merchant status has been updated successfully');
+      this.toastr.success('Merchant status has been updated successfully', 'Merchant');
+      this.onPageLoad();
+      this.spinner.hide();
+    },
+      err => {
+        console.log('Unable to update merchant status....', err);
+        this.toastr.error('Unable to update merchant status, please contact adminstrator', 'Merchant');
+        this.spinner.hide();
       });
   }
 

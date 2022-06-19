@@ -52,7 +52,10 @@ export class LibraryComponent extends BaseComponent {
   }
 
   ngOnInit(): void {
-    this.pageHeader = 'Application Bundle';
+    this.pageHeader = 'Application Version';
+
+    this.loadActionAccess(this.componentEnum.appBuild.toString());
+
     this.mSub = this.appService.userMerchant.subscribe(data => {
       this.merchant = data;
       this.onPageLoad();
@@ -137,13 +140,30 @@ export class LibraryComponent extends BaseComponent {
 
   delete(id: number) {
     this.service.delete(id).subscribe(data => {
-      console.log('Library has been deleted successfully');
-      this.toastr.success('Library has been deleted successfully', 'Library');
+      console.log('Application version has been deleted successfully');
+      this.toastr.success('Application Version has been deleted successfully', 'Application Version');
       this.loadLibraries();
     },
       err => {
-        console.log('Device model delete error....', err);
-        this.toastr.success('Unable to delete Library, please contact adminstrator', 'Library');
+        console.log('Application version delete error....', err);
+        this.toastr.success('Unable to delete application version, please contact adminstrator', 'Application Version');
+      });
+  }
+
+  updateStatus(id: number, status: number) {
+    this.spinner.show();
+    let model = Object.assign({}, this.filterLib(id));
+    model.status = status;
+    this.service.updateStatus(id, model).subscribe(data => {
+      console.log('Application version status has been updated successfully');
+      this.toastr.success('Application version status has been updated successfully', 'Application Version');
+      this.onPageLoad();
+      this.spinner.hide();
+    },
+      err => {
+        console.log('Unable to update application version status....', err);
+        this.toastr.error('Unable to update application version status, please contact adminstrator', 'Application Version');
+        this.spinner.hide();
       });
   }
 

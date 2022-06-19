@@ -32,16 +32,19 @@ export class AppHttpInterceptor implements HttpInterceptor {
             catchError(err => {
                 console.log('Http error Response....', err);
 
-                //console.log('Http error Response....', request.url);
+                // console.log('Http error request url....', request.url +' : '+ request.url.indexOf('/auth/login'));
 
                 if (err instanceof HttpErrorResponse) {
-                    if (err.status === HttpStatusCode.Unauthorized) {
+                    if (err.status === HttpStatusCode.Unauthorized && request.url.indexOf('/auth/login') < 0) {
                         this.authService.logout();
-                        this.router.navigate(['/login']);
+                        //this.router.navigate(['/login']);
+                        this.router.navigate(['/logout']);
+                    } else {
+                        return throwError(this.responseHandler.handleErrorResponse(err));
                     }
+                } else {
+                    return throwError(this.responseHandler.handleErrorResponse(err));
                 }
-
-                return throwError(this.responseHandler.handleErrorResponse(err));
             }));
     }
 }

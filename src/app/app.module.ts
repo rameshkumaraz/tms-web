@@ -65,6 +65,10 @@ import { UserInactiveComponent } from './shared/modal/user-inactive/user-inactiv
 import { LogoutComponent } from './logout/logout.component';
 import { ResetPassComponent } from './password/reset/reset-pass/reset-pass.component';
 import { ForgotPassComponent } from './password/forgot/forgot-pass/forgot-pass.component';
+import { ActionComponent } from './shared/action/action.component';
+import { ConfirmDialogComponent } from './shared/confirm-dialog/confirm-dialog.component';
+import { MerchantSettingsComponent } from './settings/merchant/msettings.component';
+import { MsettingsFormComponent } from './settings/merchant/msettings-form/msettings-form.component';
 
 @NgModule({
   declarations: [
@@ -116,7 +120,11 @@ import { ForgotPassComponent } from './password/forgot/forgot-pass/forgot-pass.c
     UserInactiveComponent,
     LogoutComponent,
     ResetPassComponent,
-    ForgotPassComponent
+    ForgotPassComponent,
+    ActionComponent,
+    ConfirmDialogComponent,
+    MerchantSettingsComponent,
+    MsettingsFormComponent
   ],
   imports: [
     AppRoutingModule,

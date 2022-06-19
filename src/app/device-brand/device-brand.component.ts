@@ -36,6 +36,9 @@ export class DeviceBrandComponent extends BaseComponent {
 
   ngOnInit(): void {
     this.pageHeader = 'Device Brand';
+
+    this.loadActionAccess(this.componentEnum.deviceBrand.toString());
+
     this.onPageLoad();
   }
 
@@ -78,14 +81,35 @@ export class DeviceBrandComponent extends BaseComponent {
   }
 
   delete(id: number) {
+    this.spinner.show();
     this.service.delete(id).subscribe(data => {
       console.log('Brand has been deleted successfully');
       this.toastr.success('Brand has been deleted successfully', 'Device Brand');
       this.onPageLoad();
+      this.spinner.hide();
     },
       err => {
-        console.log('Device model delete error....', err);
+        console.log('Device brand delete error....', err);
         this.toastr.success('Unable to delete brand, please contact adminstrator', 'Device Brand');
+        this.spinner.hide();
       });
   }
+
+  updateStatus(id: number, status: number) {
+    this.spinner.show();
+    let model = Object.assign({}, this.filterBrand(id));
+    model.status = status;
+    this.service.updateStatus(id, model).subscribe(data => {
+      console.log('Brand status has been updated successfully');
+      this.toastr.success('Brand status has been updated successfully', 'Device Brand');
+      this.onPageLoad();
+      this.spinner.hide();
+    },
+      err => {
+        console.log('Unable to update brand status....', err);
+        this.toastr.error('Unable to update brand status, please contact adminstrator', 'Device Brand');
+        this.spinner.hide();
+      });
+  }
+
 }

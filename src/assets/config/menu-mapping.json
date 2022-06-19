@@ -38,7 +38,8 @@
         "event": ["EVENT_ALL", "EVENT_VIEW", "EVENT_ADD", "EVENT_UPDATE", "EVENT_DELETE"],
         "app": ["APP_ALL", "APP_VIEW", "APP_ADD", "APP_UPDATE", "APP_DELETE"],
         "library": ["LIBRARY_ALL", "LIBRARY_VIEW", "LIBRARY_ADD", "LIBRARY_UPDATE", "LIBRARY_DELETE"],
-        "user": ["USER_ALL", "USER_VIEW", "USER_ADD", "USER_UPDATE", "USER_DELETE"]
+        "user": ["USER_ALL", "USER_VIEW", "USER_ADD", "USER_UPDATE", "USER_DELETE"],
+        "msetting": ["M_SETTING_ALL", "M_SETTING_VIEW", "M_SETTING_ADD", "M_SETTING_UPDATE", "M_SETTING_DELETE"]
     }
   }
 }

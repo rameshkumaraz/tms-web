@@ -39,7 +39,7 @@
       </div>
       <div class="col-sm-2 tools text-right">
         <!-- <button class="button" (click)="create()"> -->
-        <button class="button" (click)="create(dmModal)">
+        <button class="button" (click)="create(dmModal)" *ngIf="hasAccess(actionEnum.add)">
           <fa-icon [icon]='faPlus' size="lg"></fa-icon><span class="pl-2">Add
             New Model</span>
         </button>
@@ -75,18 +75,34 @@
             <td>{{ getStatus(model.status)}}</td>
             <td>{{ model.lastUpdatedBy }}</td>
             <td>{{ model.updatedDate | date: 'dd/MM/yyyy HH:mm'}}</td>
-            <td><span class="pr-3"><a (click)="view(model.id, dmModal)" routerLinkActive="active"
-                  *ngIf="canView(model.status)">
+            <td *ngIf="hasActionAccess()">
+              <span class="pr-3" *ngIf="hasAccess(actionEnum.view)">
+                <a (click)="view(model.id, dmModal)" routerLinkActive="active" ngbTooltip="View" tooltipClass="tool-tip">
                   <fa-icon [icon]='faEye' style="color:#1653da"></fa-icon>
-                </a></span>
-              <span class="pr-3"><a (click)="edit(model.id, dmModal)" routerLinkActive="active"
-                  *ngIf="canEdit(model.status)">
+                </a>
+              </span>
+              <span class="pr-3" *ngIf="hasAccess(actionEnum.edit) && model.status !== 2">
+                <a (click)="edit(model.id, dmModal)" routerLinkActive="active" ngbTooltip="Edit" tooltipClass="tool-tip">
                   <fa-icon [icon]='faEdit' style="color:#ffc107;"></fa-icon>
-                </a></span>
-              <span class="pr-3"><a (click)="delete(model.id)" routerLinkActive="active"
-                  *ngIf="canDelete(model.status)">
+                </a>
+              </span>
+              <span class="pr-3" *ngIf="hasAccess(actionEnum.delete) && model.status !== 2">
+                <a (click)="openConfirmation(actionConfirm, 'model', actionEnum.delete, model.id, model.name)" routerLinkActive="active" ngbTooltip="Delete" tooltipClass="tool-tip">
+                  <!-- <a (click)="delete(model.id)" routerLinkActive="active"> -->
                   <fa-icon [icon]='faArchive' style="color: #dc3545;"></fa-icon>
-                </a></span></td>
+                </a>
+              </span>
+              <span *ngIf="hasAccess(actionEnum.activate) && model.status === 0">
+                <a (click)="openConfirmation(actionConfirm, 'model', actionEnum.activate, model.id, model.name)" routerLinkActive="active" ngbTooltip="Activate" tooltipClass="tool-tip">
+                  <fa-icon [icon]='faCheckCircle' style="color: #20c997;"></fa-icon>
+                </a>
+              </span>
+              <span *ngIf="hasAccess(actionEnum.activate) && model.status === 1">
+                <a (click)="openConfirmation(actionConfirm, 'model', actionEnum.inActivate, model.id, model.name)" routerLinkActive="active" ngbTooltip="In-Activate" tooltipClass="tool-tip">
+                  <fa-icon [icon]='faBan' style="color: #fd7e14;"></fa-icon>
+                </a>
+              </span>
+            </td>
           </tr>
         </tbody>
       </table>
@@ -107,4 +123,7 @@
 <ng-template #dmModal let-modal>
   <app-device-model-form [actionType]="actionType" [model]="model" (modalClosed)='closeModal($event)'>
   </app-device-model-form>
+</ng-template>
+<ng-template #actionConfirm let-modal>
+  <app-confirm-dialog [resource]='confirmResource' (modalClosed)='closeConfirmation($event)'></app-confirm-dialog>
 </ng-template>

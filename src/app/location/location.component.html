@@ -37,7 +37,7 @@
         </form>
       </div>
       <div class="col-sm-2 tools text-right">
-        <button class="button" (click)="create(locModal)">
+        <button class="button" (click)="create(locModal)" *ngIf="hasAccess(actionEnum.add)">
           <fa-icon [icon]='faPlus' size="lg"></fa-icon><span class="pl-2">Add
             New Location</span>
         </button>
@@ -74,16 +74,33 @@
             <td>{{ getStatus(location.status) }}</td>
             <td>{{ location.lastUpdatedBy }}</td>
             <td>{{ location.updatedDate | date: 'dd/MM/yyyy HH:mm' }}</td>
-
-            <td><span class="pr-3"><a (click)="view(location.id, locModal)" routerLinkActive="active">
+            <td *ngIf="hasActionAccess()">
+              <span class="pr-3" *ngIf="hasAccess(actionEnum.view)">
+                <a (click)="view(location.id, locModal)" routerLinkActive="active" ngbTooltip="View" tooltipClass="tool-tip">
                   <fa-icon [icon]='faEye' style="color:#1653da"></fa-icon>
-                </a></span>
-              <span class="pr-3"><a (click)="edit(location.id, locModal)" routerLinkActive="active">
+                </a>
+              </span>
+              <span class="pr-3" *ngIf="hasAccess(actionEnum.edit) && location.status !== 2">
+                <a (click)="edit(location.id, locModal)" routerLinkActive="active" ngbTooltip="Edit" tooltipClass="tool-tip">
                   <fa-icon [icon]='faEdit' style="color:#ffc107;"></fa-icon>
-                </a></span>
-              <span class="pr-3"><a (click)="delete(location.id)" routerLinkActive="active">
+                </a>
+              </span>
+              <span class="pr-3" *ngIf="hasAccess(actionEnum.delete) && location.status !== 2">
+                <a (click)="openConfirmation(actionConfirm, 'location', actionEnum.delete, location.id, location.name)" routerLinkActive="active" ngbTooltip="Delete" tooltipClass="tool-tip">
                   <fa-icon [icon]='faArchive' style="color: #dc3545;"></fa-icon>
-                </a></span></td>
+                </a>
+              </span>
+              <span *ngIf="hasAccess(actionEnum.activate) && location.status === 0">
+                <a (click)="openConfirmation(actionConfirm, 'location', actionEnum.activate, location.id, location.name)" routerLinkActive="active" ngbTooltip="Activate" tooltipClass="tool-tip">
+                  <fa-icon [icon]='faCheckCircle' style="color: #20c997;"></fa-icon>
+                </a>
+              </span>
+              <span *ngIf="hasAccess(actionEnum.activate) && location.status === 1">
+                <a (click)="openConfirmation(actionConfirm, 'location', actionEnum.inActivate, location.id, location.name)" routerLinkActive="active" ngbTooltip="In-Activate" tooltipClass="tool-tip">
+                  <fa-icon [icon]='faBan' style="color: #fd7e14;"></fa-icon>
+                </a>
+              </span>
+            </td>
           </tr>
         </tbody>
       </table>
@@ -136,4 +153,7 @@
     <button type="button" class="btn btn-primary form-button-action" (click)="advancedSearch()">Search</button>
   </div>
 </div>
+</ng-template>
+<ng-template #actionConfirm let-modal>
+  <app-confirm-dialog [resource]='confirmResource' (modalClosed)='closeConfirmation($event)'></app-confirm-dialog>
 </ng-template>
