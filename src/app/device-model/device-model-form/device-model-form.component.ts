@@ -35,7 +35,7 @@ export class DeviceModelFormComponent extends BaseFormComponent {
 
   brands: Array<any>;
 
-  namePattern = /^[a-z0-9]+(?:[_-][a-z0-9]+)*$/;
+  namePattern = /^[A-Za-z0-9]+(?:[_-][A-Za-z0-9]+)*$/;
 
   sub;
 
