@@ -121,6 +121,8 @@ export class DeviceComponent extends BaseComponent {
 
           if (this.locationCount > 0)
             this.loadDevices();
+          else
+            this.spinner.hide();
         },
         error => {
           console.log('Location Response', error);
