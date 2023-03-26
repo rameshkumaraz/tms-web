@@ -38,7 +38,7 @@ export class LocationFormComponent extends BaseFormComponent {
 
   ngOnInit(): void {
 
-    this.loadActionAccess(this.componentEnum.merchant.toString());
+    this.loadActionAccess(this.componentEnum.location.toString());
 
     this.locationForm = this.formBuilder.group({
       name: ['', [Validators.required, Validators.minLength(5), Validators.max(200)]],

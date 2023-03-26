@@ -88,6 +88,11 @@
                   <fa-icon [icon]='faEye' style="color:#1653da"></fa-icon>
                 </a>
               </span>
+              <span class="pr-3" *ngIf="hasAccess(actionEnum.edit) && device.status !== 2">
+                <a (click)="edit(device.id, deviceModal)" routerLinkActive="active" ngbTooltip="Edit" tooltipClass="tool-tip">
+                  <fa-icon [icon]='faEdit' style="color:#ffc107;"></fa-icon>
+                </a>
+              </span>
               <span class="pr-3" *ngIf="hasAccess(actionEnum.delete) && device.status !== 2">
                 <a (click)="openConfirmation(actionConfirm, 'device', actionEnum.delete, device.id, device.name)" routerLinkActive="active" ngbTooltip="Delete" tooltipClass="tool-tip">
                   <!-- <a (click)="delete(device.id)" routerLinkActive="active"> -->

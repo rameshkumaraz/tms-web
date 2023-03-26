@@ -73,6 +73,11 @@
                   <fa-icon [icon]='faEye' style="color:#1653da"></fa-icon>
                 </a>
               </span>
+              <span class="pr-3" *ngIf="hasAccess(actionEnum.edit) && lib.status !== 2">
+                <a (click)="edit(lib.id, libModal)" routerLinkActive="active" ngbTooltip="Edit" tooltipClass="tool-tip">
+                  <fa-icon [icon]='faEdit' style="color:#ffc107;"></fa-icon>
+                </a>
+              </span>
               <span class="pr-3" *ngIf="hasAccess(actionEnum.delete) && lib.status !== 2">
                 <a (click)="openConfirmation(actionConfirm, 'lib', actionEnum.delete, lib.id, lib.name)" routerLinkActive="active" ngbTooltip="Delete" tooltipClass="tool-tip">
                   <fa-icon [icon]='faArchive' style="color: #dc3545;"></fa-icon>
