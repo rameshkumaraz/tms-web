@@ -15,7 +15,7 @@
     "delete": false,
     "activate": false
   },
-  "APP_BUILD": {
+  "APP_BUNDLE": {
     "all": false,
     "add": false,
     "view": false,

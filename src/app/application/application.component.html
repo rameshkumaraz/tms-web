@@ -31,11 +31,11 @@
             <th scope="col" style="width: 8%;">Version</th>
             <th scope="col" style="width: 15%;">Description</th>
             <th scope="col" style="width: 8%;">Status</th>
-            <th scope="col" style="width: 8%;"># of Libraries</th>
-            <th scope="col" style="width: 8%;"># of Devices</th>
+            <!-- <th scope="col" style="width: 8%;"># of Bunlde</th>
+            <th scope="col" style="width: 8%;"># of Devices</th> -->
             <th scope="col" style="width: 10%;">Last Update By</th>
             <th scope="col" style="width: 10%;">Last Update On</th>
-            <th scope="col" style="width: 10%;">Action</th>
+            <th scope="col" style="width: 10%;" *ngIf="hasActionAccess()">Action</th>
           </tr>
         </thead>
         <tbody>
@@ -45,8 +45,8 @@
             <td>{{ app.appVersion }}</td>
             <td>{{ app.desc }}</td>
             <td>{{ getStatus(app.status) }}</td>
-            <td></td>
-            <td></td>
+            <!-- <td></td>
+            <td></td> -->
             <td>{{ app.lastUpdatedBy }}</td>
             <td>{{ app.updatedDate | date: 'dd/MM/yyyy HH:mm'}}</td>
             <td *ngIf="hasActionAccess()">

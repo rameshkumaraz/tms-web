@@ -1,7 +1,7 @@
 export enum ComponentEnum {
     adminUser = 'ADMIN_USER',
     app = 'APP',
-    appBuild = 'APP_BUILD',
+    appBuild = 'APP_BUNDLE',
     appParam = 'APP_PARAM',
     device = 'DEVICE',
     deviceBrand = 'DEVICE_BRAND',

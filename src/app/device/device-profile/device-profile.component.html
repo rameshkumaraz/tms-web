@@ -121,7 +121,7 @@
         <ngb-tab id="tab-details" title="Details">
           <ng-template ngbTabContent>
             <div class="tab-content px-5 py-3">
-              <div class="details-update-date float-right">Last updated on {{deviceDetails[0].updatedDate | date: 'dd/MM/yyyy HH:mm:ss'}}</div>
+              <div class="details-update-date float-right" *ngIf="deviceDetails.length > 0">Last updated on {{deviceDetails[0].updatedDate | date: 'dd/MM/yyyy HH:mm:ss'}}</div>
               <table class="table table-striped"  style="width: 80%">
                 <thead>
                   <tr>

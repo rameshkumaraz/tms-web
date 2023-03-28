@@ -26,6 +26,10 @@ export class AuthenticationService {
         return this.currentUserSubject.value;
     }
 
+    public getCurrentUserPolicies(): any {
+        return this.getCurrentUser().policies.map(p => p.policyName);;
+    }
+
     isAuthorized() {
         return !!this.currentUserSubject.value;
     }
@@ -180,7 +184,7 @@ export class AuthenticationService {
                 }
             }
         } else {
-            console.log('User Policies.....', this.getCurrentUser().policies);
+            //console.log('User Policies.....', this.getCurrentUser().policies);
             for (let key in compActionMapping) {
                 for (let aKey in compActionMapping[key]) {
                     if (this.getCurrentUser().policies.find(p => p.policyName == compActionMapping[key][aKey]) ||

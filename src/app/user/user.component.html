@@ -40,7 +40,8 @@
             <td>{{ getStatus(user.status) }}</td>
             <td>{{ user.lastUpdatedBy }}</td>
             <td>{{ user.updatedDate | date: 'dd/MM/yyyy HH:mm'}}</td>
-            <td *ngIf="hasActionAccess()">
+            <td *ngIf="hasActionAccess() && user.id == loginUser.id"></td>
+            <td *ngIf="hasActionAccess() && user.id != loginUser.id">
               <span class="pr-3" *ngIf="hasAccess(actionEnum.view)">
                 <a (click)="view(user.id, userModal)" routerLinkActive="active" ngbTooltip="View" tooltipClass="tool-tip">
                   <fa-icon [icon]='faEye' style="color:#1653da"></fa-icon>

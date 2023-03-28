@@ -24,6 +24,7 @@ export class UserComponent extends BaseComponent {
   users: Array<any>;
 
   user: any;
+  loginUser: any;
 
   merchant: Merchant;
 
@@ -41,6 +42,8 @@ export class UserComponent extends BaseComponent {
 
   ngOnInit(): void {
     this.pageHeader = 'Users';
+
+    this.loginUser = this.authService.getCurrentUser();
 
     this.loadActionAccess(this.componentEnum.user.toString());
 
@@ -70,6 +73,14 @@ export class UserComponent extends BaseComponent {
           this.toastr.error('Unable to users roles, please contact adminstrator', 'User');
           this.spinner.hide();
         });
+  }
+
+  hasUserAccess(action: any, id: any) {
+    console.log(id+" : "+ this.authService.getCurrentUser().id)
+      if(id == this.authService.getCurrentUser().id){
+        return false;
+      }
+      this.hasAccess(action);
   }
 
   create(content: any) {

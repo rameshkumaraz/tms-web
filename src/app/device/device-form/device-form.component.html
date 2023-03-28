@@ -72,17 +72,24 @@
     <span class="pl-2" *ngIf="actionType == actionEnum.add">
       <button type="button" class="btn btn-primary form-button-action" (click)="save()">Save</button>
     </span>
-    <span class="pl-2" *ngIf="actionType == actionEnum.view && hasAccess(actionEnum.delete) && merchant.status !== 2">
-      <button type="button" class="btn btn-primary form-button-action"
-        (click)="openConfirmation(actionConfirm, 'merchant', actionEnum.delete, merchant.id, merchant.name)">Delete</button>
+    <span class="pl-2" *ngIf="actionType == actionEnum.edit">
+      <button type="button" class="btn btn-primary form-button-action" (click)="update()">Update</button>
     </span>
-    <span class="pl-2" *ngIf="actionType == actionEnum.view && hasAccess(actionEnum.activate) && merchant.status === 0">
-      <button type="button" class="btn btn-primary form-button-action"
-        (click)="openConfirmation(actionConfirm, 'merchant', actionEnum.activate, merchant.id, merchant.name)">Activate</button>
+    <span class="pl-2" *ngIf="actionType == actionEnum.view && hasAccess(actionEnum.edit) && device.status !== 2">
+      <button type="button" class="btn btn-primary form-button-action" (click)="edit()"
+        *ngIf="actionType == actionEnum.view">Edit</button>
     </span>
-    <span class="pl-2" *ngIf="actionType == actionEnum.view && hasAccess(actionEnum.inActivate) && merchant.status === 1">
+    <span class="pl-2" *ngIf="actionType == actionEnum.view && hasAccess(actionEnum.delete) && device.status !== 2">
       <button type="button" class="btn btn-primary form-button-action"
-        (click)="openConfirmation(actionConfirm, 'merchant', actionEnum.inActivate, merchant.id, merchant.name)">In-Activate</button>
+        (click)="openConfirmation(actionConfirm, 'device', actionEnum.delete, device.id, device.name)">Delete</button>
+    </span>
+    <span class="pl-2" *ngIf="actionType == actionEnum.view && hasAccess(actionEnum.activate) && device.status === 0">
+      <button type="button" class="btn btn-primary form-button-action"
+        (click)="openConfirmation(actionConfirm, 'device', actionEnum.activate, device.id, device.name)">Activate</button>
+    </span>
+    <span class="pl-2" *ngIf="actionType == actionEnum.view && hasAccess(actionEnum.inActivate) && device.status === 1">
+      <button type="button" class="btn btn-primary form-button-action"
+        (click)="openConfirmation(actionConfirm, 'device', actionEnum.inActivate, device.id, device.name)">In-Activate</button>
     </span>    
   </div>
 </div>

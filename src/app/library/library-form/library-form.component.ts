@@ -155,30 +155,38 @@ export class LibraryFormComponent extends BaseFormComponent {
       });
   }
 
-  // update() {
-  //   this.formSubmitted = true;
-  //   // stop here if form is invalid
-  //   if (this.libForm.invalid) {
-  //     console.log('From invalid', this.libForm);
-  //     return;
-  //   }
-  //   this.spinner.show();
+  update() {
+    this.formSubmitted = true;
+    // stop here if form is invalid
+    if (this.libForm.invalid) {
+      console.log('From invalid', this.libForm);
+      return;
+    }
+    this.spinner.show();
 
-  //   const formData = this.getFormData();
-  //   formData.append('id', this.lib.id);
+    const formData = this.getFormData();
+    formData.append('id', this.lib.id);
 
-  //   this.service.update(formData).subscribe((resp: ApiResponse) => {
-  //     this.spinner.hide();
-  //     this.toastr.success("Library has been updated successfully.", "Library");
-  //     this.router.navigate(['/library', { appId: this.appId}]);
-  //   },
-  //     err => {
-  //       console.log('Unable to update library, please contact adminstrator', err);
-  //       this.errMsg = err.message;
-  //       this.toastr.error('Unable to update library, please contact adminstrator', "Library");
-  //       this.spinner.hide();
-  //     });
-  // }
+    Object.assign(this.lib, formData);
+    this.lib.merchant = this.lib.merchant.id;
+    this.lib.app = this.lib.app.id;
+    this.lib.canEdit = !!this.lib.canEdit;
+    this.lib.canView = !!this.lib.canView;
+
+    console.log('Library to update', this.lib);
+
+    this.service.update(this.lib).subscribe((resp: ApiResponse) => {
+      this.spinner.hide();
+      this.toastr.success("Library has been updated successfully.", "Library");
+      this.close(true);
+    },
+      err => {
+        console.log('Unable to update library, please contact adminstrator', err);
+        this.errMsg = err.message;
+        this.toastr.error('Unable to update library, please contact adminstrator', "Library");
+        this.spinner.hide();
+      });
+  }
 
   getFormData(): FormData {
     const formData = new FormData();

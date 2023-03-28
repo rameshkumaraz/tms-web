@@ -15,13 +15,13 @@
     "delete": "APP_DELETE",
     "activate": "APP_ACTIVATE"
   },
-  "APP_BUILD": {
-    "all": "APP_BUILD_ALL",
-    "add": "APP_BUILD_ADD",
-    "view": "APP_BUILD_VIEW",
-    "edit": "APP_BUILD_UPDATE",
-    "delete": "APP_BUILD_DELETE",
-    "activate": "APP_BUILD_ACTIVATE"
+  "APP_BUNDLE": {
+    "all": "APP_BUNDLE_ALL",
+    "add": "APP_BUNDLE_ADD",
+    "view": "APP_BUNDLE_VIEW",
+    "edit": "APP_BUNDLE_UPDATE",
+    "delete": "APP_BUNDLE_DELETE",
+    "activate": "APP_BUNDLE_ACTIVATE"
   },
   "APP_PARAM": {
     "all": "APP_PARAM_ALL",

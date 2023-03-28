@@ -12,15 +12,15 @@
     </div>
     <div class="collapse navbar-collapse" id="myNavbar">
       <ul class="navbar-nav mr-auto">
-        <li class="nav-item nav-mi" *ngIf="hasMenuAccess('home')">
+        <!-- <li class="nav-item nav-mi" *ngIf="hasMenuAccess('home')">
           <a class="nav-link" routerLink="/db" *ngIf="isAdmin()"><span class="pr-1">
               <fa-icon [icon]='faHome' size="md"></fa-icon>
             </span>Home</a>
           <a class="nav-link" routerLink="/mdb" *ngIf="!isAdmin()"><span class="pr-1">
               <fa-icon [icon]='faHome' size="md"></fa-icon>
             </span>Home</a>
-        </li>
-        <li class="nav-item nav-mi" *ngIf="hasMenuAccess('mdb')">
+        </li> -->
+        <li class="nav-item nav-mi" *ngIf="isAdmin() && hasMenuAccess('mhome')">
           <a class="nav-link" routerLink="/mdb"><span class="pr-1">
               <fa-icon [icon]='faDashboard' size="md"></fa-icon>
             </span>Dashboard</a>
@@ -78,7 +78,7 @@
             <a ngbDropdownItem class="nav-smi" routerLink="/dmodel" *ngIf="hasMenuAccess('device-model')">Device
               Model</a>
             <a ngbDropdownItem class="nav-smi" routerLink="/app" *ngIf="hasMenuAccess('app')">Application</a>
-            <a ngbDropdownItem class="nav-smi" routerLink="/library" *ngIf="hasMenuAccess('library')">Application
+            <a ngbDropdownItem class="nav-smi" routerLink="/library" *ngIf="hasMenuAccess('app-bundle')">Application
               Version</a>
             <a ngbDropdownItem class="nav-smi" routerLink="/param" *ngIf="hasMenuAccess('app-param')">Application
               Parameter</a>
@@ -128,12 +128,21 @@
               </div> -->
              
             </div>
-            <div class="row" style="text-align:center">
+            <!-- <div class="row" style="text-align:center">
               <div class="col-sm-3">
                 <fa-icon [icon]='faUserCircle' size="3x"></fa-icon>
-                <!-- <div class="profile-image"><img src="../../../assets/images/user_icon.svg" /></div> -->
               </div>
               <div class="col-sm-9 pl-0" style="text-align:left">
+                <span class="user-name"><a ngbDropdownToggle id="userDropdown"
+                  *ngIf="profile">{{profile.firstName +' '+profile.lastName}}</a></span>
+                <span class="last-login">Last login : {{profile.lastLogin | date: 'dd/MM/yyyy HH:mm'}}</span>
+              </div>
+            </div> -->
+            <div class="d-flex flex-row justify-content-end">
+              <div class="pr-3">
+                <fa-icon [icon]='faUserCircle' size="3x"></fa-icon>
+              </div>
+              <div>
                 <span class="user-name"><a ngbDropdownToggle id="userDropdown"
                   *ngIf="profile">{{profile.firstName +' '+profile.lastName}}</a></span>
                 <span class="last-login">Last login : {{profile.lastLogin | date: 'dd/MM/yyyy HH:mm'}}</span>

@@ -128,17 +128,24 @@
     <span class="pl-2" *ngIf="actionType == actionEnum.add">
       <button type="button" class="btn btn-primary form-button-action" (click)="save()">Save</button>
     </span>
+    <!-- <span class="pl-2" *ngIf="actionType == actionEnum.edit">
+      <button type="button" class="btn btn-primary form-button-action" (click)="update()">Update</button>
+    </span>
+    <span class="pl-2" *ngIf="actionType == actionEnum.view && hasAccess(actionEnum.edit) && lib.status !== 2">
+      <button type="button" class="btn btn-primary form-button-action" (click)="edit()"
+        *ngIf="actionType == actionEnum.view">Edit</button>
+    </span> -->
     <span class="pl-2" *ngIf="actionType == actionEnum.view && hasAccess(actionEnum.delete) && lib.status !== 2">
       <button type="button" class="btn btn-primary form-button-action"
-        (click)="openConfirmation(actionConfirm, 'lib', actionEnum.delete, lib.id, lib.name)">Delete</button>
+        (click)="openConfirmation(actionConfirm, 'bundle', actionEnum.delete, lib.id, lib.name)">Delete</button>
     </span>
     <span class="pl-2" *ngIf="actionType == actionEnum.view && hasAccess(actionEnum.activate) && lib.status === 0">
       <button type="button" class="btn btn-primary form-button-action"
-        (click)="openConfirmation(actionConfirm, 'lib', actionEnum.activate, lib.id, lib.name)">Activate</button>
+        (click)="openConfirmation(actionConfirm, 'bundle', actionEnum.activate, lib.id, lib.name)">Activate</button>
     </span>
     <span class="pl-2" *ngIf="actionType == actionEnum.view && hasAccess(actionEnum.inActivate) && lib.status === 1">
       <button type="button" class="btn btn-primary form-button-action"
-        (click)="openConfirmation(actionConfirm, 'lib', actionEnum.inActivate, lib.id, lib.name)">In-Activate</button>
+        (click)="openConfirmation(actionConfirm, 'bundle', actionEnum.inActivate, lib.id, lib.name)">In-Activate</button>
     </span>    
   </div>
 </div>

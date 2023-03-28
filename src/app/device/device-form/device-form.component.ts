@@ -135,7 +135,9 @@ export class DeviceFormComponent extends BaseFormComponent {
     }
     this.spinner.show();
     this.device = <Device>this.deviceForm.value;
-    this.device.merchant = ''+this.merchant.id;
+    this.device.merchant = this.merchant.id;
+    this.device.model = +this.device.model;
+    this.device.location = +this.device.location;
 
     console.log("Device value...", this.device);
 
@@ -161,9 +163,10 @@ export class DeviceFormComponent extends BaseFormComponent {
     }
     this.spinner.show();
     let appToUpdate = <Device>this.deviceForm.value;
-    // appToUpdate.location = this.location.id;
+    //appToUpdate.location = this.location.id;
     Object.assign(this.device, appToUpdate);
-    //this.device.merchant = ''+this.merchant.id;
+    this.device.merchant = this.merchant.id;
+    this.device.model = this.device.model.id;
     this.device.canEdit = !!this.device.canEdit;
     this.device.canView = !!this.device.canView;
 

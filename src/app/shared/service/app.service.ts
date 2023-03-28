@@ -21,7 +21,7 @@ export class AppService {
 
   loadMerchantFromUser() {
     this.authService.currentUser.subscribe(data => {
-      console.log("Subscription log user....", data);
+      //console.log("Subscription log user....", data);
       if (!data) {
       } else {
         if (sessionStorage.getItem('merchant')) {

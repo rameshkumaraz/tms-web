@@ -13,7 +13,7 @@
   "app-param": false,
   "event": false,
   "app": false,
-  "library": false,
+  "app-bundle": false,
   "user": false,
   "msetting": false
 }

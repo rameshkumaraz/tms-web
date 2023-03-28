@@ -40,7 +40,7 @@ export class DeviceProfileComponent extends BaseFormComponent {
   ngOnInit(): void {
     this.route.queryParams
       .subscribe(params => {
-        console.log(params); 
+        //console.log(params); 
         this.deviceId = params.id;
         this.onPageLoad();
       });
@@ -92,7 +92,7 @@ export class DeviceProfileComponent extends BaseFormComponent {
           this.deviceDetails = resp.message;
           this.deviceDetails.sort((one, two) => (one > two ? 1 : -1));
           this.deviceDetails = this.deviceDetails.slice(0,3);
-          console.log('Filtered DeviceDetails Response', this.deviceDetails);
+          //console.log('Filtered DeviceDetails Response', this.deviceDetails);
           this.spinner.hide();
         },
         error => {

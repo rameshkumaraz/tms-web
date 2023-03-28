@@ -36,7 +36,7 @@ import { ForgotPassComponent } from './password/forgot/forgot-pass/forgot-pass.c
 const routes: Routes = [
   { path: 'login', component: LoginComponent },
   { path: 'db', component: DashboardComponent, canLoad: [AuthGuard], canActivate: [AuthGuard], data: {roles: ['AZ_ROOT_ADMIN', 'AZ_ADMIN', 'AZ_SUPPORT'] }},
-  { path: 'mdb', component: MerchantDashboardComponent, canLoad: [AuthGuard], canActivate: [AuthGuard], data: {roles: ['AZ_ROOT_ADMIN', 'AZ_ADMIN', 'AZ_SUPPORT', 'MERCHANT_ADMIN']} },
+  { path: 'mdb', component: MerchantDashboardComponent, canLoad: [AuthGuard], canActivate: [AuthGuard], data: {roles: ['AZ_ROOT_ADMIN', 'AZ_ADMIN', 'AZ_SUPPORT', 'MERCHANT_ADMIN', 'MERCHANT_SUPERVISOR', 'MERCHANT_USER']} },
   { path: 'merchant', component: MerchantComponent, canLoad: [AuthGuard], canActivate: [AuthGuard], data: {roles: ['AZ_ROOT_ADMIN', 'AZ_ADMIN', 'AZ_SUPPORT']} },
   { path: 'mf', component: MerchantFormComponent, canLoad: [AuthGuard], canActivate: [AuthGuard], data: {roles: ['AZ_ROOT_ADMIN', 'AZ_ADMIN', 'AZ_SUPPORT']} },
   { path: 'location', component: LocationComponent, canLoad: [AuthGuard], canActivate: [AuthGuard], data: {roles: ['AZ_ROOT_ADMIN', 'AZ_ADMIN', 'AZ_SUPPORT', 'MERCHANT_ADMIN', 'MERCHANT_SUPERVISOR', 'MERCHANT_USER']} },

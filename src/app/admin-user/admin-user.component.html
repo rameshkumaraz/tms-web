@@ -28,7 +28,7 @@
             <th scope="col" style="width: 10%;">Status</th>
             <th scope="col" style="width: 10%;">Last Update By</th>
             <th scope="col" style="width: 10%;">Last Updated On</th>
-            <th scope="col" style="width: 10%;">Action</th>
+            <th scope="col" style="width: 10%;" *ngIf="hasActionAccess()">Action</th>
           </tr>
         </thead>
         <tbody>

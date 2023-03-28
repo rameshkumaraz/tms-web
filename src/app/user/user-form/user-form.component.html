@@ -43,7 +43,7 @@
     <div class="form-row">
       <div class="form-group col-sm-6 required" [hidden]='actionType == actionEnum.view || actionType == actionEnum.edit'>
         <label for="password" class="asterisk-if-mandatory">Password</label>
-        <input required formControlName="password" id="password" type="text" class="form-control" autocomplete="off"
+        <input required formControlName="password" id="password" type="password" class="form-control" autocomplete="off"
           [ngClass]="{ 'is-invalid': formSubmitted && f.password.errors }">
         <div *ngIf="formSubmitted && f.password.errors" class="invalid-feedback">
           <div *ngIf="f.password.errors.required">Password is required</div>
@@ -52,7 +52,7 @@
       </div>
       <div class="form-group col-sm-6 required" [hidden]='actionType == actionEnum.view || actionType == actionEnum.edit'>
         <label for="confirmPassword" class="asterisk-if-mandatory">Confirm Password</label>
-        <input required formControlName="confirmPassword" id="confirmPassword" type="text" class="form-control"
+        <input required formControlName="confirmPassword" id="confirmPassword" type="password" class="form-control"
           autocomplete="off" [ngClass]="{ 'is-invalid': formSubmitted && f.confirmPassword.errors && f.confirmPassword.value != f.password.value}">
         <div *ngIf="formSubmitted && f.confirmPassword.errors" class="invalid-feedback">
           <div *ngIf="f.confirmPassword.errors.required">Confirm Password is required</div>

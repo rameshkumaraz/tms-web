@@ -10,6 +10,7 @@ import { Subscription } from 'rxjs';
 import { AppService } from '../service/app.service';
 import { HeaderService } from './header.service';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { RolesEnum } from 'src/app/auth/guards/roles.enum';
 
 @Component({
   selector: 'app-header',
@@ -88,41 +89,46 @@ export class HeaderComponent implements OnInit {
   // }
 
   loadMenuAccess(menuType: string) {
-    // console.log('Load menu access......');
+    //console.log('Load menu access......', menuType);
     let mpSource = menuMapping[menuType];
-    let up = this.authService.getCurrentUser().policies;
+    let up = this.authService.getCurrentUserPolicies();
     let user = this.authService.getCurrentUser();
+    //console.log('Load menu access......', up);
     Object.keys(menuAccess).forEach(function (key) {
-      // console.log(key + ' : ' + menuAccess[key]);
+      //console.log('Load menu access '+ key + ' : ' + menuAccess[key]);
       let matching;
       let i = 0
 
       do {
         let mp = mpSource['level-' + (i + 1)][key];
         // console.log('Action items for ', key +' : '+mp); 
-
         if (mp) {
           // if (user.roleName == RolesEnum.AZ_ROOT_ADMIN)
           //   matching = {};
           // else
-          // mp.forEach(i => {
-          //   console.log(i+" : "+up.indexOf(i));
-          // });
+          //mp.forEach(i => {
+            //console.log('Matching check....'+i+" : "+JSON.stringify(up));
+            //console.log('Matching check....'+i+" : "+up.indexOf(i));
+            //console.log('Matching check....'+i+" : "+up.find(p => p.policyName.indexOf(i) >= 0));
+          //});
+          if (user.roleName == RolesEnum.AZ_ROOT_ADMIN)
+            matching = 'ALL';
+          else
             matching = mp.filter(item => up.indexOf(item) >= 0);
           break;
         }
         i = i + 1;
       } while (i < 2)
 
-      // console.log("Matching......."+key+" : "+matching);
+      //console.log("Matching......."+key+" : "+matching);
 
-      if (matching)
+      if (matching && matching.length > 0)
         menuAccess[key] = true;
       else
         menuAccess[key] = false;
-      // console.log(key + ' : ' + menuAccess[key]);
+      //console.log(key + ' : ' + menuAccess[key]);
     });
-    // console.log('Menu Access......', menuAccess);
+    console.log('Menu Access......', menuAccess);
   }
 
   // populateAccess() {
